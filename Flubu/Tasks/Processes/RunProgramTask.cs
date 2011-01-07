@@ -106,7 +106,7 @@ namespace Flubu.Tasks.Processes
 
         private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
-            context.WriteInfo(e.Data);
+            context.WriteMessage(TaskMessageLevel.Debug, e.Data);
         }
 
         private ITaskContext context;

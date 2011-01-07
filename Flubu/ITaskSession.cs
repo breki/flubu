@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Flubu
 {
-    public interface ITaskSession : IDisposable
+    public interface ITaskSession : ITaskContext
     {
-        void Start(ITaskContext taskContext);
+        bool HasFailed { get; }
+        Stopwatch BuildStopwatch { get; }
+
+        void Start(Action<ITaskSession> onFinishDo);
         void Complete();
     }
 }

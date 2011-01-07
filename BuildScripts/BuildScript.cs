@@ -25,37 +25,38 @@ namespace BuildScripts
                 .SetDescription("Rebuilds the project, runs tests and packages the build products.")
                 .SetAsDefault().DependsOn("compile");//, "unit.tests", "package");
 
-            using (TaskContext context = new TaskContext(new SimpleTaskContextProperties()))
-            using (ITaskSession taskSession = new TaskSession())
+            using (TaskSession session = new TaskSession(new SimpleTaskContextProperties()))
             {
-                context.AddLogger(new MulticoloredConsoleLogger(Console.Out));
+                session.Start(BuildTargets.OnBuildFinished);
 
-                context.Properties.Set(BuildProps.ProductId, "Flubu");
-                context.Properties.Set(BuildProps.ProductName, "Flubu");
-                context.Properties.Set(BuildProps.SolutionFileName, "Flubu.sln");
-                context.Properties.Set(BuildProps.BuildConfiguration, "Release");
-                context.Properties.Set(BuildProps.TargetDotNetVersion, FlubuEnvironment.Net35VersionNumber);
-                context.Properties.Set(BuildProps.BuildDir, "BuildDir");
+                session.AddLogger(new MulticoloredConsoleLogger(Console.Out));
+
+                session.Properties.Set(BuildProps.ProductId, "Flubu");
+                session.Properties.Set(BuildProps.ProductName, "Flubu");
+                session.Properties.Set(BuildProps.SolutionFileName, "Flubu.sln");
+                session.Properties.Set(BuildProps.BuildConfiguration, "Release");
+                session.Properties.Set(BuildProps.TargetDotNetVersion, FlubuEnvironment.Net35VersionNumber);
+                session.Properties.Set(BuildProps.BuildDir, "BuildDir");
 
                 try
                 {
                     // actual run
                     if (args.Length == 0)
-                        targetTree.RunTarget(context, targetTree.DefaultTarget.TargetName);
+                        targetTree.RunTarget(session, targetTree.DefaultTarget.TargetName);
                     else
                     {
                         string targetName = args[0];
                         if (false == targetTree.HasTarget(targetName))
                         {
-                            context.WriteError("ERROR: The target '{0}' does not exist", targetName);
-                            targetTree.RunTarget(context, "help");
+                            session.WriteError("ERROR: The target '{0}' does not exist", targetName);
+                            targetTree.RunTarget(session, "help");
                             return 2;
                         }
 
-                        targetTree.RunTarget(context, args[0]);
+                        targetTree.RunTarget(session, args[0]);
                     }
 
-                    taskSession
+                    session
                         .Complete();
 
                     return 0;

@@ -3,17 +3,27 @@ using System.Diagnostics;
 
 namespace Flubu
 {
-    public class TaskSession : ITaskSession
+    public class TaskSession : TaskContext, ITaskSession
     {
-        public TaskSession()
+        public TaskSession(ITaskContextProperties taskContextProperties) : base(taskContextProperties)
         {
             hasFailed = true;
             buildStopwatch.Start();
         }
 
-        public void Start(ITaskContext taskContext)
+        public Stopwatch BuildStopwatch
         {
-            this.taskContext = taskContext;
+            get { return buildStopwatch; }
+        }
+
+        public bool HasFailed
+        {
+            get { return hasFailed; }
+        }
+
+        public void Start(Action<ITaskSession> onFinishDo)
+        {
+            this.onFinishDo = onFinishDo;
             hasFailed = true;
             buildStopwatch.Start();
         }
@@ -27,40 +37,27 @@ namespace Flubu
             hasFailed = false;
         }
 
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or
-        /// resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Disposes the object.
-        /// </summary>
-        /// <param name="disposing">If <code>false</code>, cleans up native resources. 
-        /// If <code>true</code> cleans up both managed and native resources</param>
-        protected virtual void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             if (false == disposed)
             {
                 if (disposing)
                 {
                     buildStopwatch.Stop();
-                    //taskContext.LogRunnerFinished(this);
 
-                    Beeper.Beep(hasFailed ? MessageBeepType.Error : MessageBeepType.Ok);
+                    if (onFinishDo != null)
+                        onFinishDo(this);
                 }
 
                 disposed = true;
             }
+
+            base.Dispose(disposing);
         }
 
         private Stopwatch buildStopwatch = new Stopwatch();
         private bool disposed;
         private bool hasFailed;
-        private ITaskContext taskContext;
+        private Action<ITaskSession> onFinishDo;
     }
 }

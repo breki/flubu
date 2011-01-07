@@ -16,13 +16,16 @@ namespace Flubu.Tests
                 .Do(TargetCompile).DependsOn("load.solution");
 
             ITarget target = targetTree.GetTarget("compile");
-            using (TaskContext context = new TaskContext(new SimpleTaskContextProperties()))
-            using (ITaskSession taskSession = new TaskSession())
+            using (ITaskSession session = new TaskSession(new SimpleTaskContextProperties()))
             {
-                taskSession.Start(context);
+                session.Start(OnBuildFinished);
                 NotifyUserTask task = new NotifyUserTask("message");
-                task.Execute(context);
+                task.Execute(session);
             }
+        }
+
+        private static void OnBuildFinished(ITaskSession session)
+        {
         }
 
         private void TargetCompile(ITaskContext obj)
