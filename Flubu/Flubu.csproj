@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5E8B73D7-B9DC-4DCF-93B6-4BFB5E845575}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Flubu</RootNamespace>
+    <AssemblyName>Flubu</AssemblyName>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Flubu.snk</AssemblyOriginatorKeyFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>1574, 1591, 1723</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Flubu.xml</DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>1574, 1591, 1723</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Messaging" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Beeper.cs" />
+    <Compile Include="Builds\BuildLogger.cs" />
+    <None Include="Builds\BuildProduct.cs" />
+    <None Include="Builds\BuildProductsRegistry.cs" />
+    <None Include="Builds\BuildRunner.cs" />
+    <None Include="Builds\FileBuildProduct.cs" />
+    <Compile Include="Builds\BuildProps.cs" />
+    <Compile Include="Builds\BuildTargets.cs" />
+    <Compile Include="Builds\HudsonHelper.cs" />
+    <Compile Include="Builds\Tasks\CompileSolutionTask.cs" />
+    <Compile Include="Builds\Tasks\FetchBuildVersionFromFileTask.cs" />
+    <Compile Include="Builds\Tasks\FetchBuildVersionFromHudsonTask.cs" />
+    <Compile Include="Builds\Tasks\GenerateCommonAssemblyInfoTask.cs" />
+    <Compile Include="Builds\Tasks\IFetchBuildVersionTask.cs" />
+    <Compile Include="Builds\VSSolutionBrowsing\VSProjectInfo.cs" />
+    <Compile Include="Builds\VSSolutionBrowsing\VSProjectItem.cs" />
+    <Compile Include="Builds\VSSolutionBrowsing\VSSolutionFileParser.cs" />
+    <Compile Include="Builds\VSSolutionBrowsing\VSSolutionFilesInfo.cs" />
+    <None Include="RunProgramTask.cs" />
+    <None Include="FlubuCCNetListener.cs" />
+    <None Include="Builds\ConcreteBuildRunner.cs" />
+    <Compile Include="Builds\IBuildLogger.cs" />
+    <None Include="Builds\SimpleBuildProduct.cs" />
+    <Compile Include="Builds\VSProjectExtendedInfo.cs" />
+    <Compile Include="Builds\VSSolutionBrowsing\VSProject.cs" />
+    <Compile Include="Builds\VSSolutionBrowsing\VSProjectConfiguration.cs" />
+    <Compile Include="Builds\VSSolutionBrowsing\VSProjectWithFileInfo.cs" />
+    <Compile Include="Builds\VSSolutionBrowsing\VSProjectType.cs" />
+    <Compile Include="Builds\VSSolutionBrowsing\VSProjectTypesDictionary.cs" />
+    <Compile Include="Builds\VSSolutionBrowsing\VSSolution.cs" />
+    <None Include="Builds\WebApplicationBuildProduct.cs" />
+    <Compile Include="FlubuEnvironment.cs" />
+    <Compile Include="ILogger.cs" />
+    <Compile Include="IFlubuRunner.cs" />
+    <Compile Include="ITaskSession.cs" />
+    <Compile Include="SimpleTaskContextProperties.cs" />
+    <Compile Include="Targeting\ITarget.cs" />
+    <Compile Include="ITaskContextProperties.cs" />
+    <Compile Include="MessageBeepType.cs" />
+    <Compile Include="MulticoloredConsoleLogger.cs" />
+    <Compile Include="OperatingSystem.cs" />
+    <Compile Include="PathBuilder.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="ConsoleExecutionEnvironment.cs" />
+    <None Include="FlubuRunner.cs" />
+    <Compile Include="Targeting\Target.cs" />
+    <None Include="Builds\BuildRunnerBase.cs" />
+    <None Include="TaskContextBase.cs" />
+    <Compile Include="ITaskContext.cs" />
+    <Compile Include="ITask.cs" />
+    <Compile Include="Targeting\TargetTree.cs" />
+    <Compile Include="TaskBase.cs" />
+    <Compile Include="RunnerFailedException.cs" />
+    <Compile Include="TaskContext.cs" />
+    <Compile Include="TaskContextExtensions.cs" />
+    <Compile Include="TaskMessageLevel.cs" />
+    <Compile Include="TaskSession.cs" />
+    <None Include="Tasks\Tests\GallioUnitTestTask.cs" />
+    <None Include="Tasks\Tests\NCoverTask.cs" />
+    <None Include="Tasks\Tests\NUnitTask.cs" />
+    <Compile Include="Tasks\Tests\UnitTestToolType.cs" />
+    <Compile Include="Tasks\Configuration\LogScriptEnvironmentTask.cs" />
+    <None Include="Tasks\Configuration\ReadConfigurationTask.cs" />
+    <Compile Include="Tasks\EnterpriseServices\InstallAssemblyTask.cs" />
+    <Compile Include="Tasks\EnterpriseServices\UninstallAssemblyTask.cs" />
+    <Compile Include="Tasks\FileSystem\CopyDirectoryStructureTask.cs" />
+    <Compile Include="Tasks\FileSystem\CopyFileTask.cs" />
+    <Compile Include="Tasks\FileSystem\CreateDirectoryTask.cs" />
+    <Compile Include="Tasks\FileSystem\DeleteDirectoryTask.cs" />
+    <Compile Include="Tasks\FileSystem\DeleteFilesTask.cs" />
+    <Compile Include="Tasks\FileSystem\SetAccessRuleTask.cs" />
+    <Compile Include="Tasks\Misc\Log4NetConfigFile.cs" />
+    <Compile Include="Tasks\Misc\Log4NetConfigTask.cs" />
+    <Compile Include="Tasks\Misc\SendMailTask.cs" />
+    <Compile Include="Tasks\Misc\SleepTask.cs" />
+    <Compile Include="Tasks\Msmq\CreateMessageQueueMode.cs" />
+    <Compile Include="Tasks\Msmq\CreateMessageQueueTask.cs" />
+    <Compile Include="Tasks\Msmq\DeleteMessageQueueTask.cs" />
+    <Compile Include="Tasks\Processes\KillProcessTask.cs" />
+    <Compile Include="Tasks\Processes\RunProgramTask.cs" />
+    <Compile Include="Tasks\Registry\EditRegistryValueTask.cs" />
+    <Compile Include="Tasks\Registry\GetRegistryValueTask.cs" />
+    <Compile Include="Tasks\Registry\SetRegistryKeyPermissionsTask.cs" />
+    <Compile Include="Tasks\SqlServer\EnsureSqlServerIsRunningTask.cs" />
+    <None Include="Tasks\CustomRunnerTask.cs" />
+    <Compile Include="Tasks\SqlServer\ExecuteSqlScriptTask.cs" />
+    <None Include="Tasks\Tests\AccipioReportTask.cs" />
+    <None Include="Tasks\Tests\AccipioTransformTask.cs" />
+    <Compile Include="Tasks\Text\PeekXmlTask.cs" />
+    <Compile Include="Tasks\Msmq\PurgeMessageQueueTask.cs" />
+    <Compile Include="Tasks\Text\UpdateXmlFileTask.cs" />
+    <Compile Include="Tasks\Text\XsltTransformTask.cs" />
+    <Compile Include="Tasks\UserAccounts\AddUserToGroupTask.cs" />
+    <Compile Include="Tasks\UserAccounts\CreateUserAccountMode.cs" />
+    <Compile Include="Tasks\UserAccounts\CreateUserAccountTask.cs" />
+    <Compile Include="Tasks\UserAccounts\DeleteUserAccountTask.cs" />
+    <Compile Include="Tasks\UserAccounts\ImpersonateUserTask.cs" />
+    <None Include="Tasks\UserInterface\AskUserTask.cs" />
+    <Compile Include="Tasks\UserInterface\NotifyUserTask.cs" />
+    <Compile Include="Tasks\WindowsServices\CheckIfServiceExistsTask.cs" />
+    <Compile Include="Tasks\WindowsServices\ControlWindowsServiceMode.cs" />
+    <Compile Include="Tasks\WindowsServices\ControlWindowsServiceTask.cs" />
+    <Compile Include="Tasks\WindowsServices\InstallWindowsServiceMode.cs" />
+    <Compile Include="Tasks\WindowsServices\InstallWindowsServiceTask.cs" />
+    <Compile Include="Tasks\WindowsServices\RemoveWindowsServiceTask.cs" />
+    <Compile Include="Tasks\WindowsServices\SetWindowsServiceAccountTask.cs" />
+    <Compile Include="Tasks\WindowsServices\StopWindowsServiceIfExistsTask.cs" />
+    <Compile Include="Tasks\WindowsServices\UninstallWindowsServiceTask.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Todo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Flubu.snk" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\lib\Microsoft StyleCop\Microsoft.StyleCop.Targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /H /R /Y "$(TargetPath)" $(SolutionDir)BuildScripts</PostBuildEvent>
+  </PropertyGroup>
+</Project>
