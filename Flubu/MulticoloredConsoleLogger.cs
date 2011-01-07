@@ -49,8 +49,10 @@ namespace Flubu
             switch (level)
             {
                 case TaskMessageLevel.Debug:
-                case TaskMessageLevel.Info:
                     color = ConsoleColor.DarkGray;
+                    break;
+                case TaskMessageLevel.Info:
+                    color = ConsoleColor.Gray;
                     break;
                 case TaskMessageLevel.Warn:
                 case TaskMessageLevel.Error:
@@ -147,28 +149,6 @@ namespace Flubu
                 disposed = true;
             }
         }
-
-        //private void LogTargetDurations(IFlubuRunner runner)
-        //{
-        //    WriteLine(ConsoleColor.White, String.Empty);
-
-        //    SortedList<string, ITarget> sortedTargets = new SortedList<string, ITarget>();
-
-        //    foreach (ITarget target in runner.Targets.Values)
-        //        sortedTargets.Add(target.TargetName, target);
-
-        //    foreach (ITarget target in sortedTargets.Values)
-        //    {
-        //        if (target.TargetStopwatch.ElapsedTicks > 0)
-        //        {
-        //            WriteLine(
-        //                ConsoleColor.Magenta,
-        //                "Target {0} took {1} s", 
-        //                target.TargetName, 
-        //                (int)target.TargetStopwatch.Elapsed.TotalSeconds);
-        //        }
-        //    }
-        //}
 
         private void WriteLine (
             ConsoleColor foregroundColor,

@@ -34,14 +34,25 @@ namespace Flubu
         {
             if (context  == null)
                 throw new ArgumentNullException ("context");
-            
-            //context.LogTaskStarted(this.TaskDescription);
 
-            // when in dry run do not execute the task (unless it itself indicates that it is safe)
-            //if (false == context.DryRun || IsSafeToExecuteInDryRun)
+            context.WriteInfo(DescriptionForLog);
+            context.IncreaseDepth();
+
+            try
+            {
                 DoExecute (context);
+            }
+            finally
+            {
+                context.DecreaseDepth();
+            }
 
             //context.LogTaskFinished();
+        }
+
+        protected virtual string DescriptionForLog
+        {
+            get { return Description; }
         }
 
         /// <summary>

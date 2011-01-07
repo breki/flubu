@@ -26,6 +26,11 @@ namespace Flubu
             executionDepth++;
         }
 
+        public void ResetDepth()
+        {
+            executionDepth = 0;
+        }
+
         public void WriteMessage(TaskMessageLevel level, string message)
         {
             foreach (ILogger logger in loggers)

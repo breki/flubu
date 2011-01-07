@@ -6,9 +6,10 @@ namespace Flubu
     {
         ITaskContextProperties Properties { get; }
 
-        void IncreaseDepth();
-        void WriteMessage(TaskMessageLevel level, string message);
         void DecreaseDepth();
         void Fail(string message);
+        void IncreaseDepth();
+        void ResetDepth();
+        void WriteMessage(TaskMessageLevel level, string message);
     }
 }

@@ -16,7 +16,7 @@ namespace Flubu.Builds.Tasks
 
         public override string Description
         {
-            get { return "Fetches the build version from Hudson"; }
+            get { return "Fetch the build version from Hudson"; }
         }
 
         public Version BuildVersion

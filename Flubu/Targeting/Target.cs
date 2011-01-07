@@ -108,6 +108,14 @@ namespace Flubu.Targeting
             TargetStopwatch.Stop();
         }
 
+        protected override string DescriptionForLog
+        {
+            get
+            {
+                return targetName;
+            }
+        }
+
         private readonly List<string> dependencies = new List<string>();
         private string description;
         private bool isHidden;
