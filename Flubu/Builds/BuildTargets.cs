@@ -176,7 +176,7 @@ namespace Flubu.Builds
                                     revisionNumber = HudsonHelper.SvnRevision;
                                     break;
                                 case VersionControlSystem.Mercurial:
-                                    revisionNumber = HudsonHelper.MercurialRevision;
+                                    revisionNumber = 0;
                                     break;
                                 default:
                                     throw new ArgumentOutOfRangeException();

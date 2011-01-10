@@ -22,13 +22,14 @@ namespace Flubu.Builds
             }
         }
 
-        public static int MercurialRevision
-        {
-            get
-            {
-                return ParseEnvironmentVariable("MERCURIAL_REVISION");
-            }
-        }
+        // NOTE: MERCURIAL_REVISION is not a number
+        //public static int MercurialRevision
+        //{
+        //    get
+        //    {
+        //        return ParseEnvironmentVariable("MERCURIAL_REVISION");
+        //    }
+        //}
 
         public static int SvnRevision
         {
