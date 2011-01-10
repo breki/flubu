@@ -1,9 +1,9 @@
 using System;
 using System.IO;
 
-namespace Flubu.Packaging
+namespace Flubu
 {
-    public class LocalPath
+    public class LocalPath : IPathBuilder
     {
         public LocalPath(string path)
         {
@@ -11,6 +11,28 @@ namespace Flubu.Packaging
                 throw new ArgumentException("Path must be local", "path");
 
             localPath = path;
+        }
+
+        public string FileName
+        {
+            get { return Path.GetFileName(localPath); }
+        }
+
+        public int Length
+        {
+            get { return localPath.Length; }
+        }
+
+        /// <summary>
+        /// Gets the path that is a parent to the current path in this object.
+        /// </summary>
+        /// <value>The parent path.</value>
+        public LocalPath ParentPath
+        {
+            get
+            {
+                return new LocalPath(Path.GetDirectoryName(localPath));
+            }
         }
 
         public LocalPath CombineWith(LocalPath path)

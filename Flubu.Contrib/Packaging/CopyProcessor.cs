@@ -7,9 +7,9 @@ namespace Flubu.Packaging
 {
     public class CopyProcessor : IPackageProcessor
     {
-        public CopyProcessor(ILogger logger, ICopier copier, string destinationRootDir)
+        public CopyProcessor(ITaskContext taskContext, ICopier copier, string destinationRootDir)
         {
-            this.logger = logger;
+            this.taskContext = taskContext;
             this.copier = copier;
             this.destinationRootDir = destinationRootDir;
         }
@@ -61,32 +61,31 @@ namespace Flubu.Packaging
 
                 foreach (PackagedFileInfo sourceFile in filesSource.ListFiles())
                 {
-                    if (false == LoggingHelper.LogIfFilteredOut(sourceFile.FullPath.ToString(), filter, logger))
+                    if (false == LoggingHelper.LogIfFilteredOut(sourceFile.FileFullPath.ToString(), filter, taskContext))
                         continue;
 
-                    FullPath destinationFileName = new FullPath(destinationRootDir);
-                    destinationFileName = destinationFileName.CombineWith(destinationPath);
+                    FullPath destinationFullPath = new FullPath(destinationRootDir);
+                    destinationFullPath = destinationFullPath.CombineWith(destinationPath);
 
                     if (sourceFile.LocalPath != null)
-                        destinationFileName = destinationFileName.CombineWith(sourceFile.LocalPath);
+                        destinationFullPath = destinationFullPath.CombineWith(sourceFile.LocalPath);
                     else
                     {
-                        destinationFileName =
-                            destinationFileName.CombineWith(new LocalPath(Path.GetFileName(
-                                sourceFile.FullPath.ToString())));
+                        destinationFullPath =
+                            destinationFullPath.CombineWith(new LocalPath(sourceFile.FileFullPath.FileName));
                     }
 
-                    string destFile = Path.GetFileName(destinationFileName.ToString());
+                    string destFile = destinationFullPath.FileName;
                     if (fileTransformations.ContainsKey(destFile))
                     {
-                        destinationFileName = new FullPath(Path.Combine(
-                                                            Path.GetDirectoryName(destinationFileName.ToString()),
-                                                            fileTransformations[destFile]));
+                        destinationFullPath = destinationFullPath.ParentPath.CombineWith(
+                            fileTransformations[destFile]);
                     }
 
-                    filesList.AddFile(new PackagedFileInfo(destinationFileName));
+                    FileFullPath destinationFileFullPath = destinationFullPath.ToFileFullPath();
+                    filesList.AddFile(new PackagedFileInfo(destinationFileFullPath));
                     
-                    copier.Copy(sourceFile.FullPath.ToString(), destinationFileName.ToString());
+                    copier.Copy(sourceFile.FileFullPath, destinationFileFullPath);
                 }
 
                 transformedCompositeSource.AddFilesSource(filesList);
@@ -109,7 +108,7 @@ namespace Flubu.Packaging
             return transformations[sourceId];
         }
 
-        private readonly ILogger logger;
+        private readonly ITaskContext taskContext;
         private readonly ICopier copier;
         private readonly string destinationRootDir;
         private readonly Dictionary<string, LocalPath> transformations = new Dictionary<string, LocalPath>();

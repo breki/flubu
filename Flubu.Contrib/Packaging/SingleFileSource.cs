@@ -4,7 +4,7 @@ namespace Flubu.Packaging
 {
     public class SingleFileSource : IFilesSource
     {
-        public SingleFileSource(string id, string fileName)
+        public SingleFileSource(string id, FileFullPath fileName)
         {
             this.id = id;
             this.fileName = fileName;
@@ -18,7 +18,7 @@ namespace Flubu.Packaging
         public ICollection<PackagedFileInfo> ListFiles()
         {
             List<PackagedFileInfo> files = new List<PackagedFileInfo>();
-            files.Add(new PackagedFileInfo(new FullPath(fileName)));
+            files.Add(new PackagedFileInfo(fileName));
             return files;
         }
 
@@ -26,12 +26,7 @@ namespace Flubu.Packaging
         {
         }
 
-        public string FileName
-        {
-            get { return fileName; }
-        }
-
         private readonly string id;
-        private readonly string fileName;
+        private readonly FileFullPath fileName;
     }
 }

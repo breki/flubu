@@ -1,3 +1,5 @@
+using log4net.Repository.Hierarchy;
+
 namespace Flubu.Packaging
 {
     public class StandardPackageDef : CompositeFilesSource, IPackageDef
@@ -10,38 +12,44 @@ namespace Flubu.Packaging
         {
         }
 
-        public StandardPackageDef(string id, ILogger logger, IDirectoryFilesLister directoryFilesLister) : base(id)
+        public StandardPackageDef(string id, ITaskContext taskContext)
+            : base(id)
         {
-            Logger = logger;
-            FileLister = directoryFilesLister;
+            this.taskContext = taskContext;
         }
 
-        public StandardPackageDef AddFolderSource(string id, string directoryName, bool recursive)
+        public StandardPackageDef(string id, ITaskContext taskContext, IDirectoryFilesLister directoryFilesLister) 
+            : base(id)
         {
-            DirectorySource source = new DirectorySource(Logger, FileLister, id, directoryName, recursive);
+            this.taskContext = taskContext;
+            this.fileLister = directoryFilesLister;
+        }
+
+        public StandardPackageDef AddFolderSource(string id, FullPath directoryName, bool recursive)
+        {
+            DirectorySource source = new DirectorySource(taskContext, fileLister, id, directoryName, recursive);
             AddFilesSource(source);
             return this;
         }
 
-        public StandardPackageDef AddFolderSource(string id, string directoryName, bool recursive, IFileFilter filter)
+        public StandardPackageDef AddFolderSource(string id, FullPath directoryName, bool recursive, IFileFilter filter)
         {
-            DirectorySource source = new DirectorySource(Logger, FileLister, id, directoryName, recursive);
+            DirectorySource source = new DirectorySource(taskContext, fileLister, id, directoryName, recursive);
             source.SetFilter(filter);
             AddFilesSource(source);
             return this;
         }
 
-        public StandardPackageDef AddWebFolderSource(string id, string directoryName, bool recursive)
+        public StandardPackageDef AddWebFolderSource(string id, FullPath directoryName, bool recursive)
         {
-            DirectorySource source = new DirectorySource(Logger, FileLister, id, directoryName, recursive);
+            DirectorySource source = new DirectorySource(taskContext, fileLister, id, directoryName, recursive);
             source.SetFilter(new NegativeFilter(
                     new RegexFileFilter(@"^.*\.(svc|asax|config|aspx|ascx|css|js|gif|PNG)$")));
             AddFilesSource(source);
             return this;
         }
 
-        private ILogger Logger { get; set; }
-
-        private IDirectoryFilesLister FileLister { get; set; }
+        private ITaskContext taskContext;
+        private IDirectoryFilesLister fileLister = new DirectoryFilesLister();
     }
 }

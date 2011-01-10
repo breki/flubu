@@ -16,7 +16,7 @@ namespace Flubu.Builds.VSSolutionBrowsing
             VSSolution ownerSolution, 
             Guid projectGuid, 
             string projectName, 
-            string projectFileName, 
+            LocalPath projectFileName, 
             Guid projectTypeGuid) : base (ownerSolution, projectGuid, projectName, projectTypeGuid)
         {
             this.projectFileName = projectFileName;
@@ -33,11 +33,11 @@ namespace Flubu.Builds.VSSolutionBrowsing
         /// Gets the path to the directory where the project file is located.
         /// </summary>
         /// <value>The project directory path.</value>
-        public string ProjectDirectoryPath
+        public FullPath ProjectDirectoryPath
         {
             get
             {
-                return Path.GetDirectoryName (Path.Combine (OwnerSolution.SolutionDirectoryPath, ProjectFileName));
+                return OwnerSolution.SolutionDirectoryPath.CombineWith(ProjectFileName).ParentPath;
             }
         }
 
@@ -47,7 +47,7 @@ namespace Flubu.Builds.VSSolutionBrowsing
         /// <remarks>The full path to the project file can be retrieved using the <see cref="ProjectFileNameFull"/>
         /// property.</remarks>
         /// <value>The name of the project file.</value>
-        public string ProjectFileName
+        public LocalPath ProjectFileName
         {
             get { return projectFileName; }
         }
@@ -56,12 +56,11 @@ namespace Flubu.Builds.VSSolutionBrowsing
         /// Gets the full path to the project file.
         /// </summary>
         /// <value>The full path to the project file.</value>
-        public string ProjectFileNameFull
+        public FileFullPath ProjectFileNameFull
         {
             get
             {
-                return Path.GetFullPath(
-                    Path.Combine(OwnerSolution.SolutionDirectoryPath, ProjectFileName));
+                return OwnerSolution.SolutionDirectoryPath.CombineWith(ProjectFileName).ToFileFullPath();
             }
         }
 
@@ -74,7 +73,7 @@ namespace Flubu.Builds.VSSolutionBrowsing
         /// The output path or <c>null</c> if the project is not compatibile.
         /// </returns>
         /// <exception cref="ArgumentException">The method could not extract the data from the project file.</exception>
-        public string GetProjectOutputPath(string buildConfiguration)
+        public LocalPath GetProjectOutputPath(string buildConfiguration)
         {
             // skip non-C# projects
             if (ProjectTypeGuid != VSProjectType.CSharpProjectType.ProjectTypeGuid)
@@ -108,7 +107,7 @@ namespace Flubu.Builds.VSSolutionBrowsing
                 throw new ArgumentException(message);
             }
 
-            return projectConfiguration.Properties["OutputPath"];
+            return new LocalPath(projectConfiguration.Properties["OutputPath"]);
         }
 
         public IXPathNavigable OpenProjectFileAsXmlDocument ()
@@ -116,7 +115,7 @@ namespace Flubu.Builds.VSSolutionBrowsing
             //if (log.IsDebugEnabled)
             //    log.DebugFormat ("OpenProjectFileAsXmlDocument '{0}'", this.ProjectFileName);
 
-            using (Stream stream = File.Open (Path.Combine (OwnerSolution.SolutionDirectoryPath, ProjectFileName), FileMode.Open, FileAccess.Read))
+            using (Stream stream = File.Open (ProjectFileNameFull.ToString(), FileMode.Open, FileAccess.Read))
             {
                 XmlDocument xmlDoc = new XmlDocument ();
                 xmlDoc.Load (stream);
@@ -140,7 +139,7 @@ namespace Flubu.Builds.VSSolutionBrowsing
             }
         }
 
-        private readonly string projectFileName;
+        private readonly LocalPath projectFileName;
         public const string MSBuildNamespace = @"http://schemas.microsoft.com/developer/msbuild/2003";
     }
 }

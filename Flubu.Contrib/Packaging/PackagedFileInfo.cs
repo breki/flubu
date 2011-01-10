@@ -2,29 +2,29 @@ namespace Flubu.Packaging
 {
     public class PackagedFileInfo
     {
-        public PackagedFileInfo(FullPath fullPath, LocalPath localPath)
+        public PackagedFileInfo(FileFullPath fileFullPath, LocalPath localPath)
         {
             //AssertIsFullPath(fullPath);
 
             this.localPath = localPath;
-            this.fullPath = fullPath;
+            this.fileFullPath = fileFullPath;
         }
 
         public PackagedFileInfo(string fullPath, string localPath)
-            : this (new FullPath(fullPath), new LocalPath(localPath))
+            : this(new FileFullPath(fullPath), new LocalPath(localPath))
         {
         }
 
-        public PackagedFileInfo(FullPath fullPath)
+        public PackagedFileInfo(FileFullPath fileFullPath)
         {
             //AssertIsFullPath(fullPath);
 
-            this.fullPath = fullPath;
+            this.fileFullPath = fileFullPath;
         }
 
         public static PackagedFileInfo FromLocalPath (string path)
         {
-            return new PackagedFileInfo(new FullPath(path));
+            return new PackagedFileInfo(new FileFullPath(path));
         }
 
         public LocalPath LocalPath
@@ -32,9 +32,9 @@ namespace Flubu.Packaging
             get { return localPath; }
         }
 
-        public FullPath FullPath
+        public FileFullPath FileFullPath
         {
-            get { return fullPath; }
+            get { return fileFullPath; }
         }
 
         public override bool Equals(object obj)
@@ -46,7 +46,7 @@ namespace Flubu.Packaging
 
             PackagedFileInfo that = (PackagedFileInfo) obj;
 
-            return string.Equals(localPath, that.localPath) && string.Equals(fullPath, that.fullPath);
+            return string.Equals(localPath, that.localPath) && string.Equals(fileFullPath, that.fileFullPath);
         }
 
         public override int GetHashCode()
@@ -67,6 +67,6 @@ namespace Flubu.Packaging
         //}
 
         private LocalPath localPath;
-        private FullPath fullPath;
+        private FileFullPath fileFullPath;
     }
 }

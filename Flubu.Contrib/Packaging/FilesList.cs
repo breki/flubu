@@ -23,7 +23,7 @@ namespace Flubu.Packaging
         public ICollection<PackagedFileInfo> ListFiles()
         {
             if (filter != null)
-                return files.FindAll(x => filter.IsPassedThrough(x.FullPath.ToString()));
+                return files.FindAll(x => filter.IsPassedThrough(x.FileFullPath.ToString()));
 
             return files;
         }

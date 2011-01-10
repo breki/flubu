@@ -8,6 +8,7 @@ namespace Flubu
     /// </summary>
     /// <remarks><see cref="PathBuilder"/> provides a fluent interface for building file paths. 
     /// The class is a immutable class.</remarks>
+    [Obsolete]
     public class PathBuilder
     {
         /// <summary>
