@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Speech.Synthesis;
@@ -44,7 +45,7 @@ namespace Flubu.Builds
         {
             session.ResetDepth();
 
-            //LogTargetDurations(runner);
+            LogTargetDurations(session);
 
             session.WriteInfo(String.Empty);
 
@@ -62,45 +63,51 @@ namespace Flubu.Builds
                 buildDuration.Seconds,
                 (int)buildDuration.TotalSeconds);
 
-            using (System.Speech.Synthesis.SpeechSynthesizer speech = new SpeechSynthesizer())
+            if (!HudsonHelper.IsRunningUnderHudson)
             {
-                PromptBuilder builder = new PromptBuilder();
-                builder.StartStyle(new PromptStyle(PromptRate.Slow));
-                builder.StartSentence();
-                builder.AppendText("Build " + (session.HasFailed ? "failed." : "successful!"));
-                builder.EndSentence();
-                builder.EndStyle();
-                speech.Speak(builder);
+                using (SpeechSynthesizer speech = new SpeechSynthesizer())
+                {
+                    PromptBuilder builder = new PromptBuilder();
+                    builder.StartStyle(new PromptStyle(PromptRate.Slow));
+                    builder.StartStyle(new PromptStyle(PromptVolume.Soft));
+                    builder.StartSentence();
+                    builder.AppendText("Build " + (session.HasFailed ? "failed." : "successful!"));
+                    builder.EndSentence();
+                    builder.EndStyle();
+                    builder.EndStyle();
+                    speech.Speak(builder);
+                }
             }
 
             //Beeper.Beep(session.HasFailed ? MessageBeepType.Error : MessageBeepType.Ok);
         }
 
-        //public static void LogTargetDurations(ITaskContext taskContext, ITaskSession taskSession)
-        //{
-        //    taskContext.WriteInfo(String.Empty);
+        public static void LogTargetDurations(ITaskSession session)
+        {
+            if (session.TargetTree == null)
+                return;
 
-        //    SortedList<string, ITarget> sortedTargets = new SortedList<string, ITarget>();
+            session.WriteInfo(String.Empty);
 
-        //    foreach (ITarget target in runner.Targets.Values)
-        //        sortedTargets.Add(target.TargetName, target);
+            SortedList<string, ITarget> sortedTargets = new SortedList<string, ITarget>();
 
-        //    foreach (ITarget target in sortedTargets.Values)
-        //    {
-        //        if (target.TargetStopwatch.ElapsedTicks > 0)
-        //        {
-        //            taskContext.WriteInfo(
-        //                "Target {0} took {1} s",
-        //                target.TargetName,
-        //                (int)target.TargetStopwatch.Elapsed.TotalSeconds);
-        //        }
-        //    }
-        //}
+            foreach (ITarget target in session.TargetTree.EnumerateExecutedTargets())
+                sortedTargets.Add(target.TargetName, target);
+
+            foreach (ITarget target in sortedTargets.Values)
+            {
+                if (target.TaskStopwatch.ElapsedTicks > 0)
+                {
+                    session.WriteInfo(
+                        "Target {0} took {1} s",
+                        target.TargetName,
+                        (int)target.TaskStopwatch.Elapsed.TotalSeconds);
+                }
+            }
+        }
 
         public static void TargetCleanOutput(ITaskContext context)
         {
-            //TaskContext.LogTaskStarted("Cleaning solution outputs");
-
             string buildConfiguration = context.Properties.Get<string>(BuildProps.BuildConfiguration);
             string productRootDir = context.Properties.Get(BuildProps.ProductRootDir, ".");
 
@@ -131,8 +138,6 @@ namespace Flubu.Builds
                             DeleteDirectoryTask.Execute(context, projectObjPath, false);
                         }
                     });
-
-            //TaskContext.LogTaskFinished();
         }
 
         public static void TargetCompile(ITaskContext context)

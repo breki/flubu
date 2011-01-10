@@ -43,6 +43,12 @@ namespace Flubu.Targeting
             }
         }
 
+        public IEnumerable<ITarget> EnumerateExecutedTargets()
+        {
+            foreach (string targetId in executedTargets)
+                yield return targets[targetId];
+        }
+
         public ITarget GetTarget(string targetName)
         {
             return targets[targetName];

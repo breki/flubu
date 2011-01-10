@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.InteropServices;
@@ -24,6 +25,8 @@ namespace Flubu.Tasks.UserAccounts
         {
             get { return String.Format(CultureInfo.InvariantCulture, @"Impersonate user '{0}\{1}'", domain, userName); }
         }
+
+        public Stopwatch TaskStopwatch { get; set; }
 
         public void Execute(ITaskContext context)
         {

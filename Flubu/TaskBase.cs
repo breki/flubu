@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 
 namespace Flubu
 {
@@ -24,6 +25,11 @@ namespace Flubu
             get { return false; }
         }
 
+        public Stopwatch TaskStopwatch
+        {
+            get { return taskStopwatch; }
+        }
+
         /// <summary>
         /// Executes the task using the specified script execution environment.
         /// </summary>
@@ -35,19 +41,28 @@ namespace Flubu
             if (context  == null)
                 throw new ArgumentNullException ("context");
 
+            taskStopwatch.Start();
+
             context.WriteInfo(DescriptionForLog);
             context.IncreaseDepth();
 
             try
             {
                 DoExecute (context);
+                taskStopwatch.Stop();
             }
             finally
             {
                 context.DecreaseDepth();
-            }
 
-            //context.LogTaskFinished();
+                if (LogDuration)
+                {
+                    context.WriteInfo(
+                        "{0} finished (took {1} seconds)",
+                        DescriptionForLog,
+                        (int)taskStopwatch.Elapsed.TotalSeconds);
+                }
+            }
         }
 
         protected virtual string DescriptionForLog
@@ -56,10 +71,22 @@ namespace Flubu
         }
 
         /// <summary>
+        /// Gets a value indicating whether the duration of the task should be logged after the task
+        /// has finished.
+        /// </summary>
+        /// <value><c>true</c> if duration should be logged; otherwise, <c>false</c>.</value>
+        protected virtual bool LogDuration
+        {
+            get { return false; }
+        }
+
+        /// <summary>
         /// Abstract method defining the actual work for a task.
         /// </summary>
         /// <remarks>This method has to be implemented by the inheriting task.</remarks>
         /// <param name="context">The script execution environment.</param>
         protected abstract void DoExecute (ITaskContext context);
+
+        private readonly Stopwatch taskStopwatch = new Stopwatch();
     }
 }

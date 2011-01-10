@@ -17,6 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		Flubu.FxCop = Flubu.FxCop
 		Flubu.ProjectVersion.txt = Flubu.ProjectVersion.txt
 		Settings.StyleCop = Settings.StyleCop
+		todo.txt = todo.txt
 	EndProjectSection
 EndProject
 Global

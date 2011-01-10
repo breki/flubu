@@ -41,11 +41,6 @@ namespace Flubu.Targeting
             get { return targetName; }
         }
 
-        public Stopwatch TargetStopwatch
-        {
-            get { return targetStopwatch; }
-        }
-
         /// <summary>
         /// Specifies targets on which this target depends on.
         /// </summary>
@@ -70,7 +65,7 @@ namespace Flubu.Targeting
         /// <summary>
         /// Sets the target as the default target for the runner.
         /// </summary>
-        /// <returns>This same instance of <see cref="FlubuRunnerTarget{TRunner}"/>.</returns>
+        /// <returns>This same instance of <see cref="ITarget"/>.</returns>
         public ITarget SetAsDefault()
         {
             targetTree.SetDefaultTarget(this);
@@ -87,25 +82,29 @@ namespace Flubu.Targeting
         /// Sets the target as hidden. Hidden targets will not be
         /// visible in the list of targets displayed to the user as help.
         /// </summary>
-        /// <returns>This same instance of <see cref="FlubuRunnerTarget{TRunner}"/>.</returns>
+        /// <returns>This same instance of <see cref="ITarget"/>.</returns>
         public ITarget SetAsHidden()
         {
             isHidden = true;
             return this;
         }
 
+        protected override bool LogDuration
+        {
+            get
+            {
+                return true;
+            }
+        }
+
         protected override void DoExecute(ITaskContext context)
         {
-            targetStopwatch.Start();
-
             targetTree.MarkTargetAsExecuted(this);
             targetTree.EnsureDependenciesExecuted(context, TargetName);
 
             // we can have actionless targets (that only depend on other targets)
             if (targetAction != null)
                 targetAction(context);
-
-            TargetStopwatch.Stop();
         }
 
         protected override string DescriptionForLog
@@ -122,6 +121,5 @@ namespace Flubu.Targeting
         private readonly TargetTree targetTree;
         private readonly string targetName;
         private Action<ITaskContext> targetAction;
-        private readonly Stopwatch targetStopwatch = new Stopwatch();
     }
 }
