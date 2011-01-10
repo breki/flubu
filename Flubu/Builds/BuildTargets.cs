@@ -69,7 +69,7 @@ namespace Flubu.Builds
                 {
                     PromptBuilder builder = new PromptBuilder();
                     builder.StartStyle(new PromptStyle(PromptRate.Slow));
-                    builder.StartStyle(new PromptStyle(PromptVolume.Soft));
+                    builder.StartStyle(new PromptStyle(PromptVolume.Loud));
                     builder.StartSentence();
                     builder.AppendText("Build " + (session.HasFailed ? "failed." : "successful!"));
                     builder.EndSentence();
@@ -120,14 +120,13 @@ namespace Flubu.Builds
                         {
                             VSProjectWithFileInfo info = (VSProjectWithFileInfo)projectInfo;
 
-                            string projectOutputPath = info.GetProjectOutputPath(buildConfiguration);
+                            LocalPath projectOutputPath = info.GetProjectOutputPath(buildConfiguration);
 
                             if (projectOutputPath == null)
                                 return;
 
-                            projectOutputPath = Path.Combine(info.ProjectDirectoryPath, projectOutputPath);
-
-                            DeleteDirectoryTask.Execute(context, projectOutputPath, false);
+                            FullPath projectFullOutputPath = info.ProjectDirectoryPath.CombineWith(projectOutputPath);
+                            DeleteDirectoryTask.Execute(context, projectFullOutputPath.ToString(), false);
 
                             string projectObjPath = String.Format(
                                 CultureInfo.InvariantCulture,
@@ -147,7 +146,7 @@ namespace Flubu.Builds
             string targetDotNetVersion = context.Properties.Get<string>(BuildProps.TargetDotNetVersion);
 
             CompileSolutionTask task = new CompileSolutionTask(
-                solution.SolutionFileName,
+                solution.SolutionFileName.ToString(),
                 buildConfiguration,
                 targetDotNetVersion);
             task.Execute(context);

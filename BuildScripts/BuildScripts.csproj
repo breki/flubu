@@ -57,6 +57,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Flubu.Contrib\Flubu.Contrib.csproj">
+      <Project>{8D82233C-682A-4FA7-8581-DD31F0FB564D}</Project>
+      <Name>Flubu.Contrib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Flubu\Flubu.csproj">
       <Project>{5E8B73D7-B9DC-4DCF-93B6-4BFB5E845575}</Project>
       <Name>Flubu</Name>

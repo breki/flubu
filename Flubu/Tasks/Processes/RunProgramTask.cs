@@ -8,6 +8,11 @@ namespace Flubu.Tasks.Processes
 {
     public class RunProgramTask : TaskBase
     {
+        public RunProgramTask(string programExePath)
+        {
+            this.programExePath = programExePath;
+        }
+
         public RunProgramTask(string programExePath, bool ignoreExitCodes)
         {
             this.programExePath = programExePath;

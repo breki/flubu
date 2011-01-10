@@ -7,25 +7,26 @@ namespace Flubu.Packaging
     public class DirectorySource : IFilesSource
     {
         public DirectorySource(
-            ILogger logger,
+            ITaskContext taskContext,
             IDirectoryFilesLister directoryFilesLister, 
             string id, 
-            string directoryName) : this (logger, directoryFilesLister, id, directoryName, true)
+            FullPath directoryName) : this (taskContext, directoryFilesLister, id, directoryName, true)
         {
+            this.taskContext = taskContext;
         }
 
         public DirectorySource(
-            ILogger logger,
+            ITaskContext taskContext,
             IDirectoryFilesLister directoryFilesLister,
             string id,
-            string directoryName,
+            FullPath directoryName,
             bool recursive)
         {
-            this.logger = logger;
+            this.taskContext = taskContext;
             this.directoryFilesLister = directoryFilesLister;
             this.id = id;
             this.recursive = recursive;
-            directoryPath = new FullPath(directoryName);
+            this.directoryPath = directoryName;
         }
 
         public string Id
@@ -37,24 +38,13 @@ namespace Flubu.Packaging
         {
             List<PackagedFileInfo> files = new List<PackagedFileInfo>();
 
-            string directoryPathString = directoryPath.ToString();
-            int directoryPathStringLength = directoryPathString.Length;
-            if (false == directoryPathString.EndsWith(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal))
-                directoryPathStringLength++;
-
-            foreach (string fileName in directoryFilesLister.ListFiles(directoryPathString, recursive))
+            foreach (string fileName in directoryFilesLister.ListFiles(
+                directoryPath.ToString(), 
+                recursive))
             {
-                if (false == fileName.StartsWith(
-                    directoryPathString, 
-                    StringComparison.OrdinalIgnoreCase))
-                    throw new InvalidOperationException();
-
-                if (false == LoggingHelper.LogIfFilteredOut(fileName, Filter, logger))
-                    continue;
-
-                LocalPath localPath = new LocalPath(
-                    fileName.Substring(directoryPathStringLength));
-                PackagedFileInfo packagedFileInfo = new PackagedFileInfo(new FullPath(fileName), localPath);
+                FileFullPath fileNameFullPath = new FileFullPath(fileName);
+                LocalPath debasedFileName = fileNameFullPath.ToFullPath().DebasePath(directoryPath);
+                PackagedFileInfo packagedFileInfo = new PackagedFileInfo(fileNameFullPath, debasedFileName);
                 files.Add(packagedFileInfo);
             }
 
@@ -67,23 +57,23 @@ namespace Flubu.Packaging
         }
 
         public static DirectorySource NoFilterSource(
-            ILogger logger,
+            ITaskContext taskContext,
             IDirectoryFilesLister directoryFilesLister,
             string id,
-            string directoryName,
+            FullPath directoryName,
             bool recursive)
         {
-            return new DirectorySource(logger, directoryFilesLister, id, directoryName, recursive);
+            return new DirectorySource(taskContext, directoryFilesLister, id, directoryName, recursive);
         }
 
         public static DirectorySource WebFilterSource(
-            ILogger logger,
+            ITaskContext taskContext,
             IDirectoryFilesLister directoryFilesLister,
             string id,
-            string directoryName,
+            FullPath directoryName,
             bool recursive)
         {
-            DirectorySource source = new DirectorySource(logger, directoryFilesLister, id, directoryName, recursive);
+            DirectorySource source = new DirectorySource(taskContext, directoryFilesLister, id, directoryName, recursive);
             source.SetFilter(new NegativeFilter(
                     new RegexFileFilter(@"^.*\.(svc|asax|config|aspx|ascx|css|js|gif|PNG)$")));
 
@@ -92,7 +82,7 @@ namespace Flubu.Packaging
 
         private IFileFilter Filter { get; set; }
 
-        private readonly ILogger logger;
+        private readonly ITaskContext taskContext;
         private readonly IDirectoryFilesLister directoryFilesLister;
         private readonly string id;
         private readonly FullPath directoryPath;

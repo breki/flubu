@@ -1,7 +1,14 @@
 ﻿using System;
+using System.IO;
 using Flubu;
 using Flubu.Builds;
+using Flubu.Builds.Tasks;
+using Flubu.Builds.VSSolutionBrowsing;
+using Flubu.Packaging;
 using Flubu.Targeting;
+
+//css_ref Flubu.dll;
+//css_ref Flubu.Contrib.dll;
 
 namespace BuildScripts
 {
@@ -12,15 +19,15 @@ namespace BuildScripts
             TargetTree targetTree = new TargetTree();
             BuildTargets.FillBuildTargets(targetTree);
 
-            //targetTree.AddTarget("unit.tests")
-            //    .SetDescription("Runs unit tests on the project")
-            //    .Do(TargetRunTests).DependsOn("load.solution");
-            //targetTree.AddTarget("package")
-            //    .SetDescription("Packages all the build products into ZIP files")
-            //    .Do(TargetPackage).DependsOn("load.solution");
+            targetTree.AddTarget("unit.tests")
+                .SetDescription("Runs unit tests on the project")
+                .Do(x => TargetRunTests(x, "Flubu.Tests", null)).DependsOn("load.solution");
+            targetTree.AddTarget("package")
+                .SetDescription("Packages all the build products into ZIP files")
+                .Do(TargetPackage).DependsOn("load.solution");
             targetTree.AddTarget("rebuild")
                 .SetDescription("Rebuilds the project, runs tests and packages the build products.")
-                .SetAsDefault().DependsOn("compile");//, "unit.tests", "package");
+                .SetAsDefault().DependsOn("compile", "unit.tests", "package");
 
             using (TaskSession session = new TaskSession(new SimpleTaskContextProperties(), targetTree))
             {
@@ -33,7 +40,7 @@ namespace BuildScripts
                 session.Properties.Set(BuildProps.SolutionFileName, "Flubu.sln");
                 session.Properties.Set(BuildProps.BuildConfiguration, "Release");
                 session.Properties.Set(BuildProps.TargetDotNetVersion, FlubuEnvironment.Net35VersionNumber);
-                session.Properties.Set(BuildProps.BuildDir, "BuildDir");
+                session.Properties.Set(BuildProps.BuildDir, "Builds");
 
                 try
                 {
@@ -72,23 +79,49 @@ namespace BuildScripts
 
         private static void TargetPackage(ITaskContext context)
         {
-        //    runner
-        //        .BuildProducts
-        //            .AddProject("accipio", "Accipio.Console", false)
-        //            .AddProject("flubu", "Flubu", String.Empty, true);
-        //    runner
-        //        .PackageBuildProduct("Accipio-{1}.zip", "Accipio-{1}", "accipio")
-        //        .CopyBuildProductToCCNet(@"packages\Accipio\Accipio-latest.zip")
-        //        .CopyBuildProductToCCNet(@"packages\Accipio\{2}.{3}\{4}")
+            FullPath zipPackagePath = new FullPath(context.Properties.Get<string>(BuildProps.ProductRootDir, "."));
+            zipPackagePath = zipPackagePath.CombineWith(context.Properties.Get<string>(BuildProps.BuildDir));
+            FileFullPath zipFileName = zipPackagePath.AddFileName(
+                "Flubu-{0}.zip", 
+                context.Properties.Get<Version>(BuildProps.BuildVersion));
 
-        //        .PackageBuildProduct("Flubu-{1}.zip", "Flubu-{1}", "flubu")
-        //        .CopyBuildProductToCCNet(@"packages\Flubu\Flubu-latest.zip")
-        //        .CopyBuildProductToCCNet(@"packages\Flubu\{2}.{3}\{4}");
+            StandardPackageDef packageDef = new StandardPackageDef("Flubu", context);
+            VSSolution solution = context.Properties.Get<VSSolution>(BuildProps.Solution);
+
+            VSProjectWithFileInfo projectInfo = 
+                (VSProjectWithFileInfo)solution.FindProjectByName("Flubu.Contrib");
+            LocalPath projectOutputPath = projectInfo.GetProjectOutputPath(
+                context.Properties.Get<string>(BuildProps.BuildConfiguration));
+            FullPath projectTargetDir = projectInfo.ProjectDirectoryPath.CombineWith(projectOutputPath);
+            packageDef.AddFolderSource(
+                "bin", 
+                projectTargetDir, 
+                false);
+
+            Zipper zipper = new Zipper(context);
+            ZipProcessor zipProcessor = new ZipProcessor(
+                context,
+                zipper,
+                zipFileName,
+                projectTargetDir,
+                null,
+                "bin");
+            zipProcessor.Process(packageDef);
         }
 
-        private static void TargetRunTests(ITaskContext context)
+        private static void TargetRunTests(ITaskContext context, string projectName, string filter)
         {
-            //x => x.RunTests("ProjectPilot.Tests", false);
+            RunGallioTestsTask task = new RunGallioTestsTask(
+                projectName,
+                context.Properties.Get<VSSolution>(BuildProps.Solution),
+                context.Properties.Get<string>(BuildProps.BuildConfiguration),
+                @"lib\Gallio\bin\Gallio.Echo.exe",
+                ref testsRunCounter,
+                Path.Combine(context.Properties.Get<string>(BuildProps.BuildDir), "BuildLogs"));
+            task.Filter = filter;
+            task.Execute(context);
         }
+
+        private static int testsRunCounter;
     }
 }

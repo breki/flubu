@@ -4,6 +4,6 @@ namespace Flubu.Packaging
 {
     public interface ICopier
     {
-        void Copy(string sourceFileName, string destinationFileName);
+        void Copy(FileFullPath sourceFileName, FileFullPath destinationFileName);
     }
 }

@@ -67,14 +67,12 @@
     </Compile>
     <Compile Include="Log4netLoger.cs" />
     <Compile Include="Packaging\CompositeFilesSource.cs" />
-    <Compile Include="Packaging\ConsoleLogger.cs" />
     <Compile Include="Packaging\Copier.cs" />
     <Compile Include="Packaging\CopyProcessor.cs" />
     <Compile Include="Packaging\DirectoryFilesLister.cs" />
     <Compile Include="Packaging\DirectorySource.cs" />
     <Compile Include="Packaging\FilesList.cs" />
     <Compile Include="Packaging\FilterCollection.cs" />
-    <Compile Include="Packaging\FullPath.cs" />
     <Compile Include="Packaging\ICompositeFilesSource.cs" />
     <Compile Include="Packaging\ICopier.cs" />
     <Compile Include="Packaging\IDirectoryFilesLister.cs" />
@@ -82,11 +80,9 @@
     <Compile Include="Packaging\IFileRenamer.cs" />
     <Compile Include="Packaging\IFilesSource.cs" />
     <Compile Include="Packaging\IFilterable.cs" />
-    <Compile Include="Packaging\ILogger.cs" />
     <Compile Include="Packaging\IPackageDef.cs" />
     <Compile Include="Packaging\IPackageProcessor.cs" />
     <Compile Include="Packaging\IZipper.cs" />
-    <Compile Include="Packaging\LocalPath.cs" />
     <Compile Include="Packaging\LoggingHelper.cs" />
     <Compile Include="Packaging\NegativeFilter.cs" />
     <Compile Include="Packaging\PackagedFileInfo.cs" />

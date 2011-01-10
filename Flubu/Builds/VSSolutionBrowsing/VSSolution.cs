@@ -33,15 +33,12 @@ namespace Flubu.Builds.VSSolutionBrowsing
             set { projectTypesDictionary = value; }
         }
 
-        public string SolutionDirectoryPath
+        public FullPath SolutionDirectoryPath
         {
-            get
-            {
-                return Path.GetDirectoryName (solutionFileName);
-            }
+            get { return solutionFileName.Directory; }
         }
 
-        public string SolutionFileName
+        public FileFullPath SolutionFileName
         {
             get { return solutionFileName; }
         }
@@ -154,7 +151,7 @@ namespace Flubu.Builds.VSSolutionBrowsing
                                 solution,
                                 projectGuid,
                                 projectName,
-                                projectFileName,
+                                new LocalPath(projectFileName),
                                 projectTypeGuid);
                         }
 
@@ -177,7 +174,7 @@ namespace Flubu.Builds.VSSolutionBrowsing
                 delegate (VSProjectInfo projectInfo)
                 {
                     if (projectInfo.ProjectTypeGuid == VSProjectType.CSharpProjectType.ProjectTypeGuid)
-                        ((VSProjectWithFileInfo)projectInfo).Project = VSProject.Load (((VSProjectWithFileInfo)projectInfo).ProjectFileNameFull);
+                        ((VSProjectWithFileInfo)projectInfo).Project = VSProject.Load (((VSProjectWithFileInfo)projectInfo).ProjectFileNameFull.ToString());
                 });
         }
 
@@ -188,12 +185,12 @@ namespace Flubu.Builds.VSSolutionBrowsing
 
         protected VSSolution (string fileName)
         {
-            solutionFileName = fileName;
+            solutionFileName = new FileFullPath(fileName);
         }
 
         private readonly List<VSProjectInfo> projects = new List<VSProjectInfo> ();
         private VSProjectTypesDictionary projectTypesDictionary = new VSProjectTypesDictionary();
-        private readonly string solutionFileName;
+        private readonly FileFullPath solutionFileName;
         private decimal solutionVersion;
     }
 }

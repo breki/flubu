@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 using ICSharpCode.SharpZipLib.Zip;
@@ -9,19 +8,21 @@ namespace Flubu.Packaging
 {
     public class Zipper : IZipper
     {
-        public Zipper(ILogger logger)
+        public Zipper(ITaskContext taskContext)
         {
-            this.logger = logger;
+            this.taskContext = taskContext;
         }
 
         public void ZipFiles(
-            string zipFileName, 
-            string baseDir,
+            FileFullPath zipFileName, 
+            FullPath baseDir,
             int? compressionLevel,
-            IEnumerable<string> filesToZip)
+            IEnumerable<FileFullPath> filesToZip)
         {
+            taskContext.WriteInfo("Zipping {0}", zipFileName);
+
             using (FileStream zipFileStream = new FileStream(
-                zipFileName,
+                zipFileName.ToString(),
                 FileMode.Create,
                 FileAccess.ReadWrite,
                 FileShare.None))
@@ -33,30 +34,21 @@ namespace Flubu.Packaging
 
                     buffer = new byte[1024 * 1024];
 
-                    foreach (string fileName in filesToZip)
+                    foreach (FileFullPath fileName in filesToZip)
                     {
-                        int skipChar = 0;
-
-                        if (false == String.IsNullOrEmpty(baseDir)
-                            && (baseDir[baseDir.Length - 1] == '\\'
-                            || baseDir[baseDir.Length - 1] == '/'))
-                            skipChar++;
-
-                        // cut off the leading part of the path (up to the root directory of the package)
-                        string basedFileName = fileName.Substring(baseDir.Length + skipChar);
-
-                        basedFileName = ZipEntry.CleanName(basedFileName);
+                        LocalPath debasedFileName = fileName.ToFullPath().DebasePath(baseDir);
+                        string cleanName = ZipEntry.CleanName(debasedFileName.ToString());
 
                         //environment.LogMessage("Zipping file '{0}'", basedFileName);
-                        AddFileToZip(fileName, basedFileName, zipStream);
+                        AddFileToZip(fileName, cleanName, zipStream);
                     }
                 }
             }
         }
 
-        private void AddFileToZip(string fileName, string basedFileName, ZipOutputStream zipStream)
+        private void AddFileToZip(FileFullPath fileName, string debasedFileName, ZipOutputStream zipStream)
         {
-            using (FileStream fileStream = File.OpenRead(fileName))
+            using (FileStream fileStream = File.OpenRead(fileName.ToString()))
             {
                 string fileHeader = String.Empty;
                 string fileFooter = String.Empty;
@@ -67,8 +59,8 @@ namespace Flubu.Packaging
                 //if (zipFileFooterCallback != null)
                 //    fileFooter = zipFileFooterCallback(fileName);
 
-                ZipEntry entry = new ZipEntry(basedFileName);
-                entry.DateTime = File.GetLastWriteTime(fileName);
+                ZipEntry entry = new ZipEntry(debasedFileName);
+                entry.DateTime = File.GetLastWriteTime(fileName.ToString());
                 entry.Size = fileStream.Length + fileHeader.Length + fileFooter.Length;
                 zipStream.PutNextEntry(entry);
 
@@ -100,7 +92,6 @@ namespace Flubu.Packaging
         }
 
         private byte[] buffer;
-        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
-        private readonly ILogger logger;
+        private readonly ITaskContext taskContext;
     }
 }

@@ -1,2 +1,1 @@
-- unit tests target and task
-- packaging target for Flubu
+- add Flubu to CEI Hudson (if possible)

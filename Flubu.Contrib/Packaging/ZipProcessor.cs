@@ -5,14 +5,14 @@ namespace Flubu.Packaging
     public class ZipProcessor : IPackageProcessor
     {
         public ZipProcessor(
-            ILogger logger,
+            ITaskContext taskContext,
             IZipper zipper, 
-            string zipFileName, 
-            string baseDir,
+            FileFullPath zipFileName, 
+            FullPath baseDir,
             int? compressionLevel,
             params string[] sources)
         {
-            this.logger = logger;
+            this.taskContext = taskContext;
             this.zipper = zipper;
             this.zipFileName = zipFileName;
             this.baseDir = baseDir;
@@ -23,7 +23,7 @@ namespace Flubu.Packaging
         public IPackageDef Process(IPackageDef packageDef)
         {
             StandardPackageDef zippedPackageDef = new StandardPackageDef();
-            List<string> filesToZip = new List<string>();
+            List<FileFullPath> filesToZip = new List<FileFullPath>();
 
             foreach (IFilesSource childSource in packageDef.ListChildSources())
             {
@@ -31,11 +31,11 @@ namespace Flubu.Packaging
                 {
                     foreach (PackagedFileInfo file in childSource.ListFiles())
                     {
-                        if (false == LoggingHelper.LogIfFilteredOut(file.FullPath.ToString(), filter, logger))
+                        if (false == LoggingHelper.LogIfFilteredOut(file.FileFullPath.ToString(), filter, taskContext))
                             continue;
 
-                        logger.Log("Adding file '{0}' to zip package", file.FullPath);
-                        filesToZip.Add(file.FullPath.ToString());
+                        taskContext.WriteDebug("Adding file '{0}' to zip package", file.FileFullPath);
+                        filesToZip.Add(file.FileFullPath);
                     }
                 }
             }
@@ -54,10 +54,10 @@ namespace Flubu.Packaging
         }
 
         private List<string> sourcesToZip = new List<string>();
-        private readonly ILogger logger;
+        private readonly ITaskContext taskContext;
         private readonly IZipper zipper;
-        private readonly string zipFileName;
-        private readonly string baseDir;
+        private readonly FileFullPath zipFileName;
+        private readonly FullPath baseDir;
         private readonly int? compressionLevel;
         private IFileFilter filter;
     }

@@ -5,28 +5,28 @@ namespace Flubu.Packaging
 {
     public class Copier : ICopier
     {
-        public Copier(ILogger logger)
+        public Copier(ITaskContext taskContext)
         {
-            this.logger = logger;
+            this.taskContext = taskContext;
         }
 
-        public void Copy(string sourceFileName, string destinationFileName)
+        public void Copy(FileFullPath sourceFileName, FileFullPath destinationFileName)
         {
-            string directoryName = Path.GetDirectoryName(destinationFileName);
+            string directoryName = destinationFileName.Directory.ToString();
 
             if (false == String.IsNullOrEmpty(directoryName))
             {
                 if (false == Directory.Exists(directoryName))
                 {
-                    logger.Log("Creating directory '{0}'", directoryName);
+                    taskContext.WriteDebug("Creating directory '{0}'", directoryName);
                     Directory.CreateDirectory(directoryName);
                 }
             }
 
-            logger.Log("Copying file '{0}' to '{1}'", sourceFileName, destinationFileName);
-            File.Copy(sourceFileName, destinationFileName, true);
+            taskContext.WriteDebug("Copying file '{0}' to '{1}'", sourceFileName, destinationFileName);
+            File.Copy(sourceFileName.ToString(), destinationFileName.ToString(), true);
         }
 
-        private readonly ILogger logger;
+        private readonly ITaskContext taskContext;
     }
 }

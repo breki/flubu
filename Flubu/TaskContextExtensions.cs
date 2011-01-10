@@ -35,6 +35,11 @@ namespace Flubu
             context.WriteMessage(level, message);
         }
 
+        public static void WriteDebug(this ITaskContext context, string messageFormat, params object[] args)
+        {
+            context.WriteMessage(TaskMessageLevel.Debug, messageFormat, args);
+        }
+
         public static void WriteError(this ITaskContext context, string messageFormat, params object[] args)
         {
             context.WriteMessage(TaskMessageLevel.Error, messageFormat, args);
