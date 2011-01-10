@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace Flubu
 {
     /// <summary>
@@ -10,6 +12,8 @@ namespace Flubu
         /// </summary>
         /// <value>The task description.</value>
         string Description { get; }
+
+        Stopwatch TaskStopwatch { get; }
 
         /// <summary>
         /// Executes the task using the specified script execution environment.

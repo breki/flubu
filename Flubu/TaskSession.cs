@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using Flubu.Targeting;
 
 namespace Flubu
 {
@@ -11,9 +12,22 @@ namespace Flubu
             buildStopwatch.Start();
         }
 
+        public TaskSession(ITaskContextProperties taskContextProperties, TargetTree targetTree)
+            : base(taskContextProperties)
+        {
+            hasFailed = true;
+            buildStopwatch.Start();
+            this.targetTree = targetTree;
+        }
+
         public Stopwatch BuildStopwatch
         {
             get { return buildStopwatch; }
+        }
+
+        public TargetTree TargetTree
+        {
+            get { return targetTree; }
         }
 
         public bool HasFailed
@@ -59,5 +73,6 @@ namespace Flubu
         private bool disposed;
         private bool hasFailed;
         private Action<ITaskSession> onFinishDo;
+        private TargetTree targetTree;
     }
 }

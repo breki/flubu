@@ -2,9 +2,6 @@
 using Flubu;
 using Flubu.Builds;
 using Flubu.Targeting;
-using Flubu.Tasks.FileSystem;
-
-//css_ref bin\Debug\Flubu.dll;
 
 namespace BuildScripts
 {
@@ -25,7 +22,7 @@ namespace BuildScripts
                 .SetDescription("Rebuilds the project, runs tests and packages the build products.")
                 .SetAsDefault().DependsOn("compile");//, "unit.tests", "package");
 
-            using (TaskSession session = new TaskSession(new SimpleTaskContextProperties()))
+            using (TaskSession session = new TaskSession(new SimpleTaskContextProperties(), targetTree))
             {
                 session.Start(BuildTargets.OnBuildFinished);
 

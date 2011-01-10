@@ -1,8 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using Flubu.Targeting;
 
 namespace Flubu
 {
@@ -64,58 +62,6 @@ namespace Flubu
 
             WriteLine(color, depth, message);
         }
-
-        //public void LogRunnerFinished(IFlubuRunner runner)
-        //{
-        //    // reset the depth counter to make the build report non-indented
-        //    executionDepthCounter = 0;
-
-        //    LogTargetDurations(runner);
-
-        //    WriteLine (ConsoleColor.DarkGray, String.Empty);
-        //    if (runner.HasFailed)
-        //        WriteLine(ConsoleColor.Red, "BUILD FAILED");
-        //    else
-        //        WriteLine(ConsoleColor.Green, "BUILD SUCCESSFUL");
-
-        //    TimeSpan buildDuration = runner.BuildStopwatch.Elapsed;
-        //    WriteLine(ConsoleColor.White, "Build finish time: {0:g}", DateTime.Now);
-        //    WriteLine(
-        //        ConsoleColor.White, 
-        //        "Build duration: {0:D2}:{1:D2}:{2:D2} ({3:d} seconds)", 
-        //        buildDuration.Hours, 
-        //        buildDuration.Minutes, 
-        //        buildDuration.Seconds,
-        //        (int)buildDuration.TotalSeconds);
-        //}
-
-        //public void LogTargetFinished(ITarget target)
-        //{
-        //    executionDepthCounter--;
-        //    WriteLine(
-        //        ConsoleColor.White, 
-        //        "{0} finished (took {1} seconds)", 
-        //        target.TargetName,
-        //        (int)target.TargetStopwatch.Elapsed.TotalSeconds);
-        //}
-
-        //public void LogTargetStarted(ITarget target)
-        //{
-        //    WriteLine(ConsoleColor.White, String.Empty);
-        //    WriteLine (ConsoleColor.White, "{0}:", target.TargetName);
-        //    executionDepthCounter++;
-        //}
-
-        //public void LogTaskFinished()
-        //{
-        //    executionDepthCounter--;
-        //}
-
-        //public void LogTaskStarted(string taskDescription)
-        //{
-        //    WriteLine (ConsoleColor.Gray, "{0}", taskDescription);
-        //    executionDepthCounter++;
-        //}
 
         /// <summary>
         /// Gets a value indicating whether this logger logs to the <see cref="Console.Out"/>.

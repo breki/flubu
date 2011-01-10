@@ -10,8 +10,6 @@ namespace Flubu.Targeting
 
         string TargetName { get; }
 
-        Stopwatch TargetStopwatch { get; }
-
         /// <summary>
         /// Gets a value indicating whether this target is hidden. Hidden targets will not be
         /// visible in the list of targets displayed to the user as help.
