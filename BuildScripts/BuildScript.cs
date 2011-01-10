@@ -41,6 +41,7 @@ namespace BuildScripts
                 session.Properties.Set(BuildProps.BuildConfiguration, "Release");
                 session.Properties.Set(BuildProps.TargetDotNetVersion, FlubuEnvironment.Net35VersionNumber);
                 session.Properties.Set(BuildProps.BuildDir, "Builds");
+                session.Properties.Set(BuildProps.VersionControlSystem, VersionControlSystem.Mercurial);
 
                 try
                 {

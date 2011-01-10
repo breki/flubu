@@ -8,10 +8,12 @@ namespace Flubu.Builds.Tasks
     {
         public FetchBuildVersionFromHudsonTask(
             string productRootDir,
-            string productId)
+            string productId,
+            Func<Version, Version> versionBuilderFunc)
         {
             this.productRootDir = productRootDir;
             this.productId = productId;
+            this.versionBuilderFunc = versionBuilderFunc;
         }
 
         public override string Description
@@ -50,23 +52,13 @@ namespace Flubu.Builds.Tasks
                 }
             }
 
-            string hudsonBuildNumberString = Environment.GetEnvironmentVariable("BUILD_NUMBER");
-            int hudsonBuildNumber = int.Parse(hudsonBuildNumberString, CultureInfo.InvariantCulture);
-
-            string svnRevisionNumberString = Environment.GetEnvironmentVariable("SVN_REVISION");
-            int svnRevisionNumber = int.Parse(svnRevisionNumberString, CultureInfo.InvariantCulture);
-
-            buildVersion = new Version(
-                BuildVersion.Major,
-                BuildVersion.Minor,
-                svnRevisionNumber,
-                hudsonBuildNumber);
-
+            buildVersion = versionBuilderFunc(buildVersion);
             context.WriteInfo("Project build version: {0}", buildVersion);
         }
 
         private Version buildVersion;
         private readonly string productRootDir;
         private readonly string productId;
+        private readonly Func<Version, Version> versionBuilderFunc;
     }
 }

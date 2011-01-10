@@ -157,9 +157,37 @@ namespace Flubu.Builds
             string productRootDir = context.Properties.Get(BuildProps.ProductRootDir, ".");
             string productId = context.Properties.Get<string>(BuildProps.ProductId);
 
+            VersionControlSystem versionControlSystem = context.Properties.Get<VersionControlSystem>(
+                BuildProps.VersionControlSystem);
+
             IFetchBuildVersionTask task = null;
             if (HudsonHelper.IsRunningUnderHudson)
-                task = new FetchBuildVersionFromHudsonTask(productRootDir, productId);
+                task = new FetchBuildVersionFromHudsonTask(
+                    productRootDir, 
+                    productId,
+                    v =>
+                        {
+                            int hudsonBuildNumber = HudsonHelper.BuildNumber;
+                            int revisionNumber;
+
+                            switch (versionControlSystem)
+                            {
+                                case VersionControlSystem.Subversion:
+                                    revisionNumber = HudsonHelper.SvnRevision;
+                                    break;
+                                case VersionControlSystem.Mercurial:
+                                    revisionNumber = HudsonHelper.MercurialRevision;
+                                    break;
+                                default:
+                                    throw new ArgumentOutOfRangeException();
+                            }
+
+                            return new Version(
+                                v.Major,
+                                v.Minor,
+                                revisionNumber,
+                                hudsonBuildNumber);
+                        });
             else
                 task = new FetchBuildVersionFromFileTask(productRootDir, productId);
 
