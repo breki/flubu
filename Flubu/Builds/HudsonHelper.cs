@@ -9,8 +9,7 @@ namespace Flubu.Builds
         {
             get
             {
-                string revisionNumberString = Environment.GetEnvironmentVariable("BUILD_NUMBER");
-                return int.Parse(revisionNumberString, CultureInfo.InvariantCulture);
+                return ParseEnvironmentVariable("BUILD_NUMBER");
             }
         }
 
@@ -27,8 +26,7 @@ namespace Flubu.Builds
         {
             get
             {
-                string revisionNumberString = Environment.GetEnvironmentVariable("MERCURIAL_REVISION");
-                return int.Parse(revisionNumberString, CultureInfo.InvariantCulture);
+                return ParseEnvironmentVariable("MERCURIAL_REVISION");
             }
         }
 
@@ -36,9 +34,34 @@ namespace Flubu.Builds
         {
             get
             {
-                string svnRevisionNumberString = Environment.GetEnvironmentVariable("SVN_REVISION");
-                return int.Parse(svnRevisionNumberString, CultureInfo.InvariantCulture);
+                return ParseEnvironmentVariable("SVN_REVISION");
             }
+        }
+
+        public static int ParseEnvironmentVariable (string variableName)
+        {
+            string valueString = Environment.GetEnvironmentVariable(variableName);
+            if (valueString == null)
+            {
+                string message = string.Format(
+                    CultureInfo.InvariantCulture,
+                    "Environment variable {0} is missing.",
+                    variableName);
+                throw new InvalidOperationException(message);
+            }
+
+            int result;
+            if (!int.TryParse(valueString, NumberStyles.Any, CultureInfo.InvariantCulture, out result))
+            {
+                string message = string.Format(
+                    CultureInfo.InvariantCulture,
+                    "Environment variable {0} has an invalid value ('{1}').",
+                    variableName,
+                    valueString);
+                throw new InvalidOperationException(message);
+            }
+
+            return result;
         }
     }
 }
