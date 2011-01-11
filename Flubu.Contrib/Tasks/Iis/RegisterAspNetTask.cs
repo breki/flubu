@@ -6,7 +6,7 @@ namespace Flubu.Tasks.Iis
 {
     public class RegisterAspNetTask : TaskBase
     {
-        public override string TaskDescription
+        public override string Description
         {
             get
             {
@@ -55,19 +55,14 @@ namespace Flubu.Tasks.Iis
         protected override void DoExecute (ITaskContext context)
         {
             string regIisExePath = Path.Combine (
-                context.GetDotNetFWDir (dotNetVersion),
+                FlubuEnvironment.GetDotNetFWDir(dotNetVersion),
                 "aspnet_regiis.exe");
 
-            string commandLine = String.Format (
-                System.Globalization.CultureInfo.InvariantCulture,
-                "-s {0}{1}", 
-                parentVirtualDirectoryName, 
-                virtualDirectoryName);
-            RunProgramTask.Execute (
-                context, 
-                regIisExePath,
-                commandLine, 
-                TimeSpan.FromSeconds (30));
+            RunProgramTask runProgramTask = new RunProgramTask(regIisExePath);
+            runProgramTask
+                .AddArgument("-s")
+                .AddArgument("{0}{1}", parentVirtualDirectoryName, virtualDirectoryName);
+            runProgramTask.Execute(context);
         }
 
         private string virtualDirectoryName;
