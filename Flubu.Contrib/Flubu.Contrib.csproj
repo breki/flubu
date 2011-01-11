@@ -123,7 +123,7 @@
     <None Include="..\Flubu\Flubu.snk">
       <Link>Flubu.snk</Link>
     </None>
-    <None Include="Tasks\Iis\RegisterAspNetTask.cs" />
+    <Compile Include="Tasks\Iis\RegisterAspNetTask.cs" />
     <Compile Include="Tasks\Text\ExpandPropertiesTask.cs" />
   </ItemGroup>
   <ItemGroup>
