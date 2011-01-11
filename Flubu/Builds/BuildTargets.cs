@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Speech.Synthesis;
@@ -28,6 +29,10 @@ namespace Flubu.Builds
                 .SetDescription("Fetch the build version")
                 .Do(TargetFetchBuildVersion);
 
+            targetTree.AddTarget("fxcop")
+                .SetDescription("Run FxCop")
+                .Do(TargetFxcop);
+
             targetTree.AddTarget("generate.commonassinfo")
                 .SetDescription("Generate CommonAssemblyInfo.cs file")
                 .Do(TargetGenerateCommonAssemblyInfo);
@@ -39,6 +44,17 @@ namespace Flubu.Builds
             targetTree.AddTarget("prepare.build.dir")
                 .SetDescription("Prepare the build directory")
                 .Do(TargetPrepareBuildDir);
+        }
+
+        public static void FillDefaultProperties (ITaskContext context)
+        {
+            context.Properties.Set(BuildProps.BuildConfiguration, "Release");
+            context.Properties.Set(BuildProps.BuildDir, "Builds");
+            context.Properties.Set(BuildProps.BuildLogsDir, @"Builds\BuildLogs");
+            context.Properties.Set(BuildProps.FxcopDir, "Microsoft FxCop 1.36");
+            context.Properties.Set(BuildProps.LibDir, "lib");
+            context.Properties.Set(BuildProps.ProductRootDir, ".");
+            context.Properties.Set(BuildProps.TargetDotNetVersion, FlubuEnvironment.Net35VersionNumber);
         }
 
         public static void OnBuildFinished (ITaskSession session)
@@ -67,10 +83,10 @@ namespace Flubu.Builds
             {
                 using (SpeechSynthesizer speech = new SpeechSynthesizer())
                 {
-                    PromptBuilder builder = new PromptBuilder();
+                    PromptBuilder builder = new PromptBuilder(CultureInfo.InvariantCulture);
                     builder.StartStyle(new PromptStyle(PromptRate.Slow));
                     builder.StartStyle(new PromptStyle(PromptVolume.Loud));
-                    builder.StartSentence();
+                    builder.StartSentence(CultureInfo.InvariantCulture);
                     builder.AppendText("Build " + (session.HasFailed ? "failed." : "successful!"));
                     builder.EndSentence();
                     builder.EndStyle();
@@ -106,6 +122,7 @@ namespace Flubu.Builds
             }
         }
 
+        [SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily")]
         public static void TargetCleanOutput(ITaskContext context)
         {
             string buildConfiguration = context.Properties.Get<string>(BuildProps.BuildConfiguration);
@@ -179,7 +196,7 @@ namespace Flubu.Builds
                                     revisionNumber = 0;
                                     break;
                                 default:
-                                    throw new ArgumentOutOfRangeException();
+                                    throw new NotSupportedException();
                             }
 
                             return new Version(
@@ -194,6 +211,25 @@ namespace Flubu.Builds
             task.Execute(context);
 
             context.Properties.Set(BuildProps.BuildVersion, task.BuildVersion);
+        }
+
+        public static void TargetFxcop(ITaskContext context)
+        {
+            FullPath rootDir = new FullPath(context.Properties[BuildProps.ProductRootDir]);
+
+            FullPath fxcopDir = rootDir
+                .CombineWith(context.Properties[BuildProps.LibDir])
+                .CombineWith(context.Properties[BuildProps.FxcopDir]);
+
+            FullPath buildLogsPath = new FullPath(context.Properties[BuildProps.ProductRootDir])
+                .CombineWith(context.Properties[BuildProps.BuildLogsDir]);
+
+            RunFxcopTask task = new RunFxcopTask(
+                fxcopDir.AddFileName("FxCopCmd.exe").ToString(),
+                fxcopDir.AddFileName("FxCop.exe").ToString(),
+                rootDir.AddFileName("{0}.FxCop", context.Properties[BuildProps.ProductId]).ToString(),
+                buildLogsPath.AddFileName("{0}.FxCopReport.xml", context.Properties[BuildProps.ProductId]).ToString());
+            task.Execute(context);
         }
 
         public static void TargetGenerateCommonAssemblyInfo(ITaskContext context)

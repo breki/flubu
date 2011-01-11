@@ -103,6 +103,7 @@
     <Compile Include="Builds\Tasks\FetchBuildVersionFromHudsonTask.cs" />
     <Compile Include="Builds\Tasks\GenerateCommonAssemblyInfoTask.cs" />
     <Compile Include="Builds\Tasks\IFetchBuildVersionTask.cs" />
+    <Compile Include="Builds\Tasks\RunFxCopTask.cs" />
     <Compile Include="Builds\Tasks\RunGallioTestsTask.cs" />
     <Compile Include="Builds\VSSolutionBrowsing\VSProjectInfo.cs" />
     <Compile Include="Builds\VSSolutionBrowsing\VSProjectItem.cs" />
@@ -146,7 +147,7 @@
     <Compile Include="ITask.cs" />
     <Compile Include="Targeting\TargetTree.cs" />
     <Compile Include="TaskBase.cs" />
-    <Compile Include="RunnerFailedException.cs" />
+    <Compile Include="TaskExecutionException.cs" />
     <Compile Include="TaskContext.cs" />
     <Compile Include="TaskContextExtensions.cs" />
     <Compile Include="TaskMessageLevel.cs" />

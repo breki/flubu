@@ -65,7 +65,7 @@ namespace Flubu.Tasks.UserAccounts
                         }
                         else if (mode == CreateUserAccountMode.FailIfAlreadyExists)
                         {
-                            throw new RunnerFailedException (
+                            throw new TaskExecutionException (
                                 String.Format (
                                     System.Globalization.CultureInfo.InvariantCulture,
                                     "User '{0}' already exists.", 

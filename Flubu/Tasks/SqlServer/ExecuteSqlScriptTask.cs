@@ -107,7 +107,7 @@ namespace Flubu.Tasks.SqlServer
             process.StandardInput.Flush();
             process.WaitForExit();
             if (process.ExitCode != 0)
-                throw new RunnerFailedException(string.Format(CultureInfo.InvariantCulture, "OSQL exited with code {0}.", process.ExitCode));
+                throw new TaskExecutionException(string.Format(CultureInfo.InvariantCulture, "OSQL exited with code {0}.", process.ExitCode));
 
             //Reading output after waitforexit creates deadlock as available output buffer is fully filled
             //output.Write(process.StandardOutput.ReadToEnd());

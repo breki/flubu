@@ -68,7 +68,7 @@ namespace Flubu.Tasks.Iis.Iis6
                         }
                         else if (mode == CreateApplicationPoolMode.FailIfAlreadyExists)
                         {
-                            throw new RunnerFailedException (
+                            throw new TaskExecutionException (
                                 String.Format (
                                     System.Globalization.CultureInfo.InvariantCulture,
                                     "Application '{0}' already exists.", 

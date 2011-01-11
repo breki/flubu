@@ -45,7 +45,7 @@ namespace Flubu.Tasks.WindowsServices
                 scHndl = OpenSCManager(null, null, GenericWrite);
                 if (scHndl == IntPtr.Zero)
                 {
-                    throw new RunnerFailedException("Service manager could not be opened!");
+                    throw new TaskExecutionException("Service manager could not be opened!");
                 }
 
 // ReSharper disable InconsistentNaming
@@ -55,7 +55,7 @@ namespace Flubu.Tasks.WindowsServices
                 if (svcHndl == IntPtr.Zero)
                 {
                     if (FailIfNotExist)
-                        throw new RunnerFailedException("Service {0} does not exist.", ServiceName);
+                        throw new TaskExecutionException("Service {0} does not exist.", ServiceName);
 
                     context.WriteInfo("Service '{0}' does not exist, doing nothing.", ServiceName);
                     return;
@@ -64,7 +64,7 @@ namespace Flubu.Tasks.WindowsServices
                 int result = DeleteService(svcHndl);
                 if (result != 0)
                 {
-                    throw new RunnerFailedException("Uninstall windows service failed with error code:{0}", result);
+                    throw new TaskExecutionException("Uninstall windows service failed with error code:{0}", result);
                 }
             }
             finally

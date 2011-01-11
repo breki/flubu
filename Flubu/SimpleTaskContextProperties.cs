@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 
 namespace Flubu
@@ -35,6 +34,12 @@ namespace Flubu
         public void Set<T>(string propertyName, T propertyValue)
         {
             properties[propertyName] = propertyValue;
+        }
+
+        public string this[string propertyName]
+        {
+            get { return Get<string>(propertyName); }
+            set { Set(propertyName, value); }
         }
 
         private Dictionary<string, object> properties = new Dictionary<string, object>();

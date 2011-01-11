@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -12,6 +13,7 @@ namespace Flubu.Builds.VSSolutionBrowsing
     /// </summary>
     public class VSProjectWithFileInfo : VSProjectInfo
     {
+        [SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "guid")]
         public VSProjectWithFileInfo(
             VSSolution ownerSolution, 
             Guid projectGuid, 

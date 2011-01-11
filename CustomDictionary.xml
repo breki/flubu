@@ -22,6 +22,8 @@
       <Word>exc</Word>
       <Word>Firefox</Word>
       <Word>Flubu</Word>
+      <Word>fxcop</Word>
+      <Word>Gallio</Word>
       <Word>Ganesha</Word>
       <Word>Gfx</Word>
       <Word>Gw</Word>
@@ -43,6 +45,7 @@
       <Word>Portal</Word>
       <Word>Portlet</Word>
       <Word>prev</Word>
+      <Word>renamer</Word>
       <Word>renderer</Word>
       <Word>renderers</Word>
       <Word>retrier</Word>
@@ -54,7 +57,9 @@
       <Word>sqlite</Word>
       <Word>Sso</Word>
       <Word>subhandler</Word>
+      <Word>svn</Word>
       <Word>Templa</Word>
+      <Word>uninstallation</Word>
       <Word>unpause</Word>
       <Word>validatable</Word>
       <Word>Qif</Word>
@@ -69,6 +74,7 @@
       <Word>Smil</Word>
       <Word>pushable</Word>
       <Word>Utils</Word>
+      <Word>xpath</Word>
     </Recognized>
     <Deprecated>
       <!-- Be sure to pascal-case deprecated terms and preferred alternates     -->

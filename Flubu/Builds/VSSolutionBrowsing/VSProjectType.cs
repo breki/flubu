@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Flubu.Builds.VSSolutionBrowsing
 {
@@ -12,6 +13,7 @@ namespace Flubu.Builds.VSSolutionBrowsing
         /// </summary>
         /// <param name="projectTypeGuid">The project type GUID.</param>
         /// <param name="projectTypeName">Name of the project type.</param>
+        [SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "guid")]
         public VSProjectType(Guid projectTypeGuid, string projectTypeName)
         {
             this.projectTypeGuid = projectTypeGuid;
@@ -31,6 +33,7 @@ namespace Flubu.Builds.VSSolutionBrowsing
         /// Gets the project type GUID.
         /// </summary>
         /// <value>The project type GUID.</value>
+        [SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "guid")]
         public Guid ProjectTypeGuid
         {
             get { return projectTypeGuid; }

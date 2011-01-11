@@ -45,7 +45,7 @@ namespace Flubu.Tasks.Iis
             {
                 const string Msg = "IIS not installed or IIS access denied!";
                 if (failIfNotExist)
-                    throw new RunnerFailedException(Msg);
+                    throw new TaskExecutionException(Msg);
                 environment.WriteInfo(Msg);
 
                 return "0.0";

@@ -71,7 +71,7 @@ namespace Flubu
         /// </value>
         protected bool IsConsoleOutput
         {
-            get { return ReferenceEquals(writer, System.Console.Out); }
+            get { return ReferenceEquals(writer, Console.Out); }
         }
 
         /// <summary>
@@ -109,22 +109,6 @@ namespace Flubu
             string indentation = new string(' ', depth * 3);
             writer.Write (indentation);
             writer.WriteLine (message);
-        }
-
-        private void WriteLine(
-            ConsoleColor foregroundColor, 
-            int depth,
-            string format, 
-            params object[] args)
-        {
-            WriteTimeMark();
-
-            if (IsConsoleOutput)
-                Console.ForegroundColor = foregroundColor;
-
-            string indentation = new string(' ', depth * 3);
-            writer.Write(indentation);
-            writer.WriteLine(format, args);
         }
 
         private void WriteTimeMark()
