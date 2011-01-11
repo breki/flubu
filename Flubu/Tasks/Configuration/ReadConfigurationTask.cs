@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Xml;
 
@@ -17,6 +18,7 @@ namespace Flubu.Tasks.Configuration
             return task;
         }
 
+        [SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "string")]
         public static ReadConfigurationTask FromString(string configurationString)
         {
             ReadConfigurationTask task = new ReadConfigurationTask();
@@ -79,7 +81,7 @@ namespace Flubu.Tasks.Configuration
                 xmlDoc.Load (configurationFileName);
             }
             else
-                throw new RunnerFailedException ("Either the configuration string or the configuration fileName has to be set.");
+                throw new TaskExecutionException ("Either the configuration string or the configuration fileName has to be set.");
 
             XmlNode configurationRootNode = xmlDoc.SelectSingleNode ("Configuration");
 

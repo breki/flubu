@@ -54,7 +54,8 @@ namespace Flubu.Builds.VSSolutionBrowsing
         /// <param name="projectGuid">The project's GUID.</param>
         /// <returns>The <see cref="VSProjectWithFileInfo"/> object representing the project.</returns>
         /// <exception cref="ArgumentException">The project was not found.</exception>
-        public VSProjectInfo FindProjectById (Guid projectGuid)
+        [SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "guid")]
+        public VSProjectInfo FindProjectById(Guid projectGuid)
         {
             foreach (VSProjectInfo projectData in projects)
                 if (projectData.ProjectGuid == projectGuid)
@@ -168,6 +169,7 @@ namespace Flubu.Builds.VSSolutionBrowsing
         /// Loads the VisualStudio project files and fills the project data into <see cref="VSProjectWithFileInfo.Project"/> 
         /// properties for each of the project in the solution.
         /// </summary>
+        [SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily")]
         public void LoadProjects()
         {
             ForEachProject(

@@ -38,7 +38,7 @@ namespace Flubu.Tasks.Msmq
             {
                 if (FailIfNotExist)
                 {
-                    throw new RunnerFailedException(
+                    throw new TaskExecutionException(
                         String.Format(
                             CultureInfo.InvariantCulture,
                             "Message queue does not '{0}' exist.",

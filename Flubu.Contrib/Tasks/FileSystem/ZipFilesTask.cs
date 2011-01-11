@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -38,20 +37,17 @@ namespace Flubu.Tasks.FileSystem
             }
         }
 
-        public ZipFileCallback ZipFileFooterCallback
+        public Func<string, string> ZipFileFooterCallback
         {
             get { return zipFileFooterCallback; }
             set { zipFileFooterCallback = value; }
         }
 
-        public ZipFileCallback ZipFileHeaderCallback
+        public Func<string, string> ZipFileHeaderCallback
         {
             get { return zipFileHeaderCallback; }
             set { zipFileHeaderCallback = value; }
         }
-
-        [SuppressMessage ("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible")]
-        public delegate string ZipFileCallback (string fileName);
 
         protected override void DoExecute (ITaskContext context)
         {
@@ -129,7 +125,7 @@ namespace Flubu.Tasks.FileSystem
         {
             if (text.Length > 0)
             {
-                byte[] bytes = Encoding.ASCII.GetBytes (text.ToString ());
+                byte[] bytes = Encoding.ASCII.GetBytes (text);
                 zipStream.Write (bytes, 0, bytes.Length);                    
             }
         }
@@ -138,8 +134,8 @@ namespace Flubu.Tasks.FileSystem
         private byte[] buffer;
         private List<string> filesToZip = new List<string> ();
         private int? compressionLevel;
-        private ZipFileCallback zipFileFooterCallback;
-        private ZipFileCallback zipFileHeaderCallback;
+        private Func<string, string> zipFileFooterCallback;
+        private Func<string, string> zipFileHeaderCallback;
         private readonly string zipFileName;
     }
 }

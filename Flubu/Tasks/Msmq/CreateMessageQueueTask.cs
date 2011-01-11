@@ -70,7 +70,7 @@ namespace Flubu.Tasks.Msmq
                 }
 
                 if (mode == CreateMessageQueueMode.FailIfAlreadyExists)
-                    throw new RunnerFailedException (
+                    throw new TaskExecutionException (
                         String.Format (
                             System.Globalization.CultureInfo.InvariantCulture,
                             "Message queue '{0}' already exists.", 

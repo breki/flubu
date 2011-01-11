@@ -55,7 +55,7 @@ namespace Flubu.Tasks.Registry
             using (RegistryKey key = rootKey.OpenSubKey (registryKeyPath, true))
             {
                 if (key == null)
-                    throw new RunnerFailedException (
+                    throw new TaskExecutionException (
                         String.Format (
                             System.Globalization.CultureInfo.InvariantCulture,
                             "Registry key '{0}' does not exist.", 

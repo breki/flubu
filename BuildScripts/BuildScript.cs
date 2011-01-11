@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using Flubu;
 using Flubu.Builds;
 using Flubu.Builds.Tasks;
@@ -27,10 +26,11 @@ namespace BuildScripts
                 .Do(TargetPackage).DependsOn("load.solution");
             targetTree.AddTarget("rebuild")
                 .SetDescription("Rebuilds the project, runs tests and packages the build products.")
-                .SetAsDefault().DependsOn("compile", "unit.tests", "package");
+                .SetAsDefault().DependsOn("compile", "fxcop", "unit.tests", "package");
 
             using (TaskSession session = new TaskSession(new SimpleTaskContextProperties(), targetTree))
             {
+                BuildTargets.FillDefaultProperties(session);
                 session.Start(BuildTargets.OnBuildFinished);
 
                 session.AddLogger(new MulticoloredConsoleLogger(Console.Out));
@@ -38,9 +38,6 @@ namespace BuildScripts
                 session.Properties.Set(BuildProps.ProductId, "Flubu");
                 session.Properties.Set(BuildProps.ProductName, "Flubu");
                 session.Properties.Set(BuildProps.SolutionFileName, "Flubu.sln");
-                session.Properties.Set(BuildProps.BuildConfiguration, "Release");
-                session.Properties.Set(BuildProps.TargetDotNetVersion, FlubuEnvironment.Net35VersionNumber);
-                session.Properties.Set(BuildProps.BuildDir, "Builds");
                 session.Properties.Set(BuildProps.VersionControlSystem, VersionControlSystem.Mercurial);
 
                 try
@@ -66,7 +63,7 @@ namespace BuildScripts
 
                     return 0;
                 }
-                catch (RunnerFailedException)
+                catch (TaskExecutionException)
                 {
                     return 1;
                 }
@@ -80,7 +77,7 @@ namespace BuildScripts
 
         private static void TargetPackage(ITaskContext context)
         {
-            FullPath zipPackagePath = new FullPath(context.Properties.Get<string>(BuildProps.ProductRootDir, "."));
+            FullPath zipPackagePath = new FullPath(context.Properties.Get(BuildProps.ProductRootDir, "."));
             zipPackagePath = zipPackagePath.CombineWith(context.Properties.Get<string>(BuildProps.BuildDir));
             FileFullPath zipFileName = zipPackagePath.AddFileName(
                 "Flubu-{0}.zip", 
@@ -112,13 +109,16 @@ namespace BuildScripts
 
         private static void TargetRunTests(ITaskContext context, string projectName, string filter)
         {
+            FullPath buildLogsPath = new FullPath(context.Properties[BuildProps.ProductRootDir])
+                .CombineWith(context.Properties[BuildProps.BuildLogsDir]);
+
             RunGallioTestsTask task = new RunGallioTestsTask(
                 projectName,
                 context.Properties.Get<VSSolution>(BuildProps.Solution),
                 context.Properties.Get<string>(BuildProps.BuildConfiguration),
                 @"lib\Gallio\bin\Gallio.Echo.exe",
                 ref testsRunCounter,
-                Path.Combine(context.Properties.Get<string>(BuildProps.BuildDir), "BuildLogs"));
+                buildLogsPath.ToString());
             task.Filter = filter;
             task.Execute(context);
         }

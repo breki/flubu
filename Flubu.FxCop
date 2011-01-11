@@ -24,12 +24,10 @@
  </ProjectOptions>
  <Targets>
   <AssemblyReferenceDirectories>
-   <Directory>$(ProjectDir)/EEnvoyer.Tests/bin/Release/</Directory>
-   <Directory>$(ProjectDir)/lib/ASP.NET MVC 2/</Directory>
-   <Directory>$(ProjectDir)/lib/FluentNHibernate.old/</Directory>
+   <Directory>$(ProjectDir)/lib/IIS7/</Directory>
   </AssemblyReferenceDirectories>
-  <Target Name="$(ProjectDir)/Flubu/bin/Release/Flubu.dll" Analyze="True" AnalyzeAllChildren="True" />
   <Target Name="$(ProjectDir)/Flubu.Contrib/bin/Release/Flubu.Contrib.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="$(ProjectDir)/Flubu/bin/Release/Flubu.dll" Analyze="True" AnalyzeAllChildren="True" />
  </Targets>
  <Rules>
   <RuleFiles>
@@ -128,55 +126,53 @@
  </Rules>
  <FxCopReport Version="1.36">
   <Targets>
-   <Target Name="$(ProjectDir)/SimpleX/bin/Release/SimpleX.dll">
+   <Target Name="$(ProjectDir)/Flubu/bin/Release/Flubu.dll">
     <Modules>
-     <Module Name="simplex.dll">
+     <Module Name="flubu.dll">
       <Namespaces>
-       <Namespace Name="SimpleX.DomainDesign">
+       <Namespace Name="Flubu.Builds">
         <Types>
-         <Type Name="IDomainEventHandler">
-          <Messages>
-           <Message TypeName="AvoidEmptyInterfaces" Category="Microsoft.Design" CheckId="CA1040" Created="2010-12-29 09:15:46Z">
-            <Issue>
-             <Item>'IDomainEventHandler'</Item>
-            </Issue>
-           </Message>
-           <Message TypeName="IdentifiersShouldNotHaveIncorrectSuffix" Category="Microsoft.Naming" CheckId="CA1711" Created="2010-12-29 09:15:46Z">
-            <Issue Name="TypeNoAlternate">
-             <Item>'IDomainEventHandler'</Item>
-             <Item>EventHandler</Item>
-            </Issue>
-           </Message>
-          </Messages>
+         <Type Name="BuildProps">
+          <Members>
+           <Member Name="#FxCopDir">
+            <Messages>
+             <Message Id="FxCop" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Created="2011-01-11 08:40:11Z">
+              <Issue Name="MemberShouldBeDiscreteTerm">
+               <Item>FxCop</Item>
+               <Item>'BuildProps.FxCopDir'</Item>
+               <Item>Fxcop</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
          </Type>
-         <Type Name="IDomainEventHandler`1">
-          <Messages>
-           <Message TypeName="IdentifiersShouldNotHaveIncorrectSuffix" Category="Microsoft.Naming" CheckId="CA1711" Created="2010-12-29 09:15:46Z">
-            <Issue Name="TypeNoAlternate">
-             <Item>'IDomainEventHandler&lt;TEvent&gt;'</Item>
-             <Item>EventHandler</Item>
-            </Issue>
-           </Message>
-          </Messages>
+         <Type Name="BuildTargets">
+          <Members>
+           <Member Name="#TargetFxCop(Flubu.ITaskContext)">
+            <Messages>
+             <Message Id="FxCop" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Created="2011-01-11 08:40:11Z">
+              <Issue Name="MemberShouldBeDiscreteTerm">
+               <Item>FxCop</Item>
+               <Item>'BuildTargets.TargetFxCop(ITaskContext)'</Item>
+               <Item>Fxcop</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
          </Type>
         </Types>
        </Namespace>
-      </Namespaces>
-     </Module>
-    </Modules>
-   </Target>
-   <Target Name="$(ProjectDir)/TemplaX.Business/bin/Release/TemplaX.Business.dll">
-    <Modules>
-     <Module Name="templax.business.dll">
-      <Namespaces>
-       <Namespace Name="TemplaX.Business.Handlers">
+       <Namespace Name="Flubu.Builds.Tasks">
         <Types>
-         <Type Name="NewProductAddedEventHandler">
+         <Type Name="RunFxCopTask">
           <Messages>
-           <Message TypeName="IdentifiersShouldNotHaveIncorrectSuffix" Category="Microsoft.Naming" CheckId="CA1711" Created="2010-12-29 09:15:46Z">
-            <Issue Name="TypeNoAlternate">
-             <Item>'NewProductAddedEventHandler'</Item>
-             <Item>EventHandler</Item>
+           <Message Id="FxCop" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Created="2011-01-11 08:40:11Z">
+            <Issue Name="TypeShouldBeDiscreteTerm">
+             <Item>FxCop</Item>
+             <Item>'RunFxCopTask'</Item>
+             <Item>Fxcop</Item>
             </Issue>
            </Message>
           </Messages>
@@ -189,11 +185,9 @@
    </Target>
   </Targets>
   <Rules>
-   <Rule TypeName="AvoidEmptyInterfaces" Category="Microsoft.Design" CheckId="CA1040">
-    <Resolution Name="Default">Define a custom attribute to replace {0}.</Resolution>
-   </Rule>
-   <Rule TypeName="IdentifiersShouldNotHaveIncorrectSuffix" Category="Microsoft.Naming" CheckId="CA1711">
-    <Resolution Name="TypeNoAlternate">Rename type name {0} so that it does not end in '{1}'.</Resolution>
+   <Rule TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702">
+    <Resolution Name="MemberShouldBeDiscreteTerm">The compound word '{0}' in member name {1} exists as a discrete term. If your usage is intended to be single word, case it as '{2}' or strip the first token entirely if it represents any sort of Hungarian notation.</Resolution>
+    <Resolution Name="TypeShouldBeDiscreteTerm">The compound word '{0}' in type name {1} exists as a discrete term. If your usage is intended to be single word, case it as '{2}'.</Resolution>
    </Rule>
   </Rules>
  </FxCopReport>

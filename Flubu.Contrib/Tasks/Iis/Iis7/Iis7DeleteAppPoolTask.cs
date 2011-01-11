@@ -42,7 +42,7 @@ namespace Flubu.Tasks.Iis.Iis7
 
             if (FailIfNotExist)
             {
-                throw new RunnerFailedException(
+                throw new TaskExecutionException(
                     String.Format(
                         CultureInfo.InvariantCulture,
                         "Application '{0}' does not exist.",

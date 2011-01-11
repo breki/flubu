@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 
@@ -58,6 +59,7 @@ namespace Flubu
             return new FileFullPath(CombineWith(new LocalPath(fileName)).ToString());
         }
 
+        [SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "string")]
         public FullPath AddRaw(string rawString)
         {
             return new FullPath(fullPath + rawString);
@@ -87,6 +89,12 @@ namespace Flubu
                 debased = debased.Substring(1);
 
             return new LocalPath(debased);
+        }
+
+        public void EnsureExists()
+        {
+            if (!Directory.Exists(fullPath))
+                Directory.CreateDirectory(fullPath);
         }
 
         public override bool Equals(object obj)

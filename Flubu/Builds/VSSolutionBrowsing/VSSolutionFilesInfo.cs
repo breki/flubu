@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Flubu.Builds.VSSolutionBrowsing
 {
     public class VSSolutionFilesInfo : VSProjectInfo
     {
+        [SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "guid")]
         public VSSolutionFilesInfo(
             VSSolution ownerSolution, 
             Guid projectGuid, 

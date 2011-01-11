@@ -87,7 +87,7 @@ namespace Flubu.Tasks.WindowsServices
                         return;
 
                     case InstallWindowsServiceMode.FailIfAlreadyInstalled:
-                        throw new RunnerFailedException (
+                        throw new TaskExecutionException (
                             String.Format (
                                 System.Globalization.CultureInfo.InvariantCulture,
                                 "The Windows service '{0}' already exists.", 

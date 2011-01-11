@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Flubu.Builds.VSSolutionBrowsing
 {
@@ -9,6 +10,7 @@ namespace Flubu.Builds.VSSolutionBrowsing
             get { return ownerSolution; }
         }
 
+        [SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "guid")]
         public Guid ProjectGuid
         {
             get { return projectGuid; }
@@ -19,6 +21,7 @@ namespace Flubu.Builds.VSSolutionBrowsing
             get { return projectName; }
         }
 
+        [SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "guid")]
         public Guid ProjectTypeGuid
         {
             get { return projectTypeGuid; }
@@ -26,7 +29,8 @@ namespace Flubu.Builds.VSSolutionBrowsing
 
         public abstract void Parse (VSSolutionFileParser parser);
 
-        protected VSProjectInfo (
+        [SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "guid")]
+        protected VSProjectInfo(
             VSSolution ownerSolution,
             Guid projectGuid,
             string projectName,

@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace Flubu.Packaging
 {
@@ -44,6 +42,10 @@ namespace Flubu.Packaging
             {
                 FileFullPath fileNameFullPath = new FileFullPath(fileName);
                 LocalPath debasedFileName = fileNameFullPath.ToFullPath().DebasePath(directoryPath);
+
+                if (false == LoggingHelper.LogIfFilteredOut(fileName, Filter, taskContext))
+                    continue;
+
                 PackagedFileInfo packagedFileInfo = new PackagedFileInfo(fileNameFullPath, debasedFileName);
                 files.Add(packagedFileInfo);
             }

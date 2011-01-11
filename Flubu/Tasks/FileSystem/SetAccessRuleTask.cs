@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Security.AccessControl;
 using System.Text;
@@ -118,7 +119,8 @@ namespace Flubu.Tasks.FileSystem
         /// Internal task execution code.
         /// </summary>
         /// <param name="context">The script execution environment.</param>
-        protected override void DoExecute (ITaskContext context)
+        [SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily")]
+        protected override void DoExecute(ITaskContext context)
         {
             FileSystemSecurity security;
             object fileInfo;

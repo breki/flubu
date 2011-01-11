@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using Flubu.Builds.VSSolutionBrowsing;
@@ -9,6 +10,7 @@ namespace Flubu.Builds.Tasks
 {
     public class RunGallioTestsTask : TaskBase
     {
+        [SuppressMessage("Microsoft.Design", "CA1045:DoNotPassTypesByReference", MessageId = "4#")]
         public RunGallioTestsTask(
             string projectName, 
             VSSolution solution,

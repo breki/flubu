@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Flubu
 {
@@ -31,6 +32,7 @@ namespace Flubu
             executionDepth = 0;
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         public void WriteMessage(TaskMessageLevel level, string message)
         {
             foreach (ILogger logger in loggers)
@@ -53,7 +55,7 @@ namespace Flubu
         public void Fail(string message)
         {
             WriteMessage(TaskMessageLevel.Error, message);
-            throw new InvalidOperationException(message);
+            throw new TaskExecutionException(message);
         }
 
         public void Dispose()

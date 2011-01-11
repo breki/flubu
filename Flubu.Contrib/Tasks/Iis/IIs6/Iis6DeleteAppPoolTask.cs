@@ -42,7 +42,7 @@ namespace Flubu.Tasks.Iis.Iis6
                         // application pool already exists
                         if (FailIfNotExist)
                         {
-                            throw new RunnerFailedException(
+                            throw new TaskExecutionException(
                                 String.Format(
                                     CultureInfo.InvariantCulture,
                                     "Application '{0}' does not exist.",

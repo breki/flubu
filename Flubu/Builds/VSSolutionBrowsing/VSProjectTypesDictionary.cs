@@ -32,7 +32,8 @@ namespace Flubu.Builds.VSSolutionBrowsing
         /// <param name="projectTypeGuid">The project type GUID.</param>
         /// <returns><see cref="VSProjectType"/> object holding information about the specified VisualStudio project 
         /// type; <c>null</c> if the project type is not registered.</returns>
-        public VSProjectType FindProjectType (Guid projectTypeGuid)
+        [SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "guid")]
+        public VSProjectType FindProjectType(Guid projectTypeGuid)
         {
             if (projectTypes.ContainsKey(projectTypeGuid))
                 return projectTypes[projectTypeGuid];

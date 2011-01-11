@@ -74,7 +74,7 @@ namespace Flubu.Tasks.WindowsServices
             if (!context.Properties.Get<bool>(configSettingName))
             {
                 if (FailIfNotExist)
-                    throw new RunnerFailedException("Service {0} does not exist.", serviceName);
+                    throw new TaskExecutionException("Service {0} does not exist.", serviceName);
 
                 context.WriteInfo("Service '{0}' does not exist, doing nothing.", serviceName);
                 return;
@@ -113,7 +113,7 @@ namespace Flubu.Tasks.WindowsServices
                     timeSoFar += 500;
 
                     if (timeSoFar >= timeout.TotalMilliseconds)
-                        throw new RunnerFailedException(
+                        throw new TaskExecutionException(
                             String.Format(
                                 System.Globalization.CultureInfo.InvariantCulture,
                                 "Timeout waiting for '{0}' service to reach status {1}.", 

@@ -133,7 +133,7 @@ namespace Flubu.Tasks.Iis.Iis6
                         }
                         else if (mode == CreateWebApplicationMode.FailIfAlreadyExists)
                         {
-                            throw new RunnerFailedException (
+                            throw new TaskExecutionException (
                                 String.Format (
                                     System.Globalization.CultureInfo.InvariantCulture,
                                     "Web application '{0}' already exists.", 

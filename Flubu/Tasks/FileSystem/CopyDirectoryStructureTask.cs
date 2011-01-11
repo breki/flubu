@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text.RegularExpressions;
 
@@ -109,7 +110,8 @@ namespace Flubu.Tasks.FileSystem
             CopyStructureRecursive (context, sourcePath, destinationPath, inclusionRegex, exclusionRegex);
         }
 
-        private void CopyStructureRecursive (
+        [SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily")]
+        private void CopyStructureRecursive(
             ITaskContext context,
             string sourcePathRecursive, 
             string destinationPathRecursive,

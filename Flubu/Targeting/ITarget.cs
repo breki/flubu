@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Flubu.Targeting
 {
@@ -24,7 +25,8 @@ namespace Flubu.Targeting
         /// <returns>This same instance of <see cref="ITarget"/>.</returns>
         ITarget DependsOn(params string[] targetNames);
 
-        ITarget Do (Action<ITaskContext> targetAction);
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Do")]
+        ITarget Do(Action<ITaskContext> targetAction);
 
         /// <summary>
         /// Sets the target as the default target for the runner.
