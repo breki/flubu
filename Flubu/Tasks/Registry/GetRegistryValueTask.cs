@@ -33,7 +33,7 @@ namespace Flubu.Tasks.Registry
         }
 
         public static void Execute (
-            ITaskContext environment,
+            ITaskContext context,
             RegistryKey rootKey,
             string registryKeyPath,
             string registryValueName,
@@ -44,7 +44,7 @@ namespace Flubu.Tasks.Registry
                 registryKeyPath, 
                 registryValueName,
                 configurationSettingName);
-            task.Execute (environment);
+            task.Execute (context);
         }
 
         protected override void DoExecute (ITaskContext context)

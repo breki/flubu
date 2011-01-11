@@ -32,10 +32,10 @@ namespace Flubu.Tasks.Processes
             this.processName = processName;
         }
 
-        public static void Execute (ITaskContext environment, string processName)
+        public static void Execute (ITaskContext context, string processName)
         {
             KillProcessTask task = new KillProcessTask (processName);
-            task.Execute (environment);
+            task.Execute (context);
         }
 
         protected override void DoExecute (ITaskContext context)

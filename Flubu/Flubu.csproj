@@ -156,7 +156,7 @@
     <None Include="Tasks\Tests\NUnitTask.cs" />
     <Compile Include="Tasks\Tests\UnitTestToolType.cs" />
     <Compile Include="Tasks\Configuration\LogScriptEnvironmentTask.cs" />
-    <None Include="Tasks\Configuration\ReadConfigurationTask.cs" />
+    <Compile Include="Tasks\Configuration\ReadConfigurationTask.cs" />
     <Compile Include="Tasks\EnterpriseServices\InstallAssemblyTask.cs" />
     <Compile Include="Tasks\EnterpriseServices\UninstallAssemblyTask.cs" />
     <Compile Include="Tasks\FileSystem\CopyDirectoryStructureTask.cs" />

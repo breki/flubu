@@ -7,9 +7,9 @@ namespace Flubu.Tasks.Iis
 {
     public class IisMaster : IIisMaster
     {
-        public IisMaster(ITaskContext environment)
+        public IisMaster(ITaskContext context)
         {
-            this.environment = environment;
+            this.context = context;
         }
 
         public IIisTasksFactory Iis6TasksFactory
@@ -32,7 +32,7 @@ namespace Flubu.Tasks.Iis
         {
             get
             {
-                Version version = new Version(GetLocalIisVersionTask.GetIisVersion(environment, true));
+                Version version = new Version(GetLocalIisVersionTask.GetIisVersion(context, true));
                 if (version.Major >= 7)
                     return Iis7TasksFactory;
                 if (version.Major >= 6)
@@ -46,6 +46,6 @@ namespace Flubu.Tasks.Iis
             }
         }
 
-        private readonly ITaskContext environment;
+        private readonly ITaskContext context;
     }
 }

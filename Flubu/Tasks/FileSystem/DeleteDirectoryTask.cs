@@ -27,12 +27,12 @@ namespace Flubu.Tasks.FileSystem
         }
 
         public static void Execute(
-            ITaskContext environment,
+            ITaskContext context,
             string directoryPath,
             bool failIfNotExists)
         {
             DeleteDirectoryTask task = new DeleteDirectoryTask (directoryPath, failIfNotExists);
-            task.Execute (environment);
+            task.Execute (context);
         }
 
         protected override void DoExecute (ITaskContext context)

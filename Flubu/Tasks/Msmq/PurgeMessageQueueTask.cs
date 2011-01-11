@@ -19,10 +19,10 @@ namespace Flubu.Tasks.Msmq
             get { return string.Format(System.Globalization.CultureInfo.InvariantCulture, "Purge message queue '{0}'", messageQueuePath); }
         }
 
-        public static void Execute(ITaskContext environment, string messageQueuePath)
+        public static void Execute(ITaskContext context, string messageQueuePath)
         {
             PurgeMessageQueueTask task = new PurgeMessageQueueTask(messageQueuePath);
-            task.Execute(environment);
+            task.Execute(context);
         }
 
         /// <summary>

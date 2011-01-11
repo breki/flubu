@@ -21,10 +21,10 @@ namespace Flubu.Tasks.Msmq
             get { return string.Format(CultureInfo.InvariantCulture, "Purge message queue '{0}'", MessageQueuePath); }
         }
 
-        public static void Execute(ITaskContext environment, string messageQueuePath, bool failIfNotExist)
+        public static void Execute(ITaskContext context, string messageQueuePath, bool failIfNotExist)
         {
             DeleteMessageQueueTask task = new DeleteMessageQueueTask(messageQueuePath, failIfNotExist);
-            task.Execute(environment);
+            task.Execute(context);
         }
 
         /// <summary>

@@ -98,20 +98,20 @@ namespace Flubu.Tasks.FileSystem
         /// <summary>
         /// Sets a file access rule for a specified file path and identities.
         /// </summary>
-        /// <param name="environment">The script execution environment.</param>
+        /// <param name="context">The script execution environment.</param>
         /// <param name="path">The file path.</param>
         /// <param name="identity">Identity (example: "Network Service").</param>
         /// <param name="fileSystemRights">File system rights.</param>
         /// <param name="accessControlType">Type of the access control.</param>
         public static void Execute(
-            ITaskContext environment,
+            ITaskContext context,
             string path, 
             string identity, 
             FileSystemRights fileSystemRights,
             AccessControlType accessControlType)
         {
             SetAccessRuleTask task = new SetAccessRuleTask (path, identity, fileSystemRights, accessControlType);
-            task.Execute (environment);
+            task.Execute (context);
         }
 
         /// <summary>

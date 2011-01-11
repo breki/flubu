@@ -23,21 +23,21 @@ namespace Flubu.Tasks.SqlServer
         }
 
         public static void ExecuteSqlScriptFile(
-            ITaskContext environment,
+            ITaskContext context,
             string connectionString, 
             string scriptFilePath)
         {
             ExecuteSqlScriptTask task = new ExecuteSqlScriptTask(connectionString, scriptFilePath, null);
-            task.Execute(environment);
+            task.Execute(context);
         }
 
         public static void ExecuteSqlCommand(
-            ITaskContext environment,
+            ITaskContext context,
             string connectionString, 
             string commandText)
         {
             ExecuteSqlScriptTask task = new ExecuteSqlScriptTask(connectionString, null, commandText);
-            task.Execute(environment);
+            task.Execute(context);
         }
 
         protected ExecuteSqlScriptTask(string connectionString, string scriptFilePath, string commandText)
