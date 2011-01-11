@@ -31,6 +31,11 @@ namespace Flubu
             return properties.ContainsKey(propertyName);
         }
 
+        public IEnumerable<KeyValuePair<string, object>> EnumerateProperties()
+        {
+            return properties;
+        }
+
         public void Set<T>(string propertyName, T propertyValue)
         {
             properties[propertyName] = propertyValue;
