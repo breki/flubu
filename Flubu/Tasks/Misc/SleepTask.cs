@@ -22,10 +22,10 @@ namespace Flubu.Tasks.Misc
             this.sleepPeriod = sleepPeriod;
         }
 
-        public static void Execute (ITaskContext environment, TimeSpan sleepPeriod)
+        public static void Execute (ITaskContext context, TimeSpan sleepPeriod)
         {
             SleepTask task = new SleepTask (sleepPeriod);
-            task.Execute (environment);
+            task.Execute (context);
         }
 
         protected override void DoExecute (ITaskContext context)

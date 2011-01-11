@@ -76,18 +76,18 @@ namespace Flubu.Tasks.FileSystem
         /// <summary>
         /// Copies a directory tree from the source to the destination.
         /// </summary>
-        /// <param name="environment">The script execution environment.</param>
+        /// <param name="context">The script execution environment.</param>
         /// <param name="sourcePath">The source path.</param>
         /// <param name="destinationPath">The destination path.</param>
         /// <param name="overwriteExisting">if set to <c>true</c> the task will overwrite existing destination files.</param>
         public static void Execute(
-            ITaskContext environment,
+            ITaskContext context,
             string sourcePath, 
             string destinationPath, 
             bool overwriteExisting)
         {
             CopyDirectoryStructureTask task = new CopyDirectoryStructureTask (sourcePath, destinationPath, overwriteExisting);
-            task.Execute (environment);
+            task.Execute (context);
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace Flubu.Tasks.FileSystem
         }
 
         private void CopyStructureRecursive (
-            ITaskContext environment,
+            ITaskContext context,
             string sourcePathRecursive, 
             string destinationPathRecursive,
             Regex inclusionRegex,
@@ -137,7 +137,7 @@ namespace Flubu.Tasks.FileSystem
                         Directory.CreateDirectory(destinationPathRecursive);
 
                     fileInfo.CopyTo (filePath, overwriteExisting);
-                    environment.WriteInfo(
+                    context.WriteInfo(
                         "Copied file '{0}' to '{1}'", 
                         fileSystemInfo.FullName,
                         filePath);
@@ -150,7 +150,7 @@ namespace Flubu.Tasks.FileSystem
                         destinationPathRecursive, 
                         dirInfo.Name);
                     CopyStructureRecursive (
-                        environment, 
+                        context, 
                         dirInfo.FullName, 
                         subdirectoryPath,
                         inclusionRegex,

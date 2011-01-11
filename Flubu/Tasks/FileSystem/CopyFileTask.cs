@@ -32,13 +32,13 @@ namespace Flubu.Tasks.FileSystem
         }
 
         public static void Execute(
-            ITaskContext environment,
+            ITaskContext context,
             string sourceFileName,
             string destinationFileName,
             bool overwrite)
         {
             CopyFileTask task = new CopyFileTask (sourceFileName, destinationFileName, overwrite);
-            task.Execute (environment);
+            task.Execute (context);
         }
 
         protected override void DoExecute (ITaskContext context)

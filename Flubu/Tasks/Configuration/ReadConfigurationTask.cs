@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Text;
 using System.Xml;
 
@@ -11,11 +10,25 @@ namespace Flubu.Tasks.Configuration
     /// </summary>
     public class ReadConfigurationTask : TaskBase
     {
+        public static ReadConfigurationTask FromFile (string fileName)
+        {
+            ReadConfigurationTask task = new ReadConfigurationTask();
+            task.configurationFileName = fileName;
+            return task;
+        }
+
+        public static ReadConfigurationTask FromString(string configurationString)
+        {
+            ReadConfigurationTask task = new ReadConfigurationTask();
+            task.configurationString = configurationString;
+            return task;
+        }
+
         /// <summary>
         /// Gets the task description.
         /// </summary>
         /// <value>The task description.</value>
-        public override string TaskDescription
+        public override string Description
         {
             get
             {
@@ -48,60 +61,8 @@ namespace Flubu.Tasks.Configuration
             }
         }
 
-        /// <summary>
-        /// Reads configuration from a string.
-        /// </summary>
-        /// <param name="environment">The script execution environment.</param>
-        /// <param name="configurationString">The configuration string.</param>
-        public static void ReadFromString (ITaskContext environment, string configurationString)
+        protected ReadConfigurationTask()
         {
-            if (environment == null)
-                throw new ArgumentNullException ("environment");
-
-            if (configurationString == null)
-                throw new ArgumentNullException ("configurationString");                
-
-            ReadConfigurationTask task = new ReadConfigurationTask ();
-            task.configurationString = configurationString;
-            task.Execute (environment);
-        }
-
-        /// <summary>
-        /// Reads configuration from a file.
-        /// </summary>
-        /// <param name="environment">The script execution environment.</param>
-        /// <param name="configurationFileName">The name of the configuration file.</param>
-        public static void ReadFromFile (ITaskContext environment, string configurationFileName)
-        {
-            if (environment == null)
-                throw new ArgumentNullException ("environment");
-
-            if (configurationFileName == null)
-                throw new ArgumentNullException ("configurationFileName");                
-            
-            ReadConfigurationTask task = new ReadConfigurationTask ();
-            task.configurationFileName = configurationFileName;
-            task.Execute (environment);
-        }
-
-        /// <summary>
-        /// Reads configuration from a configuration file which has the same name as the running script.
-        /// </summary>
-        /// <param name="environment">The script execution environment.</param>
-        public static void ReadFromScriptConfigurationFile(ITaskContext environment)
-        {
-            if (environment == null)
-                throw new ArgumentNullException ("environment");                
-            
-            ReadConfigurationTask task = new ReadConfigurationTask ();
-            string configFileName = String.Format (
-                System.Globalization.CultureInfo.InvariantCulture,
-                "{0}.config", 
-                environment.ScriptName);
-            task.configurationFileName = Path.Combine (
-                Environment.CurrentDirectory, 
-                configFileName);
-            task.Execute (environment);
         }
 
         /// <summary>
@@ -140,7 +101,7 @@ namespace Flubu.Tasks.Configuration
                         "Configuration setting '{0}' has value '{1}'", 
                         settingName, 
                         node.InnerText);
-                    context.SetConfigSetting (settingName.ToString (), node.InnerText);
+                    context.Properties.Set(settingName.ToString (), node.InnerText);
                 }
             }
         }

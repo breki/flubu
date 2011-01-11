@@ -29,13 +29,13 @@ namespace Flubu.Tasks.FileSystem
         }
 
         public static void Execute(
-            ITaskContext environment,
+            ITaskContext context,
             string directoryPath,
             string filePattern,
             bool recursive)
         {
             DeleteFilesTask task = new DeleteFilesTask (directoryPath, filePattern, recursive);
-            task.Execute (environment);
+            task.Execute (context);
         }
 
         protected override void DoExecute (ITaskContext context)
