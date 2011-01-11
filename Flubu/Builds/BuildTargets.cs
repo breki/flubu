@@ -83,10 +83,10 @@ namespace Flubu.Builds
             {
                 using (SpeechSynthesizer speech = new SpeechSynthesizer())
                 {
-                    PromptBuilder builder = new PromptBuilder(CultureInfo.InvariantCulture);
+                    PromptBuilder builder = new PromptBuilder(new CultureInfo("en-US"));
                     builder.StartStyle(new PromptStyle(PromptRate.Slow));
                     builder.StartStyle(new PromptStyle(PromptVolume.Loud));
-                    builder.StartSentence(CultureInfo.InvariantCulture);
+                    builder.StartSentence(new CultureInfo("en-US"));
                     builder.AppendText("Build " + (session.HasFailed ? "failed." : "successful!"));
                     builder.EndSentence();
                     builder.EndStyle();
