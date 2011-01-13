@@ -68,7 +68,7 @@ namespace Flubu.Tasks.Iis.Iis7
                 if (appPoolToWorkOn == null)
                     appPoolToWorkOn = serverManager.ApplicationPools.Add(applicationPoolName);
 
-                appPoolToWorkOn.AutoStart = false;
+                appPoolToWorkOn.AutoStart = true;
                 appPoolToWorkOn.Enable32BitAppOnWin64 = true;
                 appPoolToWorkOn.ManagedPipelineMode =
                     ClassicManagedPipelineMode ? ManagedPipelineMode.Classic : ManagedPipelineMode.Integrated;

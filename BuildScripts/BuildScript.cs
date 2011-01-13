@@ -1,7 +1,6 @@
 ﻿using System;
 using Flubu;
 using Flubu.Builds;
-using Flubu.Builds.Tasks;
 using Flubu.Builds.VSSolutionBrowsing;
 using Flubu.Packaging;
 using Flubu.Targeting;
@@ -17,10 +16,11 @@ namespace BuildScripts
         {
             TargetTree targetTree = new TargetTree();
             BuildTargets.FillBuildTargets(targetTree);
+            int testsRunCounter = 0;
 
             targetTree.AddTarget("unit.tests")
                 .SetDescription("Runs unit tests on the project")
-                .Do(x => TargetRunTests(x, "Flubu.Tests", null)).DependsOn("load.solution");
+                .Do(x => BuildTargets.TargetRunTests(x, "Flubu.Tests", null, ref testsRunCounter)).DependsOn("load.solution");
             targetTree.AddTarget("package")
                 .SetDescription("Packages all the build products into ZIP files")
                 .Do(TargetPackage).DependsOn("load.solution");
@@ -106,23 +106,5 @@ namespace BuildScripts
                 "bin");
             zipProcessor.Process(packageDef);
         }
-
-        private static void TargetRunTests(ITaskContext context, string projectName, string filter)
-        {
-            FullPath buildLogsPath = new FullPath(context.Properties[BuildProps.ProductRootDir])
-                .CombineWith(context.Properties[BuildProps.BuildLogsDir]);
-
-            RunGallioTestsTask task = new RunGallioTestsTask(
-                projectName,
-                context.Properties.Get<VSSolution>(BuildProps.Solution),
-                context.Properties.Get<string>(BuildProps.BuildConfiguration),
-                @"lib\Gallio\bin\Gallio.Echo.exe",
-                ref testsRunCounter,
-                buildLogsPath.ToString());
-            task.Filter = filter;
-            task.Execute(context);
-        }
-
-        private static int testsRunCounter;
     }
 }

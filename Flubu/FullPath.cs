@@ -15,6 +15,11 @@ namespace Flubu
                 fullPath = Path.GetFullPath(path);
         }
 
+        public bool DirectoryExists
+        {
+            get { return Directory.Exists(fullPath); }
+        }
+
         public bool EndsWithDirectorySeparator
         {
             get

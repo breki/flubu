@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace Flubu
@@ -16,14 +17,14 @@ namespace Flubu
                 throw new KeyNotFoundException(message);
             }
 
-            return (T)properties[propertyName];
+            return (T)Convert.ChangeType(properties[propertyName], typeof(T), CultureInfo.InvariantCulture);
         }
 
         public T Get<T>(string propertyName, T defaultValue)
         {
             if (!properties.ContainsKey(propertyName))
                 return defaultValue;
-            return Get<T>(propertyName);
+            return (T)Convert.ChangeType(properties[propertyName], typeof(T), CultureInfo.InvariantCulture);
         }
 
         public bool Has(string propertyName)

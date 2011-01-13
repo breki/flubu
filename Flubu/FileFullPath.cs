@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 namespace Flubu
 {
@@ -13,14 +12,19 @@ namespace Flubu
                 this.fileName = Path.GetFullPath(fileName);
         }
 
-        public string FileName
-        {
-            get { return Path.GetFileName(fileName); }
-        }
-
         public FullPath Directory
         {
             get { return ToFullPath().ParentPath; }
+        }
+
+        public bool Exists
+        {
+            get { return File.Exists(fileName); }
+        }
+
+        public string FileName
+        {
+            get { return Path.GetFileName(fileName); }
         }
 
         public int Length

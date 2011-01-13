@@ -53,7 +53,7 @@ namespace Flubu.Tasks.Iis.Iis7
                                 RunWithRetries(x => applicationPool.Start(), 3);
                                 break;
                             case ControlApplicationPoolAction.Stop:
-                                RunWithRetries(x => applicationPool.Stop(), 3);
+                                RunWithRetries(x => applicationPool.Stop(), 3, 0x80070426);
                                 break;
                             case ControlApplicationPoolAction.Recycle:
                                 RunWithRetries(x => applicationPool.Recycle(), 3);
@@ -84,7 +84,10 @@ namespace Flubu.Tasks.Iis.Iis7
             }
         }
 
-        private static void RunWithRetries(Action<int> action, int retries)
+        private static void RunWithRetries(
+            Action<int> action, 
+            int retries, 
+            params uint[] ignoredErrorCodes)
         {
             for (int i = 0; i < retries; i++)
             {
@@ -93,8 +96,14 @@ namespace Flubu.Tasks.Iis.Iis7
                     action(0);
                     break;
                 }
-                catch (COMException)
+                catch (COMException ex)
                 {
+                    for (int j = 0; j < ignoredErrorCodes.Length; j++)
+                    {
+                        if (ignoredErrorCodes[j] == ex.ErrorCode)
+                            return;
+                    }
+
                     if (i == retries-1)
                         throw;
                     Thread.Sleep(1000);
