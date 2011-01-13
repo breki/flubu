@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 
 namespace Flubu.Packaging
 {
     public class CopyProcessor : IPackageProcessor
     {
-        public CopyProcessor(ITaskContext taskContext, ICopier copier, string destinationRootDir)
+        public CopyProcessor(ITaskContext taskContext, ICopier copier, FullPath destinationRootDir)
         {
             this.taskContext = taskContext;
             this.copier = copier;
@@ -64,8 +63,7 @@ namespace Flubu.Packaging
                     if (false == LoggingHelper.LogIfFilteredOut(sourceFile.FileFullPath.ToString(), filter, taskContext))
                         continue;
 
-                    FullPath destinationFullPath = new FullPath(destinationRootDir);
-                    destinationFullPath = destinationFullPath.CombineWith(destinationPath);
+                    FullPath destinationFullPath = destinationRootDir.CombineWith(destinationPath);
 
                     if (sourceFile.LocalPath != null)
                         destinationFullPath = destinationFullPath.CombineWith(sourceFile.LocalPath);
@@ -110,7 +108,7 @@ namespace Flubu.Packaging
 
         private readonly ITaskContext taskContext;
         private readonly ICopier copier;
-        private readonly string destinationRootDir;
+        private readonly FullPath destinationRootDir;
         private readonly Dictionary<string, LocalPath> transformations = new Dictionary<string, LocalPath>();
         private readonly Dictionary<string, string> fileTransformations = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         private IFileFilter filter;

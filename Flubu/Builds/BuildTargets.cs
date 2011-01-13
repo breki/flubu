@@ -20,9 +20,13 @@ namespace Flubu.Builds
                 .DependsOn("load.solution")
                 .Do(TargetCleanOutput);
 
+            targetTree.AddTarget("before.compile")
+                .SetDescription("Steps before compiling the VS solution")
+                .DependsOn("prepare.build.dir", "load.solution", "clean.output", "fetch.build.version", "generate.commonassinfo");
+
             targetTree.AddTarget("compile")
                 .SetDescription("Compile the VS solution")
-                .DependsOn("prepare.build.dir", "load.solution", "clean.output", "fetch.build.version", "generate.commonassinfo")
+                .DependsOn("before.compile")
                 .Do(TargetCompile);
 
             targetTree.AddTarget("fetch.build.version")
@@ -278,6 +282,27 @@ namespace Flubu.Builds
             string buildDir = context.Properties.Get<string>(BuildProps.BuildDir);
             CreateDirectoryTask createDirectoryTask = new CreateDirectoryTask(buildDir, true);
             createDirectoryTask.Execute(context);
+        }
+
+        [SuppressMessage("Microsoft.Design", "CA1045:DoNotPassTypesByReference", MessageId = "3#")]
+        public static void TargetRunTests(
+            ITaskContext context, 
+            string projectName, 
+            string filter,
+            ref int testsRunCounter)
+        {
+            FullPath buildLogsPath = new FullPath(context.Properties[BuildProps.ProductRootDir])
+                .CombineWith(context.Properties[BuildProps.BuildLogsDir]);
+
+            RunGallioTestsTask task = new RunGallioTestsTask(
+                projectName,
+                context.Properties.Get<VSSolution>(BuildProps.Solution),
+                context.Properties.Get<string>(BuildProps.BuildConfiguration),
+                @"lib\Gallio\bin\Gallio.Echo.exe",
+                ref testsRunCounter,
+                buildLogsPath.ToString());
+            task.Filter = filter;
+            task.Execute(context);
         }
     }
 }
