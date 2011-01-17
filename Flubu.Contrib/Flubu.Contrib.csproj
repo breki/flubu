@@ -77,6 +77,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -141,6 +142,23 @@
     <Compile Include="Tasks\Iis\Iis7\Iis7DeleteAppPoolTask.cs" />
     <Compile Include="Tasks\Iis\Iis7\Iis7TasksFactory.cs" />
     <Compile Include="Tasks\Iis\IisMaster.cs" />
+    <Compile Include="Tasks\Virtual\CreateMachineTask.cs" />
+    <Compile Include="Tasks\Virtual\HyperV\ConnectSwitchPort.cs" />
+    <Compile Include="Tasks\Virtual\HyperV\HyperVManager.cs" />
+    <Compile Include="Tasks\Virtual\HyperV\HyperVTask.cs" />
+    <Compile Include="Tasks\Virtual\HyperV\ImportVirtualMachine.cs" />
+    <Compile Include="Tasks\Virtual\HyperV\IVirtualTask.cs" />
+    <Compile Include="Tasks\Virtual\HyperV\IVirtualManager.cs" />
+    <Compile Include="Tasks\Virtual\HyperV\JobState.cs" />
+    <Compile Include="Tasks\Virtual\HyperV\ResourceSubType.cs" />
+    <Compile Include="Tasks\Virtual\HyperV\ResourceType.cs" />
+    <Compile Include="Tasks\Virtual\HyperV\ReturnCode.cs" />
+    <Compile Include="Tasks\Virtual\HyperV\ServerManagement.cs" />
+    <Compile Include="Tasks\Virtual\HyperV\StateChange.cs" />
+    <Compile Include="Tasks\Virtual\HyperV\VirtualMachine.cs" />
+    <Compile Include="Tasks\Virtual\HyperV\VirtualMachineState.cs" />
+    <Compile Include="Tasks\Virtual\HyperV\VirtualServerException.cs" />
+    <Compile Include="Tasks\Virtual\HyperV\VMIUtility.cs" />
     <None Include="..\Flubu\Flubu.snk">
       <Link>Flubu.snk</Link>
     </None>

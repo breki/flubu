@@ -126,19 +126,32 @@
  </Rules>
  <FxCopReport Version="1.36">
   <Targets>
-   <Target Name="$(ProjectDir)/Flubu/bin/Release/Flubu.dll">
+   <Target Name="$(ProjectDir)/Flubu.Contrib/bin/Release/Flubu.Contrib.dll">
     <Modules>
-     <Module Name="flubu.dll">
+     <Module Name="flubu.contrib.dll">
       <Namespaces>
-       <Namespace Name="Flubu.Builds">
+       <Namespace Name="Flubu.Tasks.Virtual.HyperV">
         <Types>
-         <Type Name="BuildTargets">
+         <Type Name="ImportVirtualMachine">
           <Members>
-           <Member Name="#TargetRunTests(Flubu.ITaskContext,System.String,System.String,System.Int32&amp;)">
+           <Member Name="#GetVirtualSystemImportSettingData(System.Management.ManagementScope,System.String,System.String,System.String)">
             <Messages>
-             <Message Id="3#" TypeName="DoNotPassTypesByReference" Category="Microsoft.Design" CheckId="CA1045" Created="2011-01-11 09:55:04Z">
-              <Issue Certainty="50">
-               <Item>'testsRunCounter'</Item>
+             <Message Id="System.String.Format(System.String,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2011-01-17 11:47:47Z">
+              <Issue>
+               <Item>'string.Format(string, object)'</Item>
+               <Item>'ImportVirtualMachine.GetVirtualSystemImportSettingData(ManagementScope, string, string, string)'</Item>
+               <Item>'string.Format(IFormatProvider, string, params object[])'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#ImportVirtualSystem(System.String,System.String,System.String)">
+            <Messages>
+             <Message Id="System.String.Format(System.String,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2011-01-17 11:47:47Z">
+              <Issue>
+               <Item>'string.Format(string, object)'</Item>
+               <Item>'ImportVirtualMachine.ImportVirtualSystem(string, string, string)'</Item>
+               <Item>'string.Format(IFormatProvider, string, params object[])'</Item>
               </Issue>
              </Message>
             </Messages>
@@ -153,8 +166,8 @@
    </Target>
   </Targets>
   <Rules>
-   <Rule TypeName="DoNotPassTypesByReference" Category="Microsoft.Design" CheckId="CA1045">
-    <Resolution Name="Default">Consider a design that does not require that {0} be a reference parameter.</Resolution>
+   <Rule TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305">
+    <Resolution Name="Default">Because the behavior of {0} could vary based on the current user's locale settings, replace this call in {1} with a call to {2}. If the result of {2} will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Resolution>
    </Rule>
   </Rules>
  </FxCopReport>
