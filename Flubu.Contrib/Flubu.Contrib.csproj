@@ -164,6 +164,7 @@
     <Compile Include="Tasks\Virtual\HyperV\VirtualServerException.cs" />
     <Compile Include="Tasks\Virtual\HyperV\VMIUtility.cs" />
     <Compile Include="Tasks\Virtual\ImportMachineTask.cs" />
+    <Compile Include="Tasks\Virtual\ShutdownMachineTask.cs" />
     <None Include="..\Flubu\Flubu.snk">
       <Link>Flubu.snk</Link>
     </None>
