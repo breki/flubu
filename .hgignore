@@ -1,1 +1,12 @@
 glob:CommonAssemblyInfo.cs
+glob:BuildScripts/BuildScripts.csproj.user
+glob:BuildScripts/obj
+glob:Flubu.5.1.ReSharper.user
+glob:Flubu.Contrib/Flubu.Contrib.csproj.user
+glob:Flubu.Contrib/obj
+glob:Flubu.Tests/Flubu.Tests.csproj.user
+glob:Flubu.Tests/obj
+glob:Flubu.suo
+glob:Flubu/Flubu.csproj.user
+glob:Flubu/obj
+glob:_ReSharper.Flubu
