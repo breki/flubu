@@ -10,3 +10,11 @@ glob:Flubu.suo
 glob:Flubu/Flubu.csproj.user
 glob:Flubu/obj
 glob:_ReSharper.Flubu
+glob:BuildScripts/bin
+glob:Builds/BuildLogs
+glob:Builds/
+glob:Flubu.Contrib/bin
+glob:Flubu.Tests/bin
+glob:Flubu.sln.cache
+glob:Flubu/StyleCop.Cache
+glob:Flubu/bin
