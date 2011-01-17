@@ -122,7 +122,7 @@ namespace Flubu.Tasks.Virtual
             }
         }
 
-        protected override void DoExecute(ITaskContext environment)
+        protected override void DoExecute(ITaskContext context)
         {
             if (string.IsNullOrEmpty(hostName))
                 throw new TaskExecutionException("Host name can not be empty!");
