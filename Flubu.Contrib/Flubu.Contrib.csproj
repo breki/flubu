@@ -143,7 +143,10 @@
     <Compile Include="Tasks\Iis\Iis7\Iis7TasksFactory.cs" />
     <Compile Include="Tasks\Iis\IisMaster.cs" />
     <Compile Include="Tasks\Virtual\CloneMachineTask.cs" />
+    <Compile Include="Tasks\Virtual\CreateDiskTask.cs" />
+    <Compile Include="Tasks\Virtual\CreateDiskType.cs" />
     <Compile Include="Tasks\Virtual\CreateMachineTask.cs" />
+    <Compile Include="Tasks\Virtual\DeleteMachineTask.cs" />
     <Compile Include="Tasks\Virtual\HyperV\ConnectSwitchPort.cs" />
     <Compile Include="Tasks\Virtual\HyperV\HyperVManager.cs" />
     <Compile Include="Tasks\Virtual\HyperV\HyperVTask.cs" />
