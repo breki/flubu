@@ -18,3 +18,4 @@ glob:Flubu.Tests/bin
 glob:Flubu.sln.cache
 glob:Flubu/StyleCop.Cache
 glob:Flubu/bin
+glob:*.vs10x
