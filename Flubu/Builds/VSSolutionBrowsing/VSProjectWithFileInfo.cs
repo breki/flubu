@@ -84,7 +84,7 @@ namespace Flubu.Builds.VSSolutionBrowsing
             // find the project configuration
             string condition = string.Format(
                 CultureInfo.InvariantCulture,
-                " '$(Configuration)|$(Platform)' == '{0}|AnyCPU' ", 
+                "'$(Configuration)|$(Platform)' == '{0}|AnyCPU'", 
                 buildConfiguration);
             VSProjectConfiguration projectConfiguration = Project.FindConfiguration(condition);
             if (projectConfiguration == null)
