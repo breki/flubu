@@ -59,7 +59,7 @@ namespace Flubu.Builds.VSSolutionBrowsing
         {
             foreach (VSProjectConfiguration configuration in configurations)
             {
-                if (0 == string.Compare (configuration.Condition, condition, StringComparison.Ordinal))
+                if (configuration.Condition.IndexOf(condition, StringComparison.OrdinalIgnoreCase) >= 0)
                     return configuration;
             }
 

@@ -18,3 +18,7 @@ glob:Flubu.Tests/bin
 glob:Flubu.sln.cache
 glob:Flubu/StyleCop.Cache
 glob:Flubu/bin
+glob:*.vs10x
+glob:Flubu2010.5.1.ReSharper.user
+glob:Flubu2010.suo
+glob:_ReSharper.Flubu2010
