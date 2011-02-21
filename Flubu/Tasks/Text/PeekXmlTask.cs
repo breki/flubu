@@ -1,4 +1,6 @@
 using System;
+using System.Globalization;
+using System.Linq;
 using System.Xml;
 
 namespace Flubu.Tasks.Text
@@ -6,6 +8,11 @@ namespace Flubu.Tasks.Text
     /// <summary>
     /// Retrieves a value from an XML file.
     /// </summary>
+    /// <remarks>
+    /// If provided XPath does not find any matches, null is stored in specified configuration setting.
+    /// If provided XPath matches exactly one node, it's value is stored as <see cref="string"/> in specified configuration setting.
+    /// If provided XPath matches multiple nodes, their values are stored as <see cref="string"/>[] in specified configuration setting.
+    /// </remarks>
     public class PeekXmlTask : TaskBase
     {
         /// <summary>
@@ -17,10 +24,10 @@ namespace Flubu.Tasks.Text
             get
             {
                 return String.Format(
-                    System.Globalization.CultureInfo.InvariantCulture,
+                    CultureInfo.InvariantCulture,
                     "Read xpath '{0}' from file '{1}' and store it into '{2}' setting.",
-                    xpath, 
-                    xmlFileName, 
+                    xpath,
+                    xmlFileName,
                     configurationSettingName);
             }
         }
@@ -33,10 +40,7 @@ namespace Flubu.Tasks.Text
         /// </value>
         public override bool IsSafeToExecuteInDryRun
         {
-            get
-            {
-                return true;
-            }
+            get { return true; }
         }
 
         public PeekXmlTask(
@@ -56,6 +60,11 @@ namespace Flubu.Tasks.Text
         /// <param name="xmlFileName">The name of the configuration file.</param>
         /// <param name="xpath">The xpath of the value to read.</param>
         /// <param name="configurationSettingName">Name of the configuration setting into which the XML value will be stored.</param>
+        /// <remarks>
+        /// If provided <paramref name="xpath"/> does not find any matches, null is stored in configuration setting <paramref name="configurationSettingName"/>.
+        /// If provided <paramref name="xpath"/> matches exactly one node, it's value is stored as <see cref="string"/> in configuration setting <paramref name="configurationSettingName"/>.
+        /// If provided <paramref name="xpath"/> matches multiple nodes, their values are stored as <see cref="string"/>[] in configuration setting <paramref name="configurationSettingName"/>.
+        /// </remarks>
         public static void Execute(
             ITaskContext environment,
             string xmlFileName,
@@ -87,14 +96,27 @@ namespace Flubu.Tasks.Text
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(xmlFileName);
 
-            XmlNode node = xmlDoc.SelectSingleNode("Configuration");
+            XmlNodeList nodes = xmlDoc.SelectNodes(xpath);
+            if (nodes == null || nodes.Count == 0)
+            {
+                context.Properties.Set<object>(configurationSettingName, null);
+                return;
+            }
 
-            if (node != null)
-                context.Properties.Set(configurationSettingName, node.InnerText);
+            if (nodes.Count == 1)
+            {
+                context.Properties.Set(configurationSettingName, nodes[0].InnerText);
+            }
+            else
+            {
+                context.Properties.Set(
+                    configurationSettingName,
+                    (from XmlNode node in nodes select node.InnerText).ToArray());
+            }
         }
 
-        private string xmlFileName;
-        private string xpath;
-        private string configurationSettingName;
+        private readonly string xmlFileName;
+        private readonly string xpath;
+        private readonly string configurationSettingName;
     }
 }
