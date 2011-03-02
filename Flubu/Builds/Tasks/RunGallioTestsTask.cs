@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.IO;
+
 using Flubu.Builds.VSSolutionBrowsing;
 using Flubu.Tasks.FileSystem;
 using Flubu.Tasks.Processes;
@@ -65,6 +65,9 @@ namespace Flubu.Builds.Tasks
 
             if (false == String.IsNullOrEmpty(filter))
                 gallioTask.AddArgument("/filter:{0}", filter);
+
+            if (context.Properties.Has(BuildProps.TargetDotNetVersion))
+                gallioTask.AddArgument("/rv:{0}", context.Properties.Get<string>(BuildProps.TargetDotNetVersion));
 
             gallioTask.Execute(context);
 
