@@ -28,6 +28,12 @@ namespace Flubu.Tasks.FileSystem
             this.forceRecreate = forceRecreate;
         }
 
+        public static void Execute(ITaskContext context, string directoryPath, bool forceRecreate)
+        {
+            CreateDirectoryTask task = new CreateDirectoryTask(directoryPath, forceRecreate);
+            task.Execute(context);
+        }
+
         protected override void DoExecute (ITaskContext context)
         {
             if (Directory.Exists(directoryPath))
