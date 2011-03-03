@@ -27,10 +27,35 @@ namespace Flubu.Builds.Tasks
             this.buildLogsDirectory = buildLogsDirectory;
         }
 
+        public RunGallioTestsTask(
+            string testFile,
+            string gallioEchoExePath,
+            string buildLogsDirectory)
+        {
+            this.testFileName = new FileFullPath(testFile);
+            this.gallioEchoExePath = gallioEchoExePath;
+            this.buildLogsDirectory = buildLogsDirectory;
+        }
+
         public string Filter
         {
             get { return filter; }
             set { filter = value; }
+        }
+
+        public static void Execute(
+            ITaskContext context,
+            string testFile,
+            string gallioEchoExePath,
+            string buildLogsDirectory,
+            string filter)
+        {
+            RunGallioTestsTask task = new RunGallioTestsTask(testFile, gallioEchoExePath, buildLogsDirectory)
+                {
+                    Filter = filter
+                };
+
+            task.Execute(context);
         }
 
         public override string Description
@@ -49,15 +74,17 @@ namespace Flubu.Builds.Tasks
         protected override void DoExecute(ITaskContext context)
         {
             EnsureBuildLogsTestDirectoryExists(context);
-
-            VSProjectWithFileInfo project = 
-                (VSProjectWithFileInfo)solution.FindProjectByName(projectName);
-            FileFullPath projectTarget = project.ProjectDirectoryPath.CombineWith(project.GetProjectOutputPath(buildConfiguration))
-                .AddFileName("{0}.dll", project.ProjectName);
+            if (solution != null)
+            {
+                VSProjectWithFileInfo project = (VSProjectWithFileInfo)solution.FindProjectByName(projectName);
+                testFileName =
+                    project.ProjectDirectoryPath.CombineWith(project.GetProjectOutputPath(buildConfiguration)).
+                        AddFileName("{0}.dll", project.ProjectName);
+            }
 
             RunProgramTask gallioTask = new RunProgramTask(gallioEchoExePath);
             gallioTask
-                .AddArgument(projectTarget.ToString())
+                .AddArgument(testFileName.ToString())
                 .AddArgument("/report-directory:{0}", buildLogsDirectory)
                 .AddArgument("/report-name-format:TestResults-{0}", testRunCounter)
                 .AddArgument("/report-type:xml")
@@ -81,6 +108,9 @@ namespace Flubu.Builds.Tasks
         }
 
         private readonly string projectName;
+
+        private FileFullPath testFileName;
+
         private readonly VSSolution solution;
         private readonly string buildConfiguration;
         private readonly string gallioEchoExePath;
