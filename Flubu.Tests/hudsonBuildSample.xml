@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<freeStyleBuild>
+	<action></action>
+	<action>
+		<cause>
+			<shortDescription>Started by an SCM change</shortDescription>
+		</cause>
+	</action>
+	<action></action>
+	<action></action>
+	<action></action>
+	<action>
+		<failCount>0</failCount>
+		<skipCount>0</skipCount>
+		<totalCount>28</totalCount>
+		<urlName>testReport</urlName>
+	</action>
+	<building>false</building>
+	<duration>55251</duration>
+	<fullDisplayName>example1 #15</fullDisplayName>
+	<id>2011-02-18_12-16-21</id>
+	<keepLog>false</keepLog>
+	<number>15</number>
+	<result>SUCCESS</result>
+	<timestamp>1298027781943</timestamp>
+	<url>http://build.server/view/samples/job/example1/15/</url>
+	<builtOn></builtOn>
+	<changeSet>
+		<item>
+			<date>2011-02-18T11:15:19.535120Z</date>
+			<msg>changed something.</msg>
+			<path>
+				<editType>edit</editType>
+				<file>/trunk/src/A.B.C/ServiceConstraint.cs</file>
+			</path>
+			<revision>2200</revision>
+			<user>userX</user>
+		</item>
+		<kind>svn</kind>
+		<revision>
+			<module>https://svn.server/repos/example1/trunk/src</module>
+			<revision>2200</revision>
+		</revision>
+	</changeSet>
+	<culprit>
+		<absoluteUrl>http://build.server/user/userX</absoluteUrl>
+		<fullName>user-X</fullName>
+	</culprit>
+</freeStyleBuild>
