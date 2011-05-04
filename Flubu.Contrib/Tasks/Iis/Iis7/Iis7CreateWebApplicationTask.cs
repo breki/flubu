@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.IO;
 using Microsoft.Web.Administration;
 
@@ -112,7 +111,6 @@ namespace Flubu.Tasks.Iis.Iis7
                 Site site = serverManager.Sites["Default Web Site"];
 
                 string vdirPath = "/" + ApplicationName;
-                Application ourApplication = null;
                 foreach (Application application in site.Applications)
                 {
                     if (application.Path == vdirPath)
@@ -135,16 +133,21 @@ namespace Flubu.Tasks.Iis.Iis7
                         }
 
                         // otherwise we should update the existing virtual directory
-                        ourApplication = application;
-                        break;
+                        //TODO update existing application
+                        //ourApplication = application;
+                        return;
                     }
+
                 }
 
-                if (ourApplication == null)
-                    ourApplication = site.Applications.Add(vdirPath, LocalPath);
-                ourApplication.ApplicationPoolName = applicationPoolName;
+                using (ServerManager manager = new ServerManager())
+                {
+                    Site defaultSite = manager.Sites["Default Web Site"];
+                    Application ourApplication = defaultSite.Applications.Add(vdirPath, this.LocalPath);
+                    ourApplication.ApplicationPoolName = applicationPoolName;
+                    manager.CommitChanges();
+                }
 
-                throw new NotImplementedException();
                 //Microsoft.Web.Administration.Configuration configuration = ourApplication.GetWebConfiguration();
                 ////ConfigurationSection webServerSection = configuration.GetSection("system.webServer");
                 ////ConfigurationElement defaultDocEl = webServerSection.GetChildElement("defaultDocument");
