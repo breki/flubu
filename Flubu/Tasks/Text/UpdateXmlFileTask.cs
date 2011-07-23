@@ -88,7 +88,15 @@ namespace Flubu.Tasks.Text
             xmldoc.PreserveWhitespace = true;
             xmldoc.Load (fileName);
 
-            // perform all deletes
+            PerformDeletes(xmldoc, context);
+            PerformUpdates(xmldoc, context);
+            PerformAdditions(xmldoc, context);
+
+            xmldoc.Save (fileName);
+        }
+
+        private void PerformDeletes(XmlDocument xmldoc, ITaskContext context)
+        {
             foreach (string xpath in xpathDeletes)
             {
                 foreach (XmlNode node in xmldoc.SelectNodes (xpath))
@@ -113,34 +121,39 @@ namespace Flubu.Tasks.Text
                                 node.NodeType));
                 }
             }
+        }
 
-            // perform all updates
+        private void PerformUpdates(XmlDocument xmldoc, ITaskContext context)
+        {
             foreach (string xpath in xpathUpdates.Keys)
-            {
                 foreach (XmlNode node in xmldoc.SelectNodes (xpath))
-                {
-                    string fullNodePath = ConstructXmlNodeFullName (node);
+                    UpdateNode(xpath, node, context);
+        }
 
-                    context.WriteInfo(
-                        "Node '{0}' will have value '{1}'", 
+        private void UpdateNode(string xpath, XmlNode node, ITaskContext context)
+        {
+            string fullNodePath = ConstructXmlNodeFullName (node);
+
+            context.WriteInfo(
+                "Node '{0}' will have value '{1}'", 
+                fullNodePath, 
+                xpathUpdates[xpath]);
+
+            if (node.NodeType == XmlNodeType.Attribute)
+                node.Value = xpathUpdates[xpath];
+            else if (node.NodeType == XmlNodeType.Element)
+                node.InnerText = xpathUpdates[xpath];
+            else
+                throw new ArgumentException (
+                    String.Format (
+                        System.Globalization.CultureInfo.InvariantCulture,
+                        "Node '{0}' is of incorrect type '{1}', it should be an element or attribute.",
                         fullNodePath, 
-                        xpathUpdates[xpath]);
+                        node.NodeType));
+        }
 
-                    if (node.NodeType == XmlNodeType.Attribute)
-                        node.Value = xpathUpdates[xpath];
-                    else if (node.NodeType == XmlNodeType.Element)
-                        node.InnerText = xpathUpdates[xpath];
-                    else
-                        throw new ArgumentException (
-                            String.Format (
-                                System.Globalization.CultureInfo.InvariantCulture,
-                                "Node '{0}' is of incorrect type '{1}', it should be an element or attribute.",
-                                fullNodePath, 
-                                node.NodeType));
-                }
-            }
-
-            // perform all additions
+        private void PerformAdditions(XmlDocument xmldoc, ITaskContext context)
+        {
             foreach (UpdateXmlFileTaskAddition addition in xpathAdditions)
             {
                 XmlNode rootNode = xmldoc.SelectSingleNode (addition.RootXPath);
@@ -192,8 +205,6 @@ namespace Flubu.Tasks.Text
                     childNode.Name, 
                     addition.Value);
             }
-
-            xmldoc.Save (fileName);
         }
 
         private static string ConstructXmlNodeFullName(XmlNode node)
@@ -240,7 +251,7 @@ namespace Flubu.Tasks.Text
 
             public string Value
             {
-                get { return this.value; }
+                get { return value; }
             }
 
             internal IDictionary<string, string> Attributes
