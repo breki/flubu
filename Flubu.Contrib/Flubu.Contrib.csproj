@@ -64,18 +64,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\log4net-1.2.10\bin\net\2.0\release\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SqlServer.ConnectionInfo, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Microsoft SQL Server\100\SDK\Assemblies\Microsoft.SqlServer.ConnectionInfo.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.Management.Sdk.Sfc, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Microsoft SQL Server\100\SDK\Assemblies\Microsoft.SqlServer.Management.Sdk.Sfc.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.Smo, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Microsoft SQL Server\100\SDK\Assemblies\Microsoft.SqlServer.Smo.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\IIS7\Microsoft.Web.Administration.dll</HintPath>
@@ -155,8 +143,8 @@
     <Compile Include="Tasks\Iis\Iis7\Iis7DeleteAppPoolTask.cs" />
     <Compile Include="Tasks\Iis\Iis7\Iis7TasksFactory.cs" />
     <Compile Include="Tasks\Iis\IisMaster.cs" />
-    <Compile Include="Tasks\SqlServer\ExecuteSqlFileTask.cs" />
-    <Compile Include="Tasks\SqlServer\ExecuteSqlCommandTask.cs" />
+    <None Include="Tasks\SqlServer\ExecuteSqlFileTask.cs" />
+    <None Include="Tasks\SqlServer\ExecuteSqlCommandTask.cs" />
     <Compile Include="Tasks\Virtual\CloneMachineTask.cs" />
     <Compile Include="Tasks\Virtual\CreateDiskTask.cs" />
     <Compile Include="Tasks\Virtual\CreateDiskType.cs" />
