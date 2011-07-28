@@ -28,9 +28,11 @@ namespace BuildScripts
                 .SetDescription("Rebuilds the project, runs tests and packages the build products.")
                 .SetAsDefault().DependsOn("compile", "fxcop", "unit.tests", "package");
 
-            using (TaskSession session = new TaskSession(new SimpleTaskContextProperties(), targetTree))
+            using (TaskSession session = new TaskSession(new SimpleTaskContextProperties(), args, targetTree))
             {
                 BuildTargets.FillDefaultProperties(session);
+                //session.Properties.Set (BuildProps.TargetDotNetVersion, FlubuEnvironment.Net20VersionNumber);
+
                 session.Start(BuildTargets.OnBuildFinished);
 
                 session.AddLogger(new MulticoloredConsoleLogger(Console.Out));
