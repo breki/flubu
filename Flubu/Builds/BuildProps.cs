@@ -17,6 +17,7 @@
         public const string Solution = "Solution";
         public const string SolutionFileName = "SolutionFileName";
         public const string TargetDotNetVersion = "TargetDotNetVersion";
+        public const string TargetDotNetVersionForGallio = "TargetDotNetVersionForGallio";
         public const string VersionControlSystem = "VersionControlSystem";
     }
 }

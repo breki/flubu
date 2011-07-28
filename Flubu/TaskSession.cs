@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Flubu.Targeting;
 
@@ -6,14 +7,14 @@ namespace Flubu
 {
     public class TaskSession : TaskContext, ITaskSession
     {
-        public TaskSession(ITaskContextProperties taskContextProperties) : base(taskContextProperties)
+        public TaskSession(ITaskContextProperties taskContextProperties, IEnumerable<string> args) : base(taskContextProperties, args)
         {
             hasFailed = true;
             buildStopwatch.Start();
         }
 
-        public TaskSession(ITaskContextProperties taskContextProperties, TargetTree targetTree)
-            : base(taskContextProperties)
+        public TaskSession (ITaskContextProperties taskContextProperties, IEnumerable<string> args, TargetTree targetTree)
+            : base(taskContextProperties, args)
         {
             hasFailed = true;
             buildStopwatch.Start();

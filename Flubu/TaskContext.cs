@@ -6,9 +6,15 @@ namespace Flubu
 {
     public class TaskContext : ITaskContext
     {
-        public TaskContext(ITaskContextProperties properties)
+        public TaskContext (ITaskContextProperties properties, IEnumerable<string> args)
         {
             this.properties = properties;
+            this.args = new List<string>(args);
+        }
+
+        public IList<string> Args
+        {
+            get { return args; }
         }
 
         public ITaskContextProperties Properties
@@ -81,8 +87,9 @@ namespace Flubu
             }
         }
 
-        private int executionDepth;
+        private List<string> args;
         private bool disposed;
+        private int executionDepth;
         private List<ILogger> loggers = new List<ILogger>();
         private ITaskContextProperties properties;
     }
