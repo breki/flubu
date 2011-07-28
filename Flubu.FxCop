@@ -158,6 +158,43 @@
      </Module>
     </Modules>
    </Target>
+   <Target Name="$(ProjectDir)/Flubu/bin/Release/Flubu.dll">
+    <Modules>
+     <Module Name="flubu.dll">
+      <Namespaces>
+       <Namespace Name="Flubu.Builds">
+        <Types>
+         <Type Name="BuildTargets">
+          <Members>
+           <Member Name="#FetchBuildNumberFromFile(Flubu.ITaskContext)">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2011-07-28 08:48:34Z">
+              <Issue>
+               <Item>'BuildTargets.FetchBuildNumberFromFile(ITaskContext)'</Item>
+               <Item>'object'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="#IncrementBuildNumberInFile(Flubu.ITaskContext)">
+            <Messages>
+             <Message Id="System.Int32.ToString" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2011-07-28 08:48:34Z">
+              <Issue>
+               <Item>'int.ToString()'</Item>
+               <Item>'BuildTargets.IncrementBuildNumberInFile(ITaskContext)'</Item>
+               <Item>'int.ToString(IFormatProvider)'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+      </Namespaces>
+     </Module>
+    </Modules>
+   </Target>
   </Targets>
   <Notes>
    <User Name="blorger">
@@ -165,6 +202,12 @@
    </User>
   </Notes>
   <Rules>
+   <Rule TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031">
+    <Resolution Name="Default">Modify {0} to catch a more specific exception than {1} or rethrow the exception.</Resolution>
+   </Rule>
+   <Rule TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305">
+    <Resolution Name="Default">Because the behavior of {0} could vary based on the current user's locale settings, replace this call in {1} with a call to {2}. If the result of {2} will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Resolution>
+   </Rule>
    <Rule TypeName="StringUriOverloadsCallSystemUriOverloads" Category="Microsoft.Design" CheckId="CA1057">
     <Resolution Name="Default">Refactor {0} so that it builds a System.Uri object from {1}, and then calls {2}.</Resolution>
    </Rule>
