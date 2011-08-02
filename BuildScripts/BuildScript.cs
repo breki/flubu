@@ -28,9 +28,14 @@ namespace BuildScripts
                 .SetDescription("Rebuilds the project, runs tests and packages the build products.")
                 .SetAsDefault().DependsOn("compile", "fxcop", "unit.tests", "package");
 
-            using (TaskSession session = new TaskSession(new SimpleTaskContextProperties(), targetTree))
+            targetTree.GetTarget("fetch.build.version")
+                .Do(TargetFetchBuildVersion);
+
+            using (TaskSession session = new TaskSession(new SimpleTaskContextProperties(), args, targetTree))
             {
                 BuildTargets.FillDefaultProperties(session);
+                //session.Properties.Set (BuildProps.TargetDotNetVersion, FlubuEnvironment.Net20VersionNumber);
+
                 session.Start(BuildTargets.OnBuildFinished);
 
                 session.AddLogger(new MulticoloredConsoleLogger(Console.Out));
@@ -75,6 +80,14 @@ namespace BuildScripts
             }
         }
 
+        private static void TargetFetchBuildVersion(ITaskContext context)
+        {
+            Version version = BuildTargets.FetchBuildVersionFromFile(context);
+            version = new Version(version.Major, version.Minor, BuildTargets.FetchBuildNumberFromFile(context));
+            context.Properties.Set(BuildProps.BuildVersion, version);
+            context.WriteInfo("The build version will be {0}", version);
+        }
+
         private static void TargetPackage(ITaskContext context)
         {
             FullPath zipPackagePath = new FullPath(context.Properties.Get(BuildProps.ProductRootDir, "."));
@@ -105,6 +118,8 @@ namespace BuildScripts
                 null,
                 "bin");
             zipProcessor.Process(packageDef);
+
+            BuildTargets.IncrementBuildNumberInFile(context);
         }
     }
 }

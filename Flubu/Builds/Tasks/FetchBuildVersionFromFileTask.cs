@@ -47,7 +47,7 @@ namespace Flubu.Builds.Tasks
                 }
             }
 
-            context.WriteInfo("Project build version: {0}", buildVersion);
+            context.WriteInfo("Project build version (from file): {0}", buildVersion);
         }
 
         private Version buildVersion;

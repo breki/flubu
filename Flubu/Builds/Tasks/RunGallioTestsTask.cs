@@ -93,8 +93,8 @@ namespace Flubu.Builds.Tasks
             if (false == String.IsNullOrEmpty(filter))
                 gallioTask.AddArgument("/filter:{0}", filter);
 
-            if (context.Properties.Has(BuildProps.TargetDotNetVersion))
-                gallioTask.AddArgument("/rv:{0}", context.Properties.Get<string>(BuildProps.TargetDotNetVersion));
+            if (context.Properties.Has(BuildProps.TargetDotNetVersionForGallio))
+                gallioTask.AddArgument ("/rv:{0}", context.Properties.Get<string> (BuildProps.TargetDotNetVersionForGallio));
 
             gallioTask.Execute(context);
 

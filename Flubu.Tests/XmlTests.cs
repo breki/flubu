@@ -12,7 +12,7 @@ namespace Flubu.Tests
         [Test]
         public void FindOne()
         {
-            ITaskContext c = new TaskContext(new SimpleTaskContextProperties());
+            ITaskContext c = new TaskContext (new SimpleTaskContextProperties (), new string[0]);
             ITask peek = new PeekXmlTask(SampleXmlFile, "//id", ConfigurationSetting);
             peek.Execute(c);
             Assert.AreEqual("2011-02-18_12-16-21", c.Properties[ConfigurationSetting]);
@@ -21,7 +21,7 @@ namespace Flubu.Tests
         [Test]
         public void FindMultiple()
         {
-            ITaskContext c = new TaskContext(new SimpleTaskContextProperties());
+            ITaskContext c = new TaskContext (new SimpleTaskContextProperties (), new string[0]);
             ITask peek = new PeekXmlTask(SampleXmlFile, "//revision", ConfigurationSetting);
             peek.Execute(c);
             Assert.AreEqual(
@@ -32,7 +32,7 @@ namespace Flubu.Tests
         [Test]
         public void FindNone()
         {
-            ITaskContext c = new TaskContext(new SimpleTaskContextProperties());
+            ITaskContext c = new TaskContext (new SimpleTaskContextProperties (), new string[0]);
             ITask peek = new PeekXmlTask(SampleXmlFile, "/trtwe/rwetr", ConfigurationSetting);
             peek.Execute(c);
             Assert.IsNull(c.Properties[ConfigurationSetting]);

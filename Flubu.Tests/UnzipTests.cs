@@ -88,7 +88,7 @@ namespace Flubu.Tests
         {
             unzip.FileFilter = "t";
             unzip.DirectoryFilter = @"-Debug";
-            ITaskContext c = new TaskContext(new SimpleTaskContextProperties());
+            ITaskContext c = new TaskContext (new SimpleTaskContextProperties (), new string[0]);
             unzip.Execute(c);
             TestExtractedFiles();
         }

@@ -22,3 +22,4 @@ glob:*.vs10x
 glob:Flubu2010.5.1.ReSharper.user
 glob:Flubu2010.suo
 glob:_ReSharper.Flubu2010
+glob:*.BuildNumber.txt
