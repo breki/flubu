@@ -16,7 +16,7 @@ namespace Flubu.Tests
                 .Do(TargetCompile).DependsOn("load.solution");
 
             ITarget target = targetTree.GetTarget("compile");
-            using (ITaskSession session = new TaskSession(new SimpleTaskContextProperties()))
+            using (ITaskSession session = new TaskSession(new SimpleTaskContextProperties(), new string[0]))
             {
                 session.Start(OnBuildFinished);
                 NotifyUserTask task = new NotifyUserTask("message");

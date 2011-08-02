@@ -22,7 +22,8 @@ namespace Flubu.Builds
 
             targetTree.AddTarget("before.compile")
                 .SetDescription("Steps before compiling the VS solution")
-                .DependsOn("prepare.build.dir", "load.solution", "clean.output", "fetch.build.version", "generate.commonassinfo");
+                .DependsOn("prepare.build.dir", "load.solution", "clean.output", "generate.commonassinfo")
+                .SetAsHidden();
 
             targetTree.AddTarget("compile")
                 .SetDescription("Compile the VS solution")
@@ -31,7 +32,7 @@ namespace Flubu.Builds
 
             targetTree.AddTarget("fetch.build.version")
                 .SetDescription("Fetch the build version")
-                .Do(TargetFetchBuildVersion);
+                .SetAsHidden();
 
             targetTree.AddTarget("fxcop")
                 .SetDescription("Run FxCop")
@@ -39,15 +40,18 @@ namespace Flubu.Builds
 
             targetTree.AddTarget("generate.commonassinfo")
                 .SetDescription("Generate CommonAssemblyInfo.cs file")
+                .DependsOn("fetch.build.version")
                 .Do(TargetGenerateCommonAssemblyInfo);
 
             targetTree.AddTarget("load.solution")
                 .SetDescription("Load & analyze VS solution")
-                .Do(TargetLoadSolution);
+                .Do(TargetLoadSolution)
+                .SetAsHidden ();
 
             targetTree.AddTarget("prepare.build.dir")
                 .SetDescription("Prepare the build directory")
-                .Do(TargetPrepareBuildDir);
+                .Do(TargetPrepareBuildDir)
+                .SetAsHidden ();
         }
 
         public static void FillDefaultProperties (ITaskContext context)
@@ -59,6 +63,94 @@ namespace Flubu.Builds
             context.Properties.Set(BuildProps.LibDir, "lib");
             context.Properties.Set(BuildProps.ProductRootDir, ".");
             context.Properties.Set(BuildProps.TargetDotNetVersion, FlubuEnvironment.Net35VersionNumber);
+        }
+
+        public static Version FetchBuildVersionFromFile (ITaskContext context)
+        {
+            string productRootDir = context.Properties.Get (BuildProps.ProductRootDir, ".");
+            string productId = context.Properties.Get<string> (BuildProps.ProductId);
+
+            IFetchBuildVersionTask task = new FetchBuildVersionFromFileTask (productRootDir, productId);
+            task.Execute (context);
+            return task.BuildVersion;
+        }
+
+        [SuppressMessage ("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
+        public static int FetchBuildNumberFromFile (ITaskContext context)
+        {
+            string productRootDir = context.Properties.Get (BuildProps.ProductRootDir, ".");
+            string productId = context.Properties.Get<string> (BuildProps.ProductId);
+            string projectBuildNumberFileName = Path.Combine (productRootDir, productId + ".BuildNumber.txt");
+
+            if (false == File.Exists (projectBuildNumberFileName))
+                return 1;
+
+            using (Stream stream = File.Open (projectBuildNumberFileName, FileMode.Open))
+            {
+                using (StreamReader reader = new StreamReader (stream))
+                {
+                    string buildNumberAsString = reader.ReadLine ();
+                    try
+                    {
+                        return int.Parse(buildNumberAsString, CultureInfo.InvariantCulture);
+                    }
+                    catch
+                    {
+                        return 1;
+                    }
+                }
+            }
+        }
+
+        public static void IncrementBuildNumberInFile (ITaskContext context)
+        {
+            string productRootDir = context.Properties.Get (BuildProps.ProductRootDir, ".");
+            string productId = context.Properties.Get<string> (BuildProps.ProductId);
+            string projectBuildNumberFileName = Path.Combine (productRootDir, productId + ".BuildNumber.txt");
+
+            int nextBuildNumber = context.Properties.Get<Version>(BuildProps.BuildVersion).Build + 1;
+            File.WriteAllText(projectBuildNumberFileName, nextBuildNumber.ToString(CultureInfo.InvariantCulture));
+
+            context.WriteInfo("Incrementing the next build number to {0}", nextBuildNumber);
+        }
+
+        public static Version FetchBuildVersionFromHudson (ITaskContext context)
+        {
+            string productRootDir = context.Properties.Get (BuildProps.ProductRootDir, ".");
+            string productId = context.Properties.Get<string> (BuildProps.ProductId);
+
+            VersionControlSystem versionControlSystem = context.Properties.Get<VersionControlSystem> (
+                BuildProps.VersionControlSystem);
+
+            IFetchBuildVersionTask task = new FetchBuildVersionFromHudsonTask (
+                productRootDir,
+                productId,
+                v =>
+                {
+                    int hudsonBuildNumber = HudsonHelper.BuildNumber;
+                    int revisionNumber;
+
+                    switch (versionControlSystem)
+                    {
+                        case VersionControlSystem.Subversion:
+                            revisionNumber = HudsonHelper.SvnRevision;
+                            break;
+                        case VersionControlSystem.Mercurial:
+                            revisionNumber = 0;
+                            break;
+                        default:
+                            throw new NotSupportedException ();
+                    }
+
+                    return new Version (
+                        v.Major,
+                        v.Minor,
+                        revisionNumber,
+                        hudsonBuildNumber);
+                });
+
+            task.Execute (context);
+            return task.BuildVersion;
         }
 
         public static void OnBuildFinished (ITaskSession session)
@@ -171,50 +263,6 @@ namespace Flubu.Builds
                 buildConfiguration,
                 targetDotNetVersion);
             task.Execute(context);
-        }
-
-        public static void TargetFetchBuildVersion(ITaskContext context)
-        {
-            string productRootDir = context.Properties.Get(BuildProps.ProductRootDir, ".");
-            string productId = context.Properties.Get<string>(BuildProps.ProductId);
-
-            VersionControlSystem versionControlSystem = context.Properties.Get<VersionControlSystem>(
-                BuildProps.VersionControlSystem);
-
-            IFetchBuildVersionTask task = null;
-            if (HudsonHelper.IsRunningUnderHudson)
-                task = new FetchBuildVersionFromHudsonTask(
-                    productRootDir, 
-                    productId,
-                    v =>
-                        {
-                            int hudsonBuildNumber = HudsonHelper.BuildNumber;
-                            int revisionNumber;
-
-                            switch (versionControlSystem)
-                            {
-                                case VersionControlSystem.Subversion:
-                                    revisionNumber = HudsonHelper.SvnRevision;
-                                    break;
-                                case VersionControlSystem.Mercurial:
-                                    revisionNumber = 0;
-                                    break;
-                                default:
-                                    throw new NotSupportedException();
-                            }
-
-                            return new Version(
-                                v.Major,
-                                v.Minor,
-                                revisionNumber,
-                                hudsonBuildNumber);
-                        });
-            else
-                task = new FetchBuildVersionFromFileTask(productRootDir, productId);
-
-            task.Execute(context);
-
-            context.Properties.Set(BuildProps.BuildVersion, task.BuildVersion);
         }
 
         public static void TargetFxcop(ITaskContext context)

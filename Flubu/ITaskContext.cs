@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
 
 namespace Flubu
 {
     public interface ITaskContext : IDisposable
     {
         ITaskContextProperties Properties { get; }
+        IList<string> Args { get; }
 
         void DecreaseDepth();
         void Fail(string message);
