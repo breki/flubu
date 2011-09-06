@@ -6,10 +6,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		Build.bat = Build.bat
 		CustomDictionary.xml = CustomDictionary.xml
 		EditStyleCopRules.bat = EditStyleCopRules.bat
-		Flubu.FxCop = Flubu.FxCop
 		Flubu.ProjectVersion.txt = Flubu.ProjectVersion.txt
 		Settings.StyleCop = Settings.StyleCop
-		todo.txt = todo.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flubu", "Flubu\Flubu.csproj", "{5E8B73D7-B9DC-4DCF-93B6-4BFB5E845575}"
