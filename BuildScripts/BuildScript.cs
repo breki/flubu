@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Globalization;
+using System.IO;
+using System.Text;
 using Flubu;
 using Flubu.Builds;
 using Flubu.Builds.VSSolutionBrowsing;
 using Flubu.Packaging;
 using Flubu.Targeting;
+using Flubu.Tasks.Processes;
+using Flubu.Tasks.Text;
 
 //css_ref Flubu.dll;
 //css_ref Flubu.Contrib.dll;
@@ -31,11 +36,16 @@ namespace BuildScripts
             targetTree.GetTarget("fetch.build.version")
                 .Do(TargetFetchBuildVersion);
 
+            targetTree.AddTarget("nuget")
+                .SetDescription("Produces NuGet packages for reusable components and publishes them to the NuGet server")
+                .Do(c =>
+                {
+                    TargetNuGet(c, "Flubu");
+                }).DependsOn("fetch.build.version");
+
             using (TaskSession session = new TaskSession(new SimpleTaskContextProperties(), args, targetTree))
             {
                 BuildTargets.FillDefaultProperties(session);
-                //session.Properties.Set (BuildProps.TargetDotNetVersion, FlubuEnvironment.Net20VersionNumber);
-
                 session.Start(BuildTargets.OnBuildFinished);
 
                 session.AddLogger(new MulticoloredConsoleLogger(Console.Out));
@@ -80,46 +90,114 @@ namespace BuildScripts
             }
         }
 
-        private static void TargetFetchBuildVersion(ITaskContext context)
-        {
-            Version version = BuildTargets.FetchBuildVersionFromFile(context);
-            version = new Version(version.Major, version.Minor, BuildTargets.FetchBuildNumberFromFile(context));
-            context.Properties.Set(BuildProps.BuildVersion, version);
-            context.WriteInfo("The build version will be {0}", version);
-        }
-
         private static void TargetPackage(ITaskContext context)
         {
-            FullPath zipPackagePath = new FullPath(context.Properties.Get(BuildProps.ProductRootDir, "."));
-            zipPackagePath = zipPackagePath.CombineWith(context.Properties.Get<string>(BuildProps.BuildDir));
-            FileFullPath zipFileName = zipPackagePath.AddFileName(
-                "Flubu-{0}.zip", 
+            FullPath packagesDir = new FullPath(context.Properties.Get(BuildProps.ProductRootDir, "."));
+            packagesDir = packagesDir.CombineWith(context.Properties.Get<string>(BuildProps.BuildDir));
+            FullPath simplexPackageDir = packagesDir.CombineWith("Flubu");
+            FileFullPath zipFileName = packagesDir.AddFileName(
+                "Flubu-{0}.zip",
                 context.Properties.Get<Version>(BuildProps.BuildVersion));
 
             StandardPackageDef packageDef = new StandardPackageDef("Flubu", context);
             VSSolution solution = context.Properties.Get<VSSolution>(BuildProps.Solution);
 
-            VSProjectWithFileInfo projectInfo = 
+            VSProjectWithFileInfo projectInfo =
                 (VSProjectWithFileInfo)solution.FindProjectByName("Flubu.Contrib");
             LocalPath projectOutputPath = projectInfo.GetProjectOutputPath(
                 context.Properties.Get<string>(BuildProps.BuildConfiguration));
             FullPath projectTargetDir = projectInfo.ProjectDirectoryPath.CombineWith(projectOutputPath);
             packageDef.AddFolderSource(
-                "bin", 
-                projectTargetDir, 
+                "bin",
+                projectTargetDir,
                 false);
+
+            ICopier copier = new Copier(context);
+            CopyProcessor copyProcessor = new CopyProcessor(
+                 context,
+                 copier,
+                 simplexPackageDir);
+            copyProcessor
+                .AddTransformation("bin", new LocalPath(string.Empty));
+
+            IPackageDef copiedPackageDef = copyProcessor.Process(packageDef);
 
             Zipper zipper = new Zipper(context);
             ZipProcessor zipProcessor = new ZipProcessor(
                 context,
                 zipper,
                 zipFileName,
-                projectTargetDir,
+                simplexPackageDir,
                 null,
                 "bin");
-            zipProcessor.Process(packageDef);
+            zipProcessor.Process(copiedPackageDef);
+        }
 
-            BuildTargets.IncrementBuildNumberInFile(context);
+        private static void TargetFetchBuildVersion(ITaskContext context)
+        {
+            Version version = BuildTargets.FetchBuildVersionFromFile(context);
+            context.Properties.Set(BuildProps.BuildVersion, version);
+            context.WriteInfo("The build version will be {0}", version);
+        }
+
+        private static void TargetNuGet(ITaskContext context, string nugetId)
+        {
+            FullPath packagesDir = new FullPath(context.Properties.Get(BuildProps.ProductRootDir, "."));
+            packagesDir = packagesDir.CombineWith(context.Properties.Get<string>(BuildProps.BuildDir));
+
+            string sourceNuspecFile = string.Format(
+                CultureInfo.InvariantCulture,
+                @"{0}\{0}.nuspec",
+                nugetId);
+            FileFullPath destNuspecFile = packagesDir.AddFileName("{0}.nuspec", nugetId);
+
+            context.WriteInfo("Preparing the {0} file", destNuspecFile);
+            ExpandPropertiesTask task = new ExpandPropertiesTask(
+                sourceNuspecFile,
+                destNuspecFile.ToString(),
+                Encoding.UTF8,
+                Encoding.UTF8);
+            task.AddPropertyToExpand("version", context.Properties.Get<Version>(BuildProps.BuildVersion).ToString());
+            task.Execute(context);
+
+            // package it
+            context.WriteInfo("Creating a NuGet package file");
+            RunProgramTask progTask = new RunProgramTask(@"lib\NuGet\NuGet.exe");
+            progTask.SetWorkingDir(destNuspecFile.Directory.ToString());
+            progTask
+                .AddArgument("pack")
+                .AddArgument(destNuspecFile.FileName)
+                .AddArgument("-Verbose")
+                .Execute(context);
+
+            string nupkgFileName = string.Format(
+                CultureInfo.InvariantCulture,
+                "{0}.{1}.nupkg",
+                nugetId,
+                context.Properties.Get<Version>(BuildProps.BuildVersion));
+            context.WriteInfo("NuGet package file {0} created", nupkgFileName);
+
+            string apiKeyFileName = "NuGet API key.txt";
+            if (!File.Exists(apiKeyFileName))
+            {
+                context.WriteInfo("'NuGet API key.txt' does not exist, cannot publish the package.");
+                return;
+            }
+
+            string apiKey = File.ReadAllText(apiKeyFileName);
+
+            // publish the package file
+            context.WriteInfo("Pushing the NuGet package to the repository");
+
+            progTask = new RunProgramTask(@"lib\NuGet\NuGet.exe");
+            progTask.SetWorkingDir(destNuspecFile.Directory.ToString());
+            progTask
+                .AddArgument("push")
+                .AddArgument(nupkgFileName)
+                .AddArgument(apiKey)
+                .AddArgument("-Source")
+                .AddArgument("http://packages.nuget.org/v1/")
+                .Execute(context);
         }
     }
 }
