@@ -24,3 +24,6 @@ glob:Flubu2010.suo
 glob:_ReSharper.Flubu2010
 glob:*.BuildNumber.txt
 glob:NuGet API key.txt
+syntax: glob
+Flubu2010.6.0.ReSharper.user
+Flubu2010.sln.docstates.suo
