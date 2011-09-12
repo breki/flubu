@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Messaging;
 
 namespace Flubu.Tasks.Msmq
@@ -34,6 +33,22 @@ namespace Flubu.Tasks.Msmq
         public override string Description
         {
             get { return string.Format (System.Globalization.CultureInfo.InvariantCulture, "Create message queue '{0}'", messageQueuePath); }
+        }
+
+        public static void Execute(
+            ITaskContext context,
+            string messageQueuePath,
+            bool isTransactional,
+            CreateMessageQueueMode mode,
+            string userName,
+            MessageQueueAccessRights accessRights)
+        {
+            CreateMessageQueueTask task = new CreateMessageQueueTask(messageQueuePath, isTransactional, mode)
+                {
+                    UserName = userName,
+                    AccessRights = accessRights
+                };
+            task.Execute(context);
         }
 
         /// <summary>
@@ -88,8 +103,8 @@ namespace Flubu.Tasks.Msmq
             }
         }
 
-        private string messageQueuePath;
-        private bool isTransactional;
+        private readonly string messageQueuePath;
+        private readonly bool isTransactional;
         private CreateMessageQueueMode mode;
         private string userName;
         private MessageQueueAccessRights accessRights;
