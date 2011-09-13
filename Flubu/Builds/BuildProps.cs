@@ -10,6 +10,7 @@
         public const string CompanyName = "CompanyName";
         public const string CompanyTrademark = "CompanyTrademark";
         public const string FxcopDir = "FxcopDir";
+        public const string GallioEchoPath = "GallioEchoPath";
         public const string LibDir = "LibDir";
         public const string ProductId = "ProductId";
         public const string ProductName = "ProductName";
