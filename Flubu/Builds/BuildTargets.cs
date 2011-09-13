@@ -60,6 +60,7 @@ namespace Flubu.Builds
             context.Properties.Set(BuildProps.BuildDir, "Builds");
             context.Properties.Set(BuildProps.BuildLogsDir, @"Builds\BuildLogs");
             context.Properties.Set(BuildProps.FxcopDir, "Microsoft FxCop 1.36");
+            context.Properties.Set(BuildProps.GallioEchoPath, @"lib\Gallio\bin\Gallio.Echo.exe");
             context.Properties.Set(BuildProps.LibDir, "lib");
             context.Properties.Set(BuildProps.ProductRootDir, ".");
             context.Properties.Set(BuildProps.TargetDotNetVersion, FlubuEnvironment.Net35VersionNumber);
@@ -346,7 +347,7 @@ namespace Flubu.Builds
                 projectName,
                 context.Properties.Get<VSSolution>(BuildProps.Solution),
                 context.Properties.Get<string>(BuildProps.BuildConfiguration),
-                @"lib\Gallio\bin\Gallio.Echo.exe",
+                context.Properties.Get<string>(BuildProps.GallioEchoPath),
                 ref testsRunCounter,
                 buildLogsPath.ToString());
             task.Filter = filter;
