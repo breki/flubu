@@ -65,7 +65,7 @@ namespace Flubu.Tasks.Processes
             {
                 StringBuilder argumentLineBuilder = new StringBuilder();
                 foreach (string programArg in programArgs)
-                    argumentLineBuilder.AppendFormat("\"{0}\" ", programArg);
+                    argumentLineBuilder.AppendFormat("{0} ", programArg);
 
                 ProcessStartInfo processStartInfo = new ProcessStartInfo(programExePath, argumentLineBuilder.ToString());
                 processStartInfo.CreateNoWindow = true;

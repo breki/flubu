@@ -148,6 +148,7 @@
     <Compile Include="Tasks\Iis\IisMaster.cs" />
     <None Include="Tasks\SqlServer\ExecuteSqlFileTask.cs" />
     <None Include="Tasks\SqlServer\ExecuteSqlCommandTask.cs" />
+    <Compile Include="Tasks\Misc\CreateCertificateTask.cs" />
     <Compile Include="Tasks\Virtual\CloneMachineTask.cs" />
     <Compile Include="Tasks\Virtual\CreateDiskTask.cs" />
     <Compile Include="Tasks\Virtual\CreateDiskType.cs" />
