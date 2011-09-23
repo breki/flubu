@@ -8,15 +8,25 @@ namespace Flubu.Tasks.Processes
 {
     public class RunProgramTask : TaskBase
     {
+        private readonly bool ignoreExitCodes;
+        private readonly List<string> programArgs = new List<string>();
+        private readonly string programExePath;
+        private bool encloseInQuotes;
+        private ITaskContext internalContext;
+        private int lastExitCode;
+        private string workingDirectory = ".";
+
         public RunProgramTask(string programExePath)
         {
             this.programExePath = programExePath;
+            encloseInQuotes = true;
         }
 
         public RunProgramTask(string programExePath, bool ignoreExitCodes)
         {
             this.programExePath = programExePath;
             this.ignoreExitCodes = ignoreExitCodes;
+            encloseInQuotes = true;
         }
 
         public override string Description
@@ -33,6 +43,12 @@ namespace Flubu.Tasks.Processes
             get { return lastExitCode; }
         }
 
+        public RunProgramTask EncloseParamsInQuotes(bool enclose)
+        {
+            encloseInQuotes = enclose;
+            return this;
+        }
+
         public RunProgramTask AddArgument(string argument)
         {
             programArgs.Add(argument);
@@ -45,9 +61,9 @@ namespace Flubu.Tasks.Processes
             return this;
         }
 
-        public RunProgramTask SetWorkingDir(string workingDirectory)
+        public RunProgramTask SetWorkingDir(string fullPath)
         {
-            this.workingDirectory = workingDirectory;
+            workingDirectory = fullPath;
             return this;
         }
 
@@ -59,25 +75,23 @@ namespace Flubu.Tasks.Processes
 
         protected override void DoExecute(ITaskContext context)
         {
-            this.context = context;
-
-            using (Process process = new Process())
+            internalContext = context;
+            string formatString = encloseInQuotes ? "\"{0}\" " : "{0} ";
+            using (var process = new Process())
             {
-                StringBuilder argumentLineBuilder = new StringBuilder();
+                var argumentLineBuilder = new StringBuilder();
                 foreach (string programArg in programArgs)
-                    argumentLineBuilder.AppendFormat("{0} ", programArg);
+                    argumentLineBuilder.AppendFormat(formatString, programArg);
 
-                ProcessStartInfo processStartInfo = new ProcessStartInfo(programExePath, argumentLineBuilder.ToString());
-                processStartInfo.CreateNoWindow = true;
-                processStartInfo.ErrorDialog = false;
-                processStartInfo.RedirectStandardError = true;
-                processStartInfo.RedirectStandardOutput = true;
-                processStartInfo.UseShellExecute = false;
-
-                if (workingDirectory == null)
-                    processStartInfo.WorkingDirectory = Path.GetDirectoryName(programExePath);
-                else
-                    processStartInfo.WorkingDirectory = workingDirectory;
+                var processStartInfo = new ProcessStartInfo(programExePath, argumentLineBuilder.ToString())
+                                           {
+                                               CreateNoWindow = true,
+                                               ErrorDialog = false,
+                                               RedirectStandardError = true,
+                                               RedirectStandardOutput = true,
+                                               UseShellExecute = false,
+                                               WorkingDirectory = workingDirectory ?? Path.GetDirectoryName(programExePath)
+                                           };
 
                 context.WriteInfo(
                     "Running program '{0}' (work. dir='{1}', args = '{2}')",
@@ -86,8 +100,8 @@ namespace Flubu.Tasks.Processes
                     argumentLineBuilder);
 
                 process.StartInfo = processStartInfo;
-                process.ErrorDataReceived += Process_ErrorDataReceived;
-                process.OutputDataReceived += Process_OutputDataReceived;
+                process.ErrorDataReceived += ProcessErrorDataReceived;
+                process.OutputDataReceived += ProcessOutputDataReceived;
                 process.Start();
 
                 process.BeginOutputReadLine();
@@ -104,21 +118,14 @@ namespace Flubu.Tasks.Processes
             }
         }
 
-        private void Process_ErrorDataReceived(object sender, DataReceivedEventArgs e)
+        private void ProcessErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
-            context.WriteError(e.Data);
+            internalContext.WriteError(e.Data);
         }
 
-        private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        private void ProcessOutputDataReceived(object sender, DataReceivedEventArgs e)
         {
-            context.WriteMessage(TaskMessageLevel.Debug, e.Data);
+            internalContext.WriteMessage(TaskMessageLevel.Debug, e.Data);
         }
-
-        private ITaskContext context;
-        private readonly bool ignoreExitCodes;
-        private int lastExitCode;
-        private readonly string programExePath;
-        private List<string> programArgs = new List<string>();
-        private string workingDirectory = ".";
     }
 }

@@ -1,13 +1,40 @@
-﻿using Flubu;
+﻿using System.Globalization;
 using Flubu.Tasks.Processes;
 
-namespace Build
+namespace Flubu.Tasks.Misc
 {
     public class CreateCertificateTask : TaskBase
     {
-        public CreateCertificateTask()
+        public CreateCertificateTask(string commonName)
         {
             ExecutablePath = ".\\lib\\certificates\\makecert.exe";
+            CertCommonName = commonName;
+            AuthorityCertificateFile = ".\\LocalAuthority.cer";
+            AuthorityPrivateKeyFile = ".\\LocalAuthority.pvk";
+        }
+
+        protected string AuthorityPrivateKeyFile { get; set; }
+
+
+        protected string AuthorityCertificateFile { get; set; }
+
+        protected string OutputFile { get; set; }
+
+        protected string CertCommonName { get; set; }
+
+        protected CertificateType CertType { get; set; }
+
+        protected string ExecutablePath { get; set; }
+
+        public override string Description
+        {
+            get
+            {
+                return string.Format(CultureInfo.InvariantCulture,
+                    "Create certificate CN={0} at {1}",
+                    CertCommonName,
+                    OutputFile);
+            }
         }
 
         public CreateCertificateTask Executable(string fullPath)
@@ -28,36 +55,72 @@ namespace Build
             return this;
         }
 
-        protected string CertCommonName { get; set; }
+        public CreateCertificateTask Output(string fullPath)
+        {
+            OutputFile = fullPath;
+            return this;
+        }
 
-        protected CertificateType CertType { get; set; }
+        public CreateCertificateTask AuthorityCertFile(string fullPath)
+        {
+            AuthorityCertificateFile = fullPath;
+            return this;
+        }
 
-        protected string ExecutablePath { get; set; }
+        public CreateCertificateTask AuthorityKeyFile(string fullPath)
+        {
+            AuthorityPrivateKeyFile = fullPath;
+            return this;
+        }
 
         protected override void DoExecute(ITaskContext context)
         {
-            RunProgramTask task = new RunProgramTask(ExecutablePath);
+            var task = new RunProgramTask(ExecutablePath);
 
-            if (CertType == Build.CertificateType.Authority)
+            if (string.IsNullOrEmpty(CertCommonName))
+                throw new TaskExecutionException("Certificate common name must be set.");
+
+            task
+                .AddArgument("-n \"CN={0}\"", CertCommonName)
+                .AddArgument("-cy {0}", CertType == Misc.CertificateType.Authority ? "authority" : "end");
+
+            if (CertType == Misc.CertificateType.Authority)
             {
-                if(string.IsNullOrEmpty(CertCommonName))
-                    throw new TaskExecutionException("Certificate common name must be set.");
                 task
-                    .AddArgument("-n \"CN={0}\"", CertCommonName)
-                    .AddArgument("-cy authority")
-                    .AddArgument("-sv \"{0}.pvk\"", CertCommonName)
+                    .AddArgument("-sv \"{0}\"", AuthorityPrivateKeyFile)
                     .AddArgument("-r")
-                    .AddArgument("\"{0}.cer\"", CertCommonName);
+                    .AddArgument("\"{0}\"", AuthorityCertificateFile);
             }
-            else if(CertType == Build.CertificateType.Server)
-            {}
+            else
+            {
+                if (string.IsNullOrEmpty(OutputFile))
+                    throw new TaskExecutionException("Output filename must be set.");
 
-            task.Execute(context);
-        }
+                task.AddArgument("-pe")
+                    .AddArgument("-a sha1")
+                    .AddArgument("-sky exchange")
+                    .AddArgument("-sy 12")
+                    .AddArgument("-sp \"Microsoft RSA SChannel Cryptographic Provider\"")
+                    .AddArgument("-ss My")
+                    .AddArgument("-ic \"{0}\"", AuthorityCertificateFile)
+                    .AddArgument("-iv \"{0}\"", AuthorityPrivateKeyFile);
 
-        public override string Description
-        {
-            get { return "Create certificate"; }
+                if (CertType == Misc.CertificateType.Server)
+                {
+                    task.AddArgument("-eku 1.3.6.1.5.5.7.3.1")
+                        .AddArgument("-sr localmachine");
+                }
+                else
+                {
+                    task.AddArgument("-eku 1.3.6.1.5.5.7.3.2")
+                        .AddArgument("-sr currentuser")
+                        .AddArgument("-sk \"{0}\"", CertCommonName)
+                        .AddArgument("-ir localmachine");
+                }
+
+                task.AddArgument("\"{0}\"", OutputFile)
+                    .Execute(context);
+            }
         }
     }
 
