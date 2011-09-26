@@ -4,7 +4,7 @@ using Flubu.Tasks.Processes;
 namespace Flubu.Tasks.Misc
 {
     /// <summary>
-    /// Task for creating developement self signed certificates.
+    /// Task for creating developement self signed certificates. Task uses makecert.exe utility.
     /// Authority certificate and .pvk should be created only once and should be added to source code.
     /// When creating authority certificate makecert will ask for a private key password, you should select none.
     /// Example code for creating all certificates.
