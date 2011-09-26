@@ -43,7 +43,7 @@ namespace Flubu.Tasks.Processes
             get { return lastExitCode; }
         }
 
-        public RunProgramTask EncloseParamsInQuotes(bool enclose)
+        public RunProgramTask EncloseParametersInQuotes(bool enclose)
         {
             encloseInQuotes = enclose;
             return this;

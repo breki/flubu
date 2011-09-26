@@ -105,7 +105,7 @@ namespace Flubu.Tasks.Misc
                 throw new TaskExecutionException("Certificate common name must be set.");
 
             task
-                .EncloseParametersInQuotes(false)
+                .EncloseParamsInQuotes(false)
                 .AddArgument("-n \"CN={0}\"", CertCommonName)
                 .AddArgument("-cy {0}", CertType == Misc.CertificateType.Authority ? "authority" : "end");
 

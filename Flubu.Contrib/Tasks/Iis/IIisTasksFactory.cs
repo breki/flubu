@@ -6,5 +6,6 @@ namespace Flubu.Tasks.Iis
         IControlAppPoolTask ControlAppPoolTask { get; }
         ICreateAppPoolTask CreateAppPoolTask { get; }
         IDeleteAppPoolTask DeleteAppPoolTask { get; }
+        IAddWebsiteBindingTask AddWebsiteBindingTask { get; }
     }
 }
