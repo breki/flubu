@@ -2,6 +2,7 @@
 {
     public static class BuildProps
     {
+        public const string AutoAssemblyVersion = "AutoAssemblyVersion";
         public const string BuildConfiguration = "BuildConfiguration";
         public const string BuildDir = "BuildDir";
         public const string BuildLogsDir = "BuildLogsDir";
