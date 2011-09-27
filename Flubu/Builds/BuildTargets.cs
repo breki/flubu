@@ -295,6 +295,7 @@ namespace Flubu.Builds
             string productId = context.Properties.Get<string>(BuildProps.ProductId);
             string productName = context.Properties.Get(BuildProps.ProductName, productId);
             string productRootDir = context.Properties.Get(BuildProps.ProductRootDir, ".");
+            bool generateAssemblyVersion = context.Properties.Get(BuildProps.AutoAssemblyVersion, true);
 
             GenerateCommonAssemblyInfoTask task = new GenerateCommonAssemblyInfoTask(productRootDir, buildVersion);
             task.BuildConfiguration = buildConfiguration;
@@ -303,6 +304,7 @@ namespace Flubu.Builds
             task.CompanyTrademark = companyTrademark;
             task.GenerateConfigurationAttribute = true;
             task.ProductName = productName;
+            task.GenerateAssemblyVersion = generateAssemblyVersion;
             task.Execute(context);
         }
 
