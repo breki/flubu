@@ -1,5 +1,3 @@
-using log4net.Repository.Hierarchy;
-
 namespace Flubu.Packaging
 {
     public class StandardPackageDef : CompositeFilesSource, IPackageDef
@@ -44,12 +42,12 @@ namespace Flubu.Packaging
         {
             DirectorySource source = new DirectorySource(taskContext, fileLister, id, directoryName, recursive);
             source.SetFilter(new NegativeFilter(
-                    new RegexFileFilter(@"^.*\.(svc|asax|config|aspx|ascx|css|js|gif|PNG)$")));
+                    new RegexFileFilter(@"^.*\.(svc|asax|config|aspx|ascx|css|js|gif|png|jpg|jpeg|Master)$")));
             AddFilesSource(source);
             return this;
         }
 
-        private ITaskContext taskContext;
-        private IDirectoryFilesLister fileLister = new DirectoryFilesLister();
+        private readonly ITaskContext taskContext;
+        private readonly IDirectoryFilesLister fileLister = new DirectoryFilesLister();
     }
 }

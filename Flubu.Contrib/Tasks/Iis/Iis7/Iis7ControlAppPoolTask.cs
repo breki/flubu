@@ -53,7 +53,10 @@ namespace Flubu.Tasks.Iis.Iis7
                                 RunWithRetries(x => applicationPool.Start(), 3);
                                 break;
                             case ControlApplicationPoolAction.Stop:
-                                RunWithRetries(x => applicationPool.Stop(), 3, 0x80070426);
+                                RunWithRetries(
+                                    x => applicationPool.Stop(),
+                                    3,
+                                    -2147023834 /*app pool already stopped*/);
                                 break;
                             case ControlApplicationPoolAction.Recycle:
                                 RunWithRetries(x => applicationPool.Recycle(), 3);
@@ -65,8 +68,8 @@ namespace Flubu.Tasks.Iis.Iis7
                         serverManager.CommitChanges();
 
                         context.WriteInfo(
-                            "Application pool '{0}' has been deleted.",
-                            ApplicationPoolName);
+                            "Application pool '{0}' has been {1}ed.",
+                            ApplicationPoolName, action);
 
                         return;
                     }
@@ -87,7 +90,7 @@ namespace Flubu.Tasks.Iis.Iis7
         private static void RunWithRetries(
             Action<int> action, 
             int retries, 
-            params uint[] ignoredErrorCodes)
+            params long[] ignoredErrorCodes)
         {
             for (int i = 0; i < retries; i++)
             {

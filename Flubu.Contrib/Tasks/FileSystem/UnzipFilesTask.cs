@@ -51,6 +51,11 @@ namespace Flubu.Tasks.FileSystem
             this.destinationDirectory = destinationDirectory;
         }
 
+        public static void Execute(ITaskContext context, string zipFileName, string destinationDirectory)
+        {
+            new UnzipFilesTask(zipFileName, destinationDirectory).Execute(context);
+        }
+
         /// <summary>
         /// Gets or sets file name filter for extracted files.
         /// </summary>

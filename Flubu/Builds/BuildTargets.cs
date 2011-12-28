@@ -8,6 +8,7 @@ using Flubu.Builds.Tasks;
 using Flubu.Builds.VSSolutionBrowsing;
 using Flubu.Targeting;
 using Flubu.Tasks.FileSystem;
+using Flubu.Tasks.Tests;
 
 namespace Flubu.Builds
 {
@@ -353,6 +354,26 @@ namespace Flubu.Builds
                 ref testsRunCounter,
                 buildLogsPath.ToString());
             task.Filter = filter;
+            task.Execute(context);
+        }
+
+        [SuppressMessage("Microsoft.Design", "CA1045:DoNotPassTypesByReference", MessageId = "3#")]
+        public static void TargetRunNUnitTests(
+            ITaskContext context,
+            string projectName,
+            string filter,
+            ref int testsRunCounter)
+        {
+            //FullPath buildLogsPath = new FullPath(context.Properties[BuildProps.ProductRootDir])
+            //    .CombineWith(context.Properties[BuildProps.BuildLogsDir]);
+            var solution = context.Properties.Get<VSSolution>(BuildProps.Solution);
+            VSProjectWithFileInfo project = (VSProjectWithFileInfo)solution.FindProjectByName(projectName);
+            var buildConfiguration = context.Properties.Get<string>(BuildProps.BuildConfiguration);
+            var testFileName =
+                project.ProjectDirectoryPath.CombineWith(project.GetProjectOutputPath(buildConfiguration)).
+                    AddFileName("{0}.dll", project.ProjectName);
+
+            NUnitTask task = new NUnitTask(Path.GetDirectoryName(testFileName.ToString()), Path.GetFileName(testFileName.ToString()));
             task.Execute(context);
         }
     }

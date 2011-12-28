@@ -6,4 +6,5 @@
   <InstrumentAssembly>true</InstrumentAssembly>
   <DefaultTestTimeout>60000</DefaultTestTimeout>
   <UseBuildConfiguration />
+  <AdditionalFilesToInclude>..\lib\Microsoft StyleCop\*.*;..\Settings.StyleCop</AdditionalFilesToInclude>
 </ProjectConfiguration>

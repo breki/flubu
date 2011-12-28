@@ -29,8 +29,8 @@ namespace Flubu.Tasks.WindowsServices
             string serviceName,
             bool failIfNotExist)
         {
-            RemoveWindowsServiceTask task = new RemoveWindowsServiceTask(serviceName, failIfNotExist);
-            task.DoExecute(environment);
+            new RemoveWindowsServiceTask(serviceName, failIfNotExist)
+                .Execute(environment);
         }
 
         protected override void DoExecute(ITaskContext context)
