@@ -25,7 +25,7 @@ namespace BuildScripts
 
             targetTree.AddTarget("unit.tests")
                 .SetDescription("Runs unit tests on the project")
-                .Do(x => BuildTargets.TargetRunTests(x, "Flubu.Tests", null, ref testsRunCounter)).DependsOn("load.solution");
+                .Do(x => BuildTargets.TargetRunNUnitTests(x, "Flubu.Tests", null, ref testsRunCounter)).DependsOn("load.solution");
             targetTree.AddTarget("package")
                 .SetDescription("Packages all the build products into ZIP files")
                 .Do(TargetPackage).DependsOn("load.solution");
@@ -77,10 +77,6 @@ namespace BuildScripts
                         .Complete();
 
                     return 0;
-                }
-                catch (TaskExecutionException)
-                {
-                    return 1;
                 }
                 catch (Exception ex)
                 {

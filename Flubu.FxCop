@@ -130,26 +130,6 @@
     <Modules>
      <Module Name="flubu.contrib.dll">
       <Namespaces>
-       <Namespace Name="Flubu.Packaging">
-        <Types>
-         <Type Name="CopyProcessor">
-          <Members>
-           <Member Name="#ProcessPrivate(Flubu.Packaging.ICompositeFilesSource,System.Boolean)">
-            <Messages>
-             <Message TypeName="DoNotCastUnnecessarily" Category="Microsoft.Performance" CheckId="CA1800" Created="2011-08-31 19:28:49Z">
-              <Issue Name="Local">
-               <Item>'filesSource'</Item>
-               <Item>'SingleFileSource'</Item>
-               <Item>'CopyProcessor.ProcessPrivate(ICompositeFilesSource, bool)'</Item>
-               <Item>castclass</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-        </Types>
-       </Namespace>
        <Namespace Name="Flubu.Tasks.FileSystem">
         <Types>
          <Type Name="UnzipFilesTask">
@@ -174,6 +154,94 @@
          </Type>
         </Types>
        </Namespace>
+       <Namespace Name="Flubu.Tasks.Iis">
+        <Types>
+         <Type Name="IAddWebSiteBindingTask">
+          <Messages>
+           <Message Id="WebSite" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Created="2011-09-26 13:07:10Z">
+            <Issue Name="TypeShouldBeDiscreteTerm">
+             <Item>WebSite</Item>
+             <Item>'IAddWebSiteBindingTask'</Item>
+             <Item>Website</Item>
+            </Issue>
+           </Message>
+          </Messages>
+         </Type>
+         <Type Name="IIisTasksFactory">
+          <Members>
+           <Member Name="#AddWebSiteBindingTask">
+            <Messages>
+             <Message Id="WebSite" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Created="2011-09-26 13:07:10Z">
+              <Issue Name="MemberShouldBeDiscreteTerm">
+               <Item>WebSite</Item>
+               <Item>'IIisTasksFactory.AddWebSiteBindingTask'</Item>
+               <Item>Website</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+       <Namespace Name="Flubu.Tasks.Iis.Iis7">
+        <Types>
+         <Type Name="Iis7AddWebSiteBindingTask">
+          <Messages>
+           <Message Id="WebSite" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Created="2011-09-26 13:07:10Z">
+            <Issue Name="TypeShouldBeDiscreteTerm">
+             <Item>WebSite</Item>
+             <Item>'Iis7AddWebSiteBindingTask'</Item>
+             <Item>Website</Item>
+            </Issue>
+           </Message>
+          </Messages>
+          <Members>
+           <Member Name="#Description">
+            <Accessors>
+             <Accessor Name="#get_Description()">
+              <Messages>
+               <Message Id="System.String.Format(System.String,System.Object,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2011-09-26 13:07:10Z">
+                <Issue>
+                 <Item>'string.Format(string, object, object)'</Item>
+                 <Item>'Iis7AddWebSiteBindingTask.Description.get()'</Item>
+                 <Item>'string.Format(IFormatProvider, string, params object[])'</Item>
+                </Issue>
+               </Message>
+              </Messages>
+             </Accessor>
+            </Accessors>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+      </Namespaces>
+     </Module>
+    </Modules>
+   </Target>
+   <Target Name="$(ProjectDir)/Flubu/bin/Release/Flubu.dll">
+    <Modules>
+     <Module Name="flubu.dll">
+      <Namespaces>
+       <Namespace Name="Flubu.Tasks.Processes">
+        <Types>
+         <Type Name="RunProgramTask">
+          <Members>
+           <Member Name="#EncloseParamsInQuotes(System.Boolean)">
+            <Messages>
+             <Message Id="Params" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2011-09-26 13:07:10Z">
+              <Issue Name="Member">
+               <Item>Params</Item>
+               <Item>'RunProgramTask.EncloseParamsInQuotes(bool)'</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
       </Namespaces>
      </Module>
     </Modules>
@@ -185,9 +253,16 @@
    </User>
   </Notes>
   <Rules>
-   <Rule TypeName="DoNotCastUnnecessarily" Category="Microsoft.Performance" CheckId="CA1800">
-    <Resolution Name="Local">{0}, a variable, is cast to type {1} multiple times in method {2}. Cache the result of the 'as' operator or direct cast in order to eliminate the redundant {3} instruction.</Resolution>
-    <Resolution Name="Parameter">{0}, a parameter, is cast to type {1} multiple times in method {2}. Cache the result of the 'as' operator or direct cast in order to eliminate the redundant {3} instruction.</Resolution>
+   <Rule TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702">
+    <Resolution Name="MemberShouldBeDiscreteTerm">The compound word '{0}' in member name {1} exists as a discrete term. If your usage is intended to be single word, case it as '{2}' or strip the first token entirely if it represents any sort of Hungarian notation.</Resolution>
+    <Resolution Name="TypeShouldBeDiscreteTerm">The compound word '{0}' in type name {1} exists as a discrete term. If your usage is intended to be single word, case it as '{2}'.</Resolution>
+   </Rule>
+   <Rule TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704">
+    <Resolution Name="Member">Correct the spelling of '{0}' in member name {1} or remove it entirely if it represents any sort of Hungarian notation.</Resolution>
+    <Resolution Name="MemberParameter">In method {0}, correct the spelling of '{1}' in parameter name {2} or remove it entirely if it represents any sort of Hungarian notation.</Resolution>
+   </Rule>
+   <Rule TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305">
+    <Resolution Name="Default">Because the behavior of {0} could vary based on the current user's locale settings, replace this call in {1} with a call to {2}. If the result of {2} will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Resolution>
    </Rule>
    <Rule TypeName="StringUriOverloadsCallSystemUriOverloads" Category="Microsoft.Design" CheckId="CA1057">
     <Resolution Name="Default">Refactor {0} so that it builds a System.Uri object from {1}, and then calls {2}.</Resolution>

@@ -28,6 +28,11 @@ namespace Flubu.Tasks.Iis
             this.failIfNotExist = failIfNotExist;
         }
 
+        public static void Execute(ITaskContext context, string virtualDirectoryName, bool failIfNotExist)
+        {
+            new DeleteVirtualDirectoryTask(virtualDirectoryName, failIfNotExist).Execute(context);
+        }
+
         protected override void DoExecute (ITaskContext context)
         {
             using (DirectoryEntry parent = new DirectoryEntry (parentVirtualDirectoryName))

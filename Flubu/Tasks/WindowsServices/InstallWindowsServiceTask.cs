@@ -115,7 +115,6 @@ namespace Flubu.Tasks.WindowsServices
                 try
                 {
                     assemblyInstaller.UseNewContext = true;
-
                     assemblyInstaller.Install (savedState);
                     assemblyInstaller.Commit (savedState);
                 }
