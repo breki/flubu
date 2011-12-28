@@ -86,11 +86,16 @@ namespace Flubu.Tasks.Tests
             if (!string.IsNullOrEmpty(ExcludeCategories))
                 argumentLineBuilder.AppendFormat("\"/exclude={0}\" ", ExcludeCategories);
 
-            RunProgramTask task = new RunProgramTask(NUnitPath, argumentLineBuilder.ToString(), new TimeSpan(0, 1, 0, 0))
-            {
-                WorkingDirectory = WorkingDirectory,
-            };
-            task.Execute(context);
+            RunProgramTask task = new RunProgramTask(NUnitPath, false);
+
+            task
+                .SetWorkingDir(WorkingDirectory)
+                .EncloseParametersInQuotes(true)
+                .AddArgument(AssemblyToTest)
+                .AddArgument("/nodots")
+                .AddArgument("/labels")
+                .AddArgument("/exclude={0}", ExcludeCategories)
+                .Execute(context);
         }
     }
 }

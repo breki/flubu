@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -15,6 +16,7 @@ namespace Flubu.Tasks.Processes
         private ITaskContext internalContext;
         private int lastExitCode;
         private string workingDirectory = ".";
+        private TimeSpan executionTimeout;
 
         public RunProgramTask(string programExePath)
         {
@@ -41,6 +43,17 @@ namespace Flubu.Tasks.Processes
         public int LastExitCode
         {
             get { return lastExitCode; }
+        }
+
+        /// <summary>
+        /// Set the execution timeout.
+        /// </summary>
+        /// <param name="timeout">The timeout.</param>
+        /// <returns>This instance</returns>
+        public RunProgramTask ExecutionTimeout(TimeSpan timeout)
+        {
+            executionTimeout = timeout;
+            return this;
         }
 
         public RunProgramTask EncloseParametersInQuotes(bool enclose)
@@ -107,7 +120,10 @@ namespace Flubu.Tasks.Processes
                 process.BeginOutputReadLine();
                 process.BeginErrorReadLine();
 
-                process.WaitForExit();
+                if (executionTimeout == TimeSpan.MinValue)
+                    process.WaitForExit();
+                else
+                    process.WaitForExit(executionTimeout.Milliseconds);
 
                 context.WriteInfo("Exit code: {0}", process.ExitCode);
 

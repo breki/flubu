@@ -1,5 +1,7 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Linq;
+using System.Text;
 using Microsoft.Web.Administration;
 
 namespace Flubu.Tasks.Iis.Iis7
@@ -17,6 +19,8 @@ namespace Flubu.Tasks.Iis.Iis7
 
         private string siteName;
         private string protocol;
+        private string certificateStore;
+        private string certificateHash;
 
         public Iis7AddWebsiteBindingTask SiteName(string name)
         {
@@ -24,18 +28,35 @@ namespace Flubu.Tasks.Iis.Iis7
             return this;
         }
 
-        public Iis7AddWebsiteBindingTask AddBinding(string protocol)
+        public Iis7AddWebsiteBindingTask AddBinding(string bindingProtocol)
         {
-            this.protocol = protocol;
+            protocol = bindingProtocol;
             return this;
         }
-        
+
+        public Iis7AddWebsiteBindingTask CertificateStore(string store)
+        {
+            certificateStore = store;
+            return this;
+        }
+
+        public Iis7AddWebsiteBindingTask CertificateHash(string hash)
+        {
+            certificateHash = hash;
+            return this;
+        }
+
         protected override void DoExecute(ITaskContext context)
         {
             if(string.IsNullOrEmpty(siteName))
                 throw new TaskExecutionException("Site name missing!");
             if (string.IsNullOrEmpty(protocol))
                 throw new TaskExecutionException("Protocol missing!");
+            if(protocol.IndexOf("https", StringComparison.OrdinalIgnoreCase) >= 0 &&
+                (string.IsNullOrEmpty(certificateStore) || string.IsNullOrEmpty(certificateHash)))
+            {
+                throw new TaskExecutionException("Certificate store or hash not set for SSL protocol");
+            }
             ServerManager oIisMgr = new ServerManager();
             Site oSite = oIisMgr.Sites[siteName];
 
@@ -50,6 +71,8 @@ namespace Flubu.Tasks.Iis.Iis7
 
             Binding oBinding = oSite.Bindings.CreateElement();
             oBinding.Protocol = protocol;
+            oBinding.CertificateStoreName = certificateStore;
+            oBinding.CertificateHash = Encoding.UTF8.GetBytes(certificateHash);
             oSite.Bindings.Add(oBinding);
 
             oIisMgr.CommitChanges();

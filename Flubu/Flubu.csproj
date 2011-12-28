@@ -157,7 +157,7 @@
     <Compile Include="TaskSession.cs" />
     <None Include="Tasks\Tests\GallioUnitTestTask.cs" />
     <None Include="Tasks\Tests\NCoverTask.cs" />
-    <None Include="Tasks\Tests\NUnitTask.cs" />
+    <Compile Include="Tasks\Tests\NUnitTask.cs" />
     <Compile Include="Tasks\Tests\UnitTestToolType.cs" />
     <Compile Include="Tasks\Configuration\LogScriptEnvironmentTask.cs" />
     <Compile Include="Tasks\Configuration\ReadConfigurationTask.cs" />
