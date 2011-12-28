@@ -59,6 +59,10 @@ namespace Flubu.Builds.VSSolutionBrowsing
         {
             foreach (VSProjectConfiguration configuration in configurations)
             {
+                if (configuration == null)
+                    throw new ArgumentException("Configuration must not be null!");
+                if (configuration.Condition == null)
+                    throw new ArgumentException("Configuration.Condition should not be null");
                 if (configuration.Condition.IndexOf(condition, StringComparison.OrdinalIgnoreCase) >= 0)
                     return configuration;
             }

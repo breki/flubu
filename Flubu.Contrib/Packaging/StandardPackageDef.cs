@@ -42,7 +42,7 @@ namespace Flubu.Packaging
         {
             DirectorySource source = new DirectorySource(taskContext, fileLister, id, directoryName, recursive);
             source.SetFilter(new NegativeFilter(
-                    new RegexFileFilter(@"^.*\.(svc|asax|config|aspx|ascx|css|js|gif|PNG|Master)$")));
+                    new RegexFileFilter(@"^.*\.(svc|asax|config|aspx|ascx|css|js|gif|png|jpg|jpeg|Master)$")));
             AddFilesSource(source);
             return this;
         }

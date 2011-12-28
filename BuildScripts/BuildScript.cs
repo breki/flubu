@@ -78,10 +78,6 @@ namespace BuildScripts
 
                     return 0;
                 }
-                catch (TaskExecutionException)
-                {
-                    return 1;
-                }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex);

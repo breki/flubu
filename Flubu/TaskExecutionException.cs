@@ -14,7 +14,7 @@ namespace Flubu
         {
         }
 
-        public TaskExecutionException(string formatMessage, object[] arguments)
+        public TaskExecutionException(string formatMessage, params object[] arguments)
             : base(string.Format(CultureInfo.InvariantCulture, formatMessage, arguments))
         {
         }
