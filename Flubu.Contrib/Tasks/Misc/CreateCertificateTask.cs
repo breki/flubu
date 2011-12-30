@@ -120,14 +120,15 @@ namespace Flubu.Tasks.Misc
                 if (string.IsNullOrEmpty(OutputFile))
                     throw new TaskExecutionException("Output filename must be set.");
 
-                task.AddArgument("-pe")
+                task
                     .AddArgument("-a sha1")
                     .AddArgument("-sky exchange")
                     .AddArgument("-sy 12")
                     .AddArgument("-sp \"Microsoft RSA SChannel Cryptographic Provider\"")
                     .AddArgument("-ss My")
                     .AddArgument("-ic \"{0}\"", AuthorityCertificateFile)
-                    .AddArgument("-iv \"{0}\"", AuthorityPrivateKeyFile);
+                    .AddArgument("-iv \"{0}\"", AuthorityPrivateKeyFile)
+                    .AddArgument("-pe");
 
                 if (CertType == Misc.CertificateType.Server)
                 {

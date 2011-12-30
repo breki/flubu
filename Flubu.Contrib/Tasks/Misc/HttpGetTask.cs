@@ -1,6 +1,7 @@
-﻿namespace Flubu.Tasks.Misc
-{
+﻿using System.Net;
 
+namespace Flubu.Tasks.Misc
+{
     public class HttpGetTask : TaskBase
     {
         private readonly string _url;
@@ -17,7 +18,8 @@
 
         protected override void DoExecute(ITaskContext context)
         {
-            throw new System.NotImplementedException();
+            WebClient client = new WebClient();
+            client.DownloadString(_url);
         }
     }
 }
