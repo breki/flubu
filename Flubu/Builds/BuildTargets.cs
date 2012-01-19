@@ -373,8 +373,15 @@ namespace Flubu.Builds
                 project.ProjectDirectoryPath.CombineWith(project.GetProjectOutputPath(buildConfiguration)).
                     AddFileName("{0}.dll", project.ProjectName);
 
-            NUnitTask task = new NUnitTask(Path.GetDirectoryName(testFileName.ToString()), Path.GetFileName(testFileName.ToString()));
+            NUnitTask task = new NUnitTask(
+                Path.GetDirectoryName(testFileName.ToString()),
+                Path.GetFileName(testFileName.ToString()))
+                                 {
+                                     ExcludeCategories = filter
+                                 };
+
             task.Execute(context);
+            testsRunCounter++;
         }
     }
 }

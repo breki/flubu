@@ -12,13 +12,13 @@ namespace Flubu.Tasks.Iis.Iis7
         {
             get
             {
-                return string.Format(CultureInfo.InvariantCulture, "Add '{0}' binding to web site '{1}'", protocol,
+                return string.Format(CultureInfo.InvariantCulture, "Add '{0}' binding to web site '{1}'", bindProtocol,
                                      siteName);
             }
         }
 
         private string siteName;
-        private string protocol;
+        private string bindProtocol;
         private string certificateStore;
         private string certificateHash;
 
@@ -28,9 +28,9 @@ namespace Flubu.Tasks.Iis.Iis7
             return this;
         }
 
-        public Iis7AddWebsiteBindingTask AddBinding(string bindingProtocol)
+        public Iis7AddWebsiteBindingTask AddBinding(string protocol)
         {
-            protocol = bindingProtocol;
+            this.bindProtocol = protocol;
             return this;
         }
 
@@ -50,9 +50,9 @@ namespace Flubu.Tasks.Iis.Iis7
         {
             if(string.IsNullOrEmpty(siteName))
                 throw new TaskExecutionException("Site name missing!");
-            if (string.IsNullOrEmpty(protocol))
+            if (string.IsNullOrEmpty(bindProtocol))
                 throw new TaskExecutionException("Protocol missing!");
-            if(protocol.IndexOf("https", StringComparison.OrdinalIgnoreCase) >= 0 &&
+            if(bindProtocol.IndexOf("https", StringComparison.OrdinalIgnoreCase) >= 0 &&
                 (string.IsNullOrEmpty(certificateStore) || string.IsNullOrEmpty(certificateHash)))
             {
                 throw new TaskExecutionException("Certificate store or hash not set for SSL protocol");
@@ -62,15 +62,15 @@ namespace Flubu.Tasks.Iis.Iis7
 
             //See if this binding is already on some site
             if (oIisMgr.Sites
-                .Where(st => st.Bindings.Where(b => b.Protocol == protocol).Any())
+                .Where(st => st.Bindings.Where(b => b.Protocol == bindProtocol).Any())
                 .Any())
             {
-                context.WriteInfo("Binding for protocol '{0}' already exists! Doing nothing.", protocol);
+                context.WriteInfo("Binding for protocol '{0}' already exists! Doing nothing.", bindProtocol);
                 return;
             }
 
             Binding oBinding = oSite.Bindings.CreateElement();
-            oBinding.Protocol = protocol;
+            oBinding.Protocol = bindProtocol;
             oBinding.CertificateStoreName = certificateStore;
             oBinding.CertificateHash = Encoding.UTF8.GetBytes(certificateHash);
             oSite.Bindings.Add(oBinding);
