@@ -158,6 +158,8 @@
     <None Include="Tasks\Tests\GallioUnitTestTask.cs" />
     <None Include="Tasks\Tests\NCoverTask.cs" />
     <Compile Include="Tasks\Tests\NUnitTask.cs" />
+    <Compile Include="Tasks\FileSystem\GetAssemblyVersionTask.cs" />
+    <Compile Include="Tasks\FileSystem\GetFileVersionTask.cs" />
     <Compile Include="Tasks\Tests\UnitTestToolType.cs" />
     <Compile Include="Tasks\Configuration\LogScriptEnvironmentTask.cs" />
     <Compile Include="Tasks\Configuration\ReadConfigurationTask.cs" />
