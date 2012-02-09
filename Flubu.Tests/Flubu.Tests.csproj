@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasicTests.cs" />
+    <Compile Include="FileVersionTests.cs" />
     <Compile Include="Iis7Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnzipTests.cs" />
