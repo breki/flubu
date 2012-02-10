@@ -21,5 +21,6 @@
         public const string TargetDotNetVersion = "TargetDotNetVersion";
         public const string TargetDotNetVersionForGallio = "TargetDotNetVersionForGallio";
         public const string VersionControlSystem = "VersionControlSystem";
+        public const string SvnRevisionVariableName = "SvnRevisionName";
     }
 }
