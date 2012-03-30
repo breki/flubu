@@ -124,6 +124,10 @@ namespace Flubu.Builds
             VersionControlSystem versionControlSystem = context.Properties.Get<VersionControlSystem> (
                 BuildProps.VersionControlSystem);
 
+            string svnRevisionName = null;
+            if (context.Properties.Has(BuildProps.SvnRevisionVariableName))
+                svnRevisionName = context.Properties.Get<string>(BuildProps.SvnRevisionVariableName);
+
             IFetchBuildVersionTask task = new FetchBuildVersionFromHudsonTask (
                 productRootDir,
                 productId,
@@ -135,7 +139,7 @@ namespace Flubu.Builds
                     switch (versionControlSystem)
                     {
                         case VersionControlSystem.Subversion:
-                            revisionNumber = HudsonHelper.SvnRevision;
+                            revisionNumber = HudsonHelper.GetSvnRevision(svnRevisionName);
                             break;
                         case VersionControlSystem.Mercurial:
                             revisionNumber = 0;
