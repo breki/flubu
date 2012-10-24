@@ -26,3 +26,5 @@ glob:*.BuildNumber.txt
 glob:NuGet API key.txt
 syntax: glob
 *.crunchsolution.cache
+Flubu2010.sln.cache
+Flubu2010.sln.AssemblySurfaceCache.user
