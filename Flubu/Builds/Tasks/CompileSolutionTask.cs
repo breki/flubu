@@ -28,6 +28,7 @@ namespace Flubu.Builds.Tasks
                 .AddArgument("/p:Configuration={0}", buildConfiguration)
                 .AddArgument("/p:Platform=Any CPU")
                 .AddArgument("/consoleloggerparameters:NoSummary")
+                .AddArgument("/maxcpucount:3")
                 .Execute(context);
 
             //TaskContext.LogTaskFinished();
