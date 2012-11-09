@@ -49,6 +49,18 @@ namespace Flubu.Tasks.FileSystem
             set { zipFileHeaderCallback = value; }
         }
 
+        public Func<string, string> FileNameRewriteFunc
+        {
+            get { return fileNameRewriteFunc; }
+            set { fileNameRewriteFunc = value; }
+        }
+
+        public Predicate<string> FileFilterFunc
+        {
+            get { return fileFilterFunc; }
+            set { fileFilterFunc = value; }
+        }
+
         protected override void DoExecute (ITaskContext context)
         {
             using (FileStream zipFileStream = new FileStream (
@@ -66,6 +78,12 @@ namespace Flubu.Tasks.FileSystem
 
                     foreach (string fileName in filesToZip)
                     {
+                        if (!fileFilterFunc(fileName))
+                        {
+                            context.WriteInfo("Skipping file '{0}'", fileName);
+                            continue;
+                        }
+
                         int skipChar = 0;
 
                         if (false == String.IsNullOrEmpty (baseDir)
@@ -75,6 +93,8 @@ namespace Flubu.Tasks.FileSystem
 
                         // cut off the leading part of the path (up to the root directory of the package)
                         string basedFileName = fileName.Substring (baseDir.Length + skipChar);
+
+                        basedFileName = fileNameRewriteFunc(basedFileName);
 
                         basedFileName = ZipEntry.CleanName (basedFileName);
 
@@ -136,6 +156,8 @@ namespace Flubu.Tasks.FileSystem
         private int? compressionLevel;
         private Func<string, string> zipFileFooterCallback;
         private Func<string, string> zipFileHeaderCallback;
+        private Func<string, string> fileNameRewriteFunc = x => x;
+        private Predicate<string> fileFilterFunc = x => true;
         private readonly string zipFileName;
     }
 }
