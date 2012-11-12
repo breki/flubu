@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using Flubu.Tasks.FileSystem;
 using ICSharpCode.SharpZipLib.Zip;
-using MbUnit.Framework;
+using NUnit.Framework;
 
 namespace Flubu.Tests
 {
@@ -75,7 +75,7 @@ namespace Flubu.Tests
         /// Once <see cref="FastZip"/> supports unseekable streams use it to extract streams
         /// rather than to provide custom extraction procedure for streams in <see cref="UnzipFilesTask"/>.
         /// </remarks>
-        [Test, ExpectedArgumentException("Stream is not seekable")]
+        [Test, ExpectedException(typeof(ArgumentException), ExpectedMessage = "Stream is not seekable", MatchType = MessageMatch.Contains)]
         public void SharpZipLibUnseekableStreamsupport()
         {
             FastZip zip = new FastZip();

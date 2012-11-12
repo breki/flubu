@@ -1,7 +1,7 @@
 using System;
 using Flubu.Targeting;
 using Flubu.Tasks.UserInterface;
-using MbUnit.Framework;
+using NUnit.Framework;
 
 namespace Flubu.Tests
 {

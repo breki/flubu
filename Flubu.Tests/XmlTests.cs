@@ -1,5 +1,5 @@
 using Flubu.Tasks.Text;
-using MbUnit.Framework;
+using NUnit.Framework;
 
 namespace Flubu.Tests
 {
