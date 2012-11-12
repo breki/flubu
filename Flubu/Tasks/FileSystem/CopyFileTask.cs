@@ -43,6 +43,10 @@ namespace Flubu.Tasks.FileSystem
 
         protected override void DoExecute (ITaskContext context)
         {
+            string dir = Path.GetDirectoryName(destinationFileName);
+            if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+
             File.Copy (sourceFileName, destinationFileName, overwrite);
         }
 
