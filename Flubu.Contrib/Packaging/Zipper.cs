@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Flubu.Tasks.FileSystem;
 using ICSharpCode.SharpZipLib.Zip;
 
 namespace Flubu.Packaging
@@ -20,6 +21,11 @@ namespace Flubu.Packaging
             IEnumerable<FileFullPath> filesToZip)
         {
             taskContext.WriteInfo("Zipping {0}", zipFileName);
+
+            CreateDirectoryTask createDirectoryTask = new CreateDirectoryTask(
+                zipFileName.Directory.ToString(),
+                false);
+            createDirectoryTask.Execute(taskContext);
 
             using (FileStream zipFileStream = new FileStream(
                 zipFileName.ToString(),
