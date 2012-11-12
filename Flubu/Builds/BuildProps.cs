@@ -13,6 +13,8 @@
         public const string FxcopDir = "FxcopDir";
         public const string GallioEchoPath = "GallioEchoPath";
         public const string LibDir = "LibDir";
+        public const string NUnitConsolePath = "NUnitConsolePath";
+        public const string PackagesDir = "PackagesDir";
         public const string ProductId = "ProductId";
         public const string ProductName = "ProductName";
         public const string ProductRootDir = "ProductRootDir";

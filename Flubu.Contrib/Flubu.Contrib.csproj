@@ -98,6 +98,8 @@
     <Compile Include="Packaging\CompositeFilesSource.cs" />
     <Compile Include="Packaging\Copier.cs" />
     <Compile Include="Packaging\CopyProcessor.cs" />
+    <Compile Include="Packaging\CopyProcessorTransformation.cs" />
+    <Compile Include="Packaging\CopyProcessorTransformationOptions.cs" />
     <Compile Include="Packaging\DirectoryFilesLister.cs" />
     <Compile Include="Packaging\DirectorySource.cs" />
     <Compile Include="Packaging\FilesList.cs" />

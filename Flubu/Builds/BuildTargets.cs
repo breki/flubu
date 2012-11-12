@@ -8,6 +8,7 @@ using Flubu.Builds.Tasks;
 using Flubu.Builds.VSSolutionBrowsing;
 using Flubu.Targeting;
 using Flubu.Tasks.FileSystem;
+using Flubu.Tasks.Processes;
 
 namespace Flubu.Builds
 {
@@ -62,6 +63,7 @@ namespace Flubu.Builds
             context.Properties.Set(BuildProps.FxcopDir, "Microsoft FxCop 1.36");
             context.Properties.Set(BuildProps.GallioEchoPath, @"lib\Gallio\bin\Gallio.Echo.exe");
             context.Properties.Set(BuildProps.LibDir, "lib");
+            context.Properties.Set(BuildProps.PackagesDir, "packages");
             context.Properties.Set(BuildProps.ProductRootDir, ".");
             context.Properties.Set(BuildProps.TargetDotNetVersion, FlubuEnvironment.Net35VersionNumber);
         }
@@ -335,8 +337,30 @@ namespace Flubu.Builds
             createDirectoryTask.Execute(context);
         }
 
+        public static void TargetRunTestsNUnit(
+            ITaskContext context,
+            string projectName)
+        {
+            VSSolution solution = context.Properties.Get<VSSolution>(BuildProps.Solution);
+            string buildConfiguration = context.Properties.Get<string>(BuildProps.BuildConfiguration);
+
+            VSProjectWithFileInfo project =
+                (VSProjectWithFileInfo)solution.FindProjectByName(projectName);
+            FileFullPath projectTarget = project.ProjectDirectoryPath.CombineWith(project.GetProjectOutputPath(buildConfiguration))
+                .AddFileName("{0}.dll", project.ProjectName);
+
+            RunProgramTask task = new RunProgramTask(
+                context.Properties[BuildProps.NUnitConsolePath])
+                .AddArgument(projectTarget.ToString())
+                .AddArgument("/labels")
+                .AddArgument("/trace=Verbose")
+                .AddArgument("/nodots")
+                .AddArgument("/noshadow");
+            task.Execute(context);
+        }
+
         [SuppressMessage("Microsoft.Design", "CA1045:DoNotPassTypesByReference", MessageId = "3#")]
-        public static void TargetRunTests(
+        public static void TargetRunTestsGallio(
             ITaskContext context, 
             string projectName, 
             string filter,

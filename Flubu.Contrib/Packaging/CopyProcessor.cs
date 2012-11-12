@@ -17,7 +17,17 @@ namespace Flubu.Packaging
 
         public CopyProcessor AddTransformation(string sourceId, LocalPath destinationDir)
         {
-            transformations.Add(sourceId, destinationDir);
+            CopyProcessorTransformation transformation = new CopyProcessorTransformation(
+                sourceId, destinationDir, CopyProcessorTransformationOptions.None);
+            transformations.Add(sourceId, transformation);
+            return this;
+        }
+
+        public CopyProcessor AddTransformationWithDirFlattening(string sourceId, LocalPath destinationDir)
+        {
+            CopyProcessorTransformation transformation = new CopyProcessorTransformation(
+                sourceId, destinationDir, CopyProcessorTransformationOptions.FlattenDirStructure);
+            transformations.Add(sourceId, transformation);
             return this;
         }
 
@@ -30,7 +40,9 @@ namespace Flubu.Packaging
         /// <returns>This same instance of the <see cref="CopyProcessor"/>.</returns>
         public CopyProcessor AddSingleFileTransformation (string sourceId, LocalPath destinationFileName)
         {
-            singleFileTransformations.Add (sourceId, destinationFileName);
+            CopyProcessorTransformation transformation = new CopyProcessorTransformation(
+                sourceId, destinationFileName, CopyProcessorTransformationOptions.SingleFile);
+            transformations.Add(sourceId, transformation);
             return this;
         }
 
@@ -87,10 +99,15 @@ namespace Flubu.Packaging
 
         private bool TryToTransformSingleFileSource(SingleFileSource source, FilesList filesList)
         {
-            if (!HasSingleFileSourceTransformation (source.Id))
+            if (!transformations.ContainsKey(source.Id))
                 return false;
 
-            LocalPath destinationPath = FindDestinationPathForSingleFileSource (source.Id);
+            CopyProcessorTransformation transformation = transformations[source.Id];
+
+            if ((transformation.Options & CopyProcessorTransformationOptions.SingleFile) == 0)
+                return false;
+
+            LocalPath destinationPath = transformation.DestinationPath;
 
             PackagedFileInfo sourceFile = source.ListFiles().AsQueryable().First();
             FullPath destinationFullPath = destinationRootDir.CombineWith (destinationPath);
@@ -102,19 +119,10 @@ namespace Flubu.Packaging
             return true;
         }
 
-        private bool HasSingleFileSourceTransformation (string sourceId)
-        {
-            return singleFileTransformations.ContainsKey(sourceId);
-        }
-
-        private LocalPath FindDestinationPathForSingleFileSource(string sourceId)
-        {
-            return singleFileTransformations[sourceId];
-        }
-
         private void TransformSource(IFilesSource filesSource, FilesList filesList)
         {
-            LocalPath destinationPath = FindDestinationPathForSource(filesSource.Id);
+            CopyProcessorTransformation transformation = FindTransformationForSource(filesSource.Id);
+            LocalPath destinationPath = transformation.DestinationPath;
 
             foreach (PackagedFileInfo sourceFile in filesSource.ListFiles())
             {
@@ -146,7 +154,7 @@ namespace Flubu.Packaging
             }
         }
 
-        private LocalPath FindDestinationPathForSource(string sourceId)
+        private CopyProcessorTransformation FindTransformationForSource(string sourceId)
         {
             if (false == transformations.ContainsKey(sourceId))
             {
@@ -163,8 +171,8 @@ namespace Flubu.Packaging
         private readonly ITaskContext taskContext;
         private readonly ICopier copier;
         private readonly FullPath destinationRootDir;
-        private readonly Dictionary<string, LocalPath> transformations = new Dictionary<string, LocalPath>();
-        private readonly Dictionary<string, LocalPath> singleFileTransformations = new Dictionary<string, LocalPath>();
+        private Dictionary<string, CopyProcessorTransformation> transformations =
+            new Dictionary<string, CopyProcessorTransformation>();
         private readonly Dictionary<string, string> fileTransformations = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         private IFileFilter filter;
     }

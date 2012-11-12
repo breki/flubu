@@ -21,11 +21,10 @@ namespace BuildScripts
         {
             TargetTree targetTree = new TargetTree();
             BuildTargets.FillBuildTargets(targetTree);
-            int testsRunCounter = 0;
 
             targetTree.AddTarget("unit.tests")
                 .SetDescription("Runs unit tests on the project")
-                .Do(x => BuildTargets.TargetRunTests(x, "Flubu.Tests", null, ref testsRunCounter)).DependsOn("load.solution");
+                .Do(x => BuildTargets.TargetRunTestsNUnit(x, "Flubu.Tests")).DependsOn("load.solution");
             targetTree.AddTarget("package")
                 .SetDescription("Packages all the build products into ZIP files")
                 .Do(TargetPackage).DependsOn("load.solution");
@@ -38,10 +37,7 @@ namespace BuildScripts
 
             targetTree.AddTarget("nuget")
                 .SetDescription("Produces NuGet packages for reusable components and publishes them to the NuGet server")
-                .Do(c =>
-                {
-                    TargetNuGet(c, "Flubu");
-                }).DependsOn("fetch.build.version");
+                .Do(c => TargetNuGet(c, "Flubu")).DependsOn("fetch.build.version");
 
             using (TaskSession session = new TaskSession(new SimpleTaskContextProperties(), args, targetTree))
             {
@@ -50,6 +46,7 @@ namespace BuildScripts
 
                 session.AddLogger(new MulticoloredConsoleLogger(Console.Out));
 
+                session.Properties.Set(BuildProps.NUnitConsolePath, @"packages\NUnit.Runners.2.6.2\tools\nunit-console.exe");
                 session.Properties.Set(BuildProps.ProductId, "Flubu");
                 session.Properties.Set(BuildProps.ProductName, "Flubu");
                 session.Properties.Set(BuildProps.SolutionFileName, "Flubu.sln");
