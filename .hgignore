@@ -28,3 +28,4 @@ syntax: glob
 *.crunchsolution.cache
 Flubu2010.sln.cache
 Flubu2010.sln.AssemblySurfaceCache.user
+TestResult.xml
