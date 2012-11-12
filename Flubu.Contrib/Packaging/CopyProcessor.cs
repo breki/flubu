@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 
 namespace Flubu.Packaging
@@ -122,6 +123,8 @@ namespace Flubu.Packaging
         private void TransformSource(IFilesSource filesSource, FilesList filesList)
         {
             CopyProcessorTransformation transformation = FindTransformationForSource(filesSource.Id);
+            bool flattenDirs = (transformation.Options & CopyProcessorTransformationOptions.FlattenDirStructure) != 0;
+
             LocalPath destinationPath = transformation.DestinationPath;
 
             foreach (PackagedFileInfo sourceFile in filesSource.ListFiles())
@@ -133,7 +136,13 @@ namespace Flubu.Packaging
                 FullPath destinationFullPath = destinationRootDir.CombineWith(destinationPath);
 
                 if (sourceFile.LocalPath != null)
-                    destinationFullPath = destinationFullPath.CombineWith(sourceFile.LocalPath);
+                {
+                    LocalPath destLocalPath = sourceFile.LocalPath;
+                    if (flattenDirs)
+                        destLocalPath = destLocalPath.Flatten;
+
+                    destinationFullPath = destinationFullPath.CombineWith(destLocalPath);
+                }
                 else
                 {
                     destinationFullPath =

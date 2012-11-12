@@ -78,6 +78,8 @@
   <ItemGroup>
     <Compile Include="BasicTests.cs" />
     <Compile Include="PackagingTests\CopyProcessorTests.cs" />
+    <Compile Include="PackagingTests\MockCopier.cs" />
+    <Compile Include="PackagingTests\MockDirectoryFilesLister.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnzipTests.cs" />
     <Compile Include="XmlTests.cs" />

@@ -18,6 +18,11 @@ namespace Flubu
             get { return Path.GetFileName(localPath); }
         }
 
+        public LocalPath Flatten
+        {
+            get { return new LocalPath(FileName); }
+        }
+
         public int Length
         {
             get { return localPath.Length; }
