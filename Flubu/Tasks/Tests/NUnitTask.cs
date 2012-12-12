@@ -86,7 +86,8 @@ namespace Flubu.Tasks.Tests
                 .EncloseParametersInQuotes(true)
                 .AddArgument(AssemblyToTest)
                 .AddArgument("/nodots")
-                .AddArgument("/labels");
+                .AddArgument("/labels")
+                .AddArgument("/noshadow");
 
             if (!string.IsNullOrEmpty(ExcludeCategories))
                 task.AddArgument("/exclude={0}", ExcludeCategories);
