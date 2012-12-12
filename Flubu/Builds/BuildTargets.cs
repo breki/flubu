@@ -365,28 +365,7 @@ namespace Flubu.Builds
         }
 
         [SuppressMessage("Microsoft.Design", "CA1045:DoNotPassTypesByReference", MessageId = "3#")]
-        public static void TargetRunTestsGallio(
-            ITaskContext context, 
-            string projectName, 
-            string filter,
-            ref int testsRunCounter)
-        {
-            FullPath buildLogsPath = new FullPath(context.Properties[BuildProps.ProductRootDir])
-                .CombineWith(context.Properties[BuildProps.BuildLogsDir]);
-
-            RunGallioTestsTask task = new RunGallioTestsTask(
-                projectName,
-                context.Properties.Get<VSSolution>(BuildProps.Solution),
-                context.Properties.Get<string>(BuildProps.BuildConfiguration),
-                context.Properties.Get<string>(BuildProps.GallioEchoPath),
-                ref testsRunCounter,
-                buildLogsPath.ToString());
-            task.Filter = filter;
-            task.Execute(context);
-        }
-
-        [SuppressMessage("Microsoft.Design", "CA1045:DoNotPassTypesByReference", MessageId = "3#")]
-        public static void TargetRunNUnitTests(
+        public static void TargetRunTestsNUnit(
             ITaskContext context,
             string projectName,
             string filter,
@@ -405,11 +384,33 @@ namespace Flubu.Builds
                 Path.GetDirectoryName(testFileName.ToString()),
                 Path.GetFileName(testFileName.ToString()))
                                  {
+                                     NUnitPath = context.Properties[BuildProps.NUnitConsolePath],
                                      ExcludeCategories = filter
                                  };
 
             task.Execute(context);
             testsRunCounter++;
+        }
+
+        [SuppressMessage("Microsoft.Design", "CA1045:DoNotPassTypesByReference", MessageId = "3#")]
+        public static void TargetRunTestsGallio(
+            ITaskContext context, 
+            string projectName, 
+            string filter,
+            ref int testsRunCounter)
+        {
+            FullPath buildLogsPath = new FullPath(context.Properties[BuildProps.ProductRootDir])
+                .CombineWith(context.Properties[BuildProps.BuildLogsDir]);
+
+            RunGallioTestsTask task = new RunGallioTestsTask(
+                projectName,
+                context.Properties.Get<VSSolution>(BuildProps.Solution),
+                context.Properties.Get<string>(BuildProps.BuildConfiguration),
+                context.Properties.Get<string>(BuildProps.GallioEchoPath),
+                ref testsRunCounter,
+                buildLogsPath.ToString());
+            task.Filter = filter;
+            task.Execute(context);
         }
     }
 }
