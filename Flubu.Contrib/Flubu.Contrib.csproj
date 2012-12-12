@@ -124,6 +124,7 @@
     <Compile Include="Packaging\ZipProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tasks\Build\NDoc3Task.cs" />
+    <Compile Include="Tasks\Build\TlbExportTask.cs" />
     <Compile Include="Tasks\FileSystem\UnzipFilesTask.cs" />
     <Compile Include="Tasks\FileSystem\ZipFilesTask.cs" />
     <Compile Include="Tasks\Iis\ControlApplicationPoolAction.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="Tasks\Iis\DeleteVirtualDirectoryTask.cs" />
     <Compile Include="Tasks\Iis\GetLocalIisVersionTask.cs" />
     <Compile Include="Tasks\Iis\IControlAppPoolTask.cs" />
+    <Compile Include="Tasks\Iis\IAddWebSiteBindingTask.cs" />
     <Compile Include="Tasks\Iis\ICreateAppPoolTask.cs" />
     <Compile Include="Tasks\Iis\ICreateWebApplicationTask.cs" />
     <Compile Include="Tasks\Iis\IDeleteAppPoolTask.cs" />
@@ -143,6 +145,7 @@
     <Compile Include="Tasks\Iis\IIs6\Iis6DeleteAppPoolTask.cs" />
     <Compile Include="Tasks\Iis\IIs6\Iis6TasksFactory.cs" />
     <Compile Include="Tasks\Iis\Iis7\Iis7ControlAppPoolTask.cs" />
+    <Compile Include="Tasks\Iis\Iis7\Iis7AddWebSiteBindingTask.cs" />
     <Compile Include="Tasks\Iis\Iis7\Iis7CreateAppPoolTask.cs" />
     <Compile Include="Tasks\Iis\Iis7\Iis7CreateWebApplicationTask.cs" />
     <Compile Include="Tasks\Iis\Iis7\Iis7DeleteAppPoolTask.cs" />
@@ -150,6 +153,8 @@
     <Compile Include="Tasks\Iis\IisMaster.cs" />
     <None Include="Tasks\SqlServer\ExecuteSqlFileTask.cs" />
     <None Include="Tasks\SqlServer\ExecuteSqlCommandTask.cs" />
+    <Compile Include="Tasks\Misc\CreateCertificateTask.cs" />
+    <Compile Include="Tasks\Misc\HttpGetTask.cs" />
     <Compile Include="Tasks\Virtual\CloneMachineTask.cs" />
     <Compile Include="Tasks\Virtual\CreateDiskTask.cs" />
     <Compile Include="Tasks\Virtual\CreateDiskType.cs" />

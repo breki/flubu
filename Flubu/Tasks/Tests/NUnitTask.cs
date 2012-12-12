@@ -32,7 +32,7 @@ namespace Flubu.Tasks.Tests
         /// <param name="assemblyToTest">Assembly to test.</param>
         public NUnitTask(string workingDirectory, string assemblyToTest)
         {
-            NUnitPath = @"lib\NUnit\bin\net-2.0\nunit-console-x86.exe";
+            NUnitPath = @"lib\NUnit\bin\nunit-console-x86.exe";
             AssemblyToTest = assemblyToTest;
             WorkingDirectory = workingDirectory;
         }
@@ -79,17 +79,18 @@ namespace Flubu.Tasks.Tests
         /// <param name="context">The script execution environment.</param>
         protected override void DoExecute(ITaskContext context)
         {
-            StringBuilder argumentLineBuilder = new StringBuilder();
-            argumentLineBuilder.AppendFormat("\"{0}\" ", AssemblyToTest);
-            argumentLineBuilder.AppendFormat("\"{0}\" ", "/nodots");
-            argumentLineBuilder.AppendFormat("\"{0}\" ", "/labels");
-            if (!string.IsNullOrEmpty(ExcludeCategories))
-                argumentLineBuilder.AppendFormat("\"/exclude={0}\" ", ExcludeCategories);
+            RunProgramTask task = new RunProgramTask(NUnitPath, false);
 
-            RunProgramTask task = new RunProgramTask(NUnitPath, argumentLineBuilder.ToString(), new TimeSpan(0, 1, 0, 0))
-            {
-                WorkingDirectory = WorkingDirectory,
-            };
+            task
+                .SetWorkingDir(WorkingDirectory)
+                .EncloseParametersInQuotes(true)
+                .AddArgument(AssemblyToTest)
+                .AddArgument("/nodots")
+                .AddArgument("/labels");
+
+            if (!string.IsNullOrEmpty(ExcludeCategories))
+                task.AddArgument("/exclude={0}", ExcludeCategories);
+
             task.Execute(context);
         }
     }

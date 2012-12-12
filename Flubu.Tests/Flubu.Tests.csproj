@@ -77,6 +77,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasicTests.cs" />
+    <Compile Include="FileVersionTests.cs" />
+    <Compile Include="Iis7Tests.cs" />
     <Compile Include="PackagingTests\CopyProcessorTests.cs" />
     <Compile Include="PackagingTests\MockCopier.cs" />
     <Compile Include="PackagingTests\MockDirectoryFilesLister.cs" />

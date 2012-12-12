@@ -22,12 +22,19 @@ namespace Flubu.Builds
             }
         }
 
-        public static int SvnRevision
+        /// <summary>
+        /// Gets SVN revision number from environment variable.
+        /// Normally it is named SVN_REVISION. But under JENKINS when using more than one repository they are named with numbered suffix _1, _2, ...
+        /// for each repository respectively (first is named SVN_REVISION_1, ...)
+        /// </summary>
+        /// <param name="environmentVariableName">Variable name to use.</param>
+        /// <returns>SVN Revision number</returns>
+        public static int GetSvnRevision(string environmentVariableName)
         {
-            get
-            {
-                return ParseEnvironmentVariable("SVN_REVISION");
-            }
+            if (string.IsNullOrEmpty(environmentVariableName))
+                environmentVariableName = "SVN_REVISION";
+
+            return ParseEnvironmentVariable(environmentVariableName);
         }
 
         public static int ParseEnvironmentVariable (string variableName)

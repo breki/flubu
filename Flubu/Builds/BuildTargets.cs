@@ -9,6 +9,7 @@ using Flubu.Builds.VSSolutionBrowsing;
 using Flubu.Targeting;
 using Flubu.Tasks.FileSystem;
 using Flubu.Tasks.Processes;
+using Flubu.Tasks.Tests;
 
 namespace Flubu.Builds
 {
@@ -125,6 +126,10 @@ namespace Flubu.Builds
             VersionControlSystem versionControlSystem = context.Properties.Get<VersionControlSystem> (
                 BuildProps.VersionControlSystem);
 
+            string svnRevisionName = null;
+            if (context.Properties.Has(BuildProps.SvnRevisionVariableName))
+                svnRevisionName = context.Properties.Get<string>(BuildProps.SvnRevisionVariableName);
+
             IFetchBuildVersionTask task = new FetchBuildVersionFromHudsonTask (
                 productRootDir,
                 productId,
@@ -136,7 +141,7 @@ namespace Flubu.Builds
                     switch (versionControlSystem)
                     {
                         case VersionControlSystem.Subversion:
-                            revisionNumber = HudsonHelper.SvnRevision;
+                            revisionNumber = HudsonHelper.GetSvnRevision(svnRevisionName);
                             break;
                         case VersionControlSystem.Mercurial:
                             revisionNumber = 0;
@@ -378,6 +383,33 @@ namespace Flubu.Builds
                 buildLogsPath.ToString());
             task.Filter = filter;
             task.Execute(context);
+        }
+
+        [SuppressMessage("Microsoft.Design", "CA1045:DoNotPassTypesByReference", MessageId = "3#")]
+        public static void TargetRunNUnitTests(
+            ITaskContext context,
+            string projectName,
+            string filter,
+            ref int testsRunCounter)
+        {
+            //FullPath buildLogsPath = new FullPath(context.Properties[BuildProps.ProductRootDir])
+            //    .CombineWith(context.Properties[BuildProps.BuildLogsDir]);
+            var solution = context.Properties.Get<VSSolution>(BuildProps.Solution);
+            VSProjectWithFileInfo project = (VSProjectWithFileInfo)solution.FindProjectByName(projectName);
+            var buildConfiguration = context.Properties.Get<string>(BuildProps.BuildConfiguration);
+            var testFileName =
+                project.ProjectDirectoryPath.CombineWith(project.GetProjectOutputPath(buildConfiguration)).
+                    AddFileName("{0}.dll", project.ProjectName);
+
+            NUnitTask task = new NUnitTask(
+                Path.GetDirectoryName(testFileName.ToString()),
+                Path.GetFileName(testFileName.ToString()))
+                                 {
+                                     ExcludeCategories = filter
+                                 };
+
+            task.Execute(context);
+            testsRunCounter++;
         }
     }
 }
