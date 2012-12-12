@@ -9,15 +9,6 @@ namespace Flubu.Tasks.Processes
 {
     public class RunProgramTask : TaskBase
     {
-        private readonly bool ignoreExitCodes;
-        private readonly List<string> programArgs = new List<string>();
-        private readonly string programExePath;
-        private bool encloseInQuotes;
-        private ITaskContext internalContext;
-        private int lastExitCode;
-        private string workingDirectory = ".";
-        private TimeSpan executionTimeout = TimeSpan.MinValue;
-
         public RunProgramTask(string programExePath)
         {
             this.programExePath = programExePath;
@@ -90,13 +81,13 @@ namespace Flubu.Tasks.Processes
         {
             internalContext = context;
             string formatString = encloseInQuotes ? "\"{0}\" " : "{0} ";
-            using (var process = new Process())
+            using (Process process = new Process())
             {
-                var argumentLineBuilder = new StringBuilder();
+                StringBuilder argumentLineBuilder = new StringBuilder();
                 foreach (string programArg in programArgs)
                     argumentLineBuilder.AppendFormat(formatString, programArg);
 
-                var processStartInfo = new ProcessStartInfo(programExePath, argumentLineBuilder.ToString())
+                ProcessStartInfo processStartInfo = new ProcessStartInfo(programExePath, argumentLineBuilder.ToString())
                                            {
                                                CreateNoWindow = true,
                                                ErrorDialog = false,
@@ -146,5 +137,14 @@ namespace Flubu.Tasks.Processes
         {
             internalContext.WriteMessage(TaskMessageLevel.Debug, e.Data);
         }
+
+        private ITaskContext internalContext;
+        private readonly bool ignoreExitCodes;
+        private int lastExitCode;
+        private readonly string programExePath;
+        private readonly List<string> programArgs = new List<string>();
+        private string workingDirectory = ".";
+        private bool encloseInQuotes;
+        private TimeSpan executionTimeout = TimeSpan.MinValue;
     }
 }

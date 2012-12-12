@@ -7,21 +7,6 @@ namespace Flubu.Tasks.Iis.Iis7
 {
     public class Iis7CreateWebApplicationTask : TaskBase, ICreateWebApplicationTask
     {
-        private bool accessScript = true;
-        private bool allowAnonymous = true;
-        private bool allowAuthNtlm = true;
-        private string anonymousUserName;
-        private string anonymousUserPass;
-        private string appFriendlyName;
-        private string applicationName;
-        private string applicationPoolName = "DefaultAppPool";
-        private bool aspEnableParentPaths;
-        private string defaultDoc;
-        private bool enableDefaultDoc = true;
-        private string localPath;
-        private CreateWebApplicationMode mode = CreateWebApplicationMode.FailIfAlreadyExists;
-        private string parentVirtualDirectoryName = @"IIS://localhost/W3SVC/1/Root";
-
         #region ICreateWebApplicationTask Members
 
         public CreateWebApplicationMode Mode
@@ -169,5 +154,20 @@ namespace Flubu.Tasks.Iis.Iis7
                 }
             }
         }
+
+        private CreateWebApplicationMode mode = CreateWebApplicationMode.FailIfAlreadyExists;
+        private string applicationName;
+        private string parentVirtualDirectoryName = @"IIS://localhost/W3SVC/1/Root";
+        private string localPath;
+        private bool allowAnonymous = true;
+        private bool allowAuthNtlm = true;
+        private bool accessScript = true;
+        private string anonymousUserName;
+        private string anonymousUserPass;
+        private string appFriendlyName;
+        private bool aspEnableParentPaths;
+        private string defaultDoc;
+        private bool enableDefaultDoc = true;
+        private string applicationPoolName = "DefaultAppPool";
     }
 }
