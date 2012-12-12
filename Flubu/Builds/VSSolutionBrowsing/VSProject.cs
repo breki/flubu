@@ -11,12 +11,6 @@ namespace Flubu.Builds.VSSolutionBrowsing
     /// </summary>
     public class VSProject
     {
-        private readonly List<VSProjectConfiguration> configurations = new List<VSProjectConfiguration>();
-        private readonly List<VSProjectItem> items = new List<VSProjectItem>();
-        private readonly string projectFileName;
-        private readonly Dictionary<string, string> properties = new Dictionary<string, string>();
-        private bool propertiesDictionary;
-
         public VSProject(string projectFileName)
         {
             this.projectFileName = projectFileName;
@@ -83,9 +77,9 @@ namespace Flubu.Builds.VSSolutionBrowsing
         {
             using (Stream stream = File.OpenRead(projectFileName))
             {
-                var data = new VSProject(projectFileName) { propertiesDictionary = true };
+                VSProject data = new VSProject(projectFileName) { propertiesDictionary = true };
 
-                var xmlReaderSettings = new XmlReaderSettings
+                XmlReaderSettings xmlReaderSettings = new XmlReaderSettings
                                             {
                                                 IgnoreComments = true,
                                                 IgnoreProcessingInstructions = true,
@@ -127,7 +121,7 @@ namespace Flubu.Builds.VSSolutionBrowsing
         /// <returns>List of items of specific itemType.</returns>
         public IList<VSProjectItem> GetSingleTypeItems(string getItemType)
         {
-            var returnList = new List<VSProjectItem>();
+            List<VSProjectItem> returnList = new List<VSProjectItem>();
             foreach (VSProjectItem item in Items)
             {
                 if (item.ItemType == getItemType)
@@ -171,7 +165,7 @@ namespace Flubu.Builds.VSSolutionBrowsing
 
         private VSProjectConfiguration ReadPropertyGroup(XmlReader xmlReader)
         {
-            var configuration = new VSProjectConfiguration();
+            VSProjectConfiguration configuration = new VSProjectConfiguration();
 
             if (xmlReader["Condition"] != null && propertiesDictionary == false)
             {
@@ -253,7 +247,7 @@ namespace Flubu.Builds.VSSolutionBrowsing
 
         private static VSProjectItem ReadItem(XmlReader xmlReader, string itemType)
         {
-            var item = new VSProjectItem(itemType) { Item = xmlReader["Include"] };
+            VSProjectItem item = new VSProjectItem(itemType) { Item = xmlReader["Include"] };
 
             if (false == xmlReader.IsEmptyElement)
             {
@@ -279,5 +273,11 @@ namespace Flubu.Builds.VSSolutionBrowsing
             string propertyValue = xmlReader.ReadElementContentAsString();
             item.ItemProperties.Add(propertyName, propertyValue);
         }
+
+        private readonly List<VSProjectConfiguration> configurations = new List<VSProjectConfiguration>();
+        private readonly List<VSProjectItem> items = new List<VSProjectItem>();
+        private readonly string projectFileName;
+        private readonly Dictionary<string, string> properties = new Dictionary<string, string>();
+        private bool propertiesDictionary;
     }
 }
