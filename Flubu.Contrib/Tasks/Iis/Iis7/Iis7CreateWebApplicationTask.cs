@@ -7,6 +7,23 @@ namespace Flubu.Tasks.Iis.Iis7
 {
     public class Iis7CreateWebApplicationTask : TaskBase, ICreateWebApplicationTask
     {
+        private bool accessScript = true;
+        private bool allowAnonymous = true;
+        private bool allowAuthNtlm = true;
+        private string anonymousUserName;
+        private string anonymousUserPass;
+        private string appFriendlyName;
+        private string applicationName;
+        private string applicationPoolName = "DefaultAppPool";
+        private bool aspEnableParentPaths;
+        private string defaultDoc;
+        private bool enableDefaultDoc = true;
+        private string localPath;
+        private CreateWebApplicationMode mode = CreateWebApplicationMode.FailIfAlreadyExists;
+        private string parentVirtualDirectoryName = @"IIS://localhost/W3SVC/1/Root";
+
+        #region ICreateWebApplicationTask Members
+
         public CreateWebApplicationMode Mode
         {
             get { return mode; }
@@ -98,12 +115,14 @@ namespace Flubu.Tasks.Iis.Iis7
             get
             {
                 return String.Format(
-                    System.Globalization.CultureInfo.InvariantCulture,
+                    CultureInfo.InvariantCulture,
                     "Create IIS Web application '{0}' on local path '{1}'",
                     applicationName,
                     localPath);
             }
         }
+
+        #endregion
 
         protected override void DoExecute(ITaskContext context)
         {
@@ -112,7 +131,6 @@ namespace Flubu.Tasks.Iis.Iis7
                 Site site = serverManager.Sites["Default Web Site"];
 
                 string vdirPath = "/" + ApplicationName;
-                Application ourApplication = null;
                 foreach (Application application in site.Applications)
                 {
                     if (application.Path == vdirPath)
@@ -124,7 +142,7 @@ namespace Flubu.Tasks.Iis.Iis7
                                 applicationName);
                             return;
                         }
-                        
+
                         if (mode == CreateWebApplicationMode.FailIfAlreadyExists)
                         {
                             throw new TaskExecutionException(
@@ -135,39 +153,21 @@ namespace Flubu.Tasks.Iis.Iis7
                         }
 
                         // otherwise we should update the existing virtual directory
-                        ourApplication = application;
-                        break;
+                        //TODO update existing application
+                        //ourApplication = application;
+                        return;
                     }
+
                 }
 
-                if (ourApplication == null)
-                    ourApplication = site.Applications.Add(vdirPath, LocalPath);
-                ourApplication.ApplicationPoolName = applicationPoolName;
-
-                throw new NotImplementedException();
-                //Microsoft.Web.Administration.Configuration configuration = ourApplication.GetWebConfiguration();
-                ////ConfigurationSection webServerSection = configuration.GetSection("system.webServer");
-                ////ConfigurationElement defaultDocEl = webServerSection.GetChildElement("defaultDocument");
-                //ConfigurationElement defaultDocEl = configuration.GetSection("system.webServer/defaultDocument");
-                //defaultDocEl["enabled"] = EnableDefaultDoc.ToString(CultureInfo.InvariantCulture);
-
-                //serverManager.CommitChanges();
+                using (ServerManager manager = new ServerManager())
+                {
+                    Site defaultSite = manager.Sites["Default Web Site"];
+                    Application ourApplication = defaultSite.Applications.Add(vdirPath, this.LocalPath);
+                    ourApplication.ApplicationPoolName = applicationPoolName;
+                    manager.CommitChanges();
+                }
             }
         }
-
-        private CreateWebApplicationMode mode = CreateWebApplicationMode.FailIfAlreadyExists;
-        private string applicationName;
-        private string parentVirtualDirectoryName = @"IIS://localhost/W3SVC/1/Root";
-        private string localPath;
-        private bool allowAnonymous = true;
-        private bool allowAuthNtlm = true;
-        private bool accessScript = true;
-        private string anonymousUserName;
-        private string anonymousUserPass;
-        private string appFriendlyName;
-        private bool aspEnableParentPaths;
-        private string defaultDoc;
-        private bool enableDefaultDoc = true;
-        private string applicationPoolName = "DefaultAppPool";
     }
 }

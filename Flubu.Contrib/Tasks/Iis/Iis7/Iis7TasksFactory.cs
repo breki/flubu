@@ -21,5 +21,10 @@
         {
             get { return new Iis7DeleteAppPoolTask(); }
         }
+
+        public IAddWebsiteBindingTask AddWebsiteBindingTask
+        {
+            get { return new Iis7AddWebsiteBindingTask(); }
+        }
     }
 }

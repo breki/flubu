@@ -1,4 +1,6 @@
-﻿namespace Flubu.Tasks.Iis.Iis6
+﻿using System;
+
+namespace Flubu.Tasks.Iis.Iis6
 {
     public class Iis6TasksFactory : IIisTasksFactory
     {
@@ -20,6 +22,11 @@
         public IDeleteAppPoolTask DeleteAppPoolTask
         {
             get { return new Iis6DeleteAppPoolTask(); }
+        }
+
+        public IAddWebsiteBindingTask AddWebsiteBindingTask
+        {
+            get { throw new InvalidOperationException("Web site management not supported on IIS 6."); }
         }
     }
 }
