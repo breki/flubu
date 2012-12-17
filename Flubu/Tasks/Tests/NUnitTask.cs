@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Text;
 using Flubu.Tasks.Processes;
@@ -32,7 +32,7 @@ namespace Flubu.Tasks.Tests
         /// <param name="assemblyToTest">Assembly to test.</param>
         public NUnitTask(string workingDirectory, string assemblyToTest)
         {
-            NUnitPath = @"lib\NUnit\bin\nunit-console-x86.exe";
+            NUnitPath = @"lib\NUnit\bin\net-2.0\nunit-console-x86.exe";
             AssemblyToTest = assemblyToTest;
             WorkingDirectory = workingDirectory;
         }
