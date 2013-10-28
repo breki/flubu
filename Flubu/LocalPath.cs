@@ -40,9 +40,19 @@ namespace Flubu
             }
         }
 
+        public static implicit operator string (LocalPath path)
+        {
+            return path.ToString ();
+        }
+
         public LocalPath CombineWith(LocalPath path)
         {
             return new LocalPath(Path.Combine(localPath, path.ToString()));
+        }
+
+        public LocalPath CombineWith (string path)
+        {
+            return CombineWith (new LocalPath (path));
         }
 
         public override bool Equals(object obj)
