@@ -55,6 +55,11 @@ namespace Flubu
             }
         }
 
+        public static implicit operator string (FullPath path)
+        {
+            return path.ToString();
+        }
+
         public FileFullPath AddFileName (string fileNameFormat, params object[] args)
         {
             string fileName = string.Format(
