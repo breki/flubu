@@ -18,6 +18,7 @@
         public const string ProductId = "ProductId";
         public const string ProductName = "ProductName";
         public const string ProductRootDir = "ProductRootDir";
+        public const string ProductVersionFieldCount = "ProductVersionFieldCount";
         public const string Solution = "Solution";
         public const string SolutionFileName = "SolutionFileName";
         public const string TargetDotNetVersion = "TargetDotNetVersion";
