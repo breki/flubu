@@ -125,7 +125,7 @@ using System.Runtime.InteropServices;
                         buildVersion.ToString(productVersionFieldCount));
 
                     if (generateAssemblyVersion)
-                        writer.WriteLine(@"[assembly: AssemblyVersionAttribute(""{0}.0.0"")]", buildVersion.ToString(productVersionFieldCount));
+                        writer.WriteLine(@"[assembly: AssemblyVersionAttribute(""{0}"")]", buildVersion.ToString(productVersionFieldCount));
 
                     if (generateConfigurationAttribute)
                         writer.WriteLine(@"[assembly: AssemblyConfigurationAttribute(""{0}"")]", buildConfiguration);
