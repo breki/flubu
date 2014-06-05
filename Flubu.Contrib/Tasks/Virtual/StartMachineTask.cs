@@ -19,7 +19,7 @@ namespace Flubu.Tasks.Virtual
         private string machineName;
 
         /// <summary>
-        /// Initializes new instance of <see cref="StartMachineTask"/>
+        /// Initializes a new instance of the <see cref="StartMachineTask"/> class.
         /// </summary>
         /// <param name="host">Hyper-v host server.</param>
         public StartMachineTask(string host)
@@ -43,7 +43,7 @@ namespace Flubu.Tasks.Virtual
         ///   Sets virtual machine name to start.
         /// </summary>
         /// <param name = "vmName">Name of the virtual machine.</param>
-        /// <returns></returns>
+        /// <returns>This same instance</returns>
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "vm")]
         public StartMachineTask Name(string vmName)
         {
@@ -55,9 +55,11 @@ namespace Flubu.Tasks.Virtual
         {
             get
             {
-                return string.Format(CultureInfo.InvariantCulture,
-                                     "Start virtual machine. Host:{0},Machine:{1}",
-                                     hostName, machineName);
+                return string.Format(
+                    CultureInfo.InvariantCulture,
+                    "Start virtual machine. Host:{0},Machine:{1}",
+                    hostName, 
+                    machineName);
             }
         }
 

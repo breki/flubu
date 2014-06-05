@@ -142,7 +142,6 @@ namespace Flubu.Tasks.Iis.Iis7
                         //ourApplication = application;
                         return;
                     }
-
                 }
 
                 using (ServerManager manager = new ServerManager())

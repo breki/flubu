@@ -13,7 +13,7 @@ namespace Flubu.Tasks.FileSystem
     public class UnzipFilesTask : TaskBase
     {
         /// <summary>
-        /// Initializes new instance of <see cref="UnzipFilesTask"/> for extraction from local file.
+        /// Initializes a new instance of the <see cref="UnzipFilesTask"/> class for extraction from local file.
         /// </summary>
         /// <param name="zipFileName">Name of local file (ZIP archive) to extract.</param>
         /// <param name="destinationDirectory">Directory to which files will be extracted.</param>
@@ -26,7 +26,7 @@ namespace Flubu.Tasks.FileSystem
         }
 
         /// <summary>
-        /// Initializes new instance of <see cref="UnzipFilesTask"/> for extraction from HTTP URL.
+        /// Initializes a new instance of the <see cref="UnzipFilesTask"/> class for extraction from HTTP URL.
         /// </summary>
         /// <param name="url">URL for ZIP archive.</param>
         /// <param name="destinationDirectory">Directory to which files will be extracted.</param>
@@ -39,7 +39,7 @@ namespace Flubu.Tasks.FileSystem
         }
 
         /// <summary>
-        /// Initializes new instance of <see cref="UnzipFilesTask"/> for extraction from <see cref="Stream"/>.
+        /// Initializes a new instance of the <see cref="UnzipFilesTask"/> class for extraction from <see cref="Stream"/>.
         /// </summary>
         /// <param name="stream">Initialized input stream. Stream is not closed by this task.</param>
         /// <param name="destinationDirectory">Directory to which files will be extracted.</param>
@@ -61,7 +61,7 @@ namespace Flubu.Tasks.FileSystem
         /// </summary>
         /// <remarks>
         /// This is <a href="http://wiki.sharpdevelop.net/SharpZipLib_FastZip.ashx?HL=namefilter#How_to_extract_a_Zip_File_using_FastZip_3">FastZip NameFilter</a>.
-        /// Basically it is semicolon separated list of regular expressions. If expression is prefixed by - it is trearted as exclusion filter.
+        /// Basically it is semicolon separated list of regular expressions. If expression is prefixed by - it is treated as exclusion filter.
         /// </remarks>
         public string FileFilter { get; set; }
 
@@ -70,7 +70,7 @@ namespace Flubu.Tasks.FileSystem
         /// </summary>
         /// <remarks>
         /// This is <a href="http://wiki.sharpdevelop.net/SharpZipLib_FastZip.ashx?HL=namefilter#How_to_extract_a_Zip_File_using_FastZip_3">FastZip NameFilter</a>.
-        /// Basically it is semicolon separated list of regular expressions. If expression is prefixed by - it is trearted as exclusion filter.
+        /// Basically it is semicolon separated list of regular expressions. If expression is prefixed by - it is treated as exclusion filter.
         /// </remarks>
         public string DirectoryFilter { get; set; }
 
@@ -81,7 +81,7 @@ namespace Flubu.Tasks.FileSystem
                 string message = string.Format(
                     CultureInfo.InvariantCulture,
                     "Unzipping '{0}' to '{1}'",
-                    zipFileName ?? (object) url ?? "<stream>",
+                    zipFileName ?? (object)url ?? "<stream>",
                     destinationDirectory);
 
                 return message;
@@ -105,7 +105,7 @@ namespace Flubu.Tasks.FileSystem
             }
             else if (url != null)
             {
-                HttpWebRequest request = (HttpWebRequest) WebRequest.Create(url);
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                 using (WebResponse response = request.GetResponse())
                     Extract(response.GetResponseStream());
             }
@@ -176,8 +176,10 @@ namespace Flubu.Tasks.FileSystem
                     {
                         file.Write(buffer, 0, n);
                     }
-                } while (n == buffer.Length);
+                } 
+                while (n == buffer.Length);
             }
+
             File.SetLastWriteTime(filePath, zipEntry.DateTime);
         }
     }

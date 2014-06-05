@@ -9,9 +9,9 @@ namespace Flubu.Tasks.Virtual.HyperV
     public static class ServerManagement
     {
         /// <summary>
-        ///   Shutdown windows machine.
+        /// Shutdown windows machine.
         /// </summary>
-        /// <param name = "machineName"></param>
+        /// <param name = "machineName">Machine name</param>
         public static void Shutdown(string machineName)
         {
             if (string.IsNullOrEmpty(machineName)) throw new ArgumentNullException("machineName");

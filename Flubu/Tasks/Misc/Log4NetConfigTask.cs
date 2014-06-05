@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Flubu.Tasks.Text;
 
 namespace Flubu.Tasks.Misc
@@ -35,6 +36,7 @@ namespace Flubu.Tasks.Misc
         /// </summary>
         /// <value>The AppendToFile setting for the appenders. If set to <c>null</c>,
         /// the setting will not be modified in configuration files.</value>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public bool? AppendToFile
         {
             get { return appendToFile; }

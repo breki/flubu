@@ -20,7 +20,7 @@ namespace Flubu.Tasks.Virtual.HyperV
         public const UInt16 IDEController = 5;
         public const UInt16 IODevice = 13;
         public const UInt16 IOSlot = 12;
-        public const UInt16 iSCSIHBA = 8;
+        public const UInt16 ISCSIHBA = 8;
         public const UInt16 Memory = 4;
         public const UInt16 Other = 1;
         public const UInt16 OtherNetworkAdapter = 11;

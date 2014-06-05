@@ -20,6 +20,6 @@ namespace Flubu.Tasks.Virtual.HyperV
         public const string ParallelSCSIHBA = "Microsoft Synthetic SCSI Controller";
         public const string VFD = "Microsoft Virtual Floppy Disk";
         public const string VHD = "Microsoft Virtual Hard Disk";
-        public const string videoSynthetic = "Microsoft Synthetic Display Controller";
+        public const string VideoSynthetic = "Microsoft Synthetic Display Controller";
     }
 }

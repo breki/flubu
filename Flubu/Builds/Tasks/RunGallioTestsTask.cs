@@ -78,8 +78,8 @@ namespace Flubu.Builds.Tasks
             {
                 VSProjectWithFileInfo project = (VSProjectWithFileInfo)solution.FindProjectByName(projectName);
                 testFileName =
-                    project.ProjectDirectoryPath.CombineWith(project.GetProjectOutputPath(buildConfiguration)).
-                        AddFileName("{0}.dll", project.ProjectName);
+                    project.ProjectDirectoryPath.CombineWith(project.GetProjectOutputPath(buildConfiguration))
+                        .AddFileName("{0}.dll", project.ProjectName);
             }
 
             RunProgramTask gallioTask = new RunProgramTask(gallioEchoExePath);

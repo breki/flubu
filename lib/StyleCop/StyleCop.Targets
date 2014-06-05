@@ -1,6 +1,6 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <!-- Specify where tasks are implemented. -->
-  <UsingTask AssemblyFile="Microsoft.StyleCop.dll" TaskName="StyleCopTask"/>
+  <UsingTask AssemblyFile="StyleCop.dll" TaskName="StyleCopTask"/>
 
   <PropertyGroup>
     <BuildDependsOn>$(BuildDependsOn);StyleCop</BuildDependsOn>
@@ -88,7 +88,11 @@
       <Output TaskParameter="Include" ItemName="StyleCopExcludedFiles"/>
     </CreateItem>
 
-    <Message Text="Excluding @(StyleCopExcludedFiles)" Importance="Normal" />
+    <ItemGroup>
+       <StyleCopFiles Remove="@(ExcludeFromStyleCop)" />    
+    </ItemGroup>
+
+    <Message Text="Excluding @(StyleCopExcludedFiles)" Importance="Normal" Condition="'@(StyleCopExcludedFiles)' != ''" />
 
     <!-- Run the StyleCop MSBuild task. -->
     <StyleCopTask
@@ -101,10 +105,10 @@
       CacheResults="$(StyleCopCacheResults)"
       OverrideSettingsFile="$(StyleCopOverrideSettingsFile)"
       OutputFile="$(StyleCopOutputFile)"
-      MaxViolationCount="$(StyleCopMaxViolationCount)"
-            />
-
-    <!-- Make output files cleanable -->
+      MaxViolationCount="$(StyleCopMaxViolationCount)">
+      <Output TaskParameter="ViolationCount" PropertyName="StyleCopViolationCount" />
+    </StyleCopTask>
+    
     <CreateItem Include="$(StyleCopOutputFile)">
       <Output TaskParameter="Include" ItemName="FileWrites"/>
     </CreateItem>

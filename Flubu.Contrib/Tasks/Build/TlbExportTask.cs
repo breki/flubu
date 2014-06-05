@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using Flubu.Tasks.Processes;
 
 namespace Flubu.Tasks.Build
@@ -24,6 +25,7 @@ namespace Flubu.Tasks.Build
         /// <summary>
         ///   Gets or sets executable path (tlbexp.exe). (default=tools\\tlb\\tlbexp.exe)
         /// </summary>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public string ExecutablePath { get; set; }
 
         public string AssemblyName { get; set; }
@@ -44,7 +46,6 @@ namespace Flubu.Tasks.Build
             ExecutablePath = fullPath;
             return this;
         }
-
 
         protected override void DoExecute(ITaskContext context)
         {

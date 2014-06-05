@@ -7,10 +7,6 @@ namespace Flubu.Tasks.Virtual
 {
     public class DeleteMachineTask : TaskBase
     {
-        private readonly string hostName;
-        private string machineName;
-        private bool failIfNotExists = true;
-
         public DeleteMachineTask(string host)
         {
             hostName = host;
@@ -32,7 +28,7 @@ namespace Flubu.Tasks.Virtual
         ///   Set virtual machine name.
         /// </summary>
         /// <param name = "vmName">Name of the virtual machine.</param>
-        /// <returns></returns>
+        /// <returns>This same instance of <see cref="DeleteMachineTask"/>.</returns>
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "vm")]
         public DeleteMachineTask Name(string vmName)
         {
@@ -44,9 +40,11 @@ namespace Flubu.Tasks.Virtual
         {
             get
             {
-                return string.Format(CultureInfo.InvariantCulture,
-                                     "Start virtual machine. Host:{0},Machine:{1}",
-                                     hostName, machineName);
+                return string.Format(
+                    CultureInfo.InvariantCulture,
+                    "Start virtual machine. Host:{0},Machine:{1}",
+                    hostName, 
+                    machineName);
             }
         }
 
@@ -78,5 +76,9 @@ namespace Flubu.Tasks.Virtual
                 context.WriteDebug("Virtual machine does not exist and was not deleted!");
             }
         }
+
+        private readonly string hostName;
+        private string machineName;
+        private bool failIfNotExists = true;
     }
 }

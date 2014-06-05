@@ -24,7 +24,7 @@ namespace Flubu.Tasks.Virtual
         private CreateDiskType type;
 
         /// <summary>
-        /// Initializes new instance of <see cref="CreateDiskTask"/>
+        /// Initializes a new instance of the <see cref="CreateDiskTask"/> class.
         /// It also sets default disk type as <see cref="CreateDiskType.Fixed"/>
         /// </summary>
         /// <param name="host">Hyper-V server machine.</param>
@@ -60,7 +60,7 @@ namespace Flubu.Tasks.Virtual
         }
 
         /// <summary>
-        /// Sets base image path. Parameter is only used when creating diferencing disk.
+        /// Sets base image path. Parameter is only used when creating differencing disk.
         /// </summary>
         /// <param name="fullPath">Full path to base VHD image to use.</param>
         /// <returns>This instance of <see cref="CreateDiskTask"/></returns>
@@ -72,7 +72,7 @@ namespace Flubu.Tasks.Virtual
 
         /// <summary>
         /// Sets maximum disk size. If <see cref="Type"/> is set
-        /// to <see cref="CreateDiskType.Fixed"/> file is prealocated, otherwise initial
+        /// to <see cref="CreateDiskType.Fixed"/> file is pre-allocated, otherwise initial
         /// file size will be 0 and will be increased as needed.
         /// </summary>
         /// <param name="diskSize">Maximum disk size in Gb.</param>
@@ -86,14 +86,13 @@ namespace Flubu.Tasks.Virtual
         /// <summary>
         /// Sets disk type to create <see cref="CreateDiskType"/>
         /// </summary>
-        /// <param name="diskType"></param>
+        /// <param name="diskType">The disk type.</param>
         /// <returns>This instance of <see cref="CreateDiskTask"/></returns>
         public CreateDiskTask Type(CreateDiskType diskType)
         {
             type = diskType;
             return this;
         }
-
 
         public override string Description
         {
@@ -109,23 +108,24 @@ namespace Flubu.Tasks.Virtual
                 switch (type)
                 {
                     case CreateDiskType.Fixed:
-                        if(string.IsNullOrEmpty(imagePath) || size < 1)
+                        if (string.IsNullOrEmpty(imagePath) || size < 1)
                             throw new ArgumentException("ImagePath or size not set");
                         t = manager.CreateFixedDisk(imagePath, size);
                         break;
                     case CreateDiskType.Dynamic:
-                        if(string.IsNullOrEmpty(imagePath) || size < 1)
+                        if (string.IsNullOrEmpty(imagePath) || size < 1)
                             throw new ArgumentException("ImagePath or size not set");
                         t = manager.CreateDynamicDisk(imagePath, size);
                         break;
                     case CreateDiskType.Differencing:
-                        if(string.IsNullOrEmpty(imagePath) || string.IsNullOrEmpty(baseImagePath))
+                        if (string.IsNullOrEmpty(imagePath) || string.IsNullOrEmpty(baseImagePath))
                             throw new ArgumentException("ImagePath or BaseImagePath not set");
                         t = manager.CreateDifferencingDisk(imagePath, baseImagePath);
                         break;
                     default:
                         throw new NotSupportedException("Not supported disk type.");
                 }
+
                 t.WaitForCompletion(new TimeSpan(0, 0, 1, 0));
             }
         }

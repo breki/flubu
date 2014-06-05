@@ -17,8 +17,11 @@ namespace Flubu.Tasks.Virtual.HyperV
         ICollection<IVirtualTask> TaskList { get; }
 
         /// <summary>
-        ///   Connect to remote instance of Virtual server from local server using DCOM
+        /// Connect to remote instance of Virtual server from local server using DCOM
         /// </summary>
+        /// <param name="server">
+        /// The server.
+        /// </param>
         void Connect(string server);
 
         /// <summary>
@@ -57,11 +60,11 @@ namespace Flubu.Tasks.Virtual.HyperV
         /// <param name = "machineFolder">Full path where virtual machine will be created.</param>
         /// <param name = "diskPath">Full path and name of disk image to use.</param>
         /// <param name = "networkAdapterName">Name of the network adapter to use.</param>
+        /// <param name = "macAddress">MAC address</param>
         /// <param name = "memorySize">Memory size to use for new virtual machine.</param>
-        /// <param name = "macAddress"></param>
         /// <returns>New <see cref = "IVirtualTask" /> for current operation.</returns>
-        IVirtualTask CreateVirtualMachine(string machineName, string machineFolder, string diskPath,
-                                   string networkAdapterName, string macAddress, int memorySize);
+        IVirtualTask CreateVirtualMachine(
+            string machineName, string machineFolder, string diskPath, string networkAdapterName, string macAddress, int memorySize);
 
         /// <summary>
         ///   Creates new virtual machine with configuration from existing virtual machine.
@@ -71,10 +74,10 @@ namespace Flubu.Tasks.Virtual.HyperV
         /// <param name = "baseMachineName">Name of the base virtual machine name.</param>
         /// <param name = "diskPath">Full path and name of disk image to use.</param>
         /// <param name = "networkAdapterName">Name of the network adapter to use.</param>
-        /// <param name = "macAddress"></param>
+        /// <param name = "macAddress">MAC address</param>
         /// <returns>New <see cref = "IVirtualTask" /> for current operation.</returns>
-        IVirtualTask CloneVirtualMachine(string machineName, string machineFolder, string baseMachineName, string diskPath,
-                                  string networkAdapterName, string macAddress);
+        IVirtualTask CloneVirtualMachine(
+            string machineName, string machineFolder, string baseMachineName, string diskPath, string networkAdapterName, string macAddress);
 
         /// <summary>
         ///   Deletes existing virtual machine from virtual server.
@@ -89,28 +92,28 @@ namespace Flubu.Tasks.Virtual.HyperV
         /// <summary>
         ///   Starts virtual machine
         /// </summary>
-        /// <param name = "machineName"></param>
+        /// <param name = "machineName">Machine name</param>
         /// <returns>New <see cref = "IVirtualTask" /> for current operation.</returns>
         IVirtualTask StartVirtualMachine(string machineName);
 
         /// <summary>
         ///   Turnoff specified virtual machine.
         /// </summary>
-        /// <param name = "machineName"></param>
+        /// <param name = "machineName">Machine name</param>
         /// <returns>New <see cref = "IVirtualTask" /> for current operation.</returns>
         IVirtualTask TurnoffVirtualMachine(string machineName);
 
         /// <summary>
         ///   Shutdown specified virtual machine.
         /// </summary>
-        /// <param name = "machineName"></param>
+        /// <param name = "machineName">Machine name</param>
         /// <returns>New <see cref = "IVirtualTask" /> for current operation.</returns>
         IVirtualTask ShutdownVirtualMachine(string machineName);
 
         /// <summary>
         ///   Save virtual machine state.
         /// </summary>
-        /// <param name = "machineName"></param>
+        /// <param name = "machineName">Machine name</param>
         /// <returns>New <see cref = "IVirtualTask" /> for current operation.</returns>
         IVirtualTask SaveVirtualMachine(string machineName);
 

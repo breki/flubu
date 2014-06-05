@@ -28,12 +28,11 @@ namespace Flubu.Tasks.Virtual
             return this;
         }
 
-
         /// <summary>
         ///   Set virtual machine name.
         /// </summary>
         /// <param name = "vmName">Name of the virtual machine.</param>
-        /// <returns></returns>
+        /// <returns>The same instance.</returns>
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "vm")]
         public ShutdownMachineTask Name(string vmName)
         {
@@ -45,9 +44,8 @@ namespace Flubu.Tasks.Virtual
         {
             get
             {
-                return string.Format(CultureInfo.InvariantCulture,
-                                     "Shutdown virtual machine. Host:{0},Machine:{1}",
-                                     hostName, machineName);
+                return string.Format(
+                    CultureInfo.InvariantCulture, "Shutdown virtual machine. Host:{0},Machine:{1}", hostName, machineName);
             }
         }
 

@@ -30,8 +30,13 @@ namespace Flubu.Tasks.Virtual
             return task.Name(machineName);
         }
 
-        public static CreateMachineTask New(string host, string machineName, string machineLocation, string diskPath,
-                                            string networkAdapterName, int memorySize)
+        public static CreateMachineTask New(
+            string host, 
+            string machineName, 
+            string machineLocation, 
+            string diskPath,
+            string networkAdapterName, 
+            int memorySize)
         {
             CreateMachineTask task = new CreateMachineTask(host);
             return task.Name(machineName)
@@ -41,8 +46,14 @@ namespace Flubu.Tasks.Virtual
                 .Memory(memorySize);
         }
 
-        public static void Execute(ITaskContext environment, string host, string machineName,
-                                   string machineLocation, string diskPath, string networkAdapterName, int memorySize)
+        public static void Execute(
+            ITaskContext environment, 
+            string host, 
+            string machineName,
+            string machineLocation, 
+            string diskPath, 
+            string networkAdapterName, 
+            int memorySize)
         {
             New(host, machineName, machineLocation, diskPath, networkAdapterName, memorySize)
                 .Execute(environment);
@@ -52,7 +63,7 @@ namespace Flubu.Tasks.Virtual
         ///   Set virtual machine name.
         /// </summary>
         /// <param name = "vmName">Name of the virtual machine.</param>
-        /// <returns></returns>
+        /// <returns>This same instance of <see cref="CreateMachineTask"/></returns>
         [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "vm")]
         public CreateMachineTask Name(string vmName)
         {
@@ -64,8 +75,8 @@ namespace Flubu.Tasks.Virtual
         ///   Set virtual machine location (full path to virtual machine). It's hosts local path.
         /// </summary>
         /// <param name = "vmLocation">Hosts local path to virtual machine location.</param>
-        /// <returns></returns>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "vm")]
+        /// <returns>This same instance of <see cref="CreateMachineTask"/></returns>
+        [SuppressMessage ("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "vm")]
         public CreateMachineTask Location(string vmLocation)
         {
             machineLocation = vmLocation;
@@ -77,8 +88,9 @@ namespace Flubu.Tasks.Virtual
         ///   If null or empty new fixed size disk will be created in <see cref = "Location" />\<see cref = "Name" />.vhd location.
         /// </summary>
         /// <param name = "path">Full hosts local path to existing virtual disk.</param>
-        /// <returns></returns>
-        public CreateMachineTask DiskPath(string path)
+        /// <returns>This same instance of <see cref="CreateMachineTask"/></returns>
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+        public CreateMachineTask DiskPath (string path)
         {
             diskPath = path;
             return this;
@@ -88,8 +100,8 @@ namespace Flubu.Tasks.Virtual
         ///   Set hyper-v virtual network name.
         /// </summary>
         /// <param name = "networkName">Network name.</param>
-        /// <returns></returns>
-        public CreateMachineTask Network(string networkName)
+        /// <returns>This same instance of <see cref="CreateMachineTask"/></returns>
+        public CreateMachineTask Network (string networkName)
         {
             networkAdapterName = networkName;
             return this;
@@ -99,8 +111,8 @@ namespace Flubu.Tasks.Virtual
         ///   Set virtual machine memory size.
         /// </summary>
         /// <param name = "size">Memory size.</param>
-        /// <returns></returns>
-        public CreateMachineTask Memory(int size)
+        /// <returns>This same instance of <see cref="CreateMachineTask"/></returns>
+        public CreateMachineTask Memory (int size)
         {
             memorySize = size;
             return this;
@@ -116,9 +128,12 @@ namespace Flubu.Tasks.Virtual
         {
             get
             {
-                return string.Format(CultureInfo.InvariantCulture,
-                                     "Create virtual machine. Host:{0},Machine:{1},Location:{2}",
-                                     hostName, machineName, machineLocation);
+                return string.Format(
+                    CultureInfo.InvariantCulture,
+                    "Create virtual machine. Host:{0},Machine:{1},Location:{2}",
+                    hostName, 
+                    machineName, 
+                    machineLocation);
             }
         }
 
@@ -140,8 +155,9 @@ namespace Flubu.Tasks.Virtual
                     IVirtualTask disk = manager.CreateDynamicDisk(diskPath, 50);
                     disk.WaitForCompletion(new TimeSpan(0, 0, 0, 10));
                 }
-                IVirtualTask t = manager.CreateVirtualMachine(machineName, machineLocation, diskPath, networkAdapterName, mac,
-                                                       memorySize);
+
+                IVirtualTask t = manager.CreateVirtualMachine(
+                    machineName, machineLocation, diskPath, networkAdapterName, mac, memorySize);
                 t.WaitForCompletion(new TimeSpan(0, 0, 1, 0));
             }
         }

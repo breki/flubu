@@ -16,8 +16,7 @@ namespace Flubu.Tasks.Virtual
             hostName = host;
         }
 
-        public static ImportMachineTask New(string host, string machineName, string importLocation,
-                                            string machineLocation)
+        public static ImportMachineTask New(string host, string machineName, string importLocation, string machineLocation)
         {
             ImportMachineTask task = new ImportMachineTask(host);
             task.Name(machineName)
@@ -50,9 +49,13 @@ namespace Flubu.Tasks.Virtual
         {
             get
             {
-                return string.Format(CultureInfo.InvariantCulture,
-                                     "Import virtual machine. Host:{0},Name:{1},Location:{2},Import:{3}", hostName,
-                                     machineName, machineLocation, importLocation);
+                return string.Format(
+                    CultureInfo.InvariantCulture,
+                    "Import virtual machine. Host:{0},Name:{1},Location:{2},Import:{3}", 
+                    hostName,
+                    machineName, 
+                    machineLocation, 
+                    importLocation);
             }
         }
 
