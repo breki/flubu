@@ -12,15 +12,13 @@ namespace Flubu.Tasks.Iis.Iis7
         {
             get
             {
-                return string.Format(CultureInfo.InvariantCulture, "Add '{0}' binding to web site '{1}'", bindProtocol,
-                                     siteName);
+                return string.Format(
+                    CultureInfo.InvariantCulture, 
+                    "Add '{0}' binding to web site '{1}'", 
+                    bindProtocol,
+                    siteName);
             }
         }
-
-        private string siteName;
-        private string bindProtocol;
-        private string certificateStore;
-        private string certificateHash;
 
         public Iis7AddWebsiteBindingTask SiteName(string name)
         {
@@ -48,15 +46,14 @@ namespace Flubu.Tasks.Iis.Iis7
 
         protected override void DoExecute(ITaskContext context)
         {
-            if(string.IsNullOrEmpty(siteName))
+            if (string.IsNullOrEmpty(siteName))
                 throw new TaskExecutionException("Site name missing!");
             if (string.IsNullOrEmpty(bindProtocol))
                 throw new TaskExecutionException("Protocol missing!");
-            if(bindProtocol.IndexOf("https", StringComparison.OrdinalIgnoreCase) >= 0 &&
+            if (bindProtocol.IndexOf("https", StringComparison.OrdinalIgnoreCase) >= 0 &&
                 (string.IsNullOrEmpty(certificateStore) || string.IsNullOrEmpty(certificateHash)))
-            {
                 throw new TaskExecutionException("Certificate store or hash not set for SSL protocol");
-            }
+
             ServerManager oIisMgr = new ServerManager();
             Site oSite = oIisMgr.Sites[siteName];
 
@@ -77,5 +74,10 @@ namespace Flubu.Tasks.Iis.Iis7
 
             oIisMgr.CommitChanges();
         }
+
+        private string siteName;
+        private string bindProtocol;
+        private string certificateStore;
+        private string certificateHash;
     }
 }

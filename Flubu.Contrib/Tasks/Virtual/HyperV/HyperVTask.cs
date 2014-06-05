@@ -11,34 +11,25 @@ namespace Flubu.Tasks.Virtual.HyperV
     /// </summary>
     public class HyperVTask : IVirtualTask, IDisposable
     {
-        private readonly UInt32? returnCode;
-        private readonly ManagementObject task;
-
-        /// <summary>
-        ///   Initialized new <see cref = "HyperVTask" />.
-        /// </summary>
-        /// <param name = "outParameters"></param>
-        /// <param name = "scope"></param>
         public HyperVTask(ManagementBaseObject outParameters, ManagementScope scope)
         {
             if (outParameters == null) throw new ArgumentNullException("outParameters");
-            var jobPath = (string) outParameters["Job"];
+            var jobPath = (string)outParameters["Job"];
             task = new ManagementObject(scope, new ManagementPath(jobPath), null);
             //Try to get storage job information
             task.Get();
         }
 
         /// <summary>
-        ///   Initializes new <see cref = "HyperVTask" /> with specified job return code.
+        /// Initializes a new instance of the <see cref="HyperVTask"/> class with a specified job return code.
         /// </summary>
-        /// <param name = "returnCode"></param>
+        /// <param name="returnCode">Job return code.
+        /// </param>
         [CLSCompliant(false)]
         public HyperVTask(UInt32 returnCode)
         {
             this.returnCode = returnCode;
         }
-
-        #region Implementation of ITask
 
         /// <summary>
         ///   Wait current task to complete.
@@ -48,38 +39,37 @@ namespace Flubu.Tasks.Virtual.HyperV
         public bool WaitForCompletion(TimeSpan timeout)
         {
             if (returnCode.HasValue)
-            {
                 return true;
-            }
+
             task.Get();
-            var jobState = (UInt16) task["JobState"];
+            var jobState = (UInt16)task["JobState"];
             Stopwatch timer = Stopwatch.StartNew();
             while (jobState == JobState.Starting || jobState == JobState.Running)
             {
                 Thread.Sleep(1000);
                 task.Get();
-                jobState = (UInt16) task["JobState"];
+                jobState = (UInt16)task["JobState"];
                 if (timer.Elapsed >= timeout)
                 {
                     return false;
                 }
             }
+
             return true;
         }
 
         /// <summary>
-        ///   True if task has already finished, false if task is in progress.
+        /// Gets a value indicating whether the task has already finished, false if task is in progress.
         /// </summary>
         public bool IsComplete
         {
             get
             {
                 if (returnCode.HasValue)
-                {
                     return true;
-                }
+
                 task.Get();
-                return (UInt16) task["JobState"] == JobState.Completed;
+                return (UInt16)task["JobState"] == JobState.Completed;
             }
         }
 
@@ -91,20 +81,13 @@ namespace Flubu.Tasks.Virtual.HyperV
             get
             {
                 if (returnCode.HasValue)
-                {
                     return 100;
-                }
+
                 task.Get();
-                return (int) task["PercentComplete"];
+                return (int)task["PercentComplete"];
             }
         }
 
-        #endregion Implementation of ITask
-
-        ///<summary>
-        ///  Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        ///</summary>
-        ///<filterpriority>2</filterpriority>
         public void Dispose()
         {
             Dispose(true);
@@ -125,5 +108,8 @@ namespace Flubu.Tasks.Virtual.HyperV
                 task.Dispose();
             }
         }
+
+        private readonly UInt32? returnCode;
+        private readonly ManagementObject task;
     }
 }

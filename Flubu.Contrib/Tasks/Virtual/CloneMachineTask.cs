@@ -26,8 +26,13 @@ namespace Flubu.Tasks.Virtual
             return task.Name(machineName);
         }
 
-        public static CloneMachineTask New(string host, string machineName, string baseMachineName,
-                                           string machineLocation, string diskPath, string networkAdapterName)
+        public static CloneMachineTask New(
+            string host, 
+            string machineName, 
+            string baseMachineName,
+            string machineLocation, 
+            string diskPath, 
+            string networkAdapterName)
         {
             CloneMachineTask task = new CloneMachineTask(host);
             return task.Name(machineName)
@@ -79,9 +84,13 @@ namespace Flubu.Tasks.Virtual
         {
             get
             {
-                return string.Format(CultureInfo.InvariantCulture,
-                                     "Clone virtual machine. Host:{0},Machine:{1},Location:{2},Base:{3}",
-                                     hostName, machineName, machineLocation, baseMachineName);
+                return string.Format(
+                    CultureInfo.InvariantCulture,
+                    "Clone virtual machine. Host:{0},Machine:{1},Location:{2},Base:{3}",
+                    hostName, 
+                    machineName, 
+                    machineLocation, 
+                    baseMachineName);
             }
         }
 
@@ -89,17 +98,17 @@ namespace Flubu.Tasks.Virtual
         {
             if (string.IsNullOrEmpty(machineName))
                 throw new TaskExecutionException("Machine name must be specified!");
-
             if (string.IsNullOrEmpty(machineLocation))
                 throw new TaskExecutionException("Machine location must be specified!");
             if (string.IsNullOrEmpty(baseMachineName))
                 throw new TaskExecutionException("Base machine name must be specified!");
+
             using (HyperVManager manager = new HyperVManager())
             {
                 manager.Connect(hostName);
 
-                IVirtualTask t = manager.CloneVirtualMachine(machineName, machineLocation, baseMachineName, diskPath,
-                                                      networkAdapterName, mac);
+                IVirtualTask t = manager.CloneVirtualMachine(
+                    machineName, machineLocation, baseMachineName, diskPath, networkAdapterName, mac);
                 t.WaitForCompletion(new TimeSpan(0, 0, 1, 0));
             }
         }

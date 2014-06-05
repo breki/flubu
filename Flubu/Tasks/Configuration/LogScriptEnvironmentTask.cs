@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Flubu.Tasks.Configuration
 {
     /// <summary>
-    /// Logs important enviroment information (machine name, OS version, etc).
+    /// Logs important environment information (machine name, OS version, etc).
     /// </summary>
     public class LogScriptEnvironmentTask : TaskBase
     {

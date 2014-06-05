@@ -69,7 +69,8 @@ namespace Flubu.Tasks.Iis.Iis7
 
                         context.WriteInfo(
                             "Application pool '{0}' has been {1}ed.",
-                            ApplicationPoolName, action);
+                            ApplicationPoolName, 
+                            action);
 
                         return;
                     }

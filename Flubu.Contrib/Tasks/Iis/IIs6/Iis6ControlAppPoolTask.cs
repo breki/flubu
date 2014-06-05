@@ -79,4 +79,3 @@ namespace Flubu.Tasks.Iis.Iis6
         private bool failIfNotExist;
     }
 }
-

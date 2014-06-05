@@ -6,15 +6,17 @@
     public enum CreateDiskType
     {
         /// <summary>
-        /// Create fixed disk. File will be prealocated with maximum allowed size.
+        /// Create fixed disk. File will be pre-allocated with maximum allowed size.
         /// </summary>
         Fixed,
+
         /// <summary>
-        /// Create dynamicly expanding disk image.
+        /// Create dynamically expanding disk image.
         /// </summary>
         Dynamic,
+
         /// <summary>
-        /// Create diferencing disk.
+        /// Create differencing disk.
         /// </summary>
         Differencing
     }

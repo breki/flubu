@@ -44,7 +44,7 @@ namespace Flubu.Packaging
                 return false;
             }
 
-            PackagedFileInfo that = (PackagedFileInfo) obj;
+            PackagedFileInfo that = (PackagedFileInfo)obj;
 
             return string.Equals(localPath, that.localPath) && string.Equals(fileFullPath, that.fileFullPath);
         }

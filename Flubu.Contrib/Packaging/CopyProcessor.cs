@@ -48,7 +48,7 @@ namespace Flubu.Packaging
         }
 
         /// <summary>
-        /// Replace all occurences of source filename with newFileName.
+        /// Replace all occurrences of source file name with newFileName.
         /// </summary>
         /// <param name="fileName">Source file name to replace.</param>
         /// <param name="newFileName">Replace with new name.</param>

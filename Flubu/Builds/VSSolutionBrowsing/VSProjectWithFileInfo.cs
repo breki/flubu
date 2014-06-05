@@ -72,7 +72,7 @@ namespace Flubu.Builds.VSSolutionBrowsing
         /// </summary>
         /// <param name="buildConfiguration">The build configuration.</param>
         /// <returns>
-        /// The output path or <c>null</c> if the project is not compatibile.
+        /// The output path or <c>null</c> if the project is not compatible.
         /// </returns>
         /// <exception cref="ArgumentException">The method could not extract the data from the project file.</exception>
         public LocalPath GetProjectOutputPath(string buildConfiguration)

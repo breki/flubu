@@ -12,7 +12,7 @@ namespace Flubu.Tasks.FileSystem
         /// <summary>
         /// Initializes a new instance of the <see cref="GetFileVersionTask"/> class.
         /// </summary>
-        /// <param name="file">Filename of file whose version should be retreived.</param>
+        /// <param name="file">File name of the file whose version should be retrieved.</param>
         /// <param name="setting">Name of setting to which file version is stored.</param>
         public GetFileVersionTask(string file, string setting)
         {

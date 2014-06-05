@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Xml;
 using System.Xml.Xsl;
@@ -7,6 +8,7 @@ namespace Flubu.Tasks.Text
     /// <summary>
     /// Transforms XML file using a XSLT stylesheet.
     /// </summary>
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
     public class XsltTransformTask : TaskBase
     {
         /// <summary>

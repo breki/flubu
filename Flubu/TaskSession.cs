@@ -44,7 +44,7 @@ namespace Flubu
         }
 
         /// <summary>
-        /// Marks the runner as having completed its work sucessfully. This is the last method
+        /// Marks the runner as having completed its work successfully. This is the last method
         /// that should be called on the runner before it gets disposed.
         /// </summary>
         public void Complete()

@@ -88,7 +88,7 @@ namespace Flubu.Tasks.FileSystem
         }
 
         /// <summary>
-        /// Adds an identity to a list of identites for which the access rule will be applied.
+        /// Adds an identity to a list of identities for which the access rule will be applied.
         /// </summary>
         /// <param name="identity">The identity.</param>
         public void AddIdentity (string identity)

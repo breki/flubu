@@ -1,10 +1,11 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using Flubu.Tasks.Processes;
 
 namespace Flubu.Tasks.Misc
 {
     /// <summary>
-    /// Task for creating developement self signed certificates. Task uses makecert.exe utility.
+    /// Task for creating development self signed certificates. Task uses makecert.exe utility.
     /// Authority certificate and .pvk should be created only once and should be added to source code.
     /// When creating authority certificate makecert will ask for a private key password, you should select none.
     /// Example code for creating all certificates.
@@ -28,6 +29,7 @@ namespace Flubu.Tasks.Misc
     ///    .Execute(context);
     /// </code>
     /// </summary>
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
     public class CreateCertificateTask : TaskBase
     {
         public CreateCertificateTask(string commonName)
@@ -38,26 +40,15 @@ namespace Flubu.Tasks.Misc
             AuthorityPrivateKeyFile = ".\\lib\\certificates\\LocalAuthority.pvk";
         }
 
-        protected string AuthorityPrivateKeyFile { get; set; }
-
-        protected string AuthorityCertificateFile { get; set; }
-
-        protected string OutputFile { get; set; }
-
-        protected string CertCommonName { get; set; }
-
-        protected CertificateType CertType { get; set; }
-
-        protected string ExecutablePath { get; set; }
-
         public override string Description
         {
             get
             {
-                return string.Format(CultureInfo.InvariantCulture,
-                                     "Create certificate CN={0} at {1}",
-                                     CertCommonName,
-                                     OutputFile);
+                return string.Format(
+                    CultureInfo.InvariantCulture,
+                    "Create certificate CN={0} at {1}",
+                    CertCommonName,
+                    OutputFile);
             }
         }
 
@@ -96,6 +87,18 @@ namespace Flubu.Tasks.Misc
             AuthorityPrivateKeyFile = fullPath;
             return this;
         }
+
+        protected string AuthorityPrivateKeyFile { get; set; }
+
+        protected string AuthorityCertificateFile { get; set; }
+
+        protected string OutputFile { get; set; }
+
+        protected string CertCommonName { get; set; }
+
+        protected CertificateType CertType { get; set; }
+
+        protected string ExecutablePath { get; set; }
 
         protected override void DoExecute(ITaskContext context)
         {
@@ -143,6 +146,7 @@ namespace Flubu.Tasks.Misc
                         .AddArgument("-ir localmachine");
                 }
             }
+
             task.AddArgument("\"{0}\"", OutputFile)
                 .Execute(context);
         }

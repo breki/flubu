@@ -3,17 +3,17 @@
 namespace Flubu.Tasks.Virtual.HyperV
 {
     /// <summary>
-    ///   Completition task interface definition.
+    /// Completion task interface definition.
     /// </summary>
     public interface IVirtualTask
     {
         /// <summary>
-        ///   True if task has already finished, false if task is in progress.
+        /// Gets a value indicating whether the task has already finished, false if task is in progress.
         /// </summary>
         bool IsComplete { get; }
 
         /// <summary>
-        ///   Gets task completition percentage.
+        ///   Gets task completion percentage.
         /// </summary>
         int PercentComplete { get; }
 

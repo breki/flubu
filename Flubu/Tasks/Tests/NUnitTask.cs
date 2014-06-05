@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text;
 using Flubu.Tasks.Processes;
@@ -17,6 +18,7 @@ namespace Flubu.Tasks.Tests
     ///        task.Execute(ScriptExecutionEnvironment);
     /// </example>
     /// </summary>
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
     public class NUnitTask : TaskBase
     {
         public static void Execute(ITaskContext environment, string workingFolder, string assemblyToTest)
