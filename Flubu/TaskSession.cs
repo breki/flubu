@@ -43,6 +43,12 @@ namespace Flubu
             buildStopwatch.Start();
         }
 
+        public void Reset()
+        {
+            targetTree.ResetTargetExecutionInfo();
+            Properties.Clear();
+        }
+
         /// <summary>
         /// Marks the runner as having completed its work successfully. This is the last method
         /// that should be called on the runner before it gets disposed.

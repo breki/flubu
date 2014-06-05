@@ -71,6 +71,11 @@ namespace Flubu.Targeting
             executedTargets.Add(target.TargetName);
         }
 
+        public void ResetTargetExecutionInfo ()
+        {
+            executedTargets.Clear();
+        }
+
         public void RunTarget(ITaskContext taskContext, string targetName)
         {
             if (false == targets.ContainsKey(targetName))
@@ -89,7 +94,7 @@ namespace Flubu.Targeting
 
         public void SetDefaultTarget(ITarget target)
         {
-            this.defaultTarget = target;
+            defaultTarget = target;
         }
 
         /// <summary>

@@ -48,6 +48,11 @@ namespace Flubu
             set { Set(propertyName, value); }
         }
 
+        public void Clear()
+        {
+            properties.Clear();
+        }
+
         private Dictionary<string, object> properties = new Dictionary<string, object>();
     }
 }
