@@ -20,5 +20,7 @@ namespace Flubu
             get;
             set;
         }
+
+        void Clear();
     }
 }

@@ -11,6 +11,12 @@ namespace Flubu
         TargetTree TargetTree { get; }
 
         void Start(Action<ITaskSession> onFinishDo);
+
+        /// <summary>
+        /// Resets the task session, cleaning all information about the previously executed targets. 
+        /// </summary>
+        void Reset();
+
         void Complete();
     }
 }

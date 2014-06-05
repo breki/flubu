@@ -3,7 +3,7 @@ using System;
 namespace Flubu.Tasks.Configuration
 {
     /// <summary>
-    /// Logs important environment information (machine name, OS version, etc).
+    /// Logs important environment information (machine name, OS version...).
     /// </summary>
     public class LogScriptEnvironmentTask : TaskBase
     {
