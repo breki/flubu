@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -54,24 +55,23 @@ namespace BuildScripts
 
                 try
                 {
-                    // actual run
-                    if (args.Length == 0)
+                    string targetToRun = ParseCmdLineArgs(args, session);
+                    
+                    if (targetToRun == null)
                         targetTree.RunTarget(session, targetTree.DefaultTarget.TargetName);
                     else
                     {
-                        string targetName = args[0];
-                        if (false == targetTree.HasTarget(targetName))
+                        if (false == targetTree.HasTarget(targetToRun))
                         {
-                            session.WriteError("ERROR: The target '{0}' does not exist", targetName);
+                            session.WriteError ("ERROR: The target '{0}' does not exist", targetToRun);
                             targetTree.RunTarget(session, "help");
                             return 2;
                         }
 
-                        targetTree.RunTarget(session, args[0]);
+                        targetTree.RunTarget (session, targetToRun);
                     }
 
-                    session
-                        .Complete();
+                    session.Complete();
 
                     return 0;
                 }
@@ -81,6 +81,23 @@ namespace BuildScripts
                     return 1;
                 }
             }
+        }
+
+        private static string ParseCmdLineArgs (IEnumerable<string> args, ITaskContext context)
+        {
+            string targetToBuild = null;
+
+            foreach (string arg in args)
+            {
+                if (string.Compare (arg, "-speechdisabled", StringComparison.InvariantCultureIgnoreCase) == 0)
+                {
+                    context.Properties.Set (BuildProps.SpeechDisabled, true);
+                }
+                else
+                    targetToBuild = arg;
+            }
+
+            return targetToBuild;
         }
 
         private static void TargetPackage(ITaskContext context)

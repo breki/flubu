@@ -21,7 +21,7 @@
         </member>
         <member name="M:Flubu.Packaging.CopyProcessor.AddFileTransformation(System.String,System.String)">
             <summary>
-            Replace all occurences of source filename with newFileName.
+            Replace all occurrences of source file name with newFileName.
             </summary>
             <param name="fileName">Source file name to replace.</param>
             <param name="newFileName">Replace with new name.</param>
@@ -70,21 +70,21 @@
         </member>
         <member name="M:Flubu.Tasks.FileSystem.UnzipFilesTask.#ctor(System.String,System.String)">
             <summary>
-            Initializes new instance of <see cref="T:Flubu.Tasks.FileSystem.UnzipFilesTask"/> for extraction from local file.
+            Initializes a new instance of the <see cref="T:Flubu.Tasks.FileSystem.UnzipFilesTask"/> class for extraction from local file.
             </summary>
             <param name="zipFileName">Name of local file (ZIP archive) to extract.</param>
             <param name="destinationDirectory">Directory to which files will be extracted.</param>
         </member>
         <member name="M:Flubu.Tasks.FileSystem.UnzipFilesTask.#ctor(System.Uri,System.String)">
             <summary>
-            Initializes new instance of <see cref="T:Flubu.Tasks.FileSystem.UnzipFilesTask"/> for extraction from HTTP URL.
+            Initializes a new instance of the <see cref="T:Flubu.Tasks.FileSystem.UnzipFilesTask"/> class for extraction from HTTP URL.
             </summary>
             <param name="url">URL for ZIP archive.</param>
             <param name="destinationDirectory">Directory to which files will be extracted.</param>
         </member>
         <member name="M:Flubu.Tasks.FileSystem.UnzipFilesTask.#ctor(System.IO.Stream,System.String)">
             <summary>
-            Initializes new instance of <see cref="T:Flubu.Tasks.FileSystem.UnzipFilesTask"/> for extraction from <see cref="T:System.IO.Stream"/>.
+            Initializes a new instance of the <see cref="T:Flubu.Tasks.FileSystem.UnzipFilesTask"/> class for extraction from <see cref="T:System.IO.Stream"/>.
             </summary>
             <param name="stream">Initialized input stream. Stream is not closed by this task.</param>
             <param name="destinationDirectory">Directory to which files will be extracted.</param>
@@ -95,7 +95,7 @@
             </summary>
             <remarks>
             This is <a href="http://wiki.sharpdevelop.net/SharpZipLib_FastZip.ashx?HL=namefilter#How_to_extract_a_Zip_File_using_FastZip_3">FastZip NameFilter</a>.
-            Basically it is semicolon separated list of regular expressions. If expression is prefixed by - it is trearted as exclusion filter.
+            Basically it is semicolon separated list of regular expressions. If expression is prefixed by - it is treated as exclusion filter.
             </remarks>
         </member>
         <member name="P:Flubu.Tasks.FileSystem.UnzipFilesTask.DirectoryFilter">
@@ -104,7 +104,7 @@
             </summary>
             <remarks>
             This is <a href="http://wiki.sharpdevelop.net/SharpZipLib_FastZip.ashx?HL=namefilter#How_to_extract_a_Zip_File_using_FastZip_3">FastZip NameFilter</a>.
-            Basically it is semicolon separated list of regular expressions. If expression is prefixed by - it is trearted as exclusion filter.
+            Basically it is semicolon separated list of regular expressions. If expression is prefixed by - it is treated as exclusion filter.
             </remarks>
         </member>
         <member name="F:Flubu.Tasks.Iis.ControlApplicationPoolAction.Start">
@@ -162,7 +162,7 @@
         </member>
         <member name="T:Flubu.Tasks.Misc.CreateCertificateTask">
             <summary>
-            Task for creating developement self signed certificates. Task uses makecert.exe utility.
+            Task for creating development self signed certificates. Task uses makecert.exe utility.
             Authority certificate and .pvk should be created only once and should be added to source code.
             When creating authority certificate makecert will ask for a private key password, you should select none.
             Example code for creating all certificates.
@@ -201,7 +201,7 @@
         </member>
         <member name="M:Flubu.Tasks.Virtual.CreateDiskTask.#ctor(System.String)">
             <summary>
-            Initializes new instance of <see cref="T:Flubu.Tasks.Virtual.CreateDiskTask"/>
+            Initializes a new instance of the <see cref="T:Flubu.Tasks.Virtual.CreateDiskTask"/> class.
             It also sets default disk type as <see cref="F:Flubu.Tasks.Virtual.CreateDiskType.Fixed"/>
             </summary>
             <param name="host">Hyper-V server machine.</param>
@@ -224,7 +224,7 @@
         </member>
         <member name="M:Flubu.Tasks.Virtual.CreateDiskTask.BasePath(System.String)">
             <summary>
-            Sets base image path. Parameter is only used when creating diferencing disk.
+            Sets base image path. Parameter is only used when creating differencing disk.
             </summary>
             <param name="fullPath">Full path to base VHD image to use.</param>
             <returns>This instance of <see cref="T:Flubu.Tasks.Virtual.CreateDiskTask"/></returns>
@@ -232,7 +232,7 @@
         <member name="M:Flubu.Tasks.Virtual.CreateDiskTask.Size(System.Int32)">
             <summary>
             Sets maximum disk size. If <see cref="M:Flubu.Tasks.Virtual.CreateDiskTask.Type(Flubu.Tasks.Virtual.CreateDiskType)"/> is set
-            to <see cref="F:Flubu.Tasks.Virtual.CreateDiskType.Fixed"/> file is prealocated, otherwise initial
+            to <see cref="F:Flubu.Tasks.Virtual.CreateDiskType.Fixed"/> file is pre-allocated, otherwise initial
             file size will be 0 and will be increased as needed.
             </summary>
             <param name="diskSize">Maximum disk size in Gb.</param>
@@ -242,7 +242,7 @@
             <summary>
             Sets disk type to create <see cref="T:Flubu.Tasks.Virtual.CreateDiskType"/>
             </summary>
-            <param name="diskType"></param>
+            <param name="diskType">The disk type.</param>
             <returns>This instance of <see cref="T:Flubu.Tasks.Virtual.CreateDiskTask"/></returns>
         </member>
         <member name="T:Flubu.Tasks.Virtual.CreateDiskType">
@@ -252,17 +252,17 @@
         </member>
         <member name="F:Flubu.Tasks.Virtual.CreateDiskType.Fixed">
             <summary>
-            Create fixed disk. File will be prealocated with maximum allowed size.
+            Create fixed disk. File will be pre-allocated with maximum allowed size.
             </summary>
         </member>
         <member name="F:Flubu.Tasks.Virtual.CreateDiskType.Dynamic">
             <summary>
-            Create dynamicly expanding disk image.
+            Create dynamically expanding disk image.
             </summary>
         </member>
         <member name="F:Flubu.Tasks.Virtual.CreateDiskType.Differencing">
             <summary>
-            Create diferencing disk.
+            Create differencing disk.
             </summary>
         </member>
         <member name="T:Flubu.Tasks.Virtual.CreateMachineTask">
@@ -274,15 +274,15 @@
             <summary>
               Set virtual machine name.
             </summary>
-            <param name = "vmName">Name of the virtual machine.</param>
-            <returns></returns>
+            <param name="vmName">Name of the virtual machine.</param>
+            <returns>This same instance of <see cref="T:Flubu.Tasks.Virtual.CreateMachineTask"/></returns>
         </member>
         <member name="M:Flubu.Tasks.Virtual.CreateMachineTask.Location(System.String)">
             <summary>
               Set virtual machine location (full path to virtual machine). It's hosts local path.
             </summary>
-            <param name = "vmLocation">Hosts local path to virtual machine location.</param>
-            <returns></returns>
+            <param name="vmLocation">Hosts local path to virtual machine location.</param>
+            <returns>This same instance of <see cref="T:Flubu.Tasks.Virtual.CreateMachineTask"/></returns>
         </member>
         <member name="M:Flubu.Tasks.Virtual.CreateMachineTask.DiskPath(System.String)">
             <summary>
@@ -290,33 +290,36 @@
               If null or empty new fixed size disk will be created in <see cref="M:Flubu.Tasks.Virtual.CreateMachineTask.Location(System.String)"/>\<see cref="M:Flubu.Tasks.Virtual.CreateMachineTask.Name(System.String)"/>.vhd location.
             </summary>
             <param name="path">Full hosts local path to existing virtual disk.</param>
-            <returns></returns>
+            <returns>This same instance of <see cref="T:Flubu.Tasks.Virtual.CreateMachineTask"/></returns>
         </member>
         <member name="M:Flubu.Tasks.Virtual.CreateMachineTask.Network(System.String)">
             <summary>
               Set hyper-v virtual network name.
             </summary>
-            <param name = "networkName">Network name.</param>
-            <returns></returns>
+            <param name="networkName">Network name.</param>
+            <returns>This same instance of <see cref="T:Flubu.Tasks.Virtual.CreateMachineTask"/></returns>
         </member>
         <member name="M:Flubu.Tasks.Virtual.CreateMachineTask.Memory(System.Int32)">
             <summary>
               Set virtual machine memory size.
             </summary>
-            <param name = "size">Memory size.</param>
-            <returns></returns>
+            <param name="size">Memory size.</param>
+            <returns>This same instance of <see cref="T:Flubu.Tasks.Virtual.CreateMachineTask"/></returns>
         </member>
         <member name="M:Flubu.Tasks.Virtual.DeleteMachineTask.Name(System.String)">
             <summary>
               Set virtual machine name.
             </summary>
-            <param name = "vmName">Name of the virtual machine.</param>
-            <returns></returns>
+            <param name="vmName">Name of the virtual machine.</param>
+            <returns>This same instance of <see cref="T:Flubu.Tasks.Virtual.DeleteMachineTask"/>.</returns>
         </member>
         <member name="M:Flubu.Tasks.Virtual.HyperV.IVirtualManager.Connect(System.String)">
             <summary>
-              Connect to remote instance of Virtual server from local server using DCOM
+            Connect to remote instance of Virtual server from local server using DCOM
             </summary>
+            <param name="server">
+            The server.
+            </param>
         </member>
         <member name="M:Flubu.Tasks.Virtual.HyperV.IVirtualManager.Connect">
             <summary>
@@ -355,8 +358,8 @@
             <param name="machineFolder">Full path where virtual machine will be created.</param>
             <param name="diskPath">Full path and name of disk image to use.</param>
             <param name="networkAdapterName">Name of the network adapter to use.</param>
+            <param name="macAddress">MAC address</param>
             <param name="memorySize">Memory size to use for new virtual machine.</param>
-            <param name="macAddress"></param>
             <returns>New <see cref="T:Flubu.Tasks.Virtual.HyperV.IVirtualTask"/> for current operation.</returns>
         </member>
         <member name="M:Flubu.Tasks.Virtual.HyperV.IVirtualManager.CloneVirtualMachine(System.String,System.String,System.String,System.String,System.String,System.String)">
@@ -368,7 +371,7 @@
             <param name="baseMachineName">Name of the base virtual machine name.</param>
             <param name="diskPath">Full path and name of disk image to use.</param>
             <param name="networkAdapterName">Name of the network adapter to use.</param>
-            <param name="macAddress"></param>
+            <param name="macAddress">MAC address</param>
             <returns>New <see cref="T:Flubu.Tasks.Virtual.HyperV.IVirtualTask"/> for current operation.</returns>
         </member>
         <member name="M:Flubu.Tasks.Virtual.HyperV.IVirtualManager.DeleteVirtualMachine(System.String)">
@@ -385,28 +388,28 @@
             <summary>
               Starts virtual machine
             </summary>
-            <param name="machineName"></param>
+            <param name="machineName">Machine name</param>
             <returns>New <see cref="T:Flubu.Tasks.Virtual.HyperV.IVirtualTask"/> for current operation.</returns>
         </member>
         <member name="M:Flubu.Tasks.Virtual.HyperV.IVirtualManager.TurnoffVirtualMachine(System.String)">
             <summary>
               Turnoff specified virtual machine.
             </summary>
-            <param name="machineName"></param>
+            <param name="machineName">Machine name</param>
             <returns>New <see cref="T:Flubu.Tasks.Virtual.HyperV.IVirtualTask"/> for current operation.</returns>
         </member>
         <member name="M:Flubu.Tasks.Virtual.HyperV.IVirtualManager.ShutdownVirtualMachine(System.String)">
             <summary>
               Shutdown specified virtual machine.
             </summary>
-            <param name="machineName"></param>
+            <param name="machineName">Machine name</param>
             <returns>New <see cref="T:Flubu.Tasks.Virtual.HyperV.IVirtualTask"/> for current operation.</returns>
         </member>
         <member name="M:Flubu.Tasks.Virtual.HyperV.IVirtualManager.SaveVirtualMachine(System.String)">
             <summary>
               Save virtual machine state.
             </summary>
-            <param name="machineName"></param>
+            <param name="machineName">Machine name</param>
             <returns>New <see cref="T:Flubu.Tasks.Virtual.HyperV.IVirtualTask"/> for current operation.</returns>
         </member>
         <member name="M:Flubu.Tasks.Virtual.HyperV.IVirtualManager.GetVirtualMachines">
@@ -425,16 +428,13 @@
               Gets full list of executed task in this session.
             </summary>
         </member>
-        <member name="M:Flubu.Tasks.Virtual.HyperV.HyperVManager.Dispose">
-            <summary>
-              Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-            </summary>
-            <filterpriority>2</filterpriority>
-        </member>
         <member name="M:Flubu.Tasks.Virtual.HyperV.HyperVManager.Connect(System.String)">
             <summary>
-              Connect to remote instance of Virtual server from local server using DCOM
+            Connect to remote instance of Virtual server from local server using DCOM
             </summary>
+            <param name="server">
+            The server.
+            </param>
         </member>
         <member name="M:Flubu.Tasks.Virtual.HyperV.HyperVManager.Connect">
             <summary>
@@ -447,6 +447,7 @@
             </summary>
             <param name = "newImage">Full path (with disk image name) of new virtual disk image.</param>
             <param name = "baseImage">Full path of base virtual disk image to use.</param>
+            <returns>The task</returns>
         </member>
         <member name="M:Flubu.Tasks.Virtual.HyperV.HyperVManager.CreateFixedDisk(System.String,System.Int32)">
             <summary>
@@ -454,6 +455,7 @@
             </summary>
             <param name = "newImage">Full path (with disk image name) of new virtual disk image.</param>
             <param name = "size">Size of new virtual disk in Gb</param>
+            <returns>The task</returns>
         </member>
         <member name="M:Flubu.Tasks.Virtual.HyperV.HyperVManager.CreateDynamicDisk(System.String,System.Int32)">
             <summary>
@@ -461,6 +463,7 @@
             </summary>
             <param name = "newImage">Full path (with disk image name) of new virtual disk image.</param>
             <param name = "size">Size of new virtual disk in Gb</param>
+            <returns>The task.</returns>
         </member>
         <member name="M:Flubu.Tasks.Virtual.HyperV.HyperVManager.CreateVirtualMachine(System.String,System.String,System.String,System.String,System.String,System.Int32)">
             <summary>
@@ -470,8 +473,9 @@
             <param name = "machineFolder">Full path where virtual machine will be created.</param>
             <param name = "diskPath">Full path and name of disk image to use.</param>
             <param name = "networkAdapterName">Name of the network adapter to use.</param>
-            <param name = "macAddress"></param>
+            <param name = "macAddress">MAC address</param>
             <param name = "memorySize">Memory size to use for new virtual machine.</param>
+            <returns>The task</returns>
         </member>
         <member name="M:Flubu.Tasks.Virtual.HyperV.HyperVManager.CloneVirtualMachine(System.String,System.String,System.String,System.String,System.String,System.String)">
             <summary>
@@ -482,7 +486,8 @@
             <param name = "baseMachineName">Name of the base virtual machine name.</param>
             <param name = "diskPath">Full path and name of base disk image to use.</param>
             <param name = "networkAdapterName">Name of the network adapter to use.</param>
-            <param name = "macAddress"></param>
+            <param name = "macAddress">MAC address</param>
+            <returns>The task</returns>
         </member>
         <member name="M:Flubu.Tasks.Virtual.HyperV.HyperVManager.DeleteVirtualMachine(System.String)">
             <summary>
@@ -492,19 +497,27 @@
               </remarks>
             </summary>
             <param name = "machineName">Name of the virtual machine to delete.</param>
+            <returns>The task</returns>
         </member>
         <member name="M:Flubu.Tasks.Virtual.HyperV.HyperVManager.StartVirtualMachine(System.String)">
             <summary>
               Starts virtual machine
             </summary>
-            <param name = "machineName"></param>
+            <param name = "machineName">Machine name</param>
+            <returns>The task</returns>
+        </member>
+        <member name="M:Flubu.Tasks.Virtual.HyperV.HyperVManager.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+            <filterpriority>2</filterpriority>
         </member>
         <member name="M:Flubu.Tasks.Virtual.HyperV.HyperVManager.RequestStateChange(System.String,Flubu.Tasks.Virtual.HyperV.StateChange)">
             <summary>
               Starts or turnoff virtual machine
             </summary>
-            <param name="vmName">Virtual machine name</param>
-            <param name="state"><see cref="M:Flubu.Tasks.Virtual.HyperV.HyperVManager.RequestStateChange(System.String,Flubu.Tasks.Virtual.HyperV.StateChange)"/></param>
+            <param name = "vmName">Virtual machine name</param>
+            <param name = "state">State change</param>
             <returns>Task for starting or stopping virtual machine.</returns>
         </member>
         <member name="T:Flubu.Tasks.Virtual.HyperV.HyperVTask">
@@ -514,7 +527,7 @@
         </member>
         <member name="T:Flubu.Tasks.Virtual.HyperV.IVirtualTask">
             <summary>
-              Completition task interface definition.
+            Completion task interface definition.
             </summary>
         </member>
         <member name="M:Flubu.Tasks.Virtual.HyperV.IVirtualTask.WaitForCompletion(System.TimeSpan)">
@@ -526,26 +539,20 @@
         </member>
         <member name="P:Flubu.Tasks.Virtual.HyperV.IVirtualTask.IsComplete">
             <summary>
-              True if task has already finished, false if task is in progress.
+            Gets a value indicating whether the task has already finished, false if task is in progress.
             </summary>
         </member>
         <member name="P:Flubu.Tasks.Virtual.HyperV.IVirtualTask.PercentComplete">
             <summary>
-              Gets task completition percentage.
+              Gets task completion percentage.
             </summary>
-        </member>
-        <member name="M:Flubu.Tasks.Virtual.HyperV.HyperVTask.#ctor(System.Management.ManagementBaseObject,System.Management.ManagementScope)">
-            <summary>
-              Initialized new <see cref="T:Flubu.Tasks.Virtual.HyperV.HyperVTask"/>.
-            </summary>
-            <param name="outParameters"></param>
-            <param name="scope"></param>
         </member>
         <member name="M:Flubu.Tasks.Virtual.HyperV.HyperVTask.#ctor(System.UInt32)">
             <summary>
-              Initializes new <see cref="T:Flubu.Tasks.Virtual.HyperV.HyperVTask"/> with specified job return code.
+            Initializes a new instance of the <see cref="T:Flubu.Tasks.Virtual.HyperV.HyperVTask"/> class with a specified job return code.
             </summary>
-            <param name="returnCode"></param>
+            <param name="returnCode">Job return code.
+            </param>
         </member>
         <member name="M:Flubu.Tasks.Virtual.HyperV.HyperVTask.WaitForCompletion(System.TimeSpan)">
             <summary>
@@ -554,15 +561,9 @@
             <param name = "timeout">Time to wait</param>
             <returns>True if task was completed, false if timeout was reached.</returns>
         </member>
-        <member name="M:Flubu.Tasks.Virtual.HyperV.HyperVTask.Dispose">
-            <summary>
-              Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-            </summary>
-            <filterpriority>2</filterpriority>
-        </member>
         <member name="P:Flubu.Tasks.Virtual.HyperV.HyperVTask.IsComplete">
             <summary>
-              True if task has already finished, false if task is in progress.
+            Gets a value indicating whether the task has already finished, false if task is in progress.
             </summary>
         </member>
         <member name="P:Flubu.Tasks.Virtual.HyperV.HyperVTask.PercentComplete">
@@ -587,9 +588,9 @@
         </member>
         <member name="M:Flubu.Tasks.Virtual.HyperV.ServerManagement.Shutdown(System.String)">
             <summary>
-              Shutdown windows machine.
+            Shutdown windows machine.
             </summary>
-            <param name = "machineName"></param>
+            <param name = "machineName">Machine name</param>
         </member>
         <member name="T:Flubu.Tasks.Virtual.HyperV.VirtualMachine">
             <summary>
@@ -621,30 +622,12 @@
               Hyper-V utility class.
             </summary>
         </member>
-        <member name="M:Flubu.Tasks.Virtual.HyperV.Utility.GetServiceObject(System.Management.ManagementScope,System.String)">
-            <summary>
-              Common utility function to get a service object
-            </summary>
-            <param name = "scope"></param>
-            <param name = "serviceName"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Flubu.Tasks.Virtual.HyperV.Utility.GetResourceDataDefault(System.Management.ManagementScope,System.UInt16,System.String,System.String)">
-            <summary>
-              Get RASD definitions.
-            </summary>
-            <param name = "scope"></param>
-            <param name = "resourceType"></param>
-            <param name = "resourceSubtype"></param>
-            <param name = "otherResourceType"></param>
-            <returns></returns>
-        </member>
         <member name="M:Flubu.Tasks.Virtual.ShutdownMachineTask.Name(System.String)">
             <summary>
               Set virtual machine name.
             </summary>
             <param name = "vmName">Name of the virtual machine.</param>
-            <returns></returns>
+            <returns>The same instance.</returns>
         </member>
         <member name="T:Flubu.Tasks.Virtual.StartMachineTask">
             <summary>
@@ -658,7 +641,7 @@
         </member>
         <member name="M:Flubu.Tasks.Virtual.StartMachineTask.#ctor(System.String)">
             <summary>
-            Initializes new instance of <see cref="T:Flubu.Tasks.Virtual.StartMachineTask"/>
+            Initializes a new instance of the <see cref="T:Flubu.Tasks.Virtual.StartMachineTask"/> class.
             </summary>
             <param name="host">Hyper-v host server.</param>
         </member>
@@ -675,7 +658,7 @@
               Sets virtual machine name to start.
             </summary>
             <param name = "vmName">Name of the virtual machine.</param>
-            <returns></returns>
+            <returns>This same instance</returns>
         </member>
         <member name="P:Flubu.Tasks.Text.ExpandPropertiesTask.Description">
             <summary>
