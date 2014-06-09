@@ -10,6 +10,11 @@
             </summary>
             <param name="messageBeepType">Type of the message beep.</param>
         </member>
+        <member name="F:Flubu.Builds.BuildProps.SpeechDisabled">
+            <summary>
+            Boolean property which, if set to <c>true</c>, disables the "build successful/build failed" speech at the end of the build.
+            </summary>
+        </member>
         <member name="M:Flubu.Builds.HudsonHelper.GetSvnRevision(System.String)">
             <summary>
             Gets SVN revision number from environment variable.
@@ -145,7 +150,7 @@
             </summary>
             <param name="buildConfiguration">The build configuration.</param>
             <returns>
-            The output path or <c>null</c> if the project is not compatibile.
+            The output path or <c>null</c> if the project is not compatible.
             </returns>
             <exception cref="T:System.ArgumentException">The method could not extract the data from the project file.</exception>
         </member>
@@ -387,6 +392,11 @@
             </summary>
             <value>The parent path.</value>
         </member>
+        <member name="M:Flubu.ITaskSession.Reset">
+            <summary>
+            Resets the task session, cleaning all information about the previously executed targets. 
+            </summary>
+        </member>
         <member name="P:Flubu.LocalPath.ParentPath">
             <summary>
             Gets the path that is a parent to the current path in this object.
@@ -556,7 +566,7 @@
         </member>
         <member name="M:Flubu.TaskSession.Complete">
             <summary>
-            Marks the runner as having completed its work sucessfully. This is the last method
+            Marks the runner as having completed its work successfully. This is the last method
             that should be called on the runner before it gets disposed.
             </summary>
         </member>
@@ -616,7 +626,7 @@
         </member>
         <member name="T:Flubu.Tasks.FileSystem.GetAssemblyVersionTask">
             <summary>
-            Retreives .NET assembly version from .NET assembly.
+            Retrieves .NET assembly version from .NET assembly.
             </summary>
             <remarks>
             If file does not have file version information, setting value is set to null.
@@ -626,7 +636,7 @@
             <summary>
             Initializes a new instance of the <see cref="T:Flubu.Tasks.FileSystem.GetAssemblyVersionTask"/> class.
             </summary>
-            <param name="file">Filename of .NET assembly.</param>
+            <param name="file">File name of the .NET assembly.</param>
             <param name="setting">Name of setting to which assembly version is stored.</param>
         </member>
         <member name="T:Flubu.Tasks.FileSystem.GetFileVersionTask">
@@ -638,7 +648,7 @@
             <summary>
             Initializes a new instance of the <see cref="T:Flubu.Tasks.FileSystem.GetFileVersionTask"/> class.
             </summary>
-            <param name="file">Filename of file whose version should be retreived.</param>
+            <param name="file">File name of the file whose version should be retrieved.</param>
             <param name="setting">Name of setting to which file version is stored.</param>
         </member>
         <member name="T:Flubu.Tasks.Tests.UnitTestToolType">
@@ -658,7 +668,7 @@
         </member>
         <member name="T:Flubu.Tasks.Configuration.LogScriptEnvironmentTask">
             <summary>
-            Logs important enviroment information (machine name, OS version, etc).
+            Logs important environment information (machine name, OS version...).
             </summary>
         </member>
         <member name="M:Flubu.Tasks.Configuration.LogScriptEnvironmentTask.DoExecute(Flubu.ITaskContext)">
@@ -810,7 +820,7 @@
         </member>
         <member name="M:Flubu.Tasks.FileSystem.SetAccessRuleTask.AddIdentity(System.String)">
             <summary>
-            Adds an identity to a list of identites for which the access rule will be applied.
+            Adds an identity to a list of identities for which the access rule will be applied.
             </summary>
             <param name="identity">The identity.</param>
         </member>
