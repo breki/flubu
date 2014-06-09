@@ -19,11 +19,16 @@
         public const string ProductName = "ProductName";
         public const string ProductRootDir = "ProductRootDir";
         public const string ProductVersionFieldCount = "ProductVersionFieldCount";
+
+        /// <summary>
+        /// Boolean property which, if set to <c>true</c>, disables the "build successful/build failed" speech at the end of the build.
+        /// </summary>
+        public const string SpeechDisabled = "SpeechDisabled";
         public const string Solution = "Solution";
         public const string SolutionFileName = "SolutionFileName";
+        public const string SvnRevisionVariableName = "SvnRevisionName";
         public const string TargetDotNetVersion = "TargetDotNetVersion";
         public const string TargetDotNetVersionForGallio = "TargetDotNetVersionForGallio";
         public const string VersionControlSystem = "VersionControlSystem";
-        public const string SvnRevisionVariableName = "SvnRevisionName";
     }
 }
