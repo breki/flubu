@@ -12,6 +12,7 @@
         public const string CompanyTrademark = "CompanyTrademark";
         public const string FxcopDir = "FxcopDir";
         public const string GallioEchoPath = "GallioEchoPath";
+        public const string InformationalVersion = "InformationalVersion";
         public const string LibDir = "LibDir";
         public const string NUnitConsolePath = "NUnitConsolePath";
         public const string PackagesDir = "PackagesDir";
