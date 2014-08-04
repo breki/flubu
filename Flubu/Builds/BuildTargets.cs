@@ -312,6 +312,7 @@ namespace Flubu.Builds
             task.CompanyTrademark = companyTrademark;
             task.GenerateConfigurationAttribute = true;
             task.ProductName = productName;
+            task.InformationalVersion = context.Properties.Get<string>(BuildProps.InformationalVersion);
             task.ProductVersionFieldCount = context.Properties.Get(BuildProps.ProductVersionFieldCount, 2);
             task.GenerateAssemblyVersion = generateAssemblyVersion;
             task.Execute(context);

@@ -77,6 +77,12 @@ namespace Flubu.Builds.Tasks
             set { productVersionFieldCount = value; }
         }
 
+        public string InformationalVersion
+        {
+            get { return informationalVersion; }
+            set { informationalVersion = value; }
+        }
+
         public override string Description
         {
             get { return "Generate CommonAssemblyInfo.cs file"; }
@@ -122,7 +128,7 @@ using System.Runtime.InteropServices;
                         companyCopyright,
                         companyTrademark,
                         buildVersion,
-                        buildVersion.ToString(productVersionFieldCount));
+                        informationalVersion);
 
                     if (generateAssemblyVersion)
                         writer.WriteLine(@"[assembly: AssemblyVersionAttribute(""{0}"")]", buildVersion.ToString(productVersionFieldCount));
@@ -149,5 +155,6 @@ using System.Runtime.InteropServices;
         private string companyTrademark;
         private string buildConfiguration;
         private int productVersionFieldCount = 2;
+        private string informationalVersion;
     }
 }
