@@ -121,17 +121,24 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyrightAttribute(""{2}"")]
 [assembly: AssemblyTrademarkAttribute(""{3}"")]
 [assembly: AssemblyFileVersionAttribute(""{4}"")]
-[assembly: AssemblyInformationalVersionAttribute(""{5}"")]
 [assembly: ComVisible(false)]",
                         companyName,
                         productName,
                         companyCopyright,
                         companyTrademark,
-                        buildVersion,
-                        informationalVersion);
+                        buildVersion);
+
+                    string buildVersionShort = buildVersion.ToString (productVersionFieldCount);
+                    string infVersion = informationalVersion ?? buildVersionShort;
+
+                    writer.WriteLine(
+                        @"#pragma warning disable 1607
+[assembly: AssemblyInformationalVersionAttribute(""{0}"")]
+#pragma warning restore 1607", 
+                        infVersion);
 
                     if (generateAssemblyVersion)
-                        writer.WriteLine(@"[assembly: AssemblyVersionAttribute(""{0}"")]", buildVersion.ToString(productVersionFieldCount));
+                        writer.WriteLine(@"[assembly: AssemblyVersionAttribute(""{0}"")]", buildVersionShort);
 
                     if (generateConfigurationAttribute)
                         writer.WriteLine(@"[assembly: AssemblyConfigurationAttribute(""{0}"")]", buildConfiguration);
