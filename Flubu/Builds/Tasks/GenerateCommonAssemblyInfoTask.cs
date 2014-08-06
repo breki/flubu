@@ -131,11 +131,7 @@ using System.Runtime.InteropServices;
                     string buildVersionShort = buildVersion.ToString (productVersionFieldCount);
                     string infVersion = informationalVersion ?? buildVersionShort;
 
-                    writer.WriteLine(
-                        @"#pragma warning disable 1607
-[assembly: AssemblyInformationalVersionAttribute(""{0}"")]
-#pragma warning restore 1607", 
-                        infVersion);
+                    writer.WriteLine(@"[assembly: AssemblyInformationalVersionAttribute(""{0}"")]", infVersion);
 
                     if (generateAssemblyVersion)
                         writer.WriteLine(@"[assembly: AssemblyVersionAttribute(""{0}"")]", buildVersionShort);
