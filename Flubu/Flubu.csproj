@@ -188,6 +188,7 @@
     <Compile Include="Tasks\SqlServer\ExecuteSqlScriptTask.cs" />
     <None Include="Tasks\Tests\AccipioReportTask.cs" />
     <None Include="Tasks\Tests\AccipioTransformTask.cs" />
+    <Compile Include="Tasks\Text\ConfigureAppSettingsTask.cs" />
     <Compile Include="Tasks\Text\PeekXmlTask.cs" />
     <Compile Include="Tasks\Msmq\PurgeMessageQueueTask.cs" />
     <Compile Include="Tasks\Text\UpdateXmlFileTask.cs" />

@@ -162,17 +162,16 @@
     <Modules>
      <Module Name="flubu.dll">
       <Namespaces>
-       <Namespace Name="Flubu.Builds">
+       <Namespace Name="Flubu.Tasks.Text">
         <Types>
-         <Type Name="HudsonHelper">
+         <Type Name="ConfigureAppSettingsTask">
           <Members>
-           <Member Name="#GetSvnRevision(System.String)">
+           <Member Name="#PerformSetTasks(System.Xml.XmlDocument,Flubu.ITaskContext)">
             <Messages>
-             <Message Id="env" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2012-02-10 07:03:35Z">
-              <Issue Name="MemberParameter">
-               <Item>'HudsonHelper.GetSvnRevision(string)'</Item>
-               <Item>env</Item>
-               <Item>'envVariable'</Item>
+             <Message Id="context" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2014-10-03 20:28:53Z" FixCategory="NonBreaking">
+              <Issue>
+               <Item>'context'</Item>
+               <Item>'ConfigureAppSettingsTask.PerformSetTasks(XmlDocument, ITaskContext)'</Item>
               </Issue>
              </Message>
             </Messages>
@@ -192,9 +191,8 @@
    </User>
   </Notes>
   <Rules>
-   <Rule TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704">
-    <Resolution Name="Member">Correct the spelling of '{0}' in member name {1} or remove it entirely if it represents any sort of Hungarian notation.</Resolution>
-    <Resolution Name="MemberParameter">In method {0}, correct the spelling of '{1}' in parameter name {2} or remove it entirely if it represents any sort of Hungarian notation.</Resolution>
+   <Rule TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801">
+    <Resolution Name="Default">Parameter {0} of {1} is never used. Remove the parameter or use it in the method body.</Resolution>
    </Rule>
    <Rule TypeName="StringUriOverloadsCallSystemUriOverloads" Category="Microsoft.Design" CheckId="CA1057">
     <Resolution Name="Default">Refactor {0} so that it builds a System.Uri object from {1}, and then calls {2}.</Resolution>
