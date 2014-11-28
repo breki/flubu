@@ -36,3 +36,4 @@ TestResult.xml
 Flubu2010.sln.DotSettings.user
 **/StyleCop.Cache
 Flubu2010.ncrunchsolution.user
+*.suo

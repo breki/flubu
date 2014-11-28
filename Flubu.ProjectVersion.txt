@@ -1,1 +1,5 @@
+1.0.5.0
+- Added support for parsing VS 2013 solution files (new solution properties were causing parse errors)
+- Migrated the solution to VS 2013
+
 1.0.4.0
