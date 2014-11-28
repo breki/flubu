@@ -50,7 +50,7 @@ namespace BuildScripts
                 session.Properties.Set(BuildProps.NUnitConsolePath, @"packages\NUnit.Runners.2.6.2\tools\nunit-console.exe");
                 session.Properties.Set(BuildProps.ProductId, "Flubu");
                 session.Properties.Set(BuildProps.ProductName, "Flubu");
-                session.Properties.Set(BuildProps.SolutionFileName, "Flubu2010.sln");
+                session.Properties.Set(BuildProps.SolutionFileName, "Flubu.sln");
                 session.Properties.Set(BuildProps.VersionControlSystem, VersionControlSystem.Mercurial);
 
                 try
