@@ -119,18 +119,25 @@ namespace Flubu.Builds.VSSolutionBrowsing
                             break;
 
                         // exit the loop when 'Global' section appears
-                        Match globalMatch = RegexGlobal.Match (line);
-                        if (globalMatch.Success)
+                        if (RegexGlobal.IsMatch(line))
                             break;
 
                         Match projectMatch = RegexProject.Match (line);
 
-                        if (projectMatch.Success == false)
+                        if (!projectMatch.Success)
+                        {
+                            // skip any solution properties
+                            if (RegexSolutionProperty.IsMatch (line))
+                                continue;
+
+                            // if nothing matches, we have a problem
                             parser.ThrowParserException (
                                 String.Format (
                                     CultureInfo.InvariantCulture,
-                                    "Could not parse solution file (line {0}).", 
-                                    parser.LineCount));
+                                    "Could not parse solution file (line {0}): '{1}'.",
+                                    parser.LineCount,
+                                    line));
+                        }
 
                         Guid projectGuid = new Guid (projectMatch.Groups["projectGuid"].Value);
                         string projectName = projectMatch.Groups["name"].Value;
@@ -180,10 +187,11 @@ namespace Flubu.Builds.VSSolutionBrowsing
                 });
         }
 
-        public static readonly Regex RegexEndProject = new Regex (@"^EndProject$");
-        public static readonly Regex RegexGlobal = new Regex (@"^Global$");
-        public static readonly Regex RegexProject = new Regex (@"^Project\(""(?<projectTypeGuid>.*)""\) = ""(?<name>.*)"", ""(?<path>.*)"", ""(?<projectGuid>.*)""$");
-        public static readonly Regex RegexSolutionVersion = new Regex (@"^Microsoft Visual Studio Solution File, Format Version (?<version>.+)$");
+        public static readonly Regex RegexEndProject = new Regex (@"^EndProject$", RegexOptions.Compiled);
+        public static readonly Regex RegexGlobal = new Regex (@"^Global$", RegexOptions.Compiled);
+        public static readonly Regex RegexSolutionProperty = new Regex (@"^(?<name>.*) = (?<value>.*)$", RegexOptions.Compiled);
+        public static readonly Regex RegexProject = new Regex (@"^Project\(""(?<projectTypeGuid>.*)""\) = ""(?<name>.*)"", ""(?<path>.*)"", ""(?<projectGuid>.*)""$", RegexOptions.Compiled);
+        public static readonly Regex RegexSolutionVersion = new Regex (@"^Microsoft Visual Studio Solution File, Format Version (?<version>.+)$", RegexOptions.Compiled);
 
         protected VSSolution (string fileName)
         {
