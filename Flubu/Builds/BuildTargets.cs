@@ -271,6 +271,7 @@ namespace Flubu.Builds
                 solution.SolutionFileName.ToString(),
                 buildConfiguration,
                 targetDotNetVersion);
+            task.MaxCpuCount = context.Properties.Get(BuildProps.CompileMaxCpuCount, 3);
             task.Execute(context);
         }
 

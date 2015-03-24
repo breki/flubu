@@ -17,6 +17,12 @@ namespace Flubu.Builds.Tasks
             get { return "Compile VS solution"; }
         }
 
+        public int MaxCpuCount
+        {
+            get { return maxCpuCount; }
+            set { maxCpuCount = value; }
+        }
+
         protected override void DoExecute(ITaskContext context)
         {
             //TaskContext.LogTaskStarted("Compiling the solution");
@@ -28,7 +34,7 @@ namespace Flubu.Builds.Tasks
                 .AddArgument("/p:Configuration={0}", buildConfiguration)
                 .AddArgument("/p:Platform=Any CPU")
                 .AddArgument("/consoleloggerparameters:NoSummary")
-                .AddArgument("/maxcpucount:3")
+                .AddArgument("/maxcpucount:{0}", maxCpuCount)
                 .Execute(context);
 
             //TaskContext.LogTaskFinished();
@@ -37,5 +43,6 @@ namespace Flubu.Builds.Tasks
         private string solutionFileName;
         private string buildConfiguration;
         private string dotNetVersion;
+        private int maxCpuCount = 3;
     }
 }
