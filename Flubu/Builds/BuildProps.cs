@@ -10,6 +10,7 @@
         public const string CompanyCopyright = "CompanyCopyright";
         public const string CompanyName = "CompanyName";
         public const string CompanyTrademark = "CompanyTrademark";
+        public const string CompileMaxCpuCount = "CompileMaxCpuCount";
         public const string FxcopDir = "FxcopDir";
         public const string GallioEchoPath = "GallioEchoPath";
         public const string InformationalVersion = "InformationalVersion";
