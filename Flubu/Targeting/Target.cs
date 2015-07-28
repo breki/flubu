@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Flubu.Targeting
 {
@@ -58,6 +57,12 @@ namespace Flubu.Targeting
             if (this.targetAction != null)
                 throw new ArgumentException("Target action was already set.");
 
+            this.targetAction = targetAction;
+            return this;
+        }
+
+        public ITarget OverrideDo(Action<ITaskContext> targetAction)
+        {
             this.targetAction = targetAction;
             return this;
         }

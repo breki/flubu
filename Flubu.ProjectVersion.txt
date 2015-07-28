@@ -1,3 +1,6 @@
+1.0.7.0
+- ITarget has a new OverrideDo() method which allows overriding previously specified target action.
+
 1.0.6.0
 - CompileSolutionTask has a new property: MaxCpuCount (default to 3)
 	- New BuildProps.CompileMaxCpuCount that uses it
