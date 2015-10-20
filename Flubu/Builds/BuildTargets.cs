@@ -184,7 +184,7 @@ namespace Flubu.Builds
                 (int)buildDuration.TotalSeconds);
 
             bool speechDisabled = session.Properties.Get(BuildProps.SpeechDisabled, false);
-            if (!HudsonHelper.IsRunningUnderHudson && !speechDisabled)
+            if (Environment.UserInteractive && !HudsonHelper.IsRunningUnderHudson && !speechDisabled)
             {
                 using (SpeechSynthesizer speech = new SpeechSynthesizer())
                 {
