@@ -1,6 +1,7 @@
 1.1.0.0
 - added ITaskContext.IsInteractive property to detect if the build session is running interactively or on a build server
 - removed Hudson-related code
+- removed Gallio-related code since Gallio has been dead for a long time
 
 1.0.7.0
 - ITarget has a new OverrideDo() method which allows overriding previously specified target action.

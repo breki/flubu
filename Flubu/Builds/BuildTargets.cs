@@ -62,7 +62,6 @@ namespace Flubu.Builds
             context.Properties.Set(BuildProps.BuildDir, "Builds");
             context.Properties.Set(BuildProps.BuildLogsDir, @"Builds\BuildLogs");
             context.Properties.Set(BuildProps.FxcopDir, "Microsoft FxCop 1.36");
-            context.Properties.Set(BuildProps.GallioEchoPath, @"lib\Gallio\bin\Gallio.Echo.exe");
             context.Properties.Set(BuildProps.LibDir, "lib");
             context.Properties.Set(BuildProps.PackagesDir, "packages");
             context.Properties.Set(BuildProps.ProductRootDir, ".");
@@ -354,27 +353,6 @@ namespace Flubu.Builds
 
             task.Execute(context);
             testsRunCounter++;
-        }
-
-        [SuppressMessage("Microsoft.Design", "CA1045:DoNotPassTypesByReference", MessageId = "3#")]
-        public static void TargetRunTestsGallio(
-            ITaskContext context, 
-            string projectName, 
-            string filter,
-            ref int testsRunCounter)
-        {
-            FullPath buildLogsPath = new FullPath(context.Properties[BuildProps.ProductRootDir])
-                .CombineWith(context.Properties[BuildProps.BuildLogsDir]);
-
-            RunGallioTestsTask task = new RunGallioTestsTask(
-                projectName,
-                context.Properties.Get<VSSolution>(BuildProps.Solution),
-                context.Properties.Get<string>(BuildProps.BuildConfiguration),
-                context.Properties.Get<string>(BuildProps.GallioEchoPath),
-                ref testsRunCounter,
-                buildLogsPath.ToString());
-            task.Filter = filter;
-            task.Execute(context);
         }
     }
 }

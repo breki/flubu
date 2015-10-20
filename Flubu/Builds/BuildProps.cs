@@ -12,7 +12,6 @@
         public const string CompanyTrademark = "CompanyTrademark";
         public const string CompileMaxCpuCount = "CompileMaxCpuCount";
         public const string FxcopDir = "FxcopDir";
-        public const string GallioEchoPath = "GallioEchoPath";
         public const string InformationalVersion = "InformationalVersion";
         public const string LibDir = "LibDir";
         public const string NUnitConsolePath = "NUnitConsolePath";
@@ -30,7 +29,6 @@
         public const string SolutionFileName = "SolutionFileName";
         public const string SvnRevisionVariableName = "SvnRevisionName";
         public const string TargetDotNetVersion = "TargetDotNetVersion";
-        public const string TargetDotNetVersionForGallio = "TargetDotNetVersionForGallio";
         public const string VersionControlSystem = "VersionControlSystem";
     }
 }

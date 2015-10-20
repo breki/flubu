@@ -105,7 +105,6 @@
     <Compile Include="Builds\Tasks\GenerateCommonAssemblyInfoTask.cs" />
     <Compile Include="Builds\Tasks\IFetchBuildVersionTask.cs" />
     <Compile Include="Builds\Tasks\RunFxCopTask.cs" />
-    <Compile Include="Builds\Tasks\RunGallioTestsTask.cs" />
     <Compile Include="Builds\VSSolutionBrowsing\VSProjectInfo.cs" />
     <Compile Include="Builds\VSSolutionBrowsing\VSProjectItem.cs" />
     <Compile Include="Builds\VSSolutionBrowsing\VSSolutionFileParser.cs" />
@@ -154,12 +153,9 @@
     <Compile Include="TaskContextExtensions.cs" />
     <Compile Include="TaskMessageLevel.cs" />
     <Compile Include="TaskSession.cs" />
-    <None Include="Tasks\Tests\GallioUnitTestTask.cs" />
-    <None Include="Tasks\Tests\NCoverTask.cs" />
     <Compile Include="Tasks\Tests\NUnitTask.cs" />
     <Compile Include="Tasks\FileSystem\GetAssemblyVersionTask.cs" />
     <Compile Include="Tasks\FileSystem\GetFileVersionTask.cs" />
-    <Compile Include="Tasks\Tests\UnitTestToolType.cs" />
     <Compile Include="Tasks\Configuration\LogScriptEnvironmentTask.cs" />
     <Compile Include="Tasks\Configuration\ReadConfigurationTask.cs" />
     <Compile Include="Tasks\EnterpriseServices\InstallAssemblyTask.cs" />
@@ -185,8 +181,6 @@
     <Compile Include="Tasks\SqlServer\EnsureSqlServerIsRunningTask.cs" />
     <None Include="Tasks\CustomRunnerTask.cs" />
     <Compile Include="Tasks\SqlServer\ExecuteSqlScriptTask.cs" />
-    <None Include="Tasks\Tests\AccipioReportTask.cs" />
-    <None Include="Tasks\Tests\AccipioTransformTask.cs" />
     <Compile Include="Tasks\Text\ConfigureAppSettingsTask.cs" />
     <Compile Include="Tasks\Text\PeekXmlTask.cs" />
     <Compile Include="Tasks\Msmq\PurgeMessageQueueTask.cs" />
