@@ -8,6 +8,8 @@ namespace Flubu
         ITaskContextProperties Properties { get; }
         IList<string> Args { get; }
 
+        bool IsInteractive { get; }
+
         void DecreaseDepth();
         void Fail(string message);
         void IncreaseDepth();

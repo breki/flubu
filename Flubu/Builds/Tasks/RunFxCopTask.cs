@@ -44,7 +44,7 @@ namespace Flubu.Builds.Tasks
             // which are then removed from the code
             if ((task.LastExitCode != 0 && task.LastExitCode != 4) || isReportFileGenerated)
             {
-                if (!HudsonHelper.IsRunningUnderHudson)
+                if (context.IsInteractive)
                 {
                     // run FxCop GUI
                     task = new RunProgramTask(fxcopGuiExeFileName);

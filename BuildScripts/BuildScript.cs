@@ -42,6 +42,11 @@ namespace BuildScripts
 
             using (TaskSession session = new TaskSession(new SimpleTaskContextProperties(), args, targetTree))
             {
+                session.IsInteractive =
+                    Environment.GetEnvironmentVariable("CI") == null
+                    && Environment.GetEnvironmentVariable("APPVEYOR") == null
+                    && Environment.GetEnvironmentVariable("BUILD_NUMBER") == null;
+
                 BuildTargets.FillDefaultProperties(session);
                 session.Start(BuildTargets.OnBuildFinished);
 

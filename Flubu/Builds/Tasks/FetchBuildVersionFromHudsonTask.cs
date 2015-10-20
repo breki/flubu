@@ -4,6 +4,7 @@ using System.IO;
 
 namespace Flubu.Builds.Tasks
 {
+    [Obsolete]
     public class FetchBuildVersionFromHudsonTask : TaskBase, IFetchBuildVersionTask
     {
         public FetchBuildVersionFromHudsonTask(

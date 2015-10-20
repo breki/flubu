@@ -162,21 +162,42 @@
     <Modules>
      <Module Name="flubu.dll">
       <Namespaces>
-       <Namespace Name="Flubu.Tasks.Text">
+       <Namespace Name="Flubu.Builds">
         <Types>
-         <Type Name="ConfigureAppSettingsTask">
+         <Type Name="BuildTargets">
           <Members>
-           <Member Name="#PerformSetTasks(System.Xml.XmlDocument,Flubu.ITaskContext)">
+           <Member Name="#FetchBuildVersionFromHudson(Flubu.ITaskContext)">
             <Messages>
-             <Message Id="context" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2014-10-03 20:28:53Z" FixCategory="NonBreaking">
+             <Message TypeName="ProvideObsoleteAttributeMessage" Category="Microsoft.Design" CheckId="CA1041" Created="2015-10-20 13:43:31Z">
               <Issue>
-               <Item>'context'</Item>
-               <Item>'ConfigureAppSettingsTask.PerformSetTasks(XmlDocument, ITaskContext)'</Item>
+               <Item>'BuildTargets.FetchBuildVersionFromHudson(ITaskContext)'</Item>
               </Issue>
              </Message>
             </Messages>
            </Member>
           </Members>
+         </Type>
+         <Type Name="HudsonHelper">
+          <Messages>
+           <Message TypeName="ProvideObsoleteAttributeMessage" Category="Microsoft.Design" CheckId="CA1041" Created="2015-10-20 13:43:31Z">
+            <Issue>
+             <Item>'HudsonHelper'</Item>
+            </Issue>
+           </Message>
+          </Messages>
+         </Type>
+        </Types>
+       </Namespace>
+       <Namespace Name="Flubu.Builds.Tasks">
+        <Types>
+         <Type Name="FetchBuildVersionFromHudsonTask">
+          <Messages>
+           <Message TypeName="ProvideObsoleteAttributeMessage" Category="Microsoft.Design" CheckId="CA1041" Created="2015-10-20 13:43:31Z">
+            <Issue>
+             <Item>'FetchBuildVersionFromHudsonTask'</Item>
+            </Issue>
+           </Message>
+          </Messages>
          </Type>
         </Types>
        </Namespace>
@@ -191,8 +212,8 @@
    </User>
   </Notes>
   <Rules>
-   <Rule TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801">
-    <Resolution Name="Default">Parameter {0} of {1} is never used. Remove the parameter or use it in the method body.</Resolution>
+   <Rule TypeName="ProvideObsoleteAttributeMessage" Category="Microsoft.Design" CheckId="CA1041">
+    <Resolution Name="Default">Provide a message for the ObsoleteAttribute that marks {0}.</Resolution>
    </Rule>
    <Rule TypeName="StringUriOverloadsCallSystemUriOverloads" Category="Microsoft.Design" CheckId="CA1057">
     <Resolution Name="Default">Refactor {0} so that it builds a System.Uri object from {1}, and then calls {2}.</Resolution>
