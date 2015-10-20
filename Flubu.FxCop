@@ -158,53 +158,6 @@
      </Module>
     </Modules>
    </Target>
-   <Target Name="$(ProjectDir)/Flubu/bin/Release/Flubu.dll">
-    <Modules>
-     <Module Name="flubu.dll">
-      <Namespaces>
-       <Namespace Name="Flubu.Builds">
-        <Types>
-         <Type Name="BuildTargets">
-          <Members>
-           <Member Name="#FetchBuildVersionFromHudson(Flubu.ITaskContext)">
-            <Messages>
-             <Message TypeName="ProvideObsoleteAttributeMessage" Category="Microsoft.Design" CheckId="CA1041" Created="2015-10-20 13:43:31Z">
-              <Issue>
-               <Item>'BuildTargets.FetchBuildVersionFromHudson(ITaskContext)'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="HudsonHelper">
-          <Messages>
-           <Message TypeName="ProvideObsoleteAttributeMessage" Category="Microsoft.Design" CheckId="CA1041" Created="2015-10-20 13:43:31Z">
-            <Issue>
-             <Item>'HudsonHelper'</Item>
-            </Issue>
-           </Message>
-          </Messages>
-         </Type>
-        </Types>
-       </Namespace>
-       <Namespace Name="Flubu.Builds.Tasks">
-        <Types>
-         <Type Name="FetchBuildVersionFromHudsonTask">
-          <Messages>
-           <Message TypeName="ProvideObsoleteAttributeMessage" Category="Microsoft.Design" CheckId="CA1041" Created="2015-10-20 13:43:31Z">
-            <Issue>
-             <Item>'FetchBuildVersionFromHudsonTask'</Item>
-            </Issue>
-           </Message>
-          </Messages>
-         </Type>
-        </Types>
-       </Namespace>
-      </Namespaces>
-     </Module>
-    </Modules>
-   </Target>
   </Targets>
   <Notes>
    <User Name="blorger">
@@ -212,9 +165,6 @@
    </User>
   </Notes>
   <Rules>
-   <Rule TypeName="ProvideObsoleteAttributeMessage" Category="Microsoft.Design" CheckId="CA1041">
-    <Resolution Name="Default">Provide a message for the ObsoleteAttribute that marks {0}.</Resolution>
-   </Rule>
    <Rule TypeName="StringUriOverloadsCallSystemUriOverloads" Category="Microsoft.Design" CheckId="CA1057">
     <Resolution Name="Default">Refactor {0} so that it builds a System.Uri object from {1}, and then calls {2}.</Resolution>
    </Rule>

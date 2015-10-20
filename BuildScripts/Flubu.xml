@@ -1019,6 +1019,31 @@
             </summary>
             <value>The exit code of the last external program.</value>
         </member>
+        <member name="T:Flubu.Tasks.Text.EvaluateXmlTask">
+            <summary>
+            Evaluates XPath expressions on a specified XML file and stores results in <seealso cref="T:Flubu.ITaskContext"/> properties.
+            </summary>
+        </member>
+        <member name="M:Flubu.Tasks.Text.EvaluateXmlTask.DoExecute(Flubu.ITaskContext)">
+            <summary>
+            Internal task execution code.
+            </summary>
+            <param name="context">The script execution environment.</param>
+        </member>
+        <member name="P:Flubu.Tasks.Text.EvaluateXmlTask.Description">
+            <summary>
+            Gets the task description.
+            </summary>
+            <value>The task description.</value>
+        </member>
+        <member name="P:Flubu.Tasks.Text.EvaluateXmlTask.IsSafeToExecuteInDryRun">
+            <summary>
+            Gets a value indicating whether this instance is safe to execute in dry run mode.
+            </summary>
+            <value>
+                <c>true</c> if this instance is safe to execute in dry run mode; otherwise, <c>false</c>.
+            </value>
+        </member>
         <member name="T:Flubu.Tasks.Text.PeekXmlTask">
             <summary>
             Retrieves a value from an XML file.

@@ -27,7 +27,7 @@
     </UpgradeBackupLocation>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -42,6 +42,8 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -73,9 +75,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
-    <Reference Include="System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.EnterpriseServices" />
@@ -99,7 +98,11 @@
     <None Include="Builds\FileBuildProduct.cs" />
     <Compile Include="Builds\BuildProps.cs" />
     <Compile Include="Builds\BuildTargets.cs" />
+    <Compile Include="Builds\Tasks\AnalysisTasks\RunDupFinderAnalysisTask.cs" />
     <Compile Include="Builds\Tasks\AnalysisTasks\RunFxCopTask.cs" />
+    <Compile Include="Builds\Tasks\NuGetTasks\DownloadNugetPackageInUserRepositoryTask.cs" />
+    <Compile Include="Builds\Tasks\NuGetTasks\FindNuGetPackageInUserRepositoryTask.cs" />
+    <Compile Include="Builds\Tasks\NuGetTasks\NuGetCmdLineTask.cs" />
     <Compile Include="Builds\Tasks\SolutionTasks\CompileSolutionTask.cs" />
     <Compile Include="Builds\Tasks\SolutionTasks\GenerateCommonAssemblyInfoTask.cs" />
     <Compile Include="Builds\Tasks\TestingTasks\NUnitTask.cs" />
@@ -182,6 +185,7 @@
     <None Include="Tasks\CustomRunnerTask.cs" />
     <Compile Include="Tasks\SqlServer\ExecuteSqlScriptTask.cs" />
     <Compile Include="Tasks\Text\ConfigureAppSettingsTask.cs" />
+    <Compile Include="Tasks\Text\EvaluateXmlTask.cs" />
     <Compile Include="Tasks\Text\PeekXmlTask.cs" />
     <Compile Include="Tasks\Msmq\PurgeMessageQueueTask.cs" />
     <Compile Include="Tasks\Text\UpdateXmlFileTask.cs" />
