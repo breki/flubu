@@ -1,7 +1,9 @@
 2.0.0.0
+- BREAKING CHANGE: Flubu is now built in .NET 4.0
 - BREAKING CHANGE: moved building tasks into separate namespaces
 - BREAKING CHANGE: removed Hudson-related code
 - BREAKING CHANGE: removed Gallio-related code since Gallio has been dead for a long time
+- added NuGet tasks, RunDupFinderAnalysisTask and EvaluateXmlTask
 - added ITaskContext.IsInteractive property to detect if the build session is running interactively or on a build server
 
 1.0.7.0

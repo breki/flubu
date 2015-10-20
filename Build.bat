@@ -1,1 +1,1 @@
-lib\cs-script\cscs.exe /sconfig /c BuildScripts\BuildScript.cs %*
+lib\cs-script\cscs.exe /sconfig BuildScripts\BuildScript.cs %*

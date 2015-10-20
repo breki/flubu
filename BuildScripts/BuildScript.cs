@@ -31,7 +31,7 @@ namespace BuildScripts
                 .Do(TargetPackage).DependsOn("load.solution");
             targetTree.AddTarget("rebuild")
                 .SetDescription("Rebuilds the project, runs tests and packages the build products.")
-                .SetAsDefault().DependsOn("compile", "fxcop", "unit.tests", "package");
+                .SetAsDefault().DependsOn("compile", "unit.tests", "package");
 
             targetTree.GetTarget("fetch.build.version")
                 .Do(TargetFetchBuildVersion);
@@ -56,6 +56,7 @@ namespace BuildScripts
                 session.Properties.Set(BuildProps.ProductId, "Flubu");
                 session.Properties.Set(BuildProps.ProductName, "Flubu");
                 session.Properties.Set(BuildProps.SolutionFileName, "Flubu.sln");
+                session.Properties.Set(BuildProps.TargetDotNetVersion, FlubuEnvironment.Net40VersionNumber);
                 session.Properties.Set(BuildProps.VersionControlSystem, VersionControlSystem.Mercurial);
 
                 try
