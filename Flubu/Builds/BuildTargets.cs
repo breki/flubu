@@ -118,49 +118,6 @@ namespace Flubu.Builds
             context.WriteInfo("Incrementing the next build number to {0}", nextBuildNumber);
         }
 
-        public static Version FetchBuildVersionFromHudson (ITaskContext context)
-        {
-            string productRootDir = context.Properties.Get (BuildProps.ProductRootDir, ".");
-            string productId = context.Properties.Get<string> (BuildProps.ProductId);
-
-            VersionControlSystem versionControlSystem = context.Properties.Get<VersionControlSystem> (
-                BuildProps.VersionControlSystem);
-
-            string svnRevisionName = null;
-            if (context.Properties.Has(BuildProps.SvnRevisionVariableName))
-                svnRevisionName = context.Properties.Get<string>(BuildProps.SvnRevisionVariableName);
-
-            IFetchBuildVersionTask task = new FetchBuildVersionFromHudsonTask (
-                productRootDir,
-                productId,
-                v =>
-                {
-                    int hudsonBuildNumber = HudsonHelper.BuildNumber;
-                    int revisionNumber;
-
-                    switch (versionControlSystem)
-                    {
-                        case VersionControlSystem.Subversion:
-                            revisionNumber = HudsonHelper.GetSvnRevision(svnRevisionName);
-                            break;
-                        case VersionControlSystem.Mercurial:
-                            revisionNumber = 0;
-                            break;
-                        default:
-                            throw new NotSupportedException ();
-                    }
-
-                    return new Version (
-                        v.Major,
-                        v.Minor,
-                        revisionNumber,
-                        hudsonBuildNumber);
-                });
-
-            task.Execute (context);
-            return task.BuildVersion;
-        }
-
         public static void OnBuildFinished (ITaskSession session)
         {
             session.ResetDepth();
@@ -184,7 +141,7 @@ namespace Flubu.Builds
                 (int)buildDuration.TotalSeconds);
 
             bool speechDisabled = session.Properties.Get(BuildProps.SpeechDisabled, false);
-            if (Environment.UserInteractive && !HudsonHelper.IsRunningUnderHudson && !speechDisabled)
+            if (session.IsInteractive && !speechDisabled)
             {
                 using (SpeechSynthesizer speech = new SpeechSynthesizer())
                 {

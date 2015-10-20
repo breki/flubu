@@ -99,10 +99,9 @@
     <None Include="Builds\FileBuildProduct.cs" />
     <Compile Include="Builds\BuildProps.cs" />
     <Compile Include="Builds\BuildTargets.cs" />
-    <Compile Include="Builds\HudsonHelper.cs" />
     <Compile Include="Builds\Tasks\CompileSolutionTask.cs" />
     <Compile Include="Builds\Tasks\FetchBuildVersionFromFileTask.cs" />
-    <Compile Include="Builds\Tasks\FetchBuildVersionFromHudsonTask.cs" />
+    <None Include="Builds\Tasks\FetchBuildVersionFromHudsonTask.cs" />
     <Compile Include="Builds\Tasks\GenerateCommonAssemblyInfoTask.cs" />
     <Compile Include="Builds\Tasks\IFetchBuildVersionTask.cs" />
     <Compile Include="Builds\Tasks\RunFxCopTask.cs" />

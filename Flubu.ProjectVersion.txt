@@ -1,5 +1,6 @@
-1.0.8.0
-- added Environment.UserInteractive check when using speech synthesis to prevent speaking on server builds
+1.1.0.0
+- added ITaskContext.IsInteractive property to detect if the build session is running interactively or on a build server
+- removed Hudson-related code
 
 1.0.7.0
 - ITarget has a new OverrideDo() method which allows overriding previously specified target action.

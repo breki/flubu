@@ -17,6 +17,12 @@ namespace Flubu
             get { return args; }
         }
 
+        public bool IsInteractive
+        {
+            get { return isInteractive; }
+            set { isInteractive = value; }
+        }
+
         public ITaskContextProperties Properties
         {
             get { return properties; }
@@ -87,10 +93,11 @@ namespace Flubu
             }
         }
 
-        private List<string> args;
+        private readonly List<string> args;
         private bool disposed;
         private int executionDepth;
-        private List<ILogger> loggers = new List<ILogger>();
-        private ITaskContextProperties properties;
+        private readonly List<ILogger> loggers = new List<ILogger>();
+        private readonly ITaskContextProperties properties;
+        private bool isInteractive = true;
     }
 }
