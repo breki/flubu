@@ -1,4 +1,7 @@
-﻿- add help target which displays target dependencies
+﻿- add licenses to 3rd party stuff
+- can we nugetize it?
+
+- add help target which displays target dependencies
 - add CCNet listener logger
 - add NAnt-like logger (or something similar)
 - log severity levels?

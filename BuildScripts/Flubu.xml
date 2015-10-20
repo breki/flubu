@@ -15,15 +15,6 @@
             Boolean property which, if set to <c>true</c>, disables the "build successful/build failed" speech at the end of the build.
             </summary>
         </member>
-        <member name="M:Flubu.Builds.HudsonHelper.GetSvnRevision(System.String)">
-            <summary>
-            Gets SVN revision number from environment variable.
-            Normally it is named SVN_REVISION. But under JENKINS when using more than one repository they are named with numbered suffix _1, _2, ...
-            for each repository respectively (first is named SVN_REVISION_1, ...)
-            </summary>
-            <param name="environmentVariableName">Variable name to use.</param>
-            <returns>SVN Revision number</returns>
-        </member>
         <member name="T:Flubu.TaskBase">
             <summary>
             A base abstract class from which tasks can be implemented.
@@ -81,6 +72,60 @@
             has finished.
             </summary>
             <value><c>true</c> if duration should be logged; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="T:Flubu.Builds.Tasks.TestingTasks.NUnitTask">
+            <summary>
+            Run tests with NUnit.
+            <example>
+            NUnitTask task = new NUnitTask(Path.Combine("Testing\\UnitTests\\bin", BuildConfiguration),
+                       "Hsl.PD.UnitTests.dll")
+                   {
+                       ExcludeCategories = "Cassini, LongTest",
+                       NUnitPath = MakePathFromRootDir(@"lib\NUnit\bin\net-2.0\nunit-console-x86.exe"),
+                   };
+                   task.Execute(ScriptExecutionEnvironment);
+            </example>
+            </summary>
+        </member>
+        <member name="M:Flubu.Builds.Tasks.TestingTasks.NUnitTask.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Flubu.Builds.Tasks.TestingTasks.NUnitTask"/> class.
+            </summary>
+            <param name="workingDirectory">Working directory to use.</param>
+            <param name="assemblyToTest">Assembly to test.</param>
+        </member>
+        <member name="M:Flubu.Builds.Tasks.TestingTasks.NUnitTask.DoExecute(Flubu.ITaskContext)">
+            <summary>
+            Abstract method defining the actual work for a task.
+            </summary>
+            <remarks>This method has to be implemented by the inheriting task.</remarks>
+            <param name="context">The script execution environment.</param>
+        </member>
+        <member name="P:Flubu.Builds.Tasks.TestingTasks.NUnitTask.WorkingDirectory">
+            <summary>
+            Gets or sets unit test working directory.
+            </summary>
+        </member>
+        <member name="P:Flubu.Builds.Tasks.TestingTasks.NUnitTask.AssemblyToTest">
+            <summary>
+            Gets or sets assembly to test.
+            </summary>
+        </member>
+        <member name="P:Flubu.Builds.Tasks.TestingTasks.NUnitTask.NUnitPath">
+            <summary>
+            Gets or sets NUnit application path.
+            </summary>
+        </member>
+        <member name="P:Flubu.Builds.Tasks.TestingTasks.NUnitTask.Description">
+            <summary>
+            Gets the task description.
+            </summary>
+            <value>The task description.</value>
+        </member>
+        <member name="P:Flubu.Builds.Tasks.TestingTasks.NUnitTask.ExcludeCategories">
+            <summary>
+            Gets or sets tests categories that will be excluded from test.
+            </summary>
         </member>
         <member name="T:Flubu.Builds.VSSolutionBrowsing.VSProjectItem">
             <summary>
@@ -410,6 +455,14 @@
             <param name="targetNames">The dependency target names.</param>
             <returns>This same instance of <see cref="T:Flubu.Targeting.ITarget"/>.</returns>
         </member>
+        <member name="M:Flubu.Targeting.ITarget.OverrideDo(System.Action{Flubu.ITaskContext})">
+            <summary>
+            Overrides any previously specified target action with the new one.
+            </summary>
+            <param name="targetAction">The new target action to perform.</param>
+            <returns>This same instance of <see cref="T:Flubu.Targeting.ITarget"/>.</returns>
+            <remarks>The method works even if no target action was specified before.</remarks>
+        </member>
         <member name="M:Flubu.Targeting.ITarget.SetAsDefault">
             <summary>
             Sets the target as the default target for the runner.
@@ -421,7 +474,7 @@
             Sets the target as hidden. Hidden targets will not be
             visible in the list of targets displayed to the user as help.
             </summary>
-            <returns>This same instance of <see cref="!:FlubuRunnerTarget&lt;TRunner&gt;"/>.</returns>
+            <returns>This same instance of <see cref="T:Flubu.Targeting.ITarget"/>.</returns>
         </member>
         <member name="P:Flubu.Targeting.ITarget.IsHidden">
             <summary>
@@ -570,60 +623,6 @@
             that should be called on the runner before it gets disposed.
             </summary>
         </member>
-        <member name="T:Flubu.Tasks.Tests.NUnitTask">
-            <summary>
-            Run tests with NUnit.
-            <example>
-            NUnitTask task = new NUnitTask(Path.Combine("Testing\\UnitTests\\bin", BuildConfiguration),
-                       "Hsl.PD.UnitTests.dll")
-                   {
-                       ExcludeCategories = "Cassini, LongTest",
-                       NUnitPath = MakePathFromRootDir(@"lib\NUnit\bin\net-2.0\nunit-console-x86.exe"),
-                   };
-                   task.Execute(ScriptExecutionEnvironment);
-            </example>
-            </summary>
-        </member>
-        <member name="M:Flubu.Tasks.Tests.NUnitTask.#ctor(System.String,System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Flubu.Tasks.Tests.NUnitTask"/> class.
-            </summary>
-            <param name="workingDirectory">Working directory to use.</param>
-            <param name="assemblyToTest">Assembly to test.</param>
-        </member>
-        <member name="M:Flubu.Tasks.Tests.NUnitTask.DoExecute(Flubu.ITaskContext)">
-            <summary>
-            Abstract method defining the actual work for a task.
-            </summary>
-            <remarks>This method has to be implemented by the inheriting task.</remarks>
-            <param name="context">The script execution environment.</param>
-        </member>
-        <member name="P:Flubu.Tasks.Tests.NUnitTask.WorkingDirectory">
-            <summary>
-            Gets or sets unit test working directory.
-            </summary>
-        </member>
-        <member name="P:Flubu.Tasks.Tests.NUnitTask.AssemblyToTest">
-            <summary>
-            Gets or sets assembly to test.
-            </summary>
-        </member>
-        <member name="P:Flubu.Tasks.Tests.NUnitTask.NUnitPath">
-            <summary>
-            Gets or sets NUnit application path.
-            </summary>
-        </member>
-        <member name="P:Flubu.Tasks.Tests.NUnitTask.Description">
-            <summary>
-            Gets the task description.
-            </summary>
-            <value>The task description.</value>
-        </member>
-        <member name="P:Flubu.Tasks.Tests.NUnitTask.ExcludeCategories">
-            <summary>
-            Gets or sets tests categories that will be excluded from test.
-            </summary>
-        </member>
         <member name="T:Flubu.Tasks.FileSystem.GetAssemblyVersionTask">
             <summary>
             Retrieves .NET assembly version from .NET assembly.
@@ -650,21 +649,6 @@
             </summary>
             <param name="file">File name of the file whose version should be retrieved.</param>
             <param name="setting">Name of setting to which file version is stored.</param>
-        </member>
-        <member name="T:Flubu.Tasks.Tests.UnitTestToolType">
-            <summary>
-            Test tool used with NCover.
-            </summary>
-        </member>
-        <member name="F:Flubu.Tasks.Tests.UnitTestToolType.NUnit">
-            <summary>
-            NUnit test tool.
-            </summary>
-        </member>
-        <member name="F:Flubu.Tasks.Tests.UnitTestToolType.Gallio">
-            <summary>
-            Gallio test tool (Gallio.Echo)
-            </summary>
         </member>
         <member name="T:Flubu.Tasks.Configuration.LogScriptEnvironmentTask">
             <summary>
