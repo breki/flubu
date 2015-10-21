@@ -1,4 +1,5 @@
-﻿- nuget
+﻿- if no target is specified as default, the script returns a NullReferenceException if the target is not specified
+- nuget
 	- use NuGetCmdLineTask 
 	- extract nuget building into extra tasks
 	- how to supply the API key?
