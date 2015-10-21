@@ -1,5 +1,11 @@
-﻿- add licenses to 3rd party stuff
-- can we nugetize it?
+﻿- nuget
+	- use NuGetCmdLineTask 
+	- extract nuget building into extra tasks
+	- how to supply the API key?
+
+- add licenses to 3rd party stuff
+	 - include it in nuget package, too
+	 - add readme in nuget package on how to correct the build script after updating nuget
 
 - add help target which displays target dependencies
 - add CCNet listener logger
