@@ -193,14 +193,18 @@ namespace BuildScripts
                 context.Properties.Get<Version>(BuildProps.BuildVersion));
             context.WriteInfo("NuGet package file {0} created", nupkgFileName);
 
-            string apiKeyFileName = "NuGet API key.txt";
-            if (!File.Exists(apiKeyFileName))
+            const string NuGetApiKeyFileName = "NuGet-API-key.txt";
+            if (!File.Exists(NuGetApiKeyFileName))
             {
-                context.WriteInfo("'NuGet API key.txt' does not exist, cannot publish the package.");
+                context.WriteInfo("'{0}' does not exist, cannot publish the package.", NuGetApiKeyFileName);
                 return;
             }
 
-            string apiKey = File.ReadAllText(apiKeyFileName);
+            string apiKey = File.ReadAllText(NuGetApiKeyFileName);
+
+            // do not push new packages from a local build
+            if (context.IsInteractive)
+                return;
 
             // publish the package file
             context.WriteInfo("Pushing the NuGet package to the repository");

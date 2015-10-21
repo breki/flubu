@@ -6,7 +6,7 @@
     <version>$version</version>
     <authors>Igor Brejc, Zoro Zorec, Blaž Lorger</authors>
     <owners>Igor Brejc</owners>
-    <projectUrl>http://code.google.com/p/flubu/</projectUrl>
+    <projectUrl>https://bitbucket.org/breki-os/flubu</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <licenseUrl>http://www.opensource.org/licenses/bsd-license.php</licenseUrl>
     <description>
