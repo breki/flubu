@@ -221,7 +221,7 @@ namespace BuildScripts
             const string NuGetApiKeyFileName = "private/nuget.org-api-key.txt";
             if (!File.Exists(NuGetApiKeyFileName))
             {
-                context.WriteInfo("NuGet API key file ('{0}') does not exist, cannot publish the package.", NuGetApiKeyFileName);
+                context.Fail("NuGet API key file ('{0}') does not exist, cannot publish the package.", NuGetApiKeyFileName);
                 return null;
             }
 
@@ -236,7 +236,7 @@ namespace BuildScripts
 
             if (string.IsNullOrEmpty(apiKey))
             {
-                context.WriteInfo("NuGet API key environment variable ('{0}') does not exist, cannot publish the package.", NuGetApiKeyEnvVariable);
+                context.Fail("NuGet API key environment variable ('{0}') does not exist, cannot publish the package.", NuGetApiKeyEnvVariable);
                 return null;
             }
 
