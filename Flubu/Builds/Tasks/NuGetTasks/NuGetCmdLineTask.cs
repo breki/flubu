@@ -25,6 +25,8 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             set { verbosity = value; }
         }
 
+        public string ApiKey { get; set; }
+
         public int ExitCode
         {
             get { return exitCode; }
@@ -54,6 +56,12 @@ namespace Flubu.Builds.Tasks.NuGetTasks
 
             runProgramTask.EncloseParametersInQuotes(false);
             runProgramTask.AddArgument(command);
+
+            if (verbosity.HasValue)
+                runProgramTask.AddArgument("-Verbosity").AddArgument(verbosity.ToString());
+            if (ApiKey != null)
+                runProgramTask.AddArgument("-ApiKey").AddSecureArgument(ApiKey);
+
             foreach (string arg in args)
                 runProgramTask.AddArgument(arg);
 

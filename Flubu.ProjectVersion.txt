@@ -1,5 +1,7 @@
 2.0.1.0
+- RunProgramTask now supports secure arguments so they are not logged in the build log
 - NuGetCmdLineTask now has additional constructor parameter for setting the working directory
+- NuGetCmdLineTask now has ApiKey property which is securely handled
 
 2.0.0.0
 - BREAKING CHANGE: Flubu is now built in .NET 4.0
