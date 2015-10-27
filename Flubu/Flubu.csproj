@@ -104,6 +104,7 @@
     <Compile Include="Builds\Tasks\NuGetTasks\DownloadNugetPackageInUserRepositoryTask.cs" />
     <Compile Include="Builds\Tasks\NuGetTasks\FindNuGetPackageInUserRepositoryTask.cs" />
     <Compile Include="Builds\Tasks\NuGetTasks\NuGetCmdLineTask.cs" />
+    <Compile Include="Builds\Tasks\NuGetTasks\PublishNuGetPackageTask.cs" />
     <Compile Include="Builds\Tasks\SolutionTasks\CompileSolutionTask.cs" />
     <Compile Include="Builds\Tasks\SolutionTasks\GenerateCommonAssemblyInfoTask.cs" />
     <Compile Include="Builds\Tasks\TestingTasks\NUnitTask.cs" />
@@ -187,6 +188,7 @@
     <Compile Include="Tasks\SqlServer\ExecuteSqlScriptTask.cs" />
     <Compile Include="Tasks\Text\ConfigureAppSettingsTask.cs" />
     <Compile Include="Tasks\Text\EvaluateXmlTask.cs" />
+    <Compile Include="Tasks\Text\ReplaceTokensTask.cs" />
     <Compile Include="Tasks\Text\PeekXmlTask.cs" />
     <Compile Include="Tasks\Msmq\PurgeMessageQueueTask.cs" />
     <Compile Include="Tasks\Text\UpdateXmlFileTask.cs" />

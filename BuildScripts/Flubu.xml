@@ -1044,6 +1044,12 @@
                 <c>true</c> if this instance is safe to execute in dry run mode; otherwise, <c>false</c>.
             </value>
         </member>
+        <member name="P:Flubu.Tasks.Text.ReplaceTokensTask.Description">
+            <summary>
+            Gets the task description.
+            </summary>
+            <value>The task description.</value>
+        </member>
         <member name="T:Flubu.Tasks.Text.PeekXmlTask">
             <summary>
             Retrieves a value from an XML file.
