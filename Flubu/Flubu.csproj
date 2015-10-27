@@ -98,6 +98,7 @@
     <None Include="Builds\FileBuildProduct.cs" />
     <Compile Include="Builds\BuildProps.cs" />
     <Compile Include="Builds\BuildTargets.cs" />
+    <Compile Include="Builds\DefaultBuildScriptRunner.cs" />
     <Compile Include="Builds\Tasks\AnalysisTasks\RunDupFinderAnalysisTask.cs" />
     <Compile Include="Builds\Tasks\AnalysisTasks\RunFxCopTask.cs" />
     <Compile Include="Builds\Tasks\NuGetTasks\DownloadNugetPackageInUserRepositoryTask.cs" />
