@@ -8,9 +8,10 @@ namespace Flubu.Builds.Tasks.NuGetTasks
 {
     public class NuGetCmdLineTask : TaskBase
     {
-        public NuGetCmdLineTask(string command)
+        public NuGetCmdLineTask(string command, string workingDirectory = null)
         {
             this.command = command;
+            this.workingDirectory = workingDirectory;
         }
 
         public override string Description
@@ -22,6 +23,11 @@ namespace Flubu.Builds.Tasks.NuGetTasks
         {
             get { return verbosity; }
             set { verbosity = value; }
+        }
+
+        public int ExitCode
+        {
+            get { return exitCode; }
         }
 
         public NuGetCmdLineTask AddArgument (string arg)
@@ -43,12 +49,16 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             }
 
             RunProgramTask runProgramTask = new RunProgramTask(nugetCmdLinePath);
+            if (workingDirectory != null)
+                runProgramTask.SetWorkingDir(workingDirectory);
+
             runProgramTask.EncloseParametersInQuotes(false);
             runProgramTask.AddArgument(command);
             foreach (string arg in args)
                 runProgramTask.AddArgument(arg);
 
             runProgramTask.Execute(context);
+            exitCode = runProgramTask.LastExitCode;
         }
 
         private static string FindNuGetCmdLinePath()
@@ -67,6 +77,7 @@ namespace Flubu.Builds.Tasks.NuGetTasks
                 string.Format(CultureInfo.InvariantCulture, "{0}.*", NuGetCmdLinePackageName)))
             {
                 string dirLocalName = Path.GetFileName(directory);
+                // ReSharper disable once PossibleNullReferenceException
                 string versionStr = dirLocalName.Substring (packageNameLen + 1);
 
                 Version version;
@@ -87,9 +98,11 @@ namespace Flubu.Builds.Tasks.NuGetTasks
         }
 
         private readonly string command;
+        private readonly string workingDirectory;
         private const string PackagesDirName = "packages";
-        private List<string> args = new List<string>();
+        private readonly List<string> args = new List<string>();
         private NuGetVerbosity? verbosity;
+        private int exitCode;
 
         public enum NuGetVerbosity
         {
