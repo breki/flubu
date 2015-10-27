@@ -208,10 +208,9 @@ namespace BuildScripts
 
             nugetTask = new NuGetCmdLineTask ("push", nugetWorkingDir);
             nugetTask.Verbosity = NuGetCmdLineTask.NuGetVerbosity.Detailed;
+            nugetTask.ApiKey = apiKey;
             nugetTask
                 .AddArgument(nupkgFileName)
-                .AddArgument(apiKey)
-                .AddArgument("-Source")
                 .AddArgument("http://packages.nuget.org/v1/")
                 .Execute(context);
         }
