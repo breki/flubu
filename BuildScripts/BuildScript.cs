@@ -195,17 +195,12 @@ namespace BuildScripts
                 context.Properties.Get<Version>(BuildProps.BuildVersion));
             context.WriteInfo("NuGet package file {0} created", nupkgFileName);
 
-            const string NuGetApiKeyFileName = "private/nuget.org-api-key.txt";
-            if (!File.Exists(NuGetApiKeyFileName))
-            {
-                context.WriteInfo("NuGet API key file ('{0}') does not exist, cannot publish the package.", NuGetApiKeyFileName);
-                return;
-            }
-
-            string apiKey = File.ReadAllText(NuGetApiKeyFileName);
-
             // do not push new packages from a local build
             if (context.IsInteractive)
+                return;
+
+            string apiKey = FetchNuGetApiKeyFromEnvVariable(context);
+            if (apiKey == null)
                 return;
 
             // publish the package file
@@ -219,6 +214,33 @@ namespace BuildScripts
                 .AddArgument("-Source")
                 .AddArgument("http://packages.nuget.org/v1/")
                 .Execute(context);
+        }
+
+        private static string FetchNuGetApiKeyFromLocalFile(ITaskContext context)
+        {
+            const string NuGetApiKeyFileName = "private/nuget.org-api-key.txt";
+            if (!File.Exists(NuGetApiKeyFileName))
+            {
+                context.WriteInfo("NuGet API key file ('{0}') does not exist, cannot publish the package.", NuGetApiKeyFileName);
+                return null;
+            }
+
+            return File.ReadAllText(NuGetApiKeyFileName);
+        }
+
+        private static string FetchNuGetApiKeyFromEnvVariable(ITaskContext context)
+        {
+            const string NuGetApiKeyEnvVariable = "NuGetOrgApiKey";
+
+            string apiKey = Environment.GetEnvironmentVariable(NuGetApiKeyEnvVariable);
+
+            if (string.IsNullOrEmpty(apiKey))
+            {
+                context.WriteInfo("NuGet API key environment variable ('{0}') does not exist, cannot publish the package.", NuGetApiKeyEnvVariable);
+                return null;
+            }
+
+            return apiKey;
         }
     }
 }
