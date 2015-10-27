@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Globalization;
-using System.IO;
-using System.Text;
 using Flubu;
 using Flubu.Builds;
 using Flubu.Builds.Tasks.NuGetTasks;
 using Flubu.Builds.VSSolutionBrowsing;
 using Flubu.Packaging;
 using Flubu.Targeting;
-using Flubu.Tasks.Text;
 
 //css_ref Flubu.dll;
 //css_ref Flubu.Contrib.dll;
@@ -23,11 +19,8 @@ namespace BuildScripts
             return runner.Run(args);
         }
 
-        private static TargetTree ConfigureTargets()
+        private static void ConfigureTargets(TargetTree targetTree)
         {
-            TargetTree targetTree = new TargetTree();
-            BuildTargets.FillBuildTargets(targetTree);
-
             targetTree.AddTarget("unit.tests")
                 .SetDescription("Runs unit tests on the project")
                 .Do(x => BuildTargets.TargetRunTestsNUnit(x, "Flubu.Tests")).DependsOn("load.solution");
@@ -49,8 +42,6 @@ namespace BuildScripts
             targetTree.AddTarget("nuget")
                 .SetDescription("Produces NuGet packages for reusable components and publishes them to the NuGet server")
                 .Do(c => TargetNuGet(c, "Flubu")).DependsOn("fetch.build.version");
-
-            return targetTree;
         }
 
         private static void ConfigureBuildProperties(TaskSession session)
@@ -115,85 +106,8 @@ namespace BuildScripts
 
         private static void TargetNuGet(ITaskContext context, string nugetId)
         {
-            FullPath packagesDir = new FullPath(context.Properties.Get(BuildProps.ProductRootDir, "."));
-            packagesDir = packagesDir.CombineWith(context.Properties.Get<string>(BuildProps.BuildDir));
-
-            string sourceNuspecFile = string.Format(
-                CultureInfo.InvariantCulture,
-                @"{0}\{0}.nuspec",
-                nugetId);
-            FileFullPath destNuspecFile = packagesDir.AddFileName("{0}.nuspec", nugetId);
-
-            context.WriteInfo("Preparing the {0} file", destNuspecFile);
-            ExpandPropertiesTask task = new ExpandPropertiesTask(
-                sourceNuspecFile,
-                destNuspecFile.ToString(),
-                Encoding.UTF8,
-                Encoding.UTF8);
-            task.AddPropertyToExpand("version", context.Properties.Get<Version>(BuildProps.BuildVersion).ToString());
-            task.Execute(context);
-
-            // package it
-            context.WriteInfo("Creating a NuGet package file");
-            string nugetWorkingDir = destNuspecFile.Directory.ToString ();
-            NuGetCmdLineTask nugetTask = new NuGetCmdLineTask ("pack", nugetWorkingDir);
-            nugetTask.Verbosity = NuGetCmdLineTask.NuGetVerbosity.Detailed;
-            nugetTask
-                .AddArgument(destNuspecFile.FileName)
-                .Execute(context);
-
-            string nupkgFileName = string.Format(
-                CultureInfo.InvariantCulture,
-                "{0}.{1}.nupkg",
-                nugetId,
-                context.Properties.Get<Version>(BuildProps.BuildVersion));
-            context.WriteInfo("NuGet package file {0} created", nupkgFileName);
-
-            // do not push new packages from a local build
-            if (context.IsInteractive)
-                return;
-
-            string apiKey = FetchNuGetApiKeyFromEnvVariable(context);
-            if (apiKey == null)
-                return;
-
-            // publish the package file
-            context.WriteInfo("Pushing the NuGet package to the repository");
-
-            nugetTask = new NuGetCmdLineTask ("push", nugetWorkingDir);
-            nugetTask.Verbosity = NuGetCmdLineTask.NuGetVerbosity.Detailed;
-            nugetTask.ApiKey = apiKey;
-            nugetTask
-                .AddArgument(nupkgFileName)
-                .AddArgument("http://packages.nuget.org/v1/")
-                .Execute(context);
-        }
-
-        private static string FetchNuGetApiKeyFromLocalFile(ITaskContext context)
-        {
-            const string NuGetApiKeyFileName = "private/nuget.org-api-key.txt";
-            if (!File.Exists(NuGetApiKeyFileName))
-            {
-                context.Fail("NuGet API key file ('{0}') does not exist, cannot publish the package.", NuGetApiKeyFileName);
-                return null;
-            }
-
-            return File.ReadAllText(NuGetApiKeyFileName);
-        }
-
-        private static string FetchNuGetApiKeyFromEnvVariable(ITaskContext context)
-        {
-            const string NuGetApiKeyEnvVariable = "NuGetOrgApiKey";
-
-            string apiKey = Environment.GetEnvironmentVariable(NuGetApiKeyEnvVariable);
-
-            if (string.IsNullOrEmpty(apiKey))
-            {
-                context.Fail("NuGet API key environment variable ('{0}') does not exist, cannot publish the package.", NuGetApiKeyEnvVariable);
-                return null;
-            }
-
-            return apiKey;
+            PublishNuGetPackageTask publishTask = new PublishNuGetPackageTask(nugetId);
+            publishTask.Execute(context);
         }
     }
 }

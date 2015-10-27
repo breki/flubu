@@ -1,3 +1,6 @@
+2.0.3.0
+- new tasks: PublishNuGetPackageTask and ReplaceTokensTask
+
 2.0.2.0
 - extracted common C# building boilerplate code into DefaultBuildScriptRunner
 

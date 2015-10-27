@@ -7,15 +7,15 @@ namespace Flubu.Builds
     public class DefaultBuildScriptRunner
     {
         public DefaultBuildScriptRunner (
-            Func<TargetTree> targetBuildingFunc,
+            Action<TargetTree> targetBuildingAction,
             Action<TaskSession> buildPropertiesConfiguringAction)
         {
-            if (targetBuildingFunc == null)
-                throw new ArgumentNullException ("targetBuildingFunc");
+            if (targetBuildingAction == null)
+                throw new ArgumentNullException ("targetBuildingAction");
             if (buildPropertiesConfiguringAction == null)
                 throw new ArgumentNullException ("buildPropertiesConfiguringAction");
 
-            this.targetBuildingFunc = targetBuildingFunc;
+            this.targetBuildingAction = targetBuildingAction;
             this.buildPropertiesConfiguringAction = buildPropertiesConfiguringAction;
         }
 
@@ -30,7 +30,10 @@ namespace Flubu.Builds
             if (args == null)
                 throw new ArgumentNullException ("args");
 
-            TargetTree targetTree = targetBuildingFunc ();
+            TargetTree targetTree = new TargetTree ();
+            BuildTargets.FillBuildTargets (targetTree);
+            targetBuildingAction (targetTree);
+
             return RunBuild (args, targetTree);
         }
 
@@ -108,7 +111,7 @@ namespace Flubu.Builds
             return targetToBuild;
         }
 
-        private readonly Func<TargetTree> targetBuildingFunc;
+        private readonly Action<TargetTree> targetBuildingAction;
         private readonly Action<TaskSession> buildPropertiesConfiguringAction;
         private Func<bool> interactiveSessionDetectionFunc = DefaultSessionInteractiveSessionDetectionFunc;
     }

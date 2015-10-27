@@ -1,9 +1,4 @@
-﻿- if no target is specified as default, the script returns a NullReferenceException if the target is not specified
-- nuget
-	- use NuGetCmdLineTask 
-	- extract nuget building into extra tasks
-	- how to supply the API key?
-
+﻿- add Flubu license to package
 - add licenses to 3rd party stuff
 	 - include it in nuget package, too
 	 - add readme in nuget package on how to correct the build script after updating nuget
