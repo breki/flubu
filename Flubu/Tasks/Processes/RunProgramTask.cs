@@ -55,13 +55,27 @@ namespace Flubu.Tasks.Processes
 
         public RunProgramTask AddArgument(string argument)
         {
-            programArgs.Add(argument);
+            programArgs.Add(new Arg(argument));
             return this;
         }
 
         public RunProgramTask AddArgument(string format, params object[] args)
         {
-            programArgs.Add(string.Format(CultureInfo.InvariantCulture, format, args));
+            Arg arg = new Arg (string.Format (CultureInfo.InvariantCulture, format, args));
+            programArgs.Add(arg);
+            return this;
+        }
+
+        public RunProgramTask AddSecureArgument(string argument)
+        {
+            programArgs.Add(new Arg(argument, true));
+            return this;
+        }
+
+        public RunProgramTask AddSecureArgument(string format, params object[] args)
+        {
+            Arg arg = new Arg (string.Format (CultureInfo.InvariantCulture, format, args), true);
+            programArgs.Add(arg);
             return this;
         }
 
@@ -84,8 +98,12 @@ namespace Flubu.Tasks.Processes
             using (Process process = new Process())
             {
                 StringBuilder argumentLineBuilder = new StringBuilder();
-                foreach (string programArg in programArgs)
-                    argumentLineBuilder.AppendFormat(formatString, programArg);
+                StringBuilder argumentLineLogBuilder = new StringBuilder();
+                foreach (Arg programArg in programArgs)
+                {
+                    argumentLineBuilder.AppendFormat(formatString, programArg.ToRawString());
+                    argumentLineLogBuilder.AppendFormat(formatString, programArg.ToSecureString());
+                }
 
                 ProcessStartInfo processStartInfo = new ProcessStartInfo(programExePath, argumentLineBuilder.ToString())
                                            {
@@ -100,11 +118,11 @@ namespace Flubu.Tasks.Processes
                 int timeout = executionTimeout.Milliseconds;
 
                 context.WriteInfo(
-                    "Running program '{0}':Timeout:{3} (work. dir='{1}', args = '{2}')",
+                    "Running program '{0}':(work. dir='{1}', args = '{2}', timeout = {3})",
                     programExePath,
                     processStartInfo.WorkingDirectory,
-                    argumentLineBuilder,
-                    timeout<=0?"infinite":executionTimeout.Milliseconds.ToString(CultureInfo.InvariantCulture));
+                    argumentLineLogBuilder,
+                    timeout <= 0 ? "infinite" : executionTimeout.Milliseconds.ToString(CultureInfo.InvariantCulture));
 
                 process.StartInfo = processStartInfo;
                 process.ErrorDataReceived += ProcessErrorDataReceived;
@@ -142,9 +160,36 @@ namespace Flubu.Tasks.Processes
         private readonly bool ignoreExitCodes;
         private int lastExitCode;
         private readonly string programExePath;
-        private readonly List<string> programArgs = new List<string>();
+        private readonly List<Arg> programArgs = new List<Arg>();
         private string workingDirectory = ".";
         private bool encloseInQuotes;
         private TimeSpan executionTimeout = TimeSpan.MinValue;
+
+        private class Arg
+        {
+            public Arg(string value, bool isSecure = false)
+            {
+                this.value = value;
+                this.isSecure = isSecure;
+            }
+
+            public string ToRawString()
+            {
+                return value;
+            }
+
+            public string ToSecureString()
+            {
+                return isSecure ? "<hidden>" : value;
+            }
+
+            public override string ToString()
+            {
+                return "Do not use this method";
+            }
+
+            private readonly string value;
+            private readonly bool isSecure;
+        }
     }
 }
