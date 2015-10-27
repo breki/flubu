@@ -1,3 +1,6 @@
+2.0.1.0
+- NuGetCmdLineTask now has additional constructor parameter for setting the working directory
+
 2.0.0.0
 - BREAKING CHANGE: Flubu is now built in .NET 4.0
 - BREAKING CHANGE: moved building tasks into separate namespaces

@@ -39,3 +39,4 @@ Flubu2010.ncrunchsolution.user
 *.suo
 BuildScripts/NVelocity.xml
 BuildScripts/log4net.xml
+private/**

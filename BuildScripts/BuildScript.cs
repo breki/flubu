@@ -5,10 +5,10 @@ using System.IO;
 using System.Text;
 using Flubu;
 using Flubu.Builds;
+using Flubu.Builds.Tasks.NuGetTasks;
 using Flubu.Builds.VSSolutionBrowsing;
 using Flubu.Packaging;
 using Flubu.Targeting;
-using Flubu.Tasks.Processes;
 using Flubu.Tasks.Text;
 
 //css_ref Flubu.dll;
@@ -32,6 +32,9 @@ namespace BuildScripts
             targetTree.AddTarget("rebuild")
                 .SetDescription("Rebuilds the project, runs tests and packages the build products.")
                 .SetAsDefault().DependsOn("compile", "unit.tests", "package");
+            targetTree.AddTarget("rebuild.server")
+                .SetDescription("Rebuilds the project, runs tests, packages the build products and publishes it on the NuGet server.")
+                .DependsOn("rebuild", "nuget");
 
             targetTree.GetTarget("fetch.build.version")
                 .Do(TargetFetchBuildVersion);
@@ -178,12 +181,11 @@ namespace BuildScripts
 
             // package it
             context.WriteInfo("Creating a NuGet package file");
-            RunProgramTask progTask = new RunProgramTask(@"lib\NuGet\NuGet.exe");
-            progTask.SetWorkingDir(destNuspecFile.Directory.ToString());
-            progTask
-                .AddArgument("pack")
+            string nugetWorkingDir = destNuspecFile.Directory.ToString ();
+            NuGetCmdLineTask nugetTask = new NuGetCmdLineTask ("pack", nugetWorkingDir);
+            nugetTask.Verbosity = NuGetCmdLineTask.NuGetVerbosity.Detailed;
+            nugetTask
                 .AddArgument(destNuspecFile.FileName)
-                .AddArgument("-Verbose")
                 .Execute(context);
 
             string nupkgFileName = string.Format(
@@ -193,10 +195,10 @@ namespace BuildScripts
                 context.Properties.Get<Version>(BuildProps.BuildVersion));
             context.WriteInfo("NuGet package file {0} created", nupkgFileName);
 
-            const string NuGetApiKeyFileName = "NuGet-API-key.txt";
+            const string NuGetApiKeyFileName = "private/nuget.org-api-key.txt";
             if (!File.Exists(NuGetApiKeyFileName))
             {
-                context.WriteInfo("'{0}' does not exist, cannot publish the package.", NuGetApiKeyFileName);
+                context.WriteInfo("NuGet API key file ('{0}') does not exist, cannot publish the package.", NuGetApiKeyFileName);
                 return;
             }
 
@@ -209,10 +211,9 @@ namespace BuildScripts
             // publish the package file
             context.WriteInfo("Pushing the NuGet package to the repository");
 
-            progTask = new RunProgramTask(@"lib\NuGet\NuGet.exe");
-            progTask.SetWorkingDir(destNuspecFile.Directory.ToString());
-            progTask
-                .AddArgument("push")
+            nugetTask = new NuGetCmdLineTask ("push", nugetWorkingDir);
+            nugetTask.Verbosity = NuGetCmdLineTask.NuGetVerbosity.Detailed;
+            nugetTask
                 .AddArgument(nupkgFileName)
                 .AddArgument(apiKey)
                 .AddArgument("-Source")
