@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -20,6 +19,12 @@ namespace BuildScripts
     {
         public static int Main(string[] args)
         {
+            DefaultBuildScriptRunner runner = new DefaultBuildScriptRunner(ConfigureTargets, ConfigureBuildProperties);
+            return runner.Run(args);
+        }
+
+        private static TargetTree ConfigureTargets()
+        {
             TargetTree targetTree = new TargetTree();
             BuildTargets.FillBuildTargets(targetTree);
 
@@ -31,9 +36,11 @@ namespace BuildScripts
                 .Do(TargetPackage).DependsOn("load.solution");
             targetTree.AddTarget("rebuild")
                 .SetDescription("Rebuilds the project, runs tests and packages the build products.")
-                .SetAsDefault().DependsOn("compile", "unit.tests", "package");
+                .SetAsDefault()
+                .DependsOn("compile", "unit.tests", "package");
             targetTree.AddTarget("rebuild.server")
-                .SetDescription("Rebuilds the project, runs tests, packages the build products and publishes it on the NuGet server.")
+                .SetDescription(
+                    "Rebuilds the project, runs tests, packages the build products and publishes it on the NuGet server.")
                 .DependsOn("rebuild", "nuget");
 
             targetTree.GetTarget("fetch.build.version")
@@ -43,70 +50,17 @@ namespace BuildScripts
                 .SetDescription("Produces NuGet packages for reusable components and publishes them to the NuGet server")
                 .Do(c => TargetNuGet(c, "Flubu")).DependsOn("fetch.build.version");
 
-            using (TaskSession session = new TaskSession(new SimpleTaskContextProperties(), args, targetTree))
-            {
-                session.IsInteractive =
-                    Environment.GetEnvironmentVariable("CI") == null
-                    && Environment.GetEnvironmentVariable("APPVEYOR") == null
-                    && Environment.GetEnvironmentVariable("BUILD_NUMBER") == null;
-
-                BuildTargets.FillDefaultProperties(session);
-                session.Start(BuildTargets.OnBuildFinished);
-
-                session.AddLogger(new MulticoloredConsoleLogger(Console.Out));
-
-                session.Properties.Set(BuildProps.NUnitConsolePath, @"packages\NUnit.Runners.2.6.2\tools\nunit-console.exe");
-                session.Properties.Set(BuildProps.ProductId, "Flubu");
-                session.Properties.Set(BuildProps.ProductName, "Flubu");
-                session.Properties.Set(BuildProps.SolutionFileName, "Flubu.sln");
-                session.Properties.Set(BuildProps.TargetDotNetVersion, FlubuEnvironment.Net40VersionNumber);
-                session.Properties.Set(BuildProps.VersionControlSystem, VersionControlSystem.Mercurial);
-
-                try
-                {
-                    string targetToRun = ParseCmdLineArgs(args, session);
-                    
-                    if (targetToRun == null)
-                        targetTree.RunTarget(session, targetTree.DefaultTarget.TargetName);
-                    else
-                    {
-                        if (false == targetTree.HasTarget(targetToRun))
-                        {
-                            session.WriteError ("ERROR: The target '{0}' does not exist", targetToRun);
-                            targetTree.RunTarget(session, "help");
-                            return 2;
-                        }
-
-                        targetTree.RunTarget (session, targetToRun);
-                    }
-
-                    session.Complete();
-
-                    return 0;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                    return 1;
-                }
-            }
+            return targetTree;
         }
 
-        private static string ParseCmdLineArgs (IEnumerable<string> args, ITaskContext context)
+        private static void ConfigureBuildProperties(TaskSession session)
         {
-            string targetToBuild = null;
-
-            foreach (string arg in args)
-            {
-                if (string.Compare (arg, "-speechdisabled", StringComparison.InvariantCultureIgnoreCase) == 0)
-                {
-                    context.Properties.Set (BuildProps.SpeechDisabled, true);
-                }
-                else
-                    targetToBuild = arg;
-            }
-
-            return targetToBuild;
+            session.Properties.Set (BuildProps.NUnitConsolePath, @"packages\NUnit.Runners.2.6.2\tools\nunit-console.exe");
+            session.Properties.Set (BuildProps.ProductId, "Flubu");
+            session.Properties.Set (BuildProps.ProductName, "Flubu");
+            session.Properties.Set (BuildProps.SolutionFileName, "Flubu.sln");
+            session.Properties.Set (BuildProps.TargetDotNetVersion, FlubuEnvironment.Net40VersionNumber);
+            session.Properties.Set (BuildProps.VersionControlSystem, VersionControlSystem.Mercurial);
         }
 
         private static void TargetPackage(ITaskContext context)
