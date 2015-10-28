@@ -107,6 +107,7 @@ namespace BuildScripts
         private static void TargetNuGet(ITaskContext context, string nugetId)
         {
             PublishNuGetPackageTask publishTask = new PublishNuGetPackageTask(nugetId);
+            publishTask.ForApiKeyUseEnvironmentVariable();
             publishTask.Execute(context);
         }
     }

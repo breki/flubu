@@ -7,6 +7,9 @@ namespace Flubu.Builds.Tasks.NuGetTasks
 {
     public class PublishNuGetPackageTask : TaskBase
     {
+        public const string DefaultNuGetApiKeyEnvVariable = "NuGetOrgApiKey";
+        public const string DefaultApiKeyFileName = "private/nuget.org-api-key.txt";
+
         public PublishNuGetPackageTask(string packageId)
         {
             this.packageId = packageId;
@@ -33,6 +36,21 @@ namespace Flubu.Builds.Tasks.NuGetTasks
         {
             get { return allowPushOnInteractiveBuild; }
             set { allowPushOnInteractiveBuild = value; }
+        }
+
+        public void ForApiKeyUse(string apiKey)
+        {
+            apiKeyFunc = c => apiKey;
+        }
+
+        public void ForApiKeyUseEnvironmentVariable(string variableName = DefaultNuGetApiKeyEnvVariable)
+        {
+            apiKeyFunc = c => FetchNuGetApiKeyFromEnvVariable(c, variableName);
+        }
+
+        public void ForApiKeyUseFile(string fileName)
+        {
+            apiKeyFunc = c => FetchNuGetApiKeyFromLocalFile(c, fileName);
         }
 
         protected override void DoExecute (ITaskContext context)
@@ -73,7 +91,10 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             if (context.IsInteractive && !allowPushOnInteractiveBuild)
                 return;
 
-            string apiKey = FetchNuGetApiKeyFromEnvVariable (context);
+            if (apiKeyFunc == null)
+                throw new InvalidOperationException("NuGet API key was not provided");
+
+            string apiKey = apiKeyFunc(context);
             if (apiKey == null)
                 return;
 
@@ -91,27 +112,24 @@ namespace Flubu.Builds.Tasks.NuGetTasks
                 .Execute (context);
         }
 
-        private static string FetchNuGetApiKeyFromLocalFile (ITaskContext context)
+        private static string FetchNuGetApiKeyFromLocalFile (ITaskContext context, string fileName = DefaultApiKeyFileName)
         {
-            const string NuGetApiKeyFileName = "private/nuget.org-api-key.txt";
-            if (!File.Exists (NuGetApiKeyFileName))
+            if (!File.Exists (fileName))
             {
-                context.Fail ("NuGet API key file ('{0}') does not exist, cannot publish the package.", NuGetApiKeyFileName);
+                context.Fail ("NuGet API key file ('{0}') does not exist, cannot publish the package.", fileName);
                 return null;
             }
 
-            return File.ReadAllText (NuGetApiKeyFileName);
+            return File.ReadAllText (fileName).Trim();
         }
 
-        private static string FetchNuGetApiKeyFromEnvVariable (ITaskContext context)
+        private static string FetchNuGetApiKeyFromEnvVariable (ITaskContext context, string environmentVariableName = DefaultNuGetApiKeyEnvVariable)
         {
-            const string NuGetApiKeyEnvVariable = "NuGetOrgApiKey";
-
-            string apiKey = Environment.GetEnvironmentVariable (NuGetApiKeyEnvVariable);
+            string apiKey = Environment.GetEnvironmentVariable (environmentVariableName);
 
             if (string.IsNullOrEmpty (apiKey))
             {
-                context.Fail ("NuGet API key environment variable ('{0}') does not exist, cannot publish the package.", NuGetApiKeyEnvVariable);
+                context.Fail ("NuGet API key environment variable ('{0}') does not exist, cannot publish the package.", environmentVariableName);
                 return null;
             }
 
@@ -121,5 +139,6 @@ namespace Flubu.Builds.Tasks.NuGetTasks
         private readonly string packageId;
         private bool allowPushOnInteractiveBuild;
         private string nuGetServerUrl;
+        private Func<ITaskContext, string> apiKeyFunc;
     }
 }

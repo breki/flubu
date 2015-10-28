@@ -1,3 +1,6 @@
+2.0.4.0
+- PublishNuGetPackageTask now supports 3 different ways of providing the API key (directly, file, env. variable)
+
 2.0.3.0
 - new tasks: PublishNuGetPackageTask and ReplaceTokensTask
 
