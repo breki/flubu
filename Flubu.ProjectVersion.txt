@@ -1,3 +1,8 @@
+2.1.0.0
+- DownloadNugetPackageInUserRepositoryTask has a new ConfigFile property
+- new tasks: VisitXmlFileTask and NUnitWithDotCoverTask
+- added internal StringEx class
+
 2.0.4.0
 - PublishNuGetPackageTask now supports 3 different ways of providing the API key (directly, file, env. variable)
 

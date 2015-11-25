@@ -41,3 +41,4 @@ BuildScripts/NVelocity.xml
 BuildScripts/log4net.xml
 private/**
 *.DotSettings.user
+*.ncrunchsolution.user
