@@ -2,6 +2,7 @@
 using Flubu;
 using Flubu.Builds;
 using Flubu.Builds.Tasks.NuGetTasks;
+using Flubu.Builds.Tasks.TestingTasks;
 using Flubu.Builds.VSSolutionBrowsing;
 using Flubu.Packaging;
 using Flubu.Targeting;
@@ -23,7 +24,7 @@ namespace BuildScripts
         {
             targetTree.AddTarget("unit.tests")
                 .SetDescription("Runs unit tests on the project")
-                .Do(x => BuildTargets.TargetRunTestsNUnit(x, "Flubu.Tests")).DependsOn("load.solution");
+                .Do(x => TargetRunTests(x, "Flubu.Tests")).DependsOn("load.solution");
             targetTree.AddTarget("package")
                 .SetDescription("Packages all the build products into ZIP files")
                 .Do(TargetPackage).DependsOn("load.solution");
@@ -52,6 +53,16 @@ namespace BuildScripts
             session.Properties.Set (BuildProps.SolutionFileName, "Flubu.sln");
             session.Properties.Set (BuildProps.TargetDotNetVersion, FlubuEnvironment.Net40VersionNumber);
             session.Properties.Set (BuildProps.VersionControlSystem, VersionControlSystem.Mercurial);
+        }
+
+        private static void TargetRunTests (ITaskContext context, string projectName)
+        {
+            NUnitWithDotCoverTask task = NUnitWithDotCoverTask.ForProject (
+                projectName,
+                @"packages\NUnit.Runners.2.6.2\tools\nunit-console.exe");
+            task.FailBuildOnViolations = false;
+            task.NUnitCmdLineOptions = "/labels /nodots /noshadow";
+            task.Execute (context);
         }
 
         private static void TargetPackage(ITaskContext context)

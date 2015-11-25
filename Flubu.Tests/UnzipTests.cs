@@ -49,7 +49,7 @@ namespace Flubu.Tests
         /// Unzip local file.
         /// </summary>
         [Test]
-        public void Extractfile()
+        public void ExtractFile()
         {
             TestUnzipTask(new UnzipFilesTask(SampleArchive, OutputDirectory));
         }
@@ -60,9 +60,7 @@ namespace Flubu.Tests
         [Test]
         public void ExtractNonSeekableStream()
         {
-            using (
-                FileStream f = new FileStream(@"..\..\SampleArchive.zip", FileMode.Open, FileAccess.Read, FileShare.Read)
-                )
+            using (FileStream f = new FileStream(@"..\..\SampleArchive.zip", FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 TestUnzipTask(new UnzipFilesTask(new UnseekableStream(f), OutputDirectory));
             }

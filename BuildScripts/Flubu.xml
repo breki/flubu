@@ -127,6 +127,108 @@
             Gets or sets tests categories that will be excluded from test.
             </summary>
         </member>
+        <member name="T:Flubu.Builds.Tasks.TestingTasks.NUnitWithDotCoverTask">
+            <summary>
+            Runs NUnit tests in combination with dotCover test coverage analysis.
+            </summary>
+            <remarks>
+            <para>
+            The task uses dotCover command line tool to run NUnit command line runner
+            which executes tests for the specified assembly or C# project.
+            </para>
+            <para>
+            The task uses <see cref="M:Flubu.Builds.Tasks.TestingTasks.NUnitWithDotCoverTask.ForProject(System.String,System.String)"/> to download dotCover command
+            line tool into the running user's local application data directory. If the tool is already there,
+            the task skips downloading it.
+            </para>
+            <para>
+            Use one of provided static constructor methods: <see cref="M:Flubu.Builds.Tasks.TestingTasks.NUnitWithDotCoverTask.ForAssembly(System.String,System.String)"/> or <see cref="T:Flubu.Builds.Tasks.NuGetTasks.DownloadNugetPackageInUserRepositoryTask"/>.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Flubu.Builds.Tasks.TestingTasks.NUnitWithDotCoverTask.ForProject(System.String,System.String)">
+            <summary>
+            Creates a new instance of <see cref="T:Flubu.Builds.Tasks.TestingTasks.NUnitWithDotCoverTask"/> that will run the task
+            for the specified C# project containing unit tests.
+            </summary>
+            <param name="projectName">The name of the C# project containing unit tests.</param>
+            <param name="nunitRunnerFileName">The file path to NUnit's console runner.</param>
+            <returns>The newly created <see cref="T:Flubu.Builds.Tasks.TestingTasks.NUnitWithDotCoverTask"/> instance.</returns>
+            <seealso cref="M:Flubu.Builds.Tasks.TestingTasks.NUnitWithDotCoverTask.ForAssembly(System.String,System.String)"/>
+        </member>
+        <member name="M:Flubu.Builds.Tasks.TestingTasks.NUnitWithDotCoverTask.ForAssembly(System.String,System.String)">
+            <summary>
+            Creates a new instance of <see cref="T:Flubu.Builds.Tasks.TestingTasks.NUnitWithDotCoverTask"/> that will run the task
+            for the specified assembly containing unit tests.
+            </summary>
+            <param name="assemblyFileName">The file path to the assembly containing unit tests.</param>
+            <param name="nunitRunnerFileName">The file path to NUnit's console runner.</param>
+            <returns>The newly created <see cref="T:Flubu.Builds.Tasks.TestingTasks.NUnitWithDotCoverTask"/> instance.</returns>
+            <seealso cref="M:Flubu.Builds.Tasks.TestingTasks.NUnitWithDotCoverTask.ForProject(System.String,System.String)"/>
+        </member>
+        <member name="P:Flubu.Builds.Tasks.TestingTasks.NUnitWithDotCoverTask.FailBuildOnViolations">
+            <summary>
+            Gets or sets a value indicating whether the build should fail if the test coverage of any
+            class is below <see cref="P:Flubu.Builds.Tasks.TestingTasks.NUnitWithDotCoverTask.MinRequiredCoverage"/>. 
+            </summary>
+            <remarks>
+            If <see cref="P:Flubu.Builds.Tasks.TestingTasks.NUnitWithDotCoverTask.FailBuildOnViolations"/>
+            is set to <c>false</c>, the task will only print out information about violating classes
+            without failing the build.
+            The default value is <c>true</c>.
+            </remarks>
+        </member>
+        <member name="P:Flubu.Builds.Tasks.TestingTasks.NUnitWithDotCoverTask.MinRequiredCoverage">
+            <summary>
+            Gets or sets the minimum required test coverage percentage. 
+            If any class has the test coverage below this value and <see cref="P:Flubu.Builds.Tasks.TestingTasks.NUnitWithDotCoverTask.FailBuildOnViolations"/>
+            is set to <c>true</c>, the task will fail the build. 
+            </summary>
+            <remarks>
+            The default value is 75%.
+            </remarks>
+        </member>
+        <member name="P:Flubu.Builds.Tasks.TestingTasks.NUnitWithDotCoverTask.NUnitCmdLineOptions">
+            <summary>
+            Gets or sets the command line options for NUnit console runner (as a single string).
+            </summary>
+            <remarks>
+            The default options are <c>/labels /nodots</c>.
+            </remarks>
+        </member>
+        <member name="P:Flubu.Builds.Tasks.TestingTasks.NUnitWithDotCoverTask.DotCoverFilters">
+            <summary>
+            Gets or sets the dotCover filters that will be passed to dotCover's <c>/Filters</c> command line parameter.
+            </summary>
+            <remarks>
+            The default filters are set to <c>-:module=*.Tests;-:class=*Contract;-:class=*Contract`*</c>.
+            For more information, visit <a href="https://www.jetbrains.com/dotcover/help/dotCover__Console_Runner_Commands.html">here</a>.
+            </remarks>
+            <seealso cref="P:Flubu.Builds.Tasks.TestingTasks.NUnitWithDotCoverTask.DotCoverAttributeFilters"/>
+        </member>
+        <member name="P:Flubu.Builds.Tasks.TestingTasks.NUnitWithDotCoverTask.DotCoverAttributeFilters">
+            <summary>
+            Gets or sets the dotCover attribute filters that will be passed to dotCover's <c>/AttributeFilters</c> command line parameter.
+            Attribute filters tell dotCover to skip the analysis of any code that has the specified attribute(s) applied.
+            </summary>
+            <remarks>
+            The default attribute filters are set to <c>"*.ExcludeFromCodeCoverageAttribute"</c>.
+            For more information, visit <a href="https://www.jetbrains.com/dotcover/help/dotCover__Console_Runner_Commands.html">here</a>.
+            </remarks>
+            <seealso cref="P:Flubu.Builds.Tasks.TestingTasks.NUnitWithDotCoverTask.DotCoverFilters"/>
+        </member>
+        <member name="P:Flubu.Builds.Tasks.TestingTasks.NUnitWithDotCoverTask.CoverageXmlReportFileName">
+            <summary>
+            Gets the path to the generated dotCover test coverage XML report.
+            </summary>
+            <seealso cref="P:Flubu.Builds.Tasks.TestingTasks.NUnitWithDotCoverTask.CoverageHtmlReportFileName"/>
+        </member>
+        <member name="P:Flubu.Builds.Tasks.TestingTasks.NUnitWithDotCoverTask.CoverageHtmlReportFileName">
+            <summary>
+            Gets the path to the generated dotCover test coverage HTML report.
+            </summary>
+            <seealso cref="P:Flubu.Builds.Tasks.TestingTasks.NUnitWithDotCoverTask.CoverageXmlReportFileName"/>
+        </member>
         <member name="T:Flubu.Builds.VSSolutionBrowsing.VSProjectItem">
             <summary>
             Holds information about content items inside of a VisualStudio project.
@@ -1150,6 +1252,42 @@
             Gets the task description.
             </summary>
             <value>The task description.</value>
+        </member>
+        <member name="T:Flubu.Tasks.Text.VisitXmlFileTask">
+            <summary>
+            Runs XPath queries on the specified XML file and provides an interface for visiting each query result.
+            </summary>
+        </member>
+        <member name="M:Flubu.Tasks.Text.VisitXmlFileTask.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Flubu.Tasks.Text.VisitXmlFileTask"/> class with the specified
+            XML file to be analyzed. 
+            </summary>
+            <param name="xmlFileName">
+            File name of the XML file to be queried.
+            </param>
+        </member>
+        <member name="M:Flubu.Tasks.Text.VisitXmlFileTask.AddVisitor(System.String,System.Func{System.Xml.XmlNode,System.Boolean})">
+            <summary>
+            Adds a visitor to be used for querying a specific XPath.
+            </summary>
+            <param name="xpath">XPath to be queried.</param>
+            <param name="visitorFunc">The function that should be called on each XML node found by the query.</param>
+            <returns>This same instance of the <see cref="T:Flubu.Tasks.Text.VisitXmlFileTask"/>.</returns>
+        </member>
+        <member name="P:Flubu.Tasks.Text.VisitXmlFileTask.Description">
+            <summary>
+            Gets the task description.
+            </summary>
+            <value>The task description.</value>
+        </member>
+        <member name="P:Flubu.Tasks.Text.VisitXmlFileTask.IsSafeToExecuteInDryRun">
+            <summary>
+            Gets a value indicating whether this instance is safe to execute in dry run mode.
+            </summary>
+            <value>
+                <c>true</c> if this instance is safe to execute in dry run mode; otherwise, <c>false</c>.
+            </value>
         </member>
         <member name="T:Flubu.Tasks.Text.XsltTransformTask">
             <summary>

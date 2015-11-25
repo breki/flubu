@@ -99,6 +99,7 @@
     <Compile Include="Builds\BuildProps.cs" />
     <Compile Include="Builds\BuildTargets.cs" />
     <Compile Include="Builds\DefaultBuildScriptRunner.cs" />
+    <Compile Include="StringEx.cs" />
     <Compile Include="Builds\Tasks\AnalysisTasks\RunDupFinderAnalysisTask.cs" />
     <Compile Include="Builds\Tasks\AnalysisTasks\RunFxCopTask.cs" />
     <Compile Include="Builds\Tasks\NuGetTasks\DownloadNugetPackageInUserRepositoryTask.cs" />
@@ -109,6 +110,7 @@
     <Compile Include="Builds\Tasks\SolutionTasks\GenerateCommonAssemblyInfoTask.cs" />
     <Compile Include="Builds\Tasks\TestingTasks\NUnitTask.cs" />
     <None Include="Builds\Tasks\VersioningTasks\FetchBuildVersionFromHudsonTask.cs" />
+    <Compile Include="Builds\Tasks\TestingTasks\NUnitWithDotCoverTask.cs" />
     <Compile Include="Builds\Tasks\VersioningTasks\FetchBuildVersionFromFileTask.cs" />
     <Compile Include="Builds\Tasks\VersioningTasks\IFetchBuildVersionTask.cs" />
     <Compile Include="Builds\VSSolutionBrowsing\VSProjectInfo.cs" />
@@ -192,6 +194,7 @@
     <Compile Include="Tasks\Text\PeekXmlTask.cs" />
     <Compile Include="Tasks\Msmq\PurgeMessageQueueTask.cs" />
     <Compile Include="Tasks\Text\UpdateXmlFileTask.cs" />
+    <Compile Include="Tasks\Text\VisitXmlFileTask.cs" />
     <Compile Include="Tasks\Text\XsltTransformTask.cs" />
     <Compile Include="Tasks\UserAccounts\AddUserToGroupTask.cs" />
     <Compile Include="Tasks\UserAccounts\CreateUserAccountMode.cs" />
