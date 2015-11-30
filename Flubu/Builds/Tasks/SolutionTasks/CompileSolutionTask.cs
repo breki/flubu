@@ -25,7 +25,6 @@ namespace Flubu.Builds.Tasks.SolutionTasks
 
         protected override void DoExecute(ITaskContext context)
         {
-            //TaskContext.LogTaskStarted("Compiling the solution");
             string msbuildPath = FlubuEnvironment.GetDotNetFWDir(dotNetVersion);
 
             RunProgramTask task = new RunProgramTask(Path.Combine(msbuildPath, @"msbuild.exe"), false);
@@ -36,13 +35,11 @@ namespace Flubu.Builds.Tasks.SolutionTasks
                 .AddArgument("/consoleloggerparameters:NoSummary")
                 .AddArgument("/maxcpucount:{0}", maxCpuCount)
                 .Execute(context);
-
-            //TaskContext.LogTaskFinished();
         }
 
-        private string solutionFileName;
-        private string buildConfiguration;
-        private string dotNetVersion;
+        private readonly string solutionFileName;
+        private readonly string buildConfiguration;
+        private readonly string dotNetVersion;
         private int maxCpuCount = 3;
     }
 }

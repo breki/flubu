@@ -4,7 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Speech.Synthesis;
-using Flubu.Builds.Tasks;
 using Flubu.Builds.Tasks.AnalysisTasks;
 using Flubu.Builds.Tasks.SolutionTasks;
 using Flubu.Builds.Tasks.TestingTasks;
