@@ -1,3 +1,6 @@
+2.1.0.1
+- Some small code cleanup, no functionality changes.
+
 2.1.0.0
 - DownloadNugetPackageInUserRepositoryTask has a new ConfigFile property
 - new tasks: VisitXmlFileTask and NUnitWithDotCoverTask
