@@ -4,7 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Speech.Synthesis;
-using Flubu.Builds.Tasks;
 using Flubu.Builds.Tasks.AnalysisTasks;
 using Flubu.Builds.Tasks.SolutionTasks;
 using Flubu.Builds.Tasks.TestingTasks;
@@ -333,26 +332,17 @@ namespace Flubu.Builds
         [SuppressMessage("Microsoft.Design", "CA1045:DoNotPassTypesByReference", MessageId = "3#")]
         public static void TargetRunTestsNUnit(
             ITaskContext context,
-            string projectName,
-            string filter,
+            string testAssemblyFileName,
+            string excludeCategories,
             ref int testsRunCounter)
         {
-            //FullPath buildLogsPath = new FullPath(context.Properties[BuildProps.ProductRootDir])
-            //    .CombineWith(context.Properties[BuildProps.BuildLogsDir]);
-            var solution = context.Properties.Get<VSSolution>(BuildProps.Solution);
-            VSProjectWithFileInfo project = (VSProjectWithFileInfo)solution.FindProjectByName(projectName);
-            var buildConfiguration = context.Properties.Get<string>(BuildProps.BuildConfiguration);
-            var testFileName =
-                project.ProjectDirectoryPath.CombineWith(project.GetProjectOutputPath(buildConfiguration))
-                    .AddFileName("{0}.dll", project.ProjectName);
+            string nunitConsoleFileName = context.Properties[BuildProps.NUnitConsolePath];
 
             NUnitTask task = new NUnitTask(
-                Path.GetDirectoryName(testFileName.ToString()),
-                Path.GetFileName(testFileName.ToString()))
-                                 {
-                                     NUnitPath = context.Properties[BuildProps.NUnitConsolePath],
-                                     ExcludeCategories = filter
-                                 };
+                Path.GetFileName(testAssemblyFileName),
+                nunitConsoleFileName,
+                Path.GetDirectoryName(testAssemblyFileName));
+            task.ExcludeCategories = excludeCategories;
 
             task.Execute(context);
             testsRunCounter++;

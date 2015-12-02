@@ -1,3 +1,11 @@
+2.2.0.0
+- PublishNuGetPackageTask now requires explicit path to nuspec file
+	- also a new BasePath property has been added
+- NUnitWithDotCoverTask no longer supports specifying just the project name for running tests,
+	since the OutputPath cannot reliably be fetched from the project file in all cases
+- redesigned NUnitTask 
+- CompileSolutionTask has a new Target property
+
 2.1.0.0
 - DownloadNugetPackageInUserRepositoryTask has a new ConfigFile property
 - new tasks: VisitXmlFileTask and NUnitWithDotCoverTask
