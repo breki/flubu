@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using Flubu.Tasks.Text;
@@ -10,20 +11,27 @@ namespace Flubu.Builds.Tasks.NuGetTasks
         public const string DefaultNuGetApiKeyEnvVariable = "NuGetOrgApiKey";
         public const string DefaultApiKeyFileName = "private/nuget.org-api-key.txt";
 
-        public PublishNuGetPackageTask(string packageId)
+        public PublishNuGetPackageTask (string packageId, string nuspecFileName)
         {
             this.packageId = packageId;
+            this.nuspecFileName = nuspecFileName;
         }
 
         public override string Description
         {
             get
             {
-                return string.Format(
+                return string.Format (
                     CultureInfo.InvariantCulture,
                     "Push NuGet package {0} to NuGet server",
                     packageId);
             }
+        }
+
+        public string BasePath
+        {
+            get { return basePath; }
+            set { basePath = value; }
         }
 
         public string NuGetServerUrl
@@ -38,19 +46,19 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             set { allowPushOnInteractiveBuild = value; }
         }
 
-        public void ForApiKeyUse(string apiKey)
+        public void ForApiKeyUse (string apiKey)
         {
             apiKeyFunc = c => apiKey;
         }
 
-        public void ForApiKeyUseEnvironmentVariable(string variableName = DefaultNuGetApiKeyEnvVariable)
+        public void ForApiKeyUseEnvironmentVariable (string variableName = DefaultNuGetApiKeyEnvVariable)
         {
-            apiKeyFunc = c => FetchNuGetApiKeyFromEnvVariable(c, variableName);
+            apiKeyFunc = c => FetchNuGetApiKeyFromEnvVariable (c, variableName);
         }
 
-        public void ForApiKeyUseFile(string fileName)
+        public void ForApiKeyUseFile (string fileName)
         {
-            apiKeyFunc = c => FetchNuGetApiKeyFromLocalFile(c, fileName);
+            apiKeyFunc = c => FetchNuGetApiKeyFromLocalFile (c, fileName);
         }
 
         protected override void DoExecute (ITaskContext context)
@@ -58,17 +66,13 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             FullPath packagesDir = new FullPath (context.Properties.Get (BuildProps.ProductRootDir, "."));
             packagesDir = packagesDir.CombineWith (context.Properties.Get<string> (BuildProps.BuildDir));
 
-            string sourceNuspecFile = string.Format (
-                CultureInfo.InvariantCulture,
-                @"{0}\{0}.nuspec",
-                packageId);
             FileFullPath destNuspecFile = packagesDir.AddFileName ("{0}.nuspec", packageId);
 
             context.WriteInfo ("Preparing the {0} file", destNuspecFile);
-            ReplaceTokensTask task = new ReplaceTokensTask(
-                sourceNuspecFile,
+            ReplaceTokensTask task = new ReplaceTokensTask (
+                nuspecFileName,
                 destNuspecFile.ToString ());
-            task.AddTokenValue("version", context.Properties.Get<Version> (BuildProps.BuildVersion).ToString ());
+            task.AddTokenValue ("version", context.Properties.Get<Version> (BuildProps.BuildVersion).ToString ());
             task.Execute (context);
 
             // package it
@@ -77,7 +81,12 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             NuGetCmdLineTask nugetTask = new NuGetCmdLineTask ("pack", nugetWorkingDir);
             nugetTask.Verbosity = NuGetCmdLineTask.NuGetVerbosity.Detailed;
             nugetTask
-                .AddArgument (destNuspecFile.FileName)
+                .AddArgument (destNuspecFile.FileName);
+
+            if (basePath != null)
+                nugetTask.AddArgument ("-BasePath").AddArgument (basePath);
+
+            nugetTask
                 .Execute (context);
 
             string nupkgFileName = string.Format (
@@ -92,9 +101,9 @@ namespace Flubu.Builds.Tasks.NuGetTasks
                 return;
 
             if (apiKeyFunc == null)
-                throw new InvalidOperationException("NuGet API key was not provided");
+                throw new InvalidOperationException ("NuGet API key was not provided");
 
-            string apiKey = apiKeyFunc(context);
+            string apiKey = apiKeyFunc (context);
             if (apiKey == null)
                 return;
 
@@ -105,7 +114,7 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             nugetTask.Verbosity = NuGetCmdLineTask.NuGetVerbosity.Detailed;
             nugetTask.ApiKey = apiKey;
             if (nuGetServerUrl != null)
-                nugetTask.AddArgument("Source").AddArgument(nuGetServerUrl);
+                nugetTask.AddArgument ("Source").AddArgument (nuGetServerUrl);
 
             nugetTask
                 .AddArgument (nupkgFileName)
@@ -120,7 +129,7 @@ namespace Flubu.Builds.Tasks.NuGetTasks
                 return null;
             }
 
-            return File.ReadAllText (fileName).Trim();
+            return File.ReadAllText (fileName).Trim ();
         }
 
         private static string FetchNuGetApiKeyFromEnvVariable (ITaskContext context, string environmentVariableName = DefaultNuGetApiKeyEnvVariable)
@@ -137,8 +146,11 @@ namespace Flubu.Builds.Tasks.NuGetTasks
         }
 
         private readonly string packageId;
+        private readonly string nuspecFileName;
         private bool allowPushOnInteractiveBuild;
+        [SuppressMessage ("StyleCop.CSharp.NamingRules", "SA1305:FieldNamesMustNotUseHungarianNotation", Justification = "Reviewed. Suppression is OK here.")]
         private string nuGetServerUrl;
         private Func<ITaskContext, string> apiKeyFunc;
+        private string basePath;
     }
 }
