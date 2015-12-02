@@ -5,35 +5,24 @@ using Flubu.Tasks.Processes;
 namespace Flubu.Builds.Tasks.TestingTasks
 {
     /// <summary>
-    /// Run tests with NUnit.
-    /// <example>
-    /// NUnitTask task = new NUnitTask(Path.Combine("Testing\\UnitTests\\bin", BuildConfiguration),
-    ///            "Hsl.PD.UnitTests.dll")
-    ///        {
-    ///            ExcludeCategories = "Cassini, LongTest",
-    ///            NUnitPath = MakePathFromRootDir(@"lib\NUnit\bin\net-2.0\nunit-console-x86.exe"),
-    ///        };
-    ///        task.Execute(ScriptExecutionEnvironment);
-    /// </example>
+    /// Run NUnit tests with NUnit console runner.
     /// </summary>
-    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+    [SuppressMessage ("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
     public class NUnitTask : TaskBase
     {
-        public static void Execute(ITaskContext environment, string workingFolder, string assemblyToTest)
-        {
-            NUnitTask task = new NUnitTask(workingFolder, assemblyToTest);
-            task.Execute(environment);
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="NUnitTask"/> class.
         /// </summary>
+        /// <param name="testAssemblyFileName">File name of the assembly containing the test code.</param>
+        /// <param name="nunitConsoleFileName">Path to the NUnit-console.exe</param>
         /// <param name="workingDirectory">Working directory to use.</param>
-        /// <param name="assemblyToTest">Assembly to test.</param>
-        public NUnitTask(string workingDirectory, string assemblyToTest)
+        public NUnitTask (
+            string testAssemblyFileName,
+            string nunitConsoleFileName,
+            string workingDirectory)
         {
-            NUnitPath = @"lib\NUnit\bin\net-2.0\nunit-console-x86.exe";
-            AssemblyToTest = assemblyToTest;
+            this.nunitConsoleFileName = nunitConsoleFileName;
+            TestAssemblyFileName = testAssemblyFileName;
             WorkingDirectory = workingDirectory;
         }
 
@@ -41,17 +30,22 @@ namespace Flubu.Builds.Tasks.TestingTasks
         /// Gets or sets unit test working directory.
         /// </summary>
         public string WorkingDirectory { get; set; }
-        
+
         /// <summary>
         /// Gets or sets assembly to test.
         /// </summary>
-        public string AssemblyToTest { get; set; }
+        public string TestAssemblyFileName { get; set; }
 
         /// <summary>
-        /// Gets or sets NUnit application path.
+        /// Gets or sets the target .NET framework NUnit console should run under.
         /// </summary>
-        public string NUnitPath { get; set; }
-        
+        public string TargetFramework { get; set; }
+
+        /// <summary>
+        /// Gets or sets tests categories that will be excluded from test.
+        /// </summary>
+        public string ExcludeCategories { get; set; }
+
         /// <summary>
         /// Gets the task description.
         /// </summary>
@@ -60,39 +54,39 @@ namespace Flubu.Builds.Tasks.TestingTasks
         {
             get
             {
-                return string.Format(
-                CultureInfo.InvariantCulture,
-                "Execute NUnit unit tests. Assembly:{0}",
-                AssemblyToTest);
+                return string.Format (
+                    CultureInfo.InvariantCulture,
+                    "Execute NUnit unit tests. Assembly:{0}",
+                    TestAssemblyFileName);
             }
         }
-
-        /// <summary>
-        /// Gets or sets tests categories that will be excluded from test.
-        /// </summary>
-        public string ExcludeCategories { get; set; }
 
         /// <summary>
         /// Abstract method defining the actual work for a task.
         /// </summary>
         /// <remarks>This method has to be implemented by the inheriting task.</remarks>
         /// <param name="context">The script execution environment.</param>
-        protected override void DoExecute(ITaskContext context)
+        protected override void DoExecute (ITaskContext context)
         {
-            RunProgramTask task = new RunProgramTask(NUnitPath, false);
+            RunProgramTask task = new RunProgramTask (nunitConsoleFileName, false);
 
             task
-                .SetWorkingDir(WorkingDirectory)
-                .EncloseParametersInQuotes(true)
-                .AddArgument(AssemblyToTest)
-                .AddArgument("/nodots")
-                .AddArgument("/labels")
-                .AddArgument("/noshadow");
+                .SetWorkingDir (WorkingDirectory)
+                .EncloseParametersInQuotes (true)
+                .AddArgument (TestAssemblyFileName)
+                .AddArgument ("/nodots")
+                .AddArgument ("/labels")
+                .AddArgument ("/noshadow");
 
-            if (!string.IsNullOrEmpty(ExcludeCategories))
-                task.AddArgument("/exclude={0}", ExcludeCategories);
+            if (!string.IsNullOrEmpty (TargetFramework))
+                task.AddArgument ("/framework:{0}", TargetFramework);
 
-            task.Execute(context);
+            if (!string.IsNullOrEmpty (ExcludeCategories))
+                task.AddArgument ("/exclude={0}", ExcludeCategories);
+
+            task.Execute (context);
         }
+
+        private readonly string nunitConsoleFileName;
     }
 }
