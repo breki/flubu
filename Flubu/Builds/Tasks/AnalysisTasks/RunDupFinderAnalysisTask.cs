@@ -25,7 +25,25 @@ namespace Flubu.Builds.Tasks.AnalysisTasks
             set { maxAllowedFragmentsCostRatio = value; }
         }
 
-        protected override void DoExecute(ITaskContext context)
+        public string Exclude
+        {
+            get { return exclude; }
+            set { exclude = value; }
+        }
+
+        public string ExcludeByComment
+        {
+            get { return excludeByComment; }
+            set { excludeByComment = value; }
+        }
+
+        public string ExcludeCodeRegions
+        {
+            get { return excludeCodeRegions; }
+            set { excludeCodeRegions = value; }
+        }
+
+        protected override void DoExecute (ITaskContext context)
         {
             string dupFinderXmlReportFileName = RunDupFinder (context);
 
@@ -37,7 +55,7 @@ namespace Flubu.Builds.Tasks.AnalysisTasks
             AnalyzeDupFinderReport (context, dupFinderXmlReportFileName);
         }
 
-        private static string RunDupFinder (ITaskContext context)
+        private string RunDupFinder (ITaskContext context)
         {
             DownloadNugetPackageInUserRepositoryTask downloadPackageTask = new DownloadNugetPackageInUserRepositoryTask (
                 ResharperCmdLineToolsPackageId);
@@ -60,9 +78,19 @@ namespace Flubu.Builds.Tasks.AnalysisTasks
             RunProgramTask task = new RunProgramTask (
                 dupFinderExeFileName)
                 .AddArgument ("--output={0}", dupFinderXmlReportFileName)
-                .AddArgument ("--show-text")
-                .AddArgument (context.Properties[BuildProps.SolutionFileName]);
-            task.Execute (context);
+                .AddArgument ("--show-text");
+
+            if (exclude != null)
+                task.AddArgument ("--exclude={0}", exclude);
+            if (excludeByComment != null)
+                task.AddArgument ("--exclude-by-comment={0}", excludeByComment);
+            if (excludeCodeRegions != null)
+                task.AddArgument ("--exclude-code-regions={0}", excludeCodeRegions);
+
+            task
+                .AddArgument (context.Properties[BuildProps.SolutionFileName])
+                .Execute (context);
+
             return dupFinderXmlReportFileName;
         }
 
@@ -106,7 +134,7 @@ namespace Flubu.Builds.Tasks.AnalysisTasks
                 context.WriteMessage (
                     TaskMessageLevel.Warn,
                     "There are {0} code duplicates that are above the {1} cost threshold",
-                    duplicatesCount, 
+                    duplicatesCount,
                     maxAllowedDuplicateCost);
                 shouldFailBuild = true;
             }
@@ -121,7 +149,7 @@ namespace Flubu.Builds.Tasks.AnalysisTasks
                     context.WriteMessage (
                         TaskMessageLevel.Warn,
                         "The fragments cost ratio ({0:P}) is above the max. allowed threshold ({1:P})",
-                        fragmentsCostRatio, 
+                        fragmentsCostRatio,
                         maxAllowedFragmentsCostRatio);
                     shouldFailBuild = true;
                 }
@@ -145,5 +173,8 @@ namespace Flubu.Builds.Tasks.AnalysisTasks
         private const string ResharperCmdLineToolsPackageId = "JetBrains.ReSharper.CommandLineTools";
         private int maxAllowedDuplicateCost = 300;
         private double maxAllowedFragmentsCostRatio = 0.1;
+        private string exclude;
+        private string excludeByComment;
+        private string excludeCodeRegions;
     }
 }

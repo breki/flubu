@@ -1,3 +1,6 @@
+2.3.0.0
+- improved NUnitWithDotCoverTask and RunDupFinderAnalysisTask tasks
+
 2.2.0.0
 - PublishNuGetPackageTask now requires explicit path to nuspec file
 	- also a new BasePath property has been added

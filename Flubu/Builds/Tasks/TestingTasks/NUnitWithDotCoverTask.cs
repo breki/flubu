@@ -26,18 +26,34 @@ namespace Flubu.Builds.Tasks.TestingTasks
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NUnitWithDotCoverTask"/> class that
-        /// will execute tests in the specified <see cref="testAssemblyFileName"/> assembly using 
+        /// will execute tests in the specified <see cref="testAssemblyFileNames"/> list of test assemblies using 
         /// the specified NUnit test runner executable.
         /// </summary>
-        /// <param name="testAssemblyFileName">The file path to the assembly containing unit tests.</param>
         /// <param name="nunitRunnerFileName">The file path to NUnit's console runner.</param>
-        public NUnitWithDotCoverTask (string testAssemblyFileName, string nunitRunnerFileName)
+        /// <param name="testAssemblyFileNames">The list of of file paths to the assemblies containing unit tests.</param>
+        public NUnitWithDotCoverTask (string nunitRunnerFileName, params string[] testAssemblyFileNames)
         {
             if (string.IsNullOrEmpty (nunitRunnerFileName))
                 throw new ArgumentException ("NUnit Runner file name should not be null or empty string", "nunitRunnerFileName");
 
             this.nunitRunnerFileName = nunitRunnerFileName;
-            this.testAssemblyFileName = testAssemblyFileName;
+            this.testAssemblyFileNames = testAssemblyFileNames;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NUnitWithDotCoverTask"/> class that
+        /// will execute tests in the specified <see cref="testAssemblyFileNames"/> list of test assemblies using 
+        /// the specified NUnit test runner executable.
+        /// </summary>
+        /// <param name="nunitRunnerFileName">The file path to NUnit's console runner.</param>
+        /// <param name="testAssemblyFileNames">The list of of file paths to the assemblies containing unit tests.</param>
+        public NUnitWithDotCoverTask (string nunitRunnerFileName, IList<string> testAssemblyFileNames)
+        {
+            if (string.IsNullOrEmpty (nunitRunnerFileName))
+                throw new ArgumentException ("NUnit Runner file name should not be null or empty string", "nunitRunnerFileName");
+
+            this.nunitRunnerFileName = nunitRunnerFileName;
+            this.testAssemblyFileNames = testAssemblyFileNames;
         }
 
         public override string Description
@@ -46,8 +62,8 @@ namespace Flubu.Builds.Tasks.TestingTasks
             {
                 return string.Format (
                     CultureInfo.InvariantCulture,
-                    "Execute NUnit unit tests on assembly '{0}'",
-                    testAssemblyFileName);
+                    "Execute NUnit unit tests on assemblies: {0}",
+                    testAssemblyFileNames.Concat (x => x, ", "));
             }
         }
 
@@ -146,16 +162,21 @@ namespace Flubu.Builds.Tasks.TestingTasks
             if (!EnsureDotCoverIsAvailable (context, out dotCoverExeFileName))
                 return;
 
-            string assemblyId;
-            FileFullPath assemblyFullFileName = ExtractFullAssemblyFileName (context, out assemblyId);
+            List<string> snapshots = new List<string> ();
+            foreach (string testAssemblyFileName in testAssemblyFileNames)
+            {
+                string snapshotFileName = RunTestsForAssembly (context, testAssemblyFileName, dotCoverExeFileName);
+                snapshots.Add (snapshotFileName);
+            }
 
-            string buildDir = context.Properties[BuildProps.BuildDir];
-            string snapshotFileName = Path.Combine (buildDir, "{0}-coverage.dcvr".Fmt (assemblyId));
+            string finalSnapshotFileName;
+            if (snapshots.Count > 1)
+                finalSnapshotFileName = MergeCoverageSnapshots (context, dotCoverExeFileName, snapshots);
+            else
+                finalSnapshotFileName = snapshots[0];
 
-            RunCoverTask (context, assemblyFullFileName, dotCoverExeFileName, snapshotFileName);
-
-            coverageXmlReportFileName = GenerateCoverageReport (context, dotCoverExeFileName, snapshotFileName, "XML");
-            coverageHtmlReportFileName = GenerateCoverageReport (context, dotCoverExeFileName, snapshotFileName, "HTML");
+            coverageXmlReportFileName = GenerateCoverageReport (context, dotCoverExeFileName, finalSnapshotFileName, "XML");
+            coverageHtmlReportFileName = GenerateCoverageReport (context, dotCoverExeFileName, finalSnapshotFileName, "HTML");
 
             AnalyzeCoverageResults (context);
         }
@@ -181,6 +202,19 @@ namespace Flubu.Builds.Tasks.TestingTasks
             return true;
         }
 
+        private string RunTestsForAssembly (ITaskContext context, string testAssemblyFileName, string dotCoverExeFileName)
+        {
+            string assemblyId;
+            FileFullPath assemblyFullFileName = ExtractFullAssemblyFileName (testAssemblyFileName, out assemblyId);
+
+            string buildDir = context.Properties[BuildProps.BuildDir];
+            string snapshotFileName = Path.Combine (buildDir, "{0}-coverage.dcvr".Fmt (assemblyId));
+
+            RunCoverTask (context, assemblyFullFileName, dotCoverExeFileName, snapshotFileName);
+
+            return snapshotFileName;
+        }
+
         private void RunCoverTask (
             ITaskContext context,
             IPathBuilder assemblyFullFileName,
@@ -201,6 +235,23 @@ namespace Flubu.Builds.Tasks.TestingTasks
                 //.AddArgument("/LogFile={0}", Path.Combine(buildDir, "dotCover-log.xml"))
                 .AddArgument ("/ReturnTargetExitCode");
             runDotCovertask.Execute (context);
+        }
+
+        private static string MergeCoverageSnapshots (ITaskContext context, string dotCoverExeFileName, List<string> snapshots)
+        {
+            context.WriteInfo ("Merging coverage snapshots...");
+
+            string buildDir = context.Properties[BuildProps.BuildDir];
+            string mergedSnapshotFileName = Path.Combine (buildDir, "{0}.dcvr".Fmt (context.Properties[BuildProps.ProductId]));
+
+            RunProgramTask runDotCovertask =
+                new RunProgramTask (dotCoverExeFileName).AddArgument ("merge")
+                    .AddArgument ("/Source={0}", snapshots.Concat (x => x, ";"))
+                    .AddArgument ("/Output={0}", mergedSnapshotFileName)
+                //.AddArgument("/LogFile={0}", Path.Combine(buildDir, "dotCover-log.xml"))
+                ;
+            runDotCovertask.Execute (context);
+            return mergedSnapshotFileName;
         }
 
         private static string GenerateCoverageReport (
@@ -225,7 +276,9 @@ namespace Flubu.Builds.Tasks.TestingTasks
             return coverageReportFileName;
         }
 
-        private FileFullPath ExtractFullAssemblyFileName (ITaskContext context, out string assemblyId)
+        private static FileFullPath ExtractFullAssemblyFileName (
+            string testAssemblyFileName,
+            out string assemblyId)
         {
             FileFullPath assemblyFullFileName = new FileFullPath (testAssemblyFileName);
             assemblyId = Path.GetFileNameWithoutExtension (assemblyFullFileName.FileName);
@@ -321,8 +374,8 @@ namespace Flubu.Builds.Tasks.TestingTasks
             return string.Compare (a.Item1, b.Item1, StringComparison.Ordinal);
         }
 
-        private readonly string testAssemblyFileName;
         private readonly string nunitRunnerFileName;
+        private readonly IList<string> testAssemblyFileNames;
         private int minRequiredCoverage = 75;
         private string coverageXmlReportFileName;
         private string coverageHtmlReportFileName;
