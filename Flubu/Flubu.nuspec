@@ -4,7 +4,7 @@
     <id>Flubu</id>
     <title>Flubu: a C# native code building framework</title>
     <version>$version$</version>
-    <authors>Igor Brejc, Zoro Zorec, Blaž Lorger</authors>
+    <authors>Igor Brejc, Zoro Zorec, Blaž Lorger, Tomaž Završnik</authors>
     <owners>Igor Brejc</owners>
     <projectUrl>https://bitbucket.org/breki-os/flubu</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
