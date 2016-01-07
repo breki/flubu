@@ -27,8 +27,14 @@
         public const string SpeechDisabled = "SpeechDisabled";
         public const string Solution = "Solution";
         public const string SolutionFileName = "SolutionFileName";
+        public const string UseSolutionDirAsMsBuildWorkingDir = "UseSolutionDirAsMsBuildWorkingDir";
         public const string SvnRevisionVariableName = "SvnRevisionName";
         public const string TargetDotNetVersion = "TargetDotNetVersion";
+
+        /// <summary>
+        /// Version of the MSBUILD tools to use for compilation.
+        /// </summary>
+        public const string ToolsVersion = "ToolsVersion";
         public const string VersionControlSystem = "VersionControlSystem";
     }
 }
