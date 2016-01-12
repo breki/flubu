@@ -224,7 +224,7 @@ namespace Flubu.Builds
             VSSolution solution = context.Properties.Get<VSSolution>(BuildProps.Solution);
             string buildConfiguration = context.Properties.Get<string>(BuildProps.BuildConfiguration);
             string targetDotNetVersion = context.Properties.Get<string>(BuildProps.TargetDotNetVersion);
-            string toolsVersion = context.Properties.Get<string>(BuildProps.ToolsVersion);
+            string toolsVersion = context.Properties.Get<string>(BuildProps.ToolsVersion, null);
             bool useSolutionDirAsMsBuildWorkingDir = context.Properties.Get(BuildProps.UseSolutionDirAsMsBuildWorkingDir, false);
 
             CompileSolutionTask task = new CompileSolutionTask(
