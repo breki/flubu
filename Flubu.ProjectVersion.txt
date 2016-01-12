@@ -1,3 +1,6 @@
+2.4.1.0
+- BUGFIX: BuildProps.ToolsVersion is no longer a mandatory property, null is the default value
+
 2.4.0.0
 - CompileSolutionTask enhancements by Tomaž Završnik
 
