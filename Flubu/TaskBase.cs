@@ -38,12 +38,12 @@ namespace Flubu
         /// <param name="context">The script execution environment.</param>
         public void Execute (ITaskContext context)
         {
-            if (context  == null)
+            if (context == null)
                 throw new ArgumentNullException ("context");
 
             taskStopwatch.Start();
 
-            context.WriteInfo(DescriptionForLog);
+            context.WriteInfo("{0}", DescriptionForLog);
             context.IncreaseDepth();
 
             try

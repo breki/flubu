@@ -18,7 +18,7 @@ namespace Flubu.Tasks.Text
         {
             get
             {
-                return String.Format (
+                return string.Format (
                     System.Globalization.CultureInfo.InvariantCulture,
                     "Update XML file '{0}'", 
                     fileName);
