@@ -1,3 +1,6 @@
+2.4.2.0
+- BUGFIX: trying to fix some problem with TaskBase.Execute() method writing out task description
+
 2.4.1.0
 - BUGFIX: BuildProps.ToolsVersion is no longer a mandatory property, null is the default value
 
