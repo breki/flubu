@@ -123,7 +123,7 @@ namespace Flubu.Tasks.Iis.Iis7
         {
             if (string.IsNullOrEmpty(ApplicationName))
             {
-                throw new ArgumentNullException("ApplicationName");
+                throw new TaskExecutionException("ApplicationName missing!");
             }
 
             using (ServerManager serverManager = new ServerManager())
