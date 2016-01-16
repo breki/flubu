@@ -58,7 +58,7 @@ namespace Flubu.Builds
                 .SetAsHidden ();
         }
 
-        public static void FillDefaultProperties (ITaskContext context)
+        public static void FillDefaultProperties(ITaskContext context)
         {
             context.Properties.Set(BuildProps.BuildConfiguration, "Release");
             context.Properties.Set(BuildProps.BuildDir, "Builds");
@@ -73,9 +73,13 @@ namespace Flubu.Builds
         public static Version FetchBuildVersionFromFile (ITaskContext context)
         {
             string productRootDir = context.Properties.Get (BuildProps.ProductRootDir, ".");
-            string productId = context.Properties.Get<string> (BuildProps.ProductId);
-
-            IFetchBuildVersionTask task = new FetchBuildVersionFromFileTask (productRootDir, productId);
+            string projectVersionFileName = context.Properties.Get<string>(BuildProps.ProjectVersionFileName, null);
+            string productId = context.Properties.Get<string>(BuildProps.ProductId);
+            
+            IFetchBuildVersionTask task = new FetchBuildVersionFromFileTask (productRootDir, productId)
+                                              {
+                                                  ProjectVersionFileName = projectVersionFileName
+                                              };
             task.Execute (context);
             return task.BuildVersion;
         }

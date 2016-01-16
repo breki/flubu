@@ -24,10 +24,20 @@ namespace Flubu.Builds.Tasks.VersioningTasks
             get { return buildVersion; }
         }
 
+        public string ProjectVersionFileName { get; set; }
+
         protected override void DoExecute(ITaskContext context)
         {
-            string projectVersionFileName = 
-                Path.Combine(productRootDir, productId + ".ProjectVersion.txt");
+            string projectVersionFileName;
+              
+            if (!string.IsNullOrEmpty(ProjectVersionFileName))
+            {
+                projectVersionFileName = Path.Combine(productRootDir, ProjectVersionFileName);
+            }
+            else
+            {
+                projectVersionFileName = Path.Combine(productRootDir, productId + ".ProjectVersion.txt");
+            }
 
             if (false == File.Exists(projectVersionFileName))
             {

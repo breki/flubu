@@ -22,6 +22,11 @@
         public const string ProductVersionFieldCount = "ProductVersionFieldCount";
 
         /// <summary>
+        /// File name of where project version is readed from. Property is optional. If not set ProductId is used for part of project file name.
+        /// </summary>
+        public const string ProjectVersionFileName = "ProjectVersionFileName";
+
+        /// <summary>
         /// Boolean property which, if set to <c>true</c>, disables the "build successful/build failed" speech at the end of the build.
         /// </summary>
         public const string SpeechDisabled = "SpeechDisabled";
