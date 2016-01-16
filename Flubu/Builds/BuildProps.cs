@@ -22,7 +22,7 @@
         public const string ProductVersionFieldCount = "ProductVersionFieldCount";
 
         /// <summary>
-        /// File name of where project version is readed from. Property is optional. If not set ProductId is used for part of project file name.
+        /// File name of where project version is read from. Property is optional. If not set ProductId is used for part of project file name.
         /// </summary>
         public const string ProjectVersionFileName = "ProjectVersionFileName";
 

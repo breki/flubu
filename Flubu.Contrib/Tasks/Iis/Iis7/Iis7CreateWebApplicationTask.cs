@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using Microsoft.Web.Administration;
 
 namespace Flubu.Tasks.Iis.Iis7
@@ -83,6 +84,15 @@ namespace Flubu.Tasks.Iis.Iis7
             set { enableDefaultDoc = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the Name of the website that the web application is added too. By default it is "Default Web Site"
+        /// </summary>
+        public string WebSiteName
+        {
+            get { return webSiteName; }
+            set { webSiteName = value; }
+        }
+
         public string ParentVirtualDirectoryName
         {
             get { return parentVirtualDirectoryName; }
@@ -111,9 +121,19 @@ namespace Flubu.Tasks.Iis.Iis7
 
         protected override void DoExecute(ITaskContext context)
         {
+            if (string.IsNullOrEmpty(ApplicationName))
+            {
+                throw new ArgumentNullException("ApplicationName");
+            }
+
             using (ServerManager serverManager = new ServerManager())
             {
-                Site site = serverManager.Sites["Default Web Site"];
+                if (!WebsiteExists(serverManager, WebSiteName))
+                {
+                    throw new InvalidOperationException(string.Format("Web site '{0}' does not exists.", WebSiteName));
+                }
+
+                Site site = serverManager.Sites[WebSiteName];
 
                 string vdirPath = "/" + ApplicationName;
                 foreach (Application application in site.Applications)
@@ -146,12 +166,18 @@ namespace Flubu.Tasks.Iis.Iis7
 
                 using (ServerManager manager = new ServerManager())
                 {
-                    Site defaultSite = manager.Sites["Default Web Site"];
+                    Site defaultSite = manager.Sites[WebSiteName];
                     Application ourApplication = defaultSite.Applications.Add(vdirPath, this.LocalPath);
                     ourApplication.ApplicationPoolName = applicationPoolName;
                     manager.CommitChanges();
                 }
             }
+        }
+
+        private bool WebsiteExists(ServerManager serverManager, string siteName)
+        {
+            SiteCollection sitecollection = serverManager.Sites;
+            return sitecollection.Any(site => site.Name == siteName);
         }
 
         private CreateWebApplicationMode mode = CreateWebApplicationMode.FailIfAlreadyExists;
@@ -168,5 +194,6 @@ namespace Flubu.Tasks.Iis.Iis7
         private string defaultDoc;
         private bool enableDefaultDoc = true;
         private string applicationPoolName = "DefaultAppPool";
+        private string webSiteName = "Default Web Site";
     }
 }
