@@ -174,7 +174,7 @@ namespace Flubu.Tasks.Iis.Iis7
             }
         }
 
-        private bool WebsiteExists(ServerManager serverManager, string siteName)
+        private static bool WebsiteExists(ServerManager serverManager, string siteName)
         {
             SiteCollection sitecollection = serverManager.Sites;
             return sitecollection.Any(site => site.Name == siteName);

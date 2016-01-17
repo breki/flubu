@@ -90,6 +90,12 @@ namespace Flubu.Tasks.Iis.Iis6
             set { parentVirtualDirectoryName = value; }
         }
 
+        public string WebSiteName
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
+
         public string ApplicationPoolName
         {
             get { return applicationPoolName; }

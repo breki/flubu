@@ -18,5 +18,6 @@
         string DefaultDoc { get; set; }
         bool EnableDefaultDoc { get; set; }
         string ParentVirtualDirectoryName { get; set; }
+        string WebSiteName { get; set; }
     }
 }
