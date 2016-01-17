@@ -1,4 +1,6 @@
-﻿namespace Flubu.Tasks.Iis
+﻿using System.Collections.Generic;
+
+namespace Flubu.Tasks.Iis
 {
     public interface ICreateWebApplicationTask : ITask
     {
@@ -19,5 +21,6 @@
         bool EnableDefaultDoc { get; set; }
         string ParentVirtualDirectoryName { get; set; }
         string WebSiteName { get; set; }
+        IList<MimeTYPE> MimeTypes { get; set; }
     }
 }

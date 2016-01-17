@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.DirectoryServices;
 using System.IO;
 
@@ -92,8 +93,14 @@ namespace Flubu.Tasks.Iis.Iis6
 
         public string WebSiteName
         {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
+            get { throw new NotSupportedException(); }
+            set { throw new NotSupportedException(); }
+        }
+
+        public IList<MimeTYPE> MimeTypes
+        {
+            get { throw new NotSupportedException(); }
+            set { throw new NotSupportedException();  }
         }
 
         public string ApplicationPoolName

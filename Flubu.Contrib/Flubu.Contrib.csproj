@@ -141,7 +141,7 @@
     <Compile Include="Tasks\Iis\IIs6\Iis6DeleteAppPoolTask.cs" />
     <Compile Include="Tasks\Iis\IIs6\Iis6TasksFactory.cs" />
     <Compile Include="Tasks\Iis\ICreateWebSiteTask.cs" />
-    <Compile Include="Tasks\Iis\Iis7\Ii7TaskBase.cs" />
+    <Compile Include="Tasks\Iis\Iis7\Iis7TaskBase.cs" />
     <Compile Include="Tasks\Iis\Iis7\Iis7ControlAppPoolTask.cs" />
     <Compile Include="Tasks\Iis\Iis7\Iis7AddWebSiteBindingTask.cs" />
     <Compile Include="Tasks\Iis\Iis7\Iis7CreateAppPoolTask.cs" />
