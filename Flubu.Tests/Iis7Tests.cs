@@ -74,5 +74,37 @@ namespace Flubu.Tests
                 .AddBinding("")
                 .Execute(context);
         }
+
+        [Test, Explicit("Needs admin rights.")]
+        public void CreateWebSiteTest()
+        {
+            TaskContext context = new TaskContext(new SimpleTaskContextProperties(), new string[0]);
+            var master = new IisMaster(context);
+            IIisTasksFactory factory = master.Iis7TasksFactory;
+            var task = factory.CreateWebSiteTask;
+            var mimeType = new MimeTYPE
+                               {
+                                   FileExtension = "swg",
+                                   MimeType = "Application/text"
+                               };
+            task
+                .WebSiteName("Test")
+                .BindingProtocol("https")
+                .Port(2443)
+                .PhysicalPath("d:\\")
+                .AddMimeType(mimeType)
+               .Execute(context);
+        }
+
+        [Test]
+        [ExpectedException(typeof(TaskExecutionException))]
+        public void CreateWebSiteNoWebSiteNameTest()
+        {
+            TaskContext context = new TaskContext(new SimpleTaskContextProperties(), new string[0]);
+            var master = new IisMaster(context);
+            IIisTasksFactory factory = master.Iis7TasksFactory;
+            var task = factory.CreateWebSiteTask;
+            task.Execute(context);
+        }
     }
 }

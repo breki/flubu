@@ -2,7 +2,7 @@
 
 namespace Flubu.Tasks.Iis
 {
-    public interface ICreateWebSiteTask
+    public interface ICreateWebSiteTask : ITask
     {
         /// <summary>
         /// set the web site name.
