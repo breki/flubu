@@ -94,9 +94,11 @@ namespace Flubu.Tasks.Iis.Iis7
                    serverManager.Sites[webSiteName].Delete();
                 }
 
-                var bindingInformation = string.Format("*:{0}", port);
+                var bindingInformation = string.Format("*:{0}:", port);
                 var site = serverManager.Sites.Add(webSiteName, bindingProtocol, bindingInformation, physicalPath);
                 site.ApplicationDefaults.ApplicationPoolName = applicationPoolName;
+                serverManager.CommitChanges();
+
                 Microsoft.Web.Administration.Configuration config = site.GetWebConfiguration();
                 AddMimeTypes(config, mimeTypes);
                 serverManager.CommitChanges();
