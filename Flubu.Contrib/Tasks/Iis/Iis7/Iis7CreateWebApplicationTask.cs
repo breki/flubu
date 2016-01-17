@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -6,7 +7,7 @@ using Microsoft.Web.Administration;
 
 namespace Flubu.Tasks.Iis.Iis7
 {
-    public class Iis7CreateWebApplicationTask : TaskBase, ICreateWebApplicationTask
+    public class Iis7CreateWebApplicationTask : Iis7TaskBase, ICreateWebApplicationTask
     {
         #region ICreateWebApplicationTask Members
 
@@ -105,6 +106,8 @@ namespace Flubu.Tasks.Iis.Iis7
             set { applicationPoolName = value; }
         }
 
+        public IList<MimeTYPE> MimeTypes { get; set; }
+
         public override string Description
         {
             get
@@ -169,15 +172,11 @@ namespace Flubu.Tasks.Iis.Iis7
                     Site defaultSite = manager.Sites[WebSiteName];
                     Application ourApplication = defaultSite.Applications.Add(vdirPath, this.LocalPath);
                     ourApplication.ApplicationPoolName = applicationPoolName;
+                    var config = ourApplication.GetWebConfiguration();
+                    AddMimeTypes(config, MimeTypes);
                     manager.CommitChanges();
                 }
             }
-        }
-
-        private static bool WebsiteExists(ServerManager serverManager, string siteName)
-        {
-            SiteCollection sitecollection = serverManager.Sites;
-            return sitecollection.Any(site => site.Name == siteName);
         }
 
         private CreateWebApplicationMode mode = CreateWebApplicationMode.FailIfAlreadyExists;

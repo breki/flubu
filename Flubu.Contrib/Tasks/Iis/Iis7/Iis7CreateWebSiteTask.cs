@@ -6,7 +6,7 @@ using Microsoft.Web.Administration;
 
 namespace Flubu.Tasks.Iis.Iis7
 {
-    public class Iis7CreateWebSiteTask : Ii7TaskBase, ICreateWebSiteTask
+    public class Iis7CreateWebSiteTask : Iis7TaskBase, ICreateWebSiteTask
     {
         private readonly string webSiteName;
 
