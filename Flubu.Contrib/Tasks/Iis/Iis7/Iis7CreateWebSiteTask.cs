@@ -8,39 +8,46 @@ namespace Flubu.Tasks.Iis.Iis7
 {
     public class Iis7CreateWebSiteTask : Iis7TaskBase, ICreateWebSiteTask
     {
-        private readonly string webSiteName;
+        /// <summary>
+        /// Name of the website
+        /// </summary>
+        private string webSiteName;
 
-        private readonly string bindingProtocol;
+        /// <summary>
+        /// The binding protocol. Http or https.
+        /// </summary>
+        private string bindingProtocol;
 
-        private readonly int port;
+        /// <summary>
+        /// Port of the web application
+        /// </summary>
+        private int port;
 
-        private readonly string physicalPath;
+        /// <summary>
+        /// Physical path to application.
+        /// </summary>
+        private string physicalPath;
 
         private string applicationPoolName = "DefaultAppPool";
 
         private IList<MimeTYPE> mimeTypes;
 
         private CreateWebApplicationMode siteMode = CreateWebApplicationMode.DoNothingIfExists;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Iis7CreateWebSiteTask"/> class.
-        /// </summary>
-        /// <param name="webSiteName">Name of the website</param>
-        /// <param name="bindingProtocol">The binding protocol. Http or https.</param>
-        /// <param name="port">Port of the web application</param>
-        /// <param name="physicalPath">Physical path to application.</param>
-        public Iis7CreateWebSiteTask(string webSiteName, string bindingProtocol, int port, string physicalPath)
+       
+        public Iis7CreateWebSiteTask()
         {
-            this.webSiteName = webSiteName;
-            this.bindingProtocol = bindingProtocol;
-            this.port = port;
-            this.physicalPath = physicalPath;
             mimeTypes = new List<MimeTYPE>();
         }
 
         public override string Description
         {
             get { return "Creates new Web site in iis."; }
+        }
+
+        public CreateWebSiteBindingProtocol WebSiteName(string siteName)
+        {
+            webSiteName = siteName;
+            return new CreateWebSiteBindingProtocol(this);
         }
 
         public Iis7CreateWebSiteTask WebSiteMode(CreateWebApplicationMode webSiteMode)
@@ -125,6 +132,68 @@ namespace Flubu.Tasks.Iis.Iis7
                 && !bindingProtocol.Equals("https", StringComparison.InvariantCultureIgnoreCase))
             {
                 throw new TaskExecutionException("Wrong binding protocol. Supported values http and https");
+            }
+        }
+
+        public class CreateWebSiteBindingProtocol
+        {
+            private readonly Iis7CreateWebSiteTask task;
+            public CreateWebSiteBindingProtocol(Iis7CreateWebSiteTask task)
+            {
+                this.task = task;
+            }
+
+            /// <summary>
+            /// Sets the binding protocol. Http or https.
+            /// </summary>
+            /// <param name="bindingProtocol">The binding protocol. Supported values http and https.</param>
+            /// <returns>new instance of <see cref="CreateWebSiteProtocol"/></returns>
+            public CreateWebSiteProtocol BindingProtocol(string bindingProtocol)
+            {
+                task.bindingProtocol = bindingProtocol;
+                return new CreateWebSiteProtocol(task);
+            }
+        }
+        
+        public class CreateWebSiteProtocol
+        {
+            private readonly Iis7CreateWebSiteTask task;
+          
+            public CreateWebSiteProtocol(Iis7CreateWebSiteTask task)
+            {
+                this.task = task;
+            }
+
+            /// <summary>
+            /// Sets the port of the web site.
+            /// </summary>
+            /// <param name="port">The port</param>
+            /// <returns>New instance of <see cref="CreateWebSitePhysicalPath"/></returns>
+            public CreateWebSitePhysicalPath Port(int port)
+            {
+                task.port = port;
+                return new CreateWebSitePhysicalPath(task);
+            }
+        }
+
+        public class CreateWebSitePhysicalPath
+        {
+            private readonly Iis7CreateWebSiteTask task;
+
+            public CreateWebSitePhysicalPath(Iis7CreateWebSiteTask task)
+            {
+                this.task = task;
+            }
+
+            /// <summary>
+            /// Sets the physical path to the web site.
+            /// </summary>
+            /// <param name="physicalPath">The physical path.</param>
+            /// <returns>The iI7CreateWebSiteTask.</returns>
+            public Iis7CreateWebSiteTask PhysicalPath(string physicalPath)
+            {
+                task.physicalPath = physicalPath;
+                return task;
             }
         }
     }
