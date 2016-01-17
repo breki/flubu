@@ -5,10 +5,17 @@ namespace Flubu.Tasks.Iis
     public interface ICreateWebSiteTask
     {
         /// <summary>
+        /// set the web site name.
+        /// </summary>
+        /// <param name="siteName">The web site name.</param>
+        /// <returns>The <see cref="Iis7CreateWebSiteTask.CreateWebSiteBindingProtocol"/> instance.</returns>
+        Iis7CreateWebSiteTask.CreateWebSiteBindingProtocol WebSiteName(string siteName);
+
+        /// <summary>
         /// Set WebSite mode.
         /// </summary>
         /// <param name="webSiteMode">The website Mode <see cref="CreateWebApplicationMode"/> </param>
-        /// <returns>The  Iis7CreateWebSiteTask.</returns>
+        /// <returns>The Iis7CreateWebSiteTask.</returns>
         Iis7CreateWebSiteTask WebSiteMode(CreateWebApplicationMode webSiteMode);
 
         /// <summary>

@@ -14,6 +14,11 @@ namespace Flubu.Tasks.Iis.Iis6
             get { return new Iis6CreateAppPoolTask(); }
         }
 
+        public ICreateWebSiteTask CreateWebSiteTask
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         public ICreateWebApplicationTask CreateApplicationTask
         {
             get { return new Iis6CreateWebApplicationTask(); }
