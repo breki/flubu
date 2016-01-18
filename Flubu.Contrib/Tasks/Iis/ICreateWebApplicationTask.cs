@@ -21,6 +21,6 @@ namespace Flubu.Tasks.Iis
         bool EnableDefaultDoc { get; set; }
         string ParentVirtualDirectoryName { get; set; }
         string WebSiteName { get; set; }
-        IList<MimeTYPE> MimeTypes { get; set; }
+        IList<MimeType> MimeTypes { get; set; }
     }
 }

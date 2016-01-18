@@ -30,6 +30,6 @@ namespace Flubu.Tasks.Iis
         /// </summary>
         /// <param name="mimeType">The mime type</param>
         /// <returns>The  Iis7CreateWebSiteTask.</returns>
-        Iis7CreateWebSiteTask AddMimeType(MimeTYPE mimeType);
+        Iis7CreateWebSiteTask AddMimeType(MimeType mimeType);
     }
 }
