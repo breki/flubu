@@ -30,13 +30,13 @@ namespace Flubu.Tasks.Iis.Iis7
 
         private string applicationPoolName = "DefaultAppPool";
 
-        private IList<MimeTYPE> mimeTypes;
+        private IList<MimeType> mimeTypes;
 
         private CreateWebApplicationMode siteMode = CreateWebApplicationMode.DoNothingIfExists;
        
         public Iis7CreateWebSiteTask()
         {
-            mimeTypes = new List<MimeTYPE>();
+            mimeTypes = new List<MimeType>();
         }
 
         public override string Description
@@ -62,7 +62,7 @@ namespace Flubu.Tasks.Iis.Iis7
             return this;
         }
 
-        public Iis7CreateWebSiteTask AddMimeType(MimeTYPE mimeType)
+        public Iis7CreateWebSiteTask AddMimeType(MimeType mimeType)
         {
             mimeTypes.Add(mimeType);
             return this;

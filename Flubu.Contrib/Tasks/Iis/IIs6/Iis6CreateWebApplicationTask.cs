@@ -97,7 +97,7 @@ namespace Flubu.Tasks.Iis.Iis6
             set { throw new NotSupportedException(); }
         }
 
-        public IList<MimeTYPE> MimeTypes
+        public IList<MimeType> MimeTypes
         {
             get { throw new NotSupportedException(); }
             set { throw new NotSupportedException();  }

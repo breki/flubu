@@ -106,7 +106,7 @@ namespace Flubu.Tasks.Iis.Iis7
             set { applicationPoolName = value; }
         }
 
-        public IList<MimeTYPE> MimeTypes { get; set; }
+        public IList<MimeType> MimeTypes { get; set; }
 
         public override string Description
         {

@@ -82,10 +82,10 @@ namespace Flubu.Tests
             var master = new IisMaster(context);
             IIisTasksFactory factory = master.Iis7TasksFactory;
             var task = factory.CreateWebSiteTask;
-            var mimeType = new MimeTYPE
+            var mimeType = new MimeType
                                {
                                    FileExtension = "swg",
-                                   MimeType = "Application/text"
+                                   Type = "Application/text"
                                };
             task
                 .WebSiteName("Test")
