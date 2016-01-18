@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Flubu;
 using Flubu.Builds;
 using Flubu.Builds.Tasks.NuGetTasks;
@@ -59,9 +60,9 @@ namespace BuildScripts
         {
             NUnitWithDotCoverTask task = NUnitWithDotCoverTask.ForProject (
                 projectName,
-                @"packages\NUnit.Runners.2.6.2\tools\nunit-console.exe");
+                @"packages\NUnit.Console.3.0.1\tools\nunit3-console.exe");
             task.FailBuildOnViolations = false;
-            task.NUnitCmdLineOptions = "/labels /nodots /noshadow";
+            task.NUnitCmdLineOptions = "--labels=All --trace=Verbose --verbose";
             task.Execute (context);
         }
 

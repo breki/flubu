@@ -73,13 +73,13 @@ namespace Flubu.Tests
         /// Once <see cref="FastZip"/> supports unseekable streams use it to extract streams
         /// rather than to provide custom extraction procedure for streams in <see cref="UnzipFilesTask"/>.
         /// </remarks>
-        [Test, ExpectedException(typeof(ArgumentException), ExpectedMessage = "Stream is not seekable", MatchType = MessageMatch.Contains)]
+        [Test]
         public void SharpZipLibUnseekableStreamsupport()
         {
             FastZip zip = new FastZip();
             FileStream f = new FileStream(@"..\..\SampleArchive.zip", FileMode.Open, FileAccess.Read, FileShare.Read);
-            zip.ExtractZip(
-                new UnseekableStream(f), OutputDirectory, FastZip.Overwrite.Always, null, null, null, true, true);
+            Assert.Throws<ArgumentException>(() =>   zip.ExtractZip(
+                new UnseekableStream(f), OutputDirectory, FastZip.Overwrite.Always, null, null, null, true, true), "Stream is not seekable");
         }
 
         private void TestUnzipTask(UnzipFilesTask unzip)
