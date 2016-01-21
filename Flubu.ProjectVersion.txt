@@ -1,3 +1,10 @@
+2.5.0.0
+- New task: CreateWebSiteTask for ii7
+- CreateWebApplicationTask for ii7 can now create web applications on any web site not just default.
+- CreateWebApplicationTask now supports adding new mime types.
+- Custom project version file name is now supported.
+- Migrated tests to nunit 3.0
+
 2.4.2.0
 - BUGFIX: trying to fix some problem with TaskBase.Execute() method writing out task description
 
