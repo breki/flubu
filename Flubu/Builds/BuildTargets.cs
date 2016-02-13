@@ -336,24 +336,5 @@ namespace Flubu.Builds
                 .AddArgument("/noshadow");
             task.Execute(context);
         }
-
-        [SuppressMessage("Microsoft.Design", "CA1045:DoNotPassTypesByReference", MessageId = "3#")]
-        public static void TargetRunTestsNUnit(
-            ITaskContext context,
-            string testAssemblyFileName,
-            string excludeCategories,
-            ref int testsRunCounter)
-        {
-            string nunitConsoleFileName = context.Properties[BuildProps.NUnitConsolePath];
-
-            NUnitTask task = new NUnitTask(
-                Path.GetFileName(testAssemblyFileName),
-                nunitConsoleFileName,
-                Path.GetDirectoryName(testAssemblyFileName));
-            task.ExcludeCategories = excludeCategories;
-
-            task.Execute(context);
-            testsRunCounter++;
-        }
     }
 }
