@@ -95,24 +95,24 @@ namespace Flubu.Builds.Tasks.TestingTasks
         }
 
         /// <summary>
-        /// Excludes categorie from test. Can be ussed multiple times. Supported only in nunit v3 and above. For v2 use <see cref="AddNunitCommandLineOption"/>
+        /// Excludes category from test. Can be ussed multiple times. Supported only in nunit v3 and above. For v2 use <see cref="AddNunitCommandLineOption"/>
         /// </summary>
-        /// <param name="categorie">The Categorie to be excluded</param>
+        /// <param name="category">The Categorie to be excluded</param>
         /// <returns>The NunitTask</returns>
-        public NUnitTask ExcludeCategorie(string categorie)
+        public NUnitTask ExcludeCategory(string category)
         {
-            excludeCategories = string.Format("{0}{1}", excludeCategories, categorie);
+            excludeCategories = string.Format("{0}{1}", excludeCategories, category);
             return this;
         }
 
         /// <summary>
         /// Include Categorie in test. Can be ussed multiple times. Supported only in nunit v3 and above. For v2 use <see cref="AddNunitCommandLineOption"/>
         /// </summary>
-        /// <param name="categorie">The categorie to be included</param>
+        /// <param name="category">The category to be included</param>
         /// <returns>The NunitTask</returns>
-        public NUnitTask IncludeCategorie(string categorie)
+        public NUnitTask IncludeCategorie(string category)
         {
-            includeCategories = string.Format("{0} {1}", includeCategories, categorie);
+            includeCategories = string.Format("{0} {1}", includeCategories, category);
             return this;
         }
 
