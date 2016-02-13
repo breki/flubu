@@ -65,7 +65,7 @@ namespace Flubu.Builds.Tasks.TestingTasks
         }
 
         /// <summary>
-        /// Initializes NunitTask with default command line options for nunit V2.
+        /// Initializes NunitTask with default command line options for nunit V3.
         /// </summary>
         /// <param name="projectName">Unit test project name.</param>
         /// <returns>New instance of nunit task</returns>
@@ -166,12 +166,9 @@ namespace Flubu.Builds.Tasks.TestingTasks
                 .EncloseParametersInQuotes(true)
                 .AddArgument(testAssemblyFileName);
 
-            if (nunitCommandLineOptions.Count > 0)
+            foreach (var nunitCommandLineOption in nunitCommandLineOptions)
             {
-                foreach (var nunitCommandLineOption in nunitCommandLineOptions)
-                {
-                    task.AddArgument(nunitCommandLineOption);
-                }
+                task.AddArgument(nunitCommandLineOption);
             }
 
             if (!string.IsNullOrEmpty(targetFramework))
