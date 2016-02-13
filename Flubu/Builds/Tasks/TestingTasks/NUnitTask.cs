@@ -106,7 +106,7 @@ namespace Flubu.Builds.Tasks.TestingTasks
         }
 
         /// <summary>
-        /// Include Categorie in test. Can be ussed multiple times. Supported only in nunit v3 and above. For v2 use <see cref="AddNunitCommandLineOption"/>
+        /// Include category in test. Can be ussed multiple times. Supported only in nunit v3 and above. For v2 use <see cref="AddNunitCommandLineOption"/>
         /// </summary>
         /// <param name="category">The category to be included</param>
         /// <returns>The NunitTask</returns>
