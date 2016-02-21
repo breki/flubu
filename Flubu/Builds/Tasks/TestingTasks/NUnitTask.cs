@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using Flubu.Builds.VSSolutionBrowsing;
 using Flubu.Tasks.Processes;
 
@@ -101,7 +102,15 @@ namespace Flubu.Builds.Tasks.TestingTasks
         /// <returns>The NunitTask</returns>
         public NUnitTask ExcludeCategory(string category)
         {
-            excludeCategories = string.Format("{0}{1}", excludeCategories, category);
+            if (string.IsNullOrEmpty(categories))
+            {
+                categories = string.Format("cat != {0}", category);
+            }
+            else
+            {
+                categories = string.Format("{0} && cat != {1}", categories, category);
+            }
+          
             return this;
         }
 
@@ -112,7 +121,15 @@ namespace Flubu.Builds.Tasks.TestingTasks
         /// <returns>The NunitTask</returns>
         public NUnitTask IncludeCategorie(string category)
         {
-            includeCategories = string.Format("{0} {1}", includeCategories, category);
+            if (string.IsNullOrEmpty(categories))
+            {
+                categories = string.Format("cat == {0}", category);
+            }
+            else
+            {
+                categories = string.Format("{0} || cat == {1}", categories, category);
+            }
+
             return this;
         }
 
@@ -163,7 +180,7 @@ namespace Flubu.Builds.Tasks.TestingTasks
 
             task
                 .SetWorkingDir(workingDirectory)
-                .EncloseParametersInQuotes(true)
+                .EncloseParametersInQuotes(false)
                 .AddArgument(testAssemblyFileName);
 
             foreach (var nunitCommandLineOption in nunitCommandLineOptions)
@@ -174,12 +191,9 @@ namespace Flubu.Builds.Tasks.TestingTasks
             if (!string.IsNullOrEmpty(targetFramework))
                 task.AddArgument("/framework:{0}", targetFramework);
 
-            if (!string.IsNullOrEmpty(excludeCategories))
-                task.AddArgument("/exclude:{0}", excludeCategories);
-
-            if (!string.IsNullOrEmpty(includeCategories))
-                task.AddArgument("/include:{0}", includeCategories);
-
+            if (!string.IsNullOrEmpty(categories))
+                task.AddArgument("--where \"{0}\"", categories);
+            
             task.Execute(context);
         }
 
@@ -188,6 +202,15 @@ namespace Flubu.Builds.Tasks.TestingTasks
             if (string.IsNullOrEmpty(nunitConsoleFileName))
             {
                 throw new TaskExecutionException("Nunit console file name is not set. Set it through constructor or build properties.");
+            }
+
+            if (!string.IsNullOrEmpty(categories))
+            {
+                if (nunitCommandLineOptions.Any(nunitCommandLineOption => nunitCommandLineOption.Contains("where")))
+                {
+                    throw new TaskExecutionException(
+                        "Mixing Exclude/Include category with where clause is nunitCommandLineOptions is not supported eiter use exlude/include category or NunitCommandLineOption with where clause.");
+                }
             }
         }
 
@@ -221,21 +244,16 @@ namespace Flubu.Builds.Tasks.TestingTasks
         private string testAssemblyFileName;
 
         /// <summary>
-        ///  tests categories that will be excluded from tests.
+        ///  test categories that will be included/excluded in tests.
         /// </summary>
-        private string excludeCategories;
-
-        /// <summary>
-        ///  tests categories that will be included in tests.
-        /// </summary>
-        private string includeCategories;
+        private string categories;
 
         /// <summary>
         /// .NET framework NUnit console should run under.
         /// </summary>
         private string targetFramework;
 
-        private List<string> nunitCommandLineOptions = new List<string>();
+        private readonly List<string> nunitCommandLineOptions = new List<string>();
 
         private readonly string projectName = null;
     }
