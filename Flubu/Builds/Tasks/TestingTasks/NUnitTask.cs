@@ -119,7 +119,7 @@ namespace Flubu.Builds.Tasks.TestingTasks
         /// </summary>
         /// <param name="category">The category to be included</param>
         /// <returns>The NunitTask</returns>
-        public NUnitTask IncludeCategorie(string category)
+        public NUnitTask IncludeCategory(string category)
         {
             if (string.IsNullOrEmpty(categories))
             {
