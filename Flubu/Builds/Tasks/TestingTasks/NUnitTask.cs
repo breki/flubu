@@ -181,7 +181,7 @@ namespace Flubu.Builds.Tasks.TestingTasks
             task
                 .SetWorkingDir(workingDirectory)
                 .EncloseParametersInQuotes(false)
-                .AddArgument(testAssemblyFileName);
+                .AddArgument(string.Format("\"{0}\"", testAssemblyFileName));
 
             foreach (var nunitCommandLineOption in nunitCommandLineOptions)
             {
