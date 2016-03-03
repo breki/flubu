@@ -1,9 +1,7 @@
-﻿- add support for .NET 4.5 and later
-	- improve testability of tasks
-		- how?
-	- get MSBuild path from registry
-
-- ToolsVersion property should not be mandatory
+﻿+ include Code Contracts in nuget package
+- use the latest Flubu for building Flubu
+- update ProjectVersion
+- turn on Code Analysis?
 - fix speech for Win 10 - it is too slow
 
 - add Flubu license to package

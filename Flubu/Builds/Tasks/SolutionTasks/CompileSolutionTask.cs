@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Flubu.Services;
 using Flubu.Tasks.Processes;
 
@@ -61,7 +62,6 @@ namespace Flubu.Builds.Tasks.SolutionTasks
         {
             string msbuildPath = FindMSBuildPath(context);
 
-            // todo next
             IRunProgramTask task = commonTasksFactory.CreateRunProgramTask(msbuildPath);
             task
                 .AddArgument (solutionFileName)
@@ -81,14 +81,34 @@ namespace Flubu.Builds.Tasks.SolutionTasks
 
         private string FindMSBuildPath(ITaskContext context)
         {
-            string msbuildPath = null;
+            string msbuildPath;
 
             IDictionary<Version, string> msbuilds = flubuEnvironmentService.ListAvailableMSBuildToolsVersions();
+            if (msbuilds.Count == 0)
+                throw new TaskExecutionException ("No MSBuild tools found on the system");
 
             if (toolsVersion != null)
             {
                 if (!msbuilds.TryGetValue(toolsVersion, out msbuildPath))
-                    throw new NotImplementedException("todo next:");
+                {
+                    KeyValuePair<Version, string> higherVersion = msbuilds.FirstOrDefault(x => x.Key > toolsVersion);
+                    if (higherVersion.Equals(default(KeyValuePair<Version, string>)))
+                        throw new TaskExecutionException("Requested MSBuild tools version {0} not found and there are no higher versions".Fmt(toolsVersion));
+
+                    context.WriteInfo (
+                        "Requested MSBuild tools version {0} not found, using a higher version {1}", 
+                        toolsVersion, 
+                        higherVersion.Key);
+                    msbuildPath = higherVersion.Value;
+                }
+            }
+            else
+            {
+                KeyValuePair<Version, string> highestVersion = msbuilds.Last();
+                context.WriteInfo (
+                    "Since MSBuild tools version was not explicity specified, using the highest MSBuild tools version found ({0})",
+                    highestVersion.Key);
+                msbuildPath = highestVersion.Value;
             }
 
             return Path.Combine(msbuildPath, "MSBuild.exe");

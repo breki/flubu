@@ -46,8 +46,6 @@ namespace Flubu.Builds
         public const string UseSolutionDirAsMsBuildWorkingDir = "UseSolutionDirAsMsBuildWorkingDir";
         public const string SvnRevisionVariableName = "SvnRevisionName";
 
-        [Obsolete]
-        public const string TargetDotNetVersion = "TargetDotNetVersion";
         public const string VersionControlSystem = "VersionControlSystem";
     }
 }

@@ -21,5 +21,7 @@
     <file src="Flubu\ICSharpCode.SharpZipLib.dll" target="lib" />
     <file src="Flubu\log4net.dll" target="lib" />
     <file src="Flubu\NVelocity.dll" target="lib" />
+    <file src="Flubu\CodeContracts\LibroLib.Common.Contracts.dll" target="lib\net40" />
+    <file src="Flubu\CodeContracts\LibroLib.Common.Contracts.pdb" target="lib\net40" />
   </files>
 </package>

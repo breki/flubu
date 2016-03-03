@@ -160,7 +160,6 @@
     <Compile Include="Builds\Tasks\SolutionTasks\CompileSolutionTask.cs" />
     <Compile Include="Builds\Tasks\SolutionTasks\GenerateCommonAssemblyInfoTask.cs" />
     <Compile Include="Builds\Tasks\TestingTasks\NUnitTask.cs" />
-    <None Include="Builds\Tasks\VersioningTasks\FetchBuildVersionFromHudsonTask.cs" />
     <Compile Include="Builds\Tasks\TestingTasks\NUnitWithDotCoverTask.cs" />
     <Compile Include="Builds\Tasks\VersioningTasks\FetchBuildVersionFromFileTask.cs" />
     <Compile Include="Builds\Tasks\VersioningTasks\IFetchBuildVersionTask.cs" />
@@ -202,7 +201,6 @@
     <None Include="FlubuRunner.cs" />
     <Compile Include="Targeting\Target.cs" />
     <None Include="Builds\BuildRunnerBase.cs" />
-    <None Include="TaskContextBase.cs" />
     <Compile Include="ITaskContext.cs" />
     <Compile Include="ITask.cs" />
     <Compile Include="Targeting\TargetTree.cs" />
