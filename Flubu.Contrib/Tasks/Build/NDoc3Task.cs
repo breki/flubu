@@ -54,7 +54,7 @@
 
         protected override void DoExecute(ITaskContext context)
         {
-            RunProgramTask task = new RunProgramTask(NDoc3Path)
+            IRunProgramTask task = new RunProgramTask(NDoc3Path)
                 .SetWorkingDir(WorkingDirectory);
 
             foreach (string assembly in AssembliesToDocument)

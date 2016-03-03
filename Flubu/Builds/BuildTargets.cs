@@ -67,7 +67,6 @@ namespace Flubu.Builds
             context.Properties.Set(BuildProps.LibDir, "lib");
             context.Properties.Set(BuildProps.PackagesDir, "packages");
             context.Properties.Set(BuildProps.ProductRootDir, ".");
-            context.Properties.Set(BuildProps.TargetDotNetVersion, FlubuEnvironment.Net35VersionNumber);
         }
 
         public static Version FetchBuildVersionFromFile (ITaskContext context)
@@ -227,15 +226,29 @@ namespace Flubu.Builds
         {
             VSSolution solution = context.Properties.Get<VSSolution>(BuildProps.Solution);
             string buildConfiguration = context.Properties.Get<string>(BuildProps.BuildConfiguration);
-            string targetDotNetVersion = context.Properties.Get<string>(BuildProps.TargetDotNetVersion);
-            string toolsVersion = context.Properties.Get<string>(BuildProps.ToolsVersion, null);
+            string toolsVersion = context.Properties.Get<string>(BuildProps.MSBuildToolsVersion, null);
             bool useSolutionDirAsMsBuildWorkingDir = context.Properties.Get(BuildProps.UseSolutionDirAsMsBuildWorkingDir, false);
 
             CompileSolutionTask task = new CompileSolutionTask(
                 solution.SolutionFileName.ToString(),
-                buildConfiguration,
-                targetDotNetVersion);
-            task.ToolsVersion = toolsVersion;
+                buildConfiguration);
+
+            if (toolsVersion != null)
+            {
+                Version toolsVersionObj;
+
+                if (!Version.TryParse(toolsVersion, out toolsVersionObj))
+                {
+                    context.Fail (
+                        "Property '{0}' value '{1}' is invalid, it has to be a proper version number", 
+                        BuildProps.MSBuildToolsVersion,
+                        toolsVersion);
+                    return;
+                }
+                
+                task.ToolsVersion = toolsVersionObj;
+            }
+
             task.UseSolutionDirAsWorkingDir = useSolutionDirAsMsBuildWorkingDir;
             task.MaxCpuCount = context.Properties.Get(BuildProps.CompileMaxCpuCount, 3);
             task.Execute(context);
@@ -327,7 +340,7 @@ namespace Flubu.Builds
             FileFullPath projectTarget = project.ProjectDirectoryPath.CombineWith(project.GetProjectOutputPath(buildConfiguration))
                 .AddFileName("{0}.dll", project.ProjectName);
 
-            RunProgramTask task = new RunProgramTask(
+            IRunProgramTask task = new RunProgramTask(
                 context.Properties[BuildProps.NUnitConsolePath])
                 .AddArgument(projectTarget.ToString())
                 .AddArgument("/labels")
