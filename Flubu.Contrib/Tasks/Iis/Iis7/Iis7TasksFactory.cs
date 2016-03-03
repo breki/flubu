@@ -14,9 +14,9 @@ namespace Flubu.Tasks.Iis.Iis7
             get { return new Iis7CreateAppPoolTask(); }
         }
 
-        public ICreateWebSiteTask CreateWebSiteTask
+        public ICreateWebsiteTask CreateWebsiteTask
         {
-            get { return new Iis7CreateWebSiteTask(); }
+            get { return new Iis7CreateWebsiteTask(); }
         }
 
         public ICreateWebApplicationTask CreateApplicationTask

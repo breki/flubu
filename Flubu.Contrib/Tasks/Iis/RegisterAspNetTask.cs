@@ -1,6 +1,4 @@
 using System;
-using System.IO;
-using Flubu.Tasks.Processes;
 
 namespace Flubu.Tasks.Iis
 {
@@ -54,19 +52,20 @@ namespace Flubu.Tasks.Iis
 
         protected override void DoExecute (ITaskContext context)
         {
-            string regIisExePath = Path.Combine (
-                FlubuEnvironment.GetDotNetFWDir(dotNetVersion),
-                "aspnet_regiis.exe");
+            throw new NotImplementedException("todo next:");
+            //string regIisExePath = Path.Combine (
+            //    FlubuEnvironment.GetDotNetFWDir(dotNetVersion),
+            //    "aspnet_regiis.exe");
 
-            RunProgramTask runProgramTask = new RunProgramTask(regIisExePath);
-            runProgramTask
-                .AddArgument("-s")
-                .AddArgument("{0}{1}", parentVirtualDirectoryName, virtualDirectoryName);
-            runProgramTask.Execute(context);
+            //RunProgramTask runProgramTask = new RunProgramTask(regIisExePath);
+            //runProgramTask
+            //    .AddArgument("-s")
+            //    .AddArgument("{0}{1}", parentVirtualDirectoryName, virtualDirectoryName);
+            //runProgramTask.Execute(context);
         }
 
-        private string virtualDirectoryName;
+        private readonly string virtualDirectoryName;
         private string parentVirtualDirectoryName = @"W3SVC/1/ROOT/";
-        private string dotNetVersion;
+        private readonly string dotNetVersion;
     }
 }

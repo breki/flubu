@@ -20,7 +20,8 @@ namespace Flubu.Tasks.Iis
         string DefaultDoc { get; set; }
         bool EnableDefaultDoc { get; set; }
         string ParentVirtualDirectoryName { get; set; }
-        string WebSiteName { get; set; }
+        string WebsiteName { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         IList<MimeType> MimeTypes { get; set; }
     }
 }

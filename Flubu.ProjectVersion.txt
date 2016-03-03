@@ -1,6 +1,18 @@
+2.6.0.0
+- BuildProps.TargetDotNetVersion removed since it is no longer used
+- renamed BuildProps.ToolsVersion to MSBuildToolsVersion
+- updated CompileSolutionTask behavior when it comes to using MSBuild
+- code for running processes in RunProgramTask is now extracted into IProcessRunner
+- new method: FlubuEnvironment.ListAvailableMSBuildToolsVersions()
+- Removed some obsolete stuff from FlubuEnvironment
+- introduced IFlubuEnvironmentService, IProcessRunner and ICommonTasksFactory to improve testability of tasks
+- turned on Code Contracts and fixed the detected issues
+- started using R# annotations and code contracts
+- started using Moq instead of Rhino Mocks
+
 2.5.0.0
-- New task: CreateWebSiteTask for ii7
-- CreateWebApplicationTask for ii7 can now create web applications on any web site not just default.
+- New task: CreateWebSiteTask for IIS 7
+- CreateWebApplicationTask for IIS 7 can now create web applications on any web site not just default.
 - CreateWebApplicationTask now supports adding new mime types.
 - Custom project version file name is now supported.
 - Migrated tests to nunit 3.0

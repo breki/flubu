@@ -1,5 +1,4 @@
-﻿- ToolsVersion property should not be mandatory
-- fix speech for Win 10 - it is too slow
+﻿- fix speech for Win 10 - it is too slow
 
 - add Flubu license to package
 - add licenses to 3rd party stuff

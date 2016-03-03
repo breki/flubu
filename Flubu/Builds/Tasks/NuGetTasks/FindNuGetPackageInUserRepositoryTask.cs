@@ -4,6 +4,7 @@ using System.IO;
 
 namespace Flubu.Builds.Tasks.NuGetTasks
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Nu")]
     public class FindNuGetPackageInUserRepositoryTask : TaskBase
     {
         public FindNuGetPackageInUserRepositoryTask (string packageId)

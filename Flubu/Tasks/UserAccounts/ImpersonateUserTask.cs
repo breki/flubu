@@ -30,23 +30,23 @@ namespace Flubu.Tasks.UserAccounts
 
         public void Execute(ITaskContext context)
         {
-            WindowsIdentity tempWindowsIdentity;
             IntPtr token = IntPtr.Zero;
-            IntPtr tokenDuplicate = IntPtr.Zero;
             // request default security provider a logon token with LOGON32_LOGON_NEW_CREDENTIALS,
             // token returned is impersonation token, no need to duplicate
             if (LogonUser(userName, domain, password, 9, 0, ref token) != 0)
             {
-                tempWindowsIdentity = new WindowsIdentity(token);
-                impersonationContext = tempWindowsIdentity.Impersonate();
-                // close impersonation token, no longer needed
-                CloseHandle(token);
-                if (impersonationContext != null)
-                    return;
+                using (WindowsIdentity tempWindowsIdentity = new WindowsIdentity(token))
+                {
+                    impersonationContext = tempWindowsIdentity.Impersonate();
+                    // close impersonation token, no longer needed
+                    CloseHandle(token);
+                    if (impersonationContext != null)
+                        return;
+                }
             }
 
             throw new InvalidOperationException(
-                String.Format(
+                string.Format(
                     CultureInfo.InvariantCulture,
                     @"Failed to impersonate user '{0}\{1}'",
                     domain,

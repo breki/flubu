@@ -75,7 +75,7 @@ namespace Flubu.Builds.Tasks.AnalysisTasks
             string buildsDir = context.Properties[BuildProps.BuildDir];
             string dupFinderXmlReportFileName = Path.Combine (buildsDir, "dupfinder-report.xml");
 
-            RunProgramTask task = new RunProgramTask (
+            IRunProgramTask task = new RunProgramTask (
                 dupFinderExeFileName)
                 .AddArgument ("--output={0}", dupFinderXmlReportFileName)
                 .AddArgument ("--show-text");

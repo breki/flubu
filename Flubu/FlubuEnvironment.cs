@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using JetBrains.Annotations;
+using Microsoft.Win32;
 
 namespace Flubu
 {
@@ -22,60 +25,6 @@ namespace Flubu
         }
 
         /// <summary>
-        /// Gets the .NET version number for .NET 1.0.
-        /// </summary>
-        /// <value>.NET version number for .NET 1.0.</value>
-        public static string Net10VersionNumber
-        {
-            get { return "v1.0.3705"; }
-        }
-
-        /// <summary>
-        /// Gets the .NET version number for .NET 1.1.
-        /// </summary>
-        /// <value>.NET version number for .NET 1.1.</value>
-        public static string Net11VersionNumber
-        {
-            get { return "v1.1.4322"; }
-        }
-
-        /// <summary>
-        /// Gets the .NET version number for .NET 2.0.
-        /// </summary>
-        /// <value>.NET version number for .NET 2.0.</value>
-        public static string Net20VersionNumber
-        {
-            get { return "v2.0.50727"; }
-        }
-
-        /// <summary>
-        /// Gets the .NET version number for .NET 3.0.
-        /// </summary>
-        /// <value>.NET version number for .NET 3.0.</value>
-        public static string Net30VersionNumber
-        {
-            get { return "v3.0"; }
-        }
-
-        /// <summary>
-        /// Gets the .NET version number for .NET 3.0.
-        /// </summary>
-        /// <value>.NET version number for .NET 3.0.</value>
-        public static string Net35VersionNumber
-        {
-            get { return "v3.5"; }
-        }
-
-        /// <summary>
-        /// Gets the .NET version number for .NET 3.0.
-        /// </summary>
-        /// <value>.NET version number for .NET 3.0.</value>
-        public static string Net40VersionNumber
-        {
-            get { return "v4.0.30319"; }
-        }
-
-        /// <summary>
         /// Gets the Windows system root directory path.
         /// </summary>
         /// <value>The Windows system root directory path.</value>
@@ -85,16 +34,37 @@ namespace Flubu
         }
 
         /// <summary>
-        /// Gets the path to the .NET Framework directory.
+        /// Returns a sorted dictionary of all MSBuild tools versions that are available on the system.
         /// </summary>
-        /// <param name="dotNetVersion">The version of the .NET (example: "v2.0.50727").</param>
-        /// <returns>
-        /// The path to the .NET Framework directory.
-        /// </returns>
-        public static string GetDotNetFWDir(string dotNetVersion)
+        /// <remarks>The method scans through the registry (<c>HKLM\SOFTWARE\Microsoft\MSBuild\ToolsVersions</c> path)
+        /// to find the available tools versions.</remarks>
+        /// <returns>A sorted dictionary whose keys are tools versions (2.0, 3.5, 4.0, 12.0 etc.) and values are paths to the
+        /// tools directories (and NOT the <c>MSBuild.exe</c> itself!). The entries are sorted ascendingly by version numbers.</returns>
+        [NotNull]
+        public static IDictionary<Version, string> ListAvailableMSBuildToolsVersions ()
         {
-            string fwRootDir = Path.Combine(SystemRootDir, @"Microsoft.NET\Framework");
-            return Path.Combine(fwRootDir, dotNetVersion);
-        }        
+            SortedDictionary<Version, string> toolsVersions = new SortedDictionary<Version, string> ();
+            using (RegistryKey toolsVersionsKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\MSBuild\ToolsVersions", false))
+            {
+                if (toolsVersionsKey == null)
+                    return toolsVersions;
+
+                foreach (string toolsVersion in toolsVersionsKey.GetSubKeyNames())
+                {
+                    using (RegistryKey toolsVersionKey = toolsVersionsKey.OpenSubKey(toolsVersion, false))
+                    {
+                        if (toolsVersionKey == null)
+                            continue;
+
+                        object msBuildToolsPathObj = toolsVersionKey.GetValue("MSBuildToolsPath");
+                        string msBuildToolsPath = msBuildToolsPathObj as string;
+                        if (msBuildToolsPath != null)
+                            toolsVersions.Add(new Version(toolsVersion), msBuildToolsPath);
+                    }
+                }
+            }
+
+            return toolsVersions;
+        }
     }
 }

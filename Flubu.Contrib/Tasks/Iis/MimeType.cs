@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Flubu.Tasks.Iis
+﻿namespace Flubu.Tasks.Iis
 {
     public class MimeType
     {
@@ -15,6 +10,6 @@ namespace Flubu.Tasks.Iis
         /// <summary>
         /// Gets or sets The Mime type.
         /// </summary>
-        public string Type { get; set; }
+        public string MimeTypeName { get; set; }
     }
 }

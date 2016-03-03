@@ -1,7 +1,7 @@
 using Flubu.Tasks.Text;
 using NUnit.Framework;
 
-namespace Flubu.Tests
+namespace Flubu.Tests.TasksTests
 {
     /// <summary>
     /// Test XML related tasks.
