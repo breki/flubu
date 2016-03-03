@@ -34,20 +34,6 @@ namespace Flubu
         }
 
         /// <summary>
-        /// Gets the path to the .NET Framework directory.
-        /// </summary>
-        /// <param name="dotNetVersion">The version of the .NET (example: "v2.0.50727").</param>
-        /// <returns>
-        /// The path to the .NET Framework directory.
-        /// </returns>
-        [Obsolete]
-        public static string GetDotNetFWDir(string dotNetVersion)
-        {
-            string fwRootDir = Path.Combine(SystemRootDir, @"Microsoft.NET\Framework");
-            return Path.Combine(fwRootDir, dotNetVersion);
-        }
-
-        /// <summary>
         /// Returns a sorted dictionary of all MSBuild tools versions that are available on the system.
         /// </summary>
         /// <remarks>The method scans through the registry (<c>HKLM\SOFTWARE\Microsoft\MSBuild\ToolsVersions</c> path)

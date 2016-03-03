@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Globalization;
+using System.IO;
 using Flubu;
 using Flubu.Builds;
 using Flubu.Builds.Tasks.NuGetTasks;
@@ -52,15 +52,14 @@ namespace BuildScripts
             session.Properties.Set (BuildProps.ProductId, "Flubu");
             session.Properties.Set (BuildProps.ProductName, "Flubu");
             session.Properties.Set (BuildProps.SolutionFileName, "Flubu.sln");
-            session.Properties.Set (BuildProps.TargetDotNetVersion, FlubuEnvironment.Net40VersionNumber);
             session.Properties.Set (BuildProps.VersionControlSystem, VersionControlSystem.Mercurial);
         }
 
         private static void TargetRunTests (ITaskContext context, string projectName)
         {
-            NUnitWithDotCoverTask task = NUnitWithDotCoverTask.ForProject (
-                projectName,
-                @"packages\NUnit.Console.3.0.1\tools\nunit3-console.exe");
+            NUnitWithDotCoverTask task = new NUnitWithDotCoverTask(
+                @"packages\NUnit.Console.3.0.1\tools\nunit3-console.exe",
+                Path.Combine (projectName, "bin", context.Properties[BuildProps.BuildConfiguration], projectName) + ".dll");
             task.FailBuildOnViolations = false;
             task.NUnitCmdLineOptions = "--labels=All --trace=Verbose --verbose";
             task.Execute (context);
@@ -118,7 +117,7 @@ namespace BuildScripts
 
         private static void TargetNuGet(ITaskContext context, string nugetId)
         {
-            PublishNuGetPackageTask publishTask = new PublishNuGetPackageTask(nugetId);
+            PublishNuGetPackageTask publishTask = new PublishNuGetPackageTask(nugetId, @"Flubu\Flubu.nuspec");
             publishTask.ForApiKeyUseEnvironmentVariable();
             publishTask.Execute(context);
         }
