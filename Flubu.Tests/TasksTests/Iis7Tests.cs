@@ -1,7 +1,7 @@
 ﻿using Flubu.Tasks.Iis;
 using NUnit.Framework;
 
-namespace Flubu.Tests
+namespace Flubu.Tests.TasksTests
 {
     [TestFixture]
     [Ignore("Can only be run on IIS7")]

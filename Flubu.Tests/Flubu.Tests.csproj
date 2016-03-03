@@ -73,17 +73,19 @@
   <ItemGroup>
     <Compile Include="BasicTests.cs" />
     <Compile Include="BuildsTests\VSSolutionTests.cs" />
-    <Compile Include="ConfigureAppSettingsTaskTests.cs" />
     <Compile Include="FileVersionTests.cs" />
-    <Compile Include="Iis7Tests.cs" />
+    <Compile Include="FlubuEnvironmentTests.cs" />
     <Compile Include="PackagingTests\CopyProcessorTests.cs" />
     <Compile Include="PackagingTests\MockCopier.cs" />
     <Compile Include="PackagingTests\MockDirectoryFilesLister.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TaskSessionTests.cs" />
+    <Compile Include="TasksTests\CompileSolutionTaskTests.cs" />
+    <Compile Include="TasksTests\ConfigureAppSettingsTaskTests.cs" />
+    <Compile Include="TasksTests\Iis7Tests.cs" />
+    <Compile Include="TasksTests\UnzipTests.cs" />
+    <Compile Include="TasksTests\XmlTests.cs" />
     <Compile Include="TestHelper.cs" />
-    <Compile Include="UnzipTests.cs" />
-    <Compile Include="XmlTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Flubu.Contrib\Flubu.Contrib.csproj">
@@ -126,6 +128,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

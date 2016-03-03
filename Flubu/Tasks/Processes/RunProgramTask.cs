@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Flubu.Tasks.Processes
 {
-    public class RunProgramTask : TaskBase
+    public class RunProgramTask : TaskBase, IRunProgramTask
     {
         public RunProgramTask(string programExePath)
         {
@@ -41,51 +41,51 @@ namespace Flubu.Tasks.Processes
         /// </summary>
         /// <param name="timeout">The timeout.</param>
         /// <returns>This instance</returns>
-        public RunProgramTask ExecutionTimeout(TimeSpan timeout)
+        public IRunProgramTask ExecutionTimeout(TimeSpan timeout)
         {
             executionTimeout = timeout;
             return this;
         }
 
-        public RunProgramTask EncloseParametersInQuotes(bool enclose)
+        public IRunProgramTask EncloseParametersInQuotes(bool enclose)
         {
             encloseInQuotes = enclose;
             return this;
         }
 
-        public RunProgramTask AddArgument(string argument)
+        public IRunProgramTask AddArgument(string argument)
         {
             programArgs.Add(new Arg(argument));
             return this;
         }
 
-        public RunProgramTask AddArgument(string format, params object[] args)
+        public IRunProgramTask AddArgument(string format, params object[] args)
         {
             Arg arg = new Arg (string.Format (CultureInfo.InvariantCulture, format, args));
             programArgs.Add(arg);
             return this;
         }
 
-        public RunProgramTask AddSecureArgument(string argument)
+        public IRunProgramTask AddSecureArgument(string argument)
         {
             programArgs.Add(new Arg(argument, true));
             return this;
         }
 
-        public RunProgramTask AddSecureArgument(string format, params object[] args)
+        public IRunProgramTask AddSecureArgument(string format, params object[] args)
         {
             Arg arg = new Arg (string.Format (CultureInfo.InvariantCulture, format, args), true);
             programArgs.Add(arg);
             return this;
         }
 
-        public RunProgramTask SetWorkingDir(string fullPath)
+        public IRunProgramTask SetWorkingDir(string fullPath)
         {
             workingDirectory = fullPath;
             return this;
         }
 
-        public RunProgramTask UseProgramDirAsWorkingDir()
+        public IRunProgramTask UseProgramDirAsWorkingDir()
         {
             workingDirectory = null;
             return this;

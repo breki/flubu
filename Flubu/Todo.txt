@@ -1,4 +1,9 @@
-﻿- ToolsVersion property should not be mandatory
+﻿- add support for .NET 4.5 and later
+	- improve testability of tasks
+		- how?
+	- get MSBuild path from registry
+
+- ToolsVersion property should not be mandatory
 - fix speech for Win 10 - it is too slow
 
 - add Flubu license to package
