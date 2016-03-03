@@ -2,7 +2,7 @@ namespace Flubu.Tasks.Iis
 {
     public interface IIisTasksFactory
     {
-        ICreateWebSiteTask CreateWebSiteTask { get; }
+        ICreateWebsiteTask CreateWebsiteTask { get; }
         ICreateWebApplicationTask CreateApplicationTask { get; }
         IControlAppPoolTask ControlAppPoolTask { get; }
         ICreateAppPoolTask CreateAppPoolTask { get; }

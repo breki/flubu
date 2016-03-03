@@ -102,7 +102,7 @@ namespace Flubu.Builds
 
             foreach (string arg in args)
             {
-                if (string.Compare (arg, "-speechdisabled", StringComparison.InvariantCultureIgnoreCase) == 0)
+                if (string.Compare (arg, "-speechdisabled", StringComparison.OrdinalIgnoreCase) == 0)
                     context.Properties.Set (BuildProps.SpeechDisabled, true);
                 else
                     targetToBuild = arg;

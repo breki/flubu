@@ -254,6 +254,7 @@ namespace Flubu.Builds.Tasks.TestingTasks
             return mergedSnapshotFileName;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
         private static string GenerateCoverageReport (
             ITaskContext context,
             string dotCoverExeFileName,
@@ -350,7 +351,7 @@ namespace Flubu.Builds.Tasks.TestingTasks
 
                     string className = node.Attributes["Name"].Value;
                     string nspace = node.ParentNode.Attributes["Name"].Value;
-                    int coverage = int.Parse (node.Attributes["CoveragePercent"].Value);
+                    int coverage = int.Parse (node.Attributes["CoveragePercent"].Value, CultureInfo.InvariantCulture);
 
                     poorCoverageClasses.Add (new Tuple<string, int> (nspace + "." + className, coverage));
                     return true;

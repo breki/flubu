@@ -1,8 +1,4 @@
-﻿+ include Code Contracts in nuget package
-- use the latest Flubu for building Flubu
-- update ProjectVersion
-- turn on Code Analysis?
-- fix speech for Win 10 - it is too slow
+﻿- fix speech for Win 10 - it is too slow
 
 - add Flubu license to package
 - add licenses to 3rd party stuff

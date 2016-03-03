@@ -17,8 +17,8 @@ namespace Flubu.Tasks.Misc
 
         protected override void DoExecute(ITaskContext context)
         {
-            WebClient client = new WebClient();
-            client.DownloadString(url);
+            using (WebClient client = new WebClient())
+                client.DownloadString(url);
         }
 
         private readonly string url;

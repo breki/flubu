@@ -31,6 +31,7 @@ namespace Flubu.Tasks.WindowsServices
             task.Execute (environment);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Performance", "CA1804:RemoveUnusedLocals", MessageId = "serviceHandle")]
         protected override void DoExecute (ITaskContext context)
         {
             try

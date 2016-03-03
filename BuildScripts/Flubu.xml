@@ -1100,15 +1100,6 @@
             </summary>
       <value>The VisualStudio project types dictionary.</value>
     </member>
-    <member name="M:Flubu.FlubuEnvironment.GetDotNetFWDir(System.String)">
-      <summary>
-            Gets the path to the .NET Framework directory.
-            </summary>
-      <param name="dotNetVersion">The version of the .NET (example: "v2.0.50727").</param>
-      <returns>
-            The path to the .NET Framework directory.
-            </returns>
-    </member>
     <member name="M:Flubu.FlubuEnvironment.ListAvailableMSBuildToolsVersions">
       <summary>
             Returns a sorted dictionary of all MSBuild tools versions that are available on the system.

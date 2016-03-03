@@ -88,10 +88,10 @@ namespace Flubu.Tasks.Iis.Iis7
         /// <summary>
         /// Gets or sets the Name of the website that the web application is added too. By default it is "Default Web Site"
         /// </summary>
-        public string WebSiteName
+        public string WebsiteName
         {
-            get { return webSiteName; }
-            set { webSiteName = value; }
+            get { return websiteName; }
+            set { websiteName = value; }
         }
 
         public string ParentVirtualDirectoryName
@@ -106,6 +106,7 @@ namespace Flubu.Tasks.Iis.Iis7
             set { applicationPoolName = value; }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public IList<MimeType> MimeTypes { get; set; }
 
         public override string Description
@@ -131,12 +132,13 @@ namespace Flubu.Tasks.Iis.Iis7
 
             using (ServerManager serverManager = new ServerManager())
             {
-                if (!WebsiteExists(serverManager, WebSiteName))
+                if (!WebsiteExists(serverManager, WebsiteName))
                 {
-                    throw new InvalidOperationException(string.Format("Web site '{0}' does not exists.", WebSiteName));
+                    throw new InvalidOperationException(
+                        string.Format(CultureInfo.InvariantCulture, "Web site '{0}' does not exists.", WebsiteName));
                 }
 
-                Site site = serverManager.Sites[WebSiteName];
+                Site site = serverManager.Sites[WebsiteName];
 
                 string vdirPath = "/" + ApplicationName;
                 foreach (Application application in site.Applications)
@@ -169,7 +171,7 @@ namespace Flubu.Tasks.Iis.Iis7
 
                 using (ServerManager manager = new ServerManager())
                 {
-                    Site defaultSite = manager.Sites[WebSiteName];
+                    Site defaultSite = manager.Sites[WebsiteName];
                     Application ourApplication = defaultSite.Applications.Add(vdirPath, this.LocalPath);
                     ourApplication.ApplicationPoolName = applicationPoolName;
                     var config = ourApplication.GetWebConfiguration();
@@ -193,6 +195,6 @@ namespace Flubu.Tasks.Iis.Iis7
         private string defaultDoc;
         private bool enableDefaultDoc = true;
         private string applicationPoolName = "DefaultAppPool";
-        private string webSiteName = "Default Web Site";
+        private string websiteName = "Default Web Site";
     }
 }
