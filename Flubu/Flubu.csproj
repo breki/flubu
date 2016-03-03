@@ -148,6 +148,8 @@
     <Compile Include="Services\FlubuEnvironmentService.cs" />
     <Compile Include="Services\ICommonTasksFactory.cs" />
     <Compile Include="Services\IFlubuEnvironmentService.cs" />
+    <Compile Include="Services\IProcessRunner.cs" />
+    <Compile Include="Services\ProcessRunner.cs" />
     <Compile Include="StringEx.cs" />
     <Compile Include="Builds\Tasks\AnalysisTasks\RunDupFinderAnalysisTask.cs" />
     <Compile Include="Builds\Tasks\AnalysisTasks\RunFxCopTask.cs" />
