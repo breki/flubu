@@ -14,7 +14,8 @@ namespace Flubu.Tasks.Iis.Iis6
             get { return new Iis6CreateAppPoolTask(); }
         }
 
-        public ICreateWebSiteTask CreateWebSiteTask
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations")]
+        public ICreateWebsiteTask CreateWebsiteTask
         {
             get { throw new NotImplementedException(); }
         }

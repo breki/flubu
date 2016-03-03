@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Flubu.Tasks.Iis
+﻿namespace Flubu.Tasks.Iis
 {
-    public enum CreateWebSiteMode
+    [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Design", "CA1008:EnumsShouldHaveZeroValue")]
+    public enum CreateWebsiteMode
     {
     }
 }

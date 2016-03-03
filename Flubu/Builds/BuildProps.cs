@@ -13,7 +13,7 @@ namespace Flubu.Builds
         public const string CompanyName = "CompanyName";
         public const string CompanyTrademark = "CompanyTrademark";
         public const string CompileMaxCpuCount = "CompileMaxCpuCount";
-        public const string FxcopDir = "FxcopDir";
+        public const string FxCopDir = "FxCopDir";
         public const string InformationalVersion = "InformationalVersion";
         public const string LibDir = "LibDir";
         public const string NUnitConsolePath = "NUnitConsolePath";
@@ -43,7 +43,7 @@ namespace Flubu.Builds
         public const string SpeechDisabled = "SpeechDisabled";
         public const string Solution = "Solution";
         public const string SolutionFileName = "SolutionFileName";
-        public const string UseSolutionDirAsMsBuildWorkingDir = "UseSolutionDirAsMsBuildWorkingDir";
+        public const string UseSolutionDirAsMSBuildWorkingDir = "UseSolutionDirAsMSBuildWorkingDir";
         public const string SvnRevisionVariableName = "SvnRevisionName";
 
         public const string VersionControlSystem = "VersionControlSystem";

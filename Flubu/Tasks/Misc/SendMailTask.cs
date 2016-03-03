@@ -120,22 +120,21 @@ namespace Flubu.Tasks.Misc
         /// <param name="context">The script execution environment.</param>
         protected override void DoExecute (ITaskContext context)
         {
-            SmtpClient smtpClient = new SmtpClient (smtpServer);
-
-            using (MailMessage msg = new MailMessage ())
+            using (SmtpClient smtpClient = new SmtpClient(smtpServer))
+            using (MailMessage msg = new MailMessage())
             {
-                msg.From = new MailAddress (from);
+                msg.From = new MailAddress(from);
                 msg.Subject = subject;
                 msg.Body = body;
 
                 if (bcc != null)
-                    ParseAddresses (msg.Bcc, bcc);
+                    ParseAddresses(msg.Bcc, bcc);
                 if (cc != null)
-                    ParseAddresses (msg.CC, cc);
+                    ParseAddresses(msg.CC, cc);
                 if (to != null)
-                    ParseAddresses (msg.To, to);
+                    ParseAddresses(msg.To, to);
 
-                smtpClient.Send (msg);
+                smtpClient.Send(msg);
             }
         }
 
