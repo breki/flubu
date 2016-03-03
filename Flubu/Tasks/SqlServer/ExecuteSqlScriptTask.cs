@@ -57,6 +57,7 @@ namespace Flubu.Tasks.SqlServer
             deleteTempScript = true;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         protected override void DoExecute(ITaskContext context)
         {
             SqlConnectionStringBuilder connStringBuilder = new SqlConnectionStringBuilder(connectionString);
@@ -81,7 +82,7 @@ namespace Flubu.Tasks.SqlServer
             Env = context;
 
             // create the process
-            Process process = new Process
+            using (Process process = new Process
             {
                 StartInfo =
                 {
@@ -93,21 +94,23 @@ namespace Flubu.Tasks.SqlServer
                     RedirectStandardInput = true,
                     RedirectStandardError = true
                 }
-            };
-            process.ErrorDataReceived += ProcessErrorDataReceived;
-            process.OutputDataReceived += ProcessOutputDataReceived;
+            })
+            { 
+                process.ErrorDataReceived += ProcessErrorDataReceived;
+                process.OutputDataReceived += ProcessOutputDataReceived;
 
-            // start the application
-            process.Start();
-            process.BeginErrorReadLine();
-            process.BeginOutputReadLine();
-            process.StandardInput.WriteLine("@ECHO OFF");
-            process.StandardInput.WriteLine(cmd.ToString());
-            process.StandardInput.WriteLine("EXIT");
-            process.StandardInput.Flush();
-            process.WaitForExit();
-            if (process.ExitCode != 0)
-                throw new TaskExecutionException(string.Format(CultureInfo.InvariantCulture, "OSQL exited with code {0}.", process.ExitCode));
+                // start the application
+                process.Start();
+                process.BeginErrorReadLine();
+                process.BeginOutputReadLine();
+                process.StandardInput.WriteLine("@ECHO OFF");
+                process.StandardInput.WriteLine(cmd.ToString());
+                process.StandardInput.WriteLine("EXIT");
+                process.StandardInput.Flush();
+                process.WaitForExit();
+                if (process.ExitCode != 0)
+                    throw new TaskExecutionException(string.Format(CultureInfo.InvariantCulture, "OSQL exited with code {0}.", process.ExitCode));
+            }
 
             //Reading output after waitforexit creates deadlock as available output buffer is fully filled
             //output.Write(process.StandardOutput.ReadToEnd());

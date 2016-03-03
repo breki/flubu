@@ -4,7 +4,7 @@ using Flubu.Tasks.FileSystem;
 using ICSharpCode.SharpZipLib.Zip;
 using NUnit.Framework;
 
-namespace Flubu.Tests
+namespace Flubu.Tests.TasksTests
 {
     /// <summary>
     /// Tests for <see cref="UnzipFilesTask"/> task.

@@ -17,10 +17,14 @@ namespace Flubu.Tasks.FileSystem
         /// </summary>
         /// <param name="zipFileName">Name of local file (ZIP archive) to extract.</param>
         /// <param name="destinationDirectory">Directory to which files will be extracted.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Design", "CA1057:StringUriOverloadsCallSystemUriOverloads")]
         public UnzipFilesTask(string zipFileName, string destinationDirectory)
         {
-            if (zipFileName == null) throw new ArgumentNullException("zipFileName");
-            if (destinationDirectory == null) throw new ArgumentNullException("destinationDirectory");
+            if (zipFileName == null) 
+                throw new ArgumentNullException("zipFileName");
+            if (destinationDirectory == null) 
+                throw new ArgumentNullException("destinationDirectory");
+
             this.zipFileName = zipFileName;
             this.destinationDirectory = destinationDirectory;
         }
@@ -32,8 +36,11 @@ namespace Flubu.Tasks.FileSystem
         /// <param name="destinationDirectory">Directory to which files will be extracted.</param>
         public UnzipFilesTask(Uri url, string destinationDirectory)
         {
-            if (url == null) throw new ArgumentNullException("url");
-            if (destinationDirectory == null) throw new ArgumentNullException("destinationDirectory");
+            if (url == null) 
+                throw new ArgumentNullException("url");
+            if (destinationDirectory == null) 
+                throw new ArgumentNullException("destinationDirectory");
+
             this.url = url;
             this.destinationDirectory = destinationDirectory;
         }

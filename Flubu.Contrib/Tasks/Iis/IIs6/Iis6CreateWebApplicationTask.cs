@@ -91,12 +91,13 @@ namespace Flubu.Tasks.Iis.Iis6
             set { parentVirtualDirectoryName = value; }
         }
 
-        public string WebSiteName
+        public string WebsiteName
         {
             get { throw new NotSupportedException(); }
             set { throw new NotSupportedException(); }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public IList<MimeType> MimeTypes
         {
             get { throw new NotSupportedException(); }

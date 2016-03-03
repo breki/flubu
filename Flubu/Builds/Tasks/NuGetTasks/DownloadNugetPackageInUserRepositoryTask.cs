@@ -50,6 +50,7 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             get { return packageDirectory; }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Nu")]
         public static string UserProfileNuGetPackagesDir
         {
             get { return Path.Combine (Environment.GetFolderPath (Environment.SpecialFolder.LocalApplicationData), @"Flubu\NuGet"); }

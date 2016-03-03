@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.Win32;
 
 namespace Flubu.Tasks.Registry
@@ -11,7 +9,7 @@ namespace Flubu.Tasks.Registry
         {
             get
             {
-                return String.Format (
+                return string.Format (
                     System.Globalization.CultureInfo.InvariantCulture,
                     "Get registry value '{0}@{1}' to configuration setting '{2}'", 
                     registryKeyPath, 
@@ -53,7 +51,7 @@ namespace Flubu.Tasks.Registry
             {
                 if (key == null)
                     throw new TaskExecutionException (
-                        String.Format (
+                        string.Format (
                             System.Globalization.CultureInfo.InvariantCulture,
                             "Registry key '{0}' does not exist.", 
                             registryKeyPath));
@@ -64,9 +62,9 @@ namespace Flubu.Tasks.Registry
             }
         }
 
-        private RegistryKey rootKey;
-        private string registryKeyPath;
-        private string registryValueName;
-        private string configurationSettingName;
+        private readonly RegistryKey rootKey;
+        private readonly string registryKeyPath;
+        private readonly string registryValueName;
+        private readonly string configurationSettingName;
     }
 }

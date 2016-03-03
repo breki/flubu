@@ -6,8 +6,10 @@ using Flubu.Tasks.Text;
 
 namespace Flubu.Builds.Tasks.NuGetTasks
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Nu")]
     public class PublishNuGetPackageTask : TaskBase
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Nu")]
         public const string DefaultNuGetApiKeyEnvVariable = "NuGetOrgApiKey";
         public const string DefaultApiKeyFileName = "private/nuget.org-api-key.txt";
 
@@ -34,6 +36,7 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             set { basePath = value; }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Nu"), System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Design", "CA1056:UriPropertiesShouldNotBeStrings")]
         public string NuGetServerUrl
         {
             get { return nuGetServerUrl; }
