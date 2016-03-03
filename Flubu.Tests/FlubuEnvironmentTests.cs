@@ -22,7 +22,7 @@ namespace Flubu.Tests
         private static void AssertAtLeastOneKnownVersionWasFound(IDictionary<Version, string> msbuilds)
         {
             HashSet<Version> versions = new HashSet<Version>(msbuilds.Keys);
-            Assert.IsTrue(versions.IsSubsetOf(new[] { new Version("2.0"), new Version("3.5"), new Version("4.0"), new Version("12.0") }));
+            CollectionAssert.IsNotEmpty(versions.Intersect(new[] { new Version("2.0"), new Version("3.5"), new Version("4.0"), new Version("12.0") }));
         }
 
         private static void AssertVersionsAreSorted(IDictionary<Version, string> msbuilds)
