@@ -1,3 +1,7 @@
+2.6.2.0
+- fixed a missing dll in nuspec
+- updated NuGet.CommandLine package
+
 2.6.1.0
 - switched Code Contracts fully
 - filtering out R# annotations from code coverage
