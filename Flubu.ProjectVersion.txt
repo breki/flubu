@@ -1,3 +1,7 @@
+2.6.1.0
+- switched Code Contracts fully
+- filtering out R# annotations from code coverage
+
 2.6.0.0
 - BuildProps.TargetDotNetVersion removed since it is no longer used
 - renamed BuildProps.ToolsVersion to MSBuildToolsVersion

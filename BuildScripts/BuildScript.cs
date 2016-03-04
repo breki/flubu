@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.IO;
 using Flubu;
 using Flubu.Builds;
@@ -57,6 +56,7 @@ namespace BuildScripts
             NUnitWithDotCoverTask task = new NUnitWithDotCoverTask(
                 @"packages\NUnit.Console.3.0.1\tools\nunit3-console.exe",
                 Path.Combine (projectName, "bin", context.Properties[BuildProps.BuildConfiguration], projectName) + ".dll");
+            task.DotCoverFilters = "-:module=*.Tests;-:class=*Contract;-:class=*Contract`*;-:class=JetBrains.Annotations.*";
             task.FailBuildOnViolations = false;
             task.NUnitCmdLineOptions = "--labels=All --trace=Verbose --verbose";
             task.Execute (context);
