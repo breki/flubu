@@ -22,7 +22,7 @@
     <file src="..\Flubu\bin\Release\Flubu.xml" target="lib" />
     <file src="..\Flubu\bin\Release\CodeContracts\Flubu.Contracts.dll" target="lib" />
     <file src="..\Flubu\bin\Release\CodeContracts\Flubu.Contracts.pdb" target="lib" />
-    <file src="..\Flubu.Contrib\bin\Release\Flubu.Contrib.xml" target="lib" />
+    <file src="..\Flubu.Contrib\bin\Release\Flubu.Contrib.dll" target="lib" />
     <file src="..\Flubu.Contrib\bin\Release\Flubu.Contrib.pdb" target="lib" />
     <file src="..\Flubu.Contrib\bin\Release\Flubu.Contrib.xml" target="lib" />
     <file src="..\Flubu.Contrib\bin\Release\ICSharpCode.SharpZipLib.dll" target="lib" />

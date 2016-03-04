@@ -170,7 +170,9 @@
     <Compile Include="Builds\VSSolutionBrowsing\VSProjectItem.cs" />
     <Compile Include="Builds\VSSolutionBrowsing\VSSolutionFileParser.cs" />
     <Compile Include="Builds\VSSolutionBrowsing\VSSolutionFilesInfo.cs" />
-    <None Include="Flubu.nuspec" />
+    <None Include="Flubu.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="RunProgramTask.cs" />
     <None Include="FlubuCCNetListener.cs" />
     <None Include="Builds\ConcreteBuildRunner.cs" />
