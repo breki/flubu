@@ -1,8 +1,6 @@
 using System;
-using System.Collections.Generic;
 using Flubu.Packaging;
 using NUnit.Framework;
-using Rhino.Mocks;
 
 namespace Flubu.Tests.PackagingTests
 {
@@ -51,7 +49,9 @@ namespace Flubu.Tests.PackagingTests
         [SetUp]
         public void Setup()
         {
-            taskContext = MockRepository.GenerateMock<ITaskContext>();
+            // todo next
+            // taskContext = MockRepository.GenerateMock<ITaskContext>();
+            taskContext = null;
             copier = new MockCopier();
             lister = new MockDirectoryFilesLister();
             packageDef = new StandardPackageDef("package", taskContext, lister);

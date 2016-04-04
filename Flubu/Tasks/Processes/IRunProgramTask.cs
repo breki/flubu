@@ -1,4 +1,5 @@
 using System;
+using Flubu.Services;
 using JetBrains.Annotations;
 
 namespace Flubu.Tasks.Processes
@@ -10,6 +11,9 @@ namespace Flubu.Tasks.Processes
         /// </summary>
         /// <value>The exit code of the last external program.</value>
         int LastExitCode { get; }
+
+        [NotNull]
+        IProcessRunner ProcessRunner { get; set; }
 
         /// <summary>
         /// Set the execution timeout.
