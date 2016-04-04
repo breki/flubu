@@ -62,7 +62,7 @@ namespace Flubu.Builds.Tasks.SolutionTasks
             string msbuildPath = FindMSBuildPath(context);
 
             // todo next
-            IRunProgramTask task = commonTasksFactory.CreateRunProgramTask(Path.Combine (msbuildPath, @"msbuild.exe"));
+            IRunProgramTask task = commonTasksFactory.CreateRunProgramTask(msbuildPath);
             task
                 .AddArgument (solutionFileName)
                 .AddArgument ("/p:Configuration={0}", buildConfiguration)
@@ -87,10 +87,11 @@ namespace Flubu.Builds.Tasks.SolutionTasks
 
             if (toolsVersion != null)
             {
-                throw new NotImplementedException("todo next:");
+                if (!msbuilds.TryGetValue(toolsVersion, out msbuildPath))
+                    throw new NotImplementedException("todo next:");
             }
 
-            return msbuildPath;
+            return Path.Combine(msbuildPath, "MSBuild.exe");
         }
 
         private string target;

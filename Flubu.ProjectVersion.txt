@@ -1,6 +1,7 @@
-2.5.1.0
-- NunitTask now supports nunit 3.0 
-- Redesigned NunitTask with fluent interface
+2.6.0.0
+- new method: FlubuEnvironment.ListAvailableMSBuildToolsVersions()
+- Removed some obsolete stuff from FlubuEnvironment
+- introduced IFlubuEnvironmentService and ICommonTasksFactory to improve testability of tasks
 
 2.5.0.0
 - New task: CreateWebSiteTask for ii7
