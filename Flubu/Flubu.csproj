@@ -138,6 +138,7 @@
     </Compile>
     <Compile Include="Annotations\Annotations.cs" />
     <Compile Include="Beeper.cs" />
+    <Compile Include="BuildScript.cs" />
     <Compile Include="Builds\BuildLogger.cs" />
     <None Include="Builds\BuildProduct.cs" />
     <None Include="Builds\BuildProductsRegistry.cs" />
@@ -146,6 +147,7 @@
     <Compile Include="Builds\BuildProps.cs" />
     <Compile Include="Builds\BuildTargets.cs" />
     <Compile Include="Builds\DefaultBuildScriptRunner.cs" />
+    <Compile Include="BuildTargetAttribute.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Services\CommonTasksFactory.cs" />
     <Compile Include="Services\FlubuEnvironmentService.cs" />

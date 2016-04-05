@@ -104,11 +104,11 @@ namespace Flubu.Builds.Tasks.TestingTasks
         {
             if (string.IsNullOrEmpty(categories))
             {
-                categories = string.Format("cat != {0}", category);
+                categories = string.Format(CultureInfo.InvariantCulture, "cat != {0}", category);
             }
             else
             {
-                categories = string.Format("{0} && cat != {1}", categories, category);
+                categories = string.Format(CultureInfo.InvariantCulture, "{0} && cat != {1}", categories, category);
             }
           
             return this;
@@ -123,11 +123,11 @@ namespace Flubu.Builds.Tasks.TestingTasks
         {
             if (string.IsNullOrEmpty(categories))
             {
-                categories = string.Format("cat == {0}", category);
+                categories = string.Format(CultureInfo.InvariantCulture, "cat == {0}", category);
             }
             else
             {
-                categories = string.Format("{0} || cat == {1}", categories, category);
+                categories = string.Format(CultureInfo.InvariantCulture, "{0} || cat == {1}", categories, category);
             }
 
             return this;
@@ -138,7 +138,7 @@ namespace Flubu.Builds.Tasks.TestingTasks
         /// </summary>
         /// <param name="framework">Targeted .net framework</param>
         /// <returns>The NunitTask</returns>
-        public NUnitTask SetTargetFrameWork(string framework)
+        public NUnitTask SetTargetFramework(string framework)
         {
             targetFramework = framework;
             return this;
@@ -181,7 +181,7 @@ namespace Flubu.Builds.Tasks.TestingTasks
             task
                 .SetWorkingDir(workingDirectory)
                 .EncloseParametersInQuotes(false)
-                .AddArgument(string.Format("\"{0}\"", testAssemblyFileName));
+                .AddArgument(string.Format(CultureInfo.InvariantCulture, "\"{0}\"", testAssemblyFileName));
 
             foreach (var nunitCommandLineOption in nunitCommandLineOptions)
             {
