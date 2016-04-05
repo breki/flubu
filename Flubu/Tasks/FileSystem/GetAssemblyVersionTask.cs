@@ -28,6 +28,7 @@ namespace Flubu.Tasks.FileSystem
             get { return "Retreiving assembly version for '" + file + "'."; }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Reliability", "CA2001:AvoidCallingProblematicMethods", MessageId = "System.Reflection.Assembly.LoadFile")]
         protected override void DoExecute(ITaskContext context)
         {
             if (context == null) throw new ArgumentNullException("context");

@@ -11,7 +11,7 @@ namespace Flubu.Tasks.Iis.Iis7
         /// </summary>
         /// <param name="config">Config of the website or web application</param>
         /// <param name="mimeTypes">List of mime types to be added</param>
-        protected void AddMimeTypes(Microsoft.Web.Administration.Configuration config, IList<MimeType> mimeTypes)
+        protected static void AddMimeTypes(Microsoft.Web.Administration.Configuration config, IList<MimeType> mimeTypes)
         {
             if (mimeTypes != null && mimeTypes.Count > 0)
             {
@@ -21,7 +21,7 @@ namespace Flubu.Tasks.Iis.Iis7
                 {
                     ConfigurationElement mimeMapElement = staticContentCollection.CreateElement("mimeMap");
                     mimeMapElement["fileExtension"] = mimeType.FileExtension;
-                    mimeMapElement["mimeType"] = mimeType.Type;
+                    mimeMapElement["mimeType"] = mimeType.MimeTypeName;
                     staticContentCollection.Add(mimeMapElement);
                 }
             }

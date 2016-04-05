@@ -44,6 +44,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
+    <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -57,7 +58,8 @@
     </DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <NoWarn>1574, 1591, 1723</NoWarn>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -70,7 +72,51 @@
     <DebugSymbols>true</DebugSymbols>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <NoWarn>1574, 1591, 1723</NoWarn>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\CodeAnalysisRules.ruleset</CodeAnalysisRuleSet>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsRunCodeAnalysis>True</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>True</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>True</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>True</CodeContractsArithmeticObligations>
+    <CodeContractsEnumObligations>True</CodeContractsEnumObligations>
+    <CodeContractsRedundantAssumptions>True</CodeContractsRedundantAssumptions>
+    <CodeContractsAssertsToContractsCheckBox>True</CodeContractsAssertsToContractsCheckBox>
+    <CodeContractsRedundantTests>True</CodeContractsRedundantTests>
+    <CodeContractsMissingPublicRequiresAsWarnings>True</CodeContractsMissingPublicRequiresAsWarnings>
+    <CodeContractsMissingPublicEnsuresAsWarnings>False</CodeContractsMissingPublicEnsuresAsWarnings>
+    <CodeContractsInferRequires>True</CodeContractsInferRequires>
+    <CodeContractsInferEnsures>False</CodeContractsInferEnsures>
+    <CodeContractsInferEnsuresAutoProperties>True</CodeContractsInferEnsuresAutoProperties>
+    <CodeContractsInferObjectInvariants>False</CodeContractsInferObjectInvariants>
+    <CodeContractsSuggestAssumptions>False</CodeContractsSuggestAssumptions>
+    <CodeContractsSuggestAssumptionsForCallees>False</CodeContractsSuggestAssumptionsForCallees>
+    <CodeContractsSuggestRequires>False</CodeContractsSuggestRequires>
+    <CodeContractsNecessaryEnsures>True</CodeContractsNecessaryEnsures>
+    <CodeContractsSuggestObjectInvariants>False</CodeContractsSuggestObjectInvariants>
+    <CodeContractsSuggestReadonly>True</CodeContractsSuggestReadonly>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>True</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsSQLServerOption>.\SQLEXPRESS</CodeContractsSQLServerOption>
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
+    <CodeContractsSkipAnalysisIfCannotConnectToCache>False</CodeContractsSkipAnalysisIfCannotConnectToCache>
+    <CodeContractsFailBuildOnWarnings>False</CodeContractsFailBuildOnWarnings>
+    <CodeContractsBeingOptimisticOnExternal>True</CodeContractsBeingOptimisticOnExternal>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
+    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -90,11 +136,19 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Annotations\Annotations.cs" />
     <Compile Include="Beeper.cs" />
     <Compile Include="Builds\BuildLogger.cs" />
     <Compile Include="Builds\BuildProps.cs" />
     <Compile Include="Builds\BuildTargets.cs" />
     <Compile Include="Builds\DefaultBuildScriptRunner.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Services\CommonTasksFactory.cs" />
+    <Compile Include="Services\FlubuEnvironmentService.cs" />
+    <Compile Include="Services\ICommonTasksFactory.cs" />
+    <Compile Include="Services\IFlubuEnvironmentService.cs" />
+    <Compile Include="Services\IProcessRunner.cs" />
+    <Compile Include="Services\ProcessRunner.cs" />
     <Compile Include="StringEx.cs" />
     <Compile Include="Builds\Tasks\AnalysisTasks\RunDupFinderAnalysisTask.cs" />
     <Compile Include="Builds\Tasks\AnalysisTasks\RunFxCopTask.cs" />
@@ -112,7 +166,9 @@
     <Compile Include="Builds\VSSolutionBrowsing\VSProjectItem.cs" />
     <Compile Include="Builds\VSSolutionBrowsing\VSSolutionFileParser.cs" />
     <Compile Include="Builds\VSSolutionBrowsing\VSSolutionFilesInfo.cs" />
-    <None Include="Flubu.nuspec" />
+    <None Include="Flubu.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="RunProgramTask.cs" />
     <Compile Include="Builds\IBuildLogger.cs" />
     <Compile Include="Builds\VSProjectExtendedInfo.cs" />
@@ -166,6 +222,7 @@
     <Compile Include="Tasks\Msmq\CreateMessageQueueMode.cs" />
     <Compile Include="Tasks\Msmq\CreateMessageQueueTask.cs" />
     <Compile Include="Tasks\Msmq\DeleteMessageQueueTask.cs" />
+    <Compile Include="Tasks\Processes\IRunProgramTask.cs" />
     <Compile Include="Tasks\Processes\KillProcessTask.cs" />
     <Compile Include="Tasks\Processes\RunProgramTask.cs" />
     <Compile Include="Tasks\Registry\EditRegistryValueTask.cs" />

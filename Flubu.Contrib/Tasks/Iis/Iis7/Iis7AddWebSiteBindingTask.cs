@@ -54,25 +54,25 @@ namespace Flubu.Tasks.Iis.Iis7
                 (string.IsNullOrEmpty(certificateStore) || string.IsNullOrEmpty(certificateHash)))
                 throw new TaskExecutionException("Certificate store or hash not set for SSL protocol");
 
-            ServerManager oIisMgr = new ServerManager();
-            Site oSite = oIisMgr.Sites[siteName];
-
-            //See if this binding is already on some site
-            if (oIisMgr.Sites
-                .Where(st => st.Bindings.Where(b => b.Protocol == bindProtocol).Any())
-                .Any())
+            using (ServerManager oIisMgr = new ServerManager())
             {
-                context.WriteInfo("Binding for protocol '{0}' already exists! Doing nothing.", bindProtocol);
-                return;
+                Site oSite = oIisMgr.Sites[siteName];
+
+                //See if this binding is already on some site
+                if (oIisMgr.Sites.Where(st => st.Bindings.Where(b => b.Protocol == bindProtocol).Any()).Any())
+                {
+                    context.WriteInfo("Binding for protocol '{0}' already exists! Doing nothing.", bindProtocol);
+                    return;
+                }
+
+                Binding oBinding = oSite.Bindings.CreateElement();
+                oBinding.Protocol = bindProtocol;
+                oBinding.CertificateStoreName = certificateStore;
+                oBinding.CertificateHash = Encoding.UTF8.GetBytes(certificateHash);
+                oSite.Bindings.Add(oBinding);
+
+                oIisMgr.CommitChanges();
             }
-
-            Binding oBinding = oSite.Bindings.CreateElement();
-            oBinding.Protocol = bindProtocol;
-            oBinding.CertificateStoreName = certificateStore;
-            oBinding.CertificateHash = Encoding.UTF8.GetBytes(certificateHash);
-            oSite.Bindings.Add(oBinding);
-
-            oIisMgr.CommitChanges();
         }
 
         private string siteName;

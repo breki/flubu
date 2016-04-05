@@ -1,7 +1,7 @@
 ﻿using Flubu.Tasks.Iis;
 using NUnit.Framework;
 
-namespace Flubu.Tests
+namespace Flubu.Tests.TasksTests
 {
     [TestFixture]
     [Ignore("Can only be run on IIS7")]
@@ -75,14 +75,14 @@ namespace Flubu.Tests
             TaskContext context = new TaskContext(new SimpleTaskContextProperties(), new string[0]);
             var master = new IisMaster(context);
             IIisTasksFactory factory = master.Iis7TasksFactory;
-            var task = factory.CreateWebSiteTask;
+            var task = factory.CreateWebsiteTask;
             var mimeType = new MimeType
                                {
                                    FileExtension = "swg",
-                                   Type = "Application/text"
+                                   MimeTypeName = "Application/text"
                                };
             task
-                .WebSiteName("Test")
+                .WebsiteName("Test")
                 .BindingProtocol("https")
                 .Port(2443)
                 .PhysicalPath("d:\\")
@@ -96,7 +96,7 @@ namespace Flubu.Tests
             TaskContext context = new TaskContext(new SimpleTaskContextProperties(), new string[0]);
             var master = new IisMaster(context);
             IIisTasksFactory factory = master.Iis7TasksFactory;
-            var task = factory.CreateWebSiteTask;
+            var task = factory.CreateWebsiteTask;
             Assert.Throws<TaskExecutionException>(() => task.Execute(context));
         }
     }
