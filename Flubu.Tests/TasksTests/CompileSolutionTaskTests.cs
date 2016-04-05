@@ -115,7 +115,7 @@ namespace Flubu.Tests.TasksTests
 
             const string ExpectedArgs = "\"x.sln\" \"/p:Configuration=Release\" \"/p:Platform=Any CPU\" \"/consoleloggerparameters:NoSummary\" \"/maxcpucount:3\" ";
 
-            processRunnerMock.Setup(x => x.Run(msBuildPath, ExpectedArgs, ".", null, It.IsNotNull<DataReceivedEventHandler>(), It.IsNotNull<DataReceivedEventHandler>())).Returns(0).Verifiable();
+            processRunnerMock.Setup(x => x.Run(msBuildPath, ExpectedArgs, ".", TimeSpan.Zero, It.IsNotNull<DataReceivedEventHandler>(), It.IsNotNull<DataReceivedEventHandler>())).Returns(0).Verifiable();
 
             tasksFactoryMock.Setup(x => x.CreateRunProgramTask(msBuildPath, false)).Returns(runProgramTask).Verifiable();
         }
