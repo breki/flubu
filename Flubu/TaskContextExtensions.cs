@@ -1,4 +1,6 @@
 ﻿using System.Globalization;
+using Flubu.Builds;
+using Flubu.Builds.VSSolutionBrowsing;
 
 namespace Flubu
 {
@@ -48,6 +50,18 @@ namespace Flubu
         public static void WriteInfo(this ITaskContext context, string messageFormat, params object[] args)
         {
             context.WriteMessage(TaskMessageLevel.Info, messageFormat, args);
+        }
+
+        public static FullPath GetProjectOutputPath(this ITaskContext context, string projectName)
+        {
+            VSSolution solution = context.Properties.Get<VSSolution>(BuildProps.Solution);
+            VSProjectWithFileInfo projectInfo =
+                (VSProjectWithFileInfo)solution.FindProjectByName(projectName);
+
+            LocalPath projectOutputPath = projectInfo.GetProjectOutputPath(
+                context.Properties.Get<string>(BuildProps.BuildConfiguration));
+            FullPath projectTargetDir = projectInfo.ProjectDirectoryPath.CombineWith(projectOutputPath);
+            return projectTargetDir;
         }
     }
 }

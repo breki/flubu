@@ -9,11 +9,12 @@ namespace Flubu.Tasks.WindowsServices
         {
             get
             {
-                return String.Format (
+                return string.Format(
                     System.Globalization.CultureInfo.InvariantCulture,
-                    "{1} Windows service '{0}'.", 
-                    serviceName, 
-                    mode);
+                    "{1} Windows service '{2}:{0}'.",
+                    serviceName,
+                    mode,
+                    MachineName);
             }
         }
 
@@ -70,7 +71,7 @@ namespace Flubu.Tasks.WindowsServices
                 System.Globalization.CultureInfo.InvariantCulture,
                 "ServicesExist/{0}",
                 serviceName);
-            CheckIfServiceExistsTask.Execute(context, serviceName, configSettingName);
+            CheckIfServiceExistsTask.Execute(context, MachineName, serviceName, configSettingName);
             if (!context.Properties.Get<bool>(configSettingName))
             {
                 if (FailIfNotExist)
@@ -127,8 +128,8 @@ namespace Flubu.Tasks.WindowsServices
 
         private string MachineName { get; set; }
 
-        private string serviceName;
-        private ControlWindowsServiceMode mode;
+        private readonly string serviceName;
+        private readonly ControlWindowsServiceMode mode;
         private TimeSpan timeout;
     }
 }

@@ -20,6 +20,14 @@ namespace Flubu.Tasks.WindowsServices
         {
             this.serviceName = serviceName;
             this.configurationSetting = configurationSetting;
+            this.machineName = ".";
+        }
+
+        public CheckIfServiceExistsTask(string machineName, string serviceName, string configurationSetting)
+        {
+            this.serviceName = serviceName;
+            this.configurationSetting = configurationSetting;
+            this.machineName = machineName;
         }
 
         public static void Execute (
@@ -31,29 +39,41 @@ namespace Flubu.Tasks.WindowsServices
             task.Execute (environment);
         }
 
+        public static void Execute(
+    ITaskContext environment,
+    string machineName,
+    string serviceName,
+    string configurationSetting)
+        {
+            CheckIfServiceExistsTask task = new CheckIfServiceExistsTask(machineName, serviceName, configurationSetting);
+            task.Execute(environment);
+        }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Performance", "CA1804:RemoveUnusedLocals", MessageId = "serviceHandle")]
         protected override void DoExecute (ITaskContext context)
         {
             try
             {
-                using (ServiceController serviceController = new ServiceController (serviceName))
+                using (ServiceController serviceController = new ServiceController (serviceName, machineName))
                 {
                     // this should throw an exception if the service does not exist
                     System.Runtime.InteropServices.SafeHandle serviceHandle = serviceController.ServiceHandle;
                     context.Properties.Set (configurationSetting, "true");
-                    context.WriteInfo("Windows service '{0}' exists.", serviceName);
+                    context.WriteInfo("Windows service '{0}:{1}' exists.", machineName, serviceName);
                 }
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException e)
             {
                 context.Properties.Set(configurationSetting, false);
                 context.WriteInfo(
-                    "Windows service '{0}' does not exist.", 
-                    serviceName);
+                    "Windows service '{0}' does not exist.{1}", 
+                    serviceName,
+                    e.Message);
             }
         }
 
         private string serviceName;
         private string configurationSetting;
+        private string machineName;
     }
 }
