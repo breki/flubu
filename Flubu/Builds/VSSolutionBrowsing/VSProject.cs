@@ -173,33 +173,23 @@ namespace Flubu.Builds.VSSolutionBrowsing
             }
 
             xmlReader.Read();
-
+            IDictionary<string, string> props = propertiesDictionary ? properties : configuration.Properties;
             while (xmlReader.NodeType != XmlNodeType.EndElement)
             {
-                if (propertiesDictionary)
+                if (string.Equals(xmlReader.Name, "PublishDatabaseSettings", StringComparison.OrdinalIgnoreCase))
                 {
-                    if (properties.ContainsKey(xmlReader.Name))
-                        throw new ArgumentException(
-                            string.Format(
-                                CultureInfo.InvariantCulture,
-                                "Property '{0}' has already been added to the group. VS project '{1}'",
-                                xmlReader.Name,
-                                ProjectFileName));
-
-                    properties.Add(xmlReader.Name, xmlReader.ReadElementContentAsString());
+                    xmlReader.Skip();
+                    continue;
                 }
-                else
+
+                string name = xmlReader.Name;
+                string val = xmlReader.ReadElementContentAsString();
+                if (props.ContainsKey(name))
                 {
-                    if (configuration.Properties.ContainsKey(xmlReader.Name))
-                        throw new ArgumentException(
-                            string.Format(
-                                CultureInfo.InvariantCulture,
-                                "Property '{0}' has already been added to the group. VS project '{1}'",
-                                xmlReader.Name,
-                                ProjectFileName));
-
-                    configuration.Properties.Add(xmlReader.Name, xmlReader.ReadElementContentAsString());
+                    continue;
                 }
+
+                props.Add(name, val);
             }
 
             return configuration;
