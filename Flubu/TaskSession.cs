@@ -76,10 +76,10 @@ namespace Flubu
             base.Dispose(disposing);
         }
 
-        private Stopwatch buildStopwatch = new Stopwatch();
+        private readonly Stopwatch buildStopwatch = new Stopwatch();
         private bool disposed;
         private bool hasFailed;
         private Action<ITaskSession> onFinishDo;
-        private TargetTree targetTree;
+        private readonly TargetTree targetTree;
     }
 }
