@@ -4,5 +4,6 @@ namespace Flubu
     {
         Subversion,
         Mercurial,
+        Git
     }
 }
