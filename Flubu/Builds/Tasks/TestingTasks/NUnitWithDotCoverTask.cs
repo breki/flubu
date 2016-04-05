@@ -225,7 +225,7 @@ namespace Flubu.Builds.Tasks.TestingTasks
             string projectBinFileName = Path.GetFileName (assemblyFullFileName.FileName);
 
             context.WriteInfo ("Running unit tests (with code coverage)...");
-            RunProgramTask runDotCovertask = new RunProgramTask (dotCoverExeFileName).AddArgument ("cover")
+            IRunProgramTask runDotCovertask = new RunProgramTask (dotCoverExeFileName).AddArgument ("cover")
                 .AddArgument ("/TargetExecutable={0}", nunitRunnerFileName)
                 .AddArgument ("/TargetArguments={0} {1}", projectBinFileName, nunitCmdLineOptions)
                 .AddArgument ("/TargetWorkingDir={0}", projectDir)
@@ -244,7 +244,7 @@ namespace Flubu.Builds.Tasks.TestingTasks
             string buildDir = context.Properties[BuildProps.BuildDir];
             string mergedSnapshotFileName = Path.Combine (buildDir, "{0}.dcvr".Fmt (context.Properties[BuildProps.ProductId]));
 
-            RunProgramTask runDotCovertask =
+            IRunProgramTask runDotCovertask =
                 new RunProgramTask (dotCoverExeFileName).AddArgument ("merge")
                     .AddArgument ("/Source={0}", snapshots.Concat (x => x, ";"))
                     .AddArgument ("/Output={0}", mergedSnapshotFileName)
@@ -254,6 +254,7 @@ namespace Flubu.Builds.Tasks.TestingTasks
             return mergedSnapshotFileName;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
         private static string GenerateCoverageReport (
             ITaskContext context,
             string dotCoverExeFileName,
@@ -265,7 +266,7 @@ namespace Flubu.Builds.Tasks.TestingTasks
             string buildDir = context.Properties[BuildProps.BuildDir];
 
             string coverageReportFileName = Path.Combine (buildDir, "dotCover-results.{0}".Fmt (reportType.ToLowerInvariant ()));
-            RunProgramTask runDotCovertask =
+            IRunProgramTask runDotCovertask =
                 new RunProgramTask (dotCoverExeFileName).AddArgument ("report")
                     .AddArgument ("/Source={0}", snapshotFileName)
                     .AddArgument ("/Output={0}", coverageReportFileName)
@@ -350,7 +351,7 @@ namespace Flubu.Builds.Tasks.TestingTasks
 
                     string className = node.Attributes["Name"].Value;
                     string nspace = node.ParentNode.Attributes["Name"].Value;
-                    int coverage = int.Parse (node.Attributes["CoveragePercent"].Value);
+                    int coverage = int.Parse (node.Attributes["CoveragePercent"].Value, CultureInfo.InvariantCulture);
 
                     poorCoverageClasses.Add (new Tuple<string, int> (nspace + "." + className, coverage));
                     return true;

@@ -6,6 +6,7 @@ using Flubu.Tasks.Processes;
 
 namespace Flubu.Builds.Tasks.NuGetTasks
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Nu")]
     public class NuGetCmdLineTask : TaskBase
     {
         public NuGetCmdLineTask(string command, string workingDirectory = null)
@@ -112,6 +113,7 @@ namespace Flubu.Builds.Tasks.NuGetTasks
         private NuGetVerbosity? verbosity;
         private int exitCode;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Nu")]
         public enum NuGetVerbosity
         {
             Normal,

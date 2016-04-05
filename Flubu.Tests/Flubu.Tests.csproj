@@ -58,12 +58,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\ICSharpCode.SharpZipLib.2.0\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="Moq, Version=4.2.1510.2205, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="nunit.framework, Version=3.0.5813.39032, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.0.1\lib\net40\nunit.framework.dll</HintPath>
       <Private>True</Private>
-    </Reference>
-    <Reference Include="Rhino.Mocks">
-      <HintPath>..\packages\RhinoMocks.3.6.1\lib\net\Rhino.Mocks.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -73,17 +74,19 @@
   <ItemGroup>
     <Compile Include="BasicTests.cs" />
     <Compile Include="BuildsTests\VSSolutionTests.cs" />
-    <Compile Include="ConfigureAppSettingsTaskTests.cs" />
     <Compile Include="FileVersionTests.cs" />
-    <Compile Include="Iis7Tests.cs" />
+    <Compile Include="FlubuEnvironmentTests.cs" />
     <Compile Include="PackagingTests\CopyProcessorTests.cs" />
     <Compile Include="PackagingTests\MockCopier.cs" />
     <Compile Include="PackagingTests\MockDirectoryFilesLister.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TaskSessionTests.cs" />
+    <Compile Include="TasksTests\CompileSolutionTaskTests.cs" />
+    <Compile Include="TasksTests\ConfigureAppSettingsTaskTests.cs" />
+    <Compile Include="TasksTests\Iis7Tests.cs" />
+    <Compile Include="TasksTests\UnzipTests.cs" />
+    <Compile Include="TasksTests\XmlTests.cs" />
     <Compile Include="TestHelper.cs" />
-    <Compile Include="UnzipTests.cs" />
-    <Compile Include="XmlTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Flubu.Contrib\Flubu.Contrib.csproj">
@@ -126,6 +129,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

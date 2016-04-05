@@ -50,6 +50,7 @@ namespace Flubu.Tasks.Registry
             task.Execute (context);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Performance", "CA1804:RemoveUnusedLocals", MessageId = "rules")]
         protected override void DoExecute (ITaskContext context)
         {
             using (RegistryKey key = rootKey.OpenSubKey (registryKeyPath, true))

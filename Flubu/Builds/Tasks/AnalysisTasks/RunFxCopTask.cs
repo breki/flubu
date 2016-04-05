@@ -3,18 +3,18 @@ using Flubu.Tasks.Processes;
 
 namespace Flubu.Builds.Tasks.AnalysisTasks
 {
-    public class RunFxcopTask : TaskBase
+    public class RunFxCopTask : TaskBase
     {
-        public RunFxcopTask(
-            string fxcopCmdExeFileName,
-            string fxcopGuiExeFileName,
-            string fxcopProjectFileName,
-            string fxcopReportFileName)
+        public RunFxCopTask(
+            string fxCopCmdExeFileName,
+            string fxCopGuiExeFileName,
+            string fxCopProjectFileName,
+            string fxCopReportFileName)
         {
-            this.fxcopCmdExeFileName = fxcopCmdExeFileName;
-            this.fxcopGuiExeFileName = fxcopGuiExeFileName;
-            this.fxcopProjectFileName = fxcopProjectFileName;
-            this.fxcopReportFileName = fxcopReportFileName;
+            this.fxCopCmdExeFileName = fxCopCmdExeFileName;
+            this.fxCopGuiExeFileName = fxCopGuiExeFileName;
+            this.fxCopProjectFileName = fxCopProjectFileName;
+            this.fxCopReportFileName = fxCopReportFileName;
         }
 
         public override string Description
@@ -24,19 +24,19 @@ namespace Flubu.Builds.Tasks.AnalysisTasks
 
         protected override void DoExecute(ITaskContext context)
         {
-            FileFullPath path = new FileFullPath(fxcopReportFileName);
+            FileFullPath path = new FileFullPath(fxCopReportFileName);
             path.Directory.EnsureExists();
 
-            RunProgramTask task = new RunProgramTask(fxcopCmdExeFileName, true);
+            RunProgramTask task = new RunProgramTask(fxCopCmdExeFileName, true);
             task
-                .AddArgument(@"/project:{0}", fxcopProjectFileName)
-                .AddArgument(@"/out:{0}", fxcopReportFileName)
+                .AddArgument(@"/project:{0}", fxCopProjectFileName)
+                .AddArgument(@"/out:{0}", fxCopReportFileName)
                 .AddArgument(@"/dictionary:CustomDictionary.xml")
                 .AddArgument(@"/ignoregeneratedcode");
             task.Execute(context);
 
             // check if the report file was generated
-            bool isReportFileGenerated = File.Exists(fxcopReportFileName);
+            bool isReportFileGenerated = File.Exists(fxCopReportFileName);
 
             // FxCop returns different exit codes for different things
             // see http://msdn.microsoft.com/en-us/library/bb164705(VS.80).aspx for the list of exit codes
@@ -47,9 +47,9 @@ namespace Flubu.Builds.Tasks.AnalysisTasks
                 if (context.IsInteractive)
                 {
                     // run FxCop GUI
-                    task = new RunProgramTask(fxcopGuiExeFileName);
+                    task = new RunProgramTask(fxCopGuiExeFileName);
                     task
-                        .AddArgument(fxcopProjectFileName);
+                        .AddArgument(fxCopProjectFileName);
                     task.Execute(context);
                 }
 
@@ -57,9 +57,9 @@ namespace Flubu.Builds.Tasks.AnalysisTasks
             }
         }
 
-        private readonly string fxcopCmdExeFileName;
-        private readonly string fxcopGuiExeFileName;
-        private readonly string fxcopProjectFileName;
-        private readonly string fxcopReportFileName;
+        private readonly string fxCopCmdExeFileName;
+        private readonly string fxCopGuiExeFileName;
+        private readonly string fxCopProjectFileName;
+        private readonly string fxCopReportFileName;
     }
 }

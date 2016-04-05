@@ -17,9 +17,18 @@
     <tags>build builder VisualStudio</tags>
   </metadata>
   <files>
-    <file src="Flubu\Flubu.*" target="lib" />
-    <file src="Flubu\ICSharpCode.SharpZipLib.dll" target="lib" />
-    <file src="Flubu\log4net.dll" target="lib" />
-    <file src="Flubu\NVelocity.dll" target="lib" />
+    <file src="..\Flubu\bin\Release\Flubu.dll" target="lib" />
+    <file src="..\Flubu\bin\Release\Flubu.pdb" target="lib" />
+    <file src="..\Flubu\bin\Release\Flubu.xml" target="lib" />
+    <file src="..\Flubu\bin\Release\CodeContracts\Flubu.Contracts.dll" target="lib" />
+    <file src="..\Flubu\bin\Release\CodeContracts\Flubu.Contracts.pdb" target="lib" />
+    <file src="..\Flubu.Contrib\bin\Release\Flubu.Contrib.dll" target="lib" />
+    <file src="..\Flubu.Contrib\bin\Release\Flubu.Contrib.pdb" target="lib" />
+    <file src="..\Flubu.Contrib\bin\Release\Flubu.Contrib.xml" target="lib" />
+    <file src="..\Flubu.Contrib\bin\Release\ICSharpCode.SharpZipLib.dll" target="lib" />
+    <file src="..\Flubu.Contrib\bin\Release\log4net.dll" target="lib" />
+    <file src="..\Flubu.Contrib\bin\Release\NVelocity.dll" target="lib" />
+    <file src="..\Flubu.Contrib\bin\Release\CodeContracts\Flubu.Contrib.Contracts.dll" target="lib" />
+    <file src="..\Flubu.Contrib\bin\Release\CodeContracts\Flubu.Contrib.Contracts.pdb" target="lib" />
   </files>
 </package>

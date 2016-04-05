@@ -22,36 +22,38 @@ namespace Flubu.Tasks.Iis.Iis7
 
         protected override void DoExecute(ITaskContext context)
         {
-            ServerManager serverManager = new ServerManager();
-            ApplicationPoolCollection applicationPoolCollection = serverManager.ApplicationPools;
+            using (ServerManager serverManager = new ServerManager())
+            { 
+                ApplicationPoolCollection applicationPoolCollection = serverManager.ApplicationPools;
 
-            foreach (ApplicationPool applicationPool in applicationPoolCollection)
-            {
-                if (applicationPool.Name == ApplicationPoolName)
+                foreach (ApplicationPool applicationPool in applicationPoolCollection)
                 {
-                    applicationPoolCollection.Remove(applicationPool);
-                    serverManager.CommitChanges();
+                    if (applicationPool.Name == ApplicationPoolName)
+                    {
+                        applicationPoolCollection.Remove(applicationPool);
+                        serverManager.CommitChanges();
 
-                    context.WriteInfo(
-                        "Application pool '{0}' has been deleted.",
-                        ApplicationPoolName);     
+                        context.WriteInfo(
+                            "Application pool '{0}' has been deleted.",
+                            ApplicationPoolName);     
 
-                    return;
+                        return;
+                    }
                 }
-            }
 
-            if (FailIfNotExist)
-            {
-                throw new TaskExecutionException(
-                    String.Format(
-                        CultureInfo.InvariantCulture,
-                        "Application '{0}' does not exist.",
-                        ApplicationPoolName));
-            }
+                if (FailIfNotExist)
+                {
+                    throw new TaskExecutionException(
+                        String.Format(
+                            CultureInfo.InvariantCulture,
+                            "Application '{0}' does not exist.",
+                            ApplicationPoolName));
+                }
 
-            context.WriteInfo(
-                "Application pool '{0}' does not exist, doing nothing.",
-                ApplicationPoolName);
+                context.WriteInfo(
+                    "Application pool '{0}' does not exist, doing nothing.",
+                    ApplicationPoolName);
+            }
         }
     }
 }

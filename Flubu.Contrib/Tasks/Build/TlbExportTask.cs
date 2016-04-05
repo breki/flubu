@@ -49,7 +49,7 @@ namespace Flubu.Tasks.Build
 
         protected override void DoExecute(ITaskContext context)
         {
-            RunProgramTask task = new RunProgramTask(ExecutablePath)
+            IRunProgramTask task = new RunProgramTask(ExecutablePath)
                 .SetWorkingDir(WorkingDirectory);
 
             task.AddArgument(AssemblyName)

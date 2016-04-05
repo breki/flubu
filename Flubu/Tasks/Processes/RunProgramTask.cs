@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.Text;
+using Flubu.Services;
 
 namespace Flubu.Tasks.Processes
 {
-    public class RunProgramTask : TaskBase
+    public class RunProgramTask : TaskBase, IRunProgramTask
     {
         public RunProgramTask(string programExePath)
         {
@@ -36,56 +36,62 @@ namespace Flubu.Tasks.Processes
             get { return lastExitCode; }
         }
 
+        public IProcessRunner ProcessRunner
+        {
+            get { return processRunner; }
+            set { processRunner = value; }
+        }
+
         /// <summary>
         /// Set the execution timeout.
         /// </summary>
         /// <param name="timeout">The timeout.</param>
         /// <returns>This instance</returns>
-        public RunProgramTask ExecutionTimeout(TimeSpan timeout)
+        public IRunProgramTask ExecutionTimeout(TimeSpan timeout)
         {
             executionTimeout = timeout;
             return this;
         }
 
-        public RunProgramTask EncloseParametersInQuotes(bool enclose)
+        public IRunProgramTask EncloseParametersInQuotes(bool enclose)
         {
             encloseInQuotes = enclose;
             return this;
         }
 
-        public RunProgramTask AddArgument(string argument)
+        public IRunProgramTask AddArgument(string argument)
         {
             programArgs.Add(new Arg(argument));
             return this;
         }
 
-        public RunProgramTask AddArgument(string format, params object[] args)
+        public IRunProgramTask AddArgument(string format, params object[] args)
         {
             Arg arg = new Arg (string.Format (CultureInfo.InvariantCulture, format, args));
             programArgs.Add(arg);
             return this;
         }
 
-        public RunProgramTask AddSecureArgument(string argument)
+        public IRunProgramTask AddSecureArgument(string argument)
         {
             programArgs.Add(new Arg(argument, true));
             return this;
         }
 
-        public RunProgramTask AddSecureArgument(string format, params object[] args)
+        public IRunProgramTask AddSecureArgument(string format, params object[] args)
         {
             Arg arg = new Arg (string.Format (CultureInfo.InvariantCulture, format, args), true);
             programArgs.Add(arg);
             return this;
         }
 
-        public RunProgramTask SetWorkingDir(string fullPath)
+        public IRunProgramTask SetWorkingDir(string fullPath)
         {
             workingDirectory = fullPath;
             return this;
         }
 
-        public RunProgramTask UseProgramDirAsWorkingDir()
+        public IRunProgramTask UseProgramDirAsWorkingDir()
         {
             workingDirectory = null;
             return this;
@@ -95,55 +101,24 @@ namespace Flubu.Tasks.Processes
         {
             internalContext = context;
             string formatString = encloseInQuotes ? "\"{0}\" " : "{0} ";
-            using (Process process = new Process())
+            
+            StringBuilder argumentLineBuilder = new StringBuilder();
+            StringBuilder argumentLineLogBuilder = new StringBuilder();
+            foreach (Arg programArg in programArgs)
             {
-                StringBuilder argumentLineBuilder = new StringBuilder();
-                StringBuilder argumentLineLogBuilder = new StringBuilder();
-                foreach (Arg programArg in programArgs)
-                {
-                    argumentLineBuilder.AppendFormat(formatString, programArg.ToRawString());
-                    argumentLineLogBuilder.AppendFormat(formatString, programArg.ToSecureString());
-                }
-
-                ProcessStartInfo processStartInfo = new ProcessStartInfo(programExePath, argumentLineBuilder.ToString())
-                                           {
-                                               CreateNoWindow = true,
-                                               ErrorDialog = false,
-                                               RedirectStandardError = true,
-                                               RedirectStandardOutput = true,
-                                               UseShellExecute = false,
-                                               WorkingDirectory = workingDirectory ?? Path.GetDirectoryName(programExePath)
-                                           };
-                
-                int timeout = executionTimeout.Milliseconds;
-
-                context.WriteInfo(
-                    "Running program '{0}':(work. dir='{1}', args = '{2}', timeout = {3})",
-                    programExePath,
-                    processStartInfo.WorkingDirectory,
-                    argumentLineLogBuilder,
-                    timeout <= 0 ? "infinite" : executionTimeout.Milliseconds.ToString(CultureInfo.InvariantCulture));
-
-                process.StartInfo = processStartInfo;
-                process.ErrorDataReceived += ProcessErrorDataReceived;
-                process.OutputDataReceived += ProcessOutputDataReceived;
-                process.Start();
-
-                process.BeginOutputReadLine();
-                process.BeginErrorReadLine();
-
-                if (timeout<=0)
-                    process.WaitForExit();
-                else
-                    process.WaitForExit(executionTimeout.Milliseconds);
-
-                context.WriteInfo("Exit code: {0}", process.ExitCode);
-
-                lastExitCode = process.ExitCode;
-
-                if (false == ignoreExitCodes && process.ExitCode != 0)
-                    context.Fail("Program '{0}' returned exit code {1}.", programExePath, process.ExitCode);
+                argumentLineBuilder.AppendFormat(formatString, programArg.ToRawString());
+                argumentLineLogBuilder.AppendFormat(formatString, programArg.ToSecureString());
             }
+
+            context.WriteInfo(
+                "Running program '{0}': (work. dir='{1}', args = '{2}', timeout = {3})", programExePath, workingDirectory, argumentLineLogBuilder, executionTimeout.HasValue ? executionTimeout.ToString() : "infinite");
+
+            lastExitCode = processRunner.Run(programExePath, argumentLineBuilder.ToString(), workingDirectory, executionTimeout, ProcessOutputDataReceived, ProcessErrorDataReceived);
+
+            context.WriteInfo("Exit code: {0}", lastExitCode);
+
+            if (false == ignoreExitCodes && lastExitCode != 0)
+                context.Fail("Program '{0}' returned exit code {1}.", programExePath, lastExitCode);
         }
 
         private void ProcessErrorDataReceived(object sender, DataReceivedEventArgs e)
@@ -163,7 +138,8 @@ namespace Flubu.Tasks.Processes
         private readonly List<Arg> programArgs = new List<Arg>();
         private string workingDirectory = ".";
         private bool encloseInQuotes;
-        private TimeSpan executionTimeout = TimeSpan.MinValue;
+        private TimeSpan? executionTimeout;
+        private IProcessRunner processRunner = new ProcessRunner();
 
         private class Arg
         {

@@ -3,7 +3,7 @@ using System.Linq;
 using Flubu.Tasks.Text;
 using NUnit.Framework;
 
-namespace Flubu.Tests
+namespace Flubu.Tests.TasksTests
 {
     public class ConfigureAppSettingsTaskTests
     {
@@ -74,7 +74,7 @@ namespace Flubu.Tests
             File.WriteAllText (fileName, xml);
         }
 
-        private void AssertXmlResult(string fileName, string expectedXml)
+        private static void AssertXmlResult(string fileName, string expectedXml)
         {
             Assert.AreEqual(expectedXml, File.ReadAllText(fileName).Replace("\"", "'"));
         }
