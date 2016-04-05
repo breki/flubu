@@ -1,3 +1,7 @@
+2.6.4.0
+- cleaned up the solution, removed obsolete C# that were not marked for compilation
+- some minor FxCop fixes
+
 2.6.3.0
 - NUnitTask now supports nunit 3.0
 - Redesigned NUnitTask with fluent interface
