@@ -92,10 +92,6 @@
     </Compile>
     <Compile Include="Beeper.cs" />
     <Compile Include="Builds\BuildLogger.cs" />
-    <None Include="Builds\BuildProduct.cs" />
-    <None Include="Builds\BuildProductsRegistry.cs" />
-    <None Include="Builds\BuildRunner.cs" />
-    <None Include="Builds\FileBuildProduct.cs" />
     <Compile Include="Builds\BuildProps.cs" />
     <Compile Include="Builds\BuildTargets.cs" />
     <Compile Include="Builds\DefaultBuildScriptRunner.cs" />
@@ -109,7 +105,6 @@
     <Compile Include="Builds\Tasks\SolutionTasks\CompileSolutionTask.cs" />
     <Compile Include="Builds\Tasks\SolutionTasks\GenerateCommonAssemblyInfoTask.cs" />
     <Compile Include="Builds\Tasks\TestingTasks\NUnitTask.cs" />
-    <None Include="Builds\Tasks\VersioningTasks\FetchBuildVersionFromHudsonTask.cs" />
     <Compile Include="Builds\Tasks\TestingTasks\NUnitWithDotCoverTask.cs" />
     <Compile Include="Builds\Tasks\VersioningTasks\FetchBuildVersionFromFileTask.cs" />
     <Compile Include="Builds\Tasks\VersioningTasks\IFetchBuildVersionTask.cs" />
@@ -119,10 +114,7 @@
     <Compile Include="Builds\VSSolutionBrowsing\VSSolutionFilesInfo.cs" />
     <None Include="Flubu.nuspec" />
     <None Include="RunProgramTask.cs" />
-    <None Include="FlubuCCNetListener.cs" />
-    <None Include="Builds\ConcreteBuildRunner.cs" />
     <Compile Include="Builds\IBuildLogger.cs" />
-    <None Include="Builds\SimpleBuildProduct.cs" />
     <Compile Include="Builds\VSProjectExtendedInfo.cs" />
     <Compile Include="Builds\VSSolutionBrowsing\VSProject.cs" />
     <Compile Include="Builds\VSSolutionBrowsing\VSProjectConfiguration.cs" />
@@ -130,12 +122,10 @@
     <Compile Include="Builds\VSSolutionBrowsing\VSProjectType.cs" />
     <Compile Include="Builds\VSSolutionBrowsing\VSProjectTypesDictionary.cs" />
     <Compile Include="Builds\VSSolutionBrowsing\VSSolution.cs" />
-    <None Include="Builds\WebApplicationBuildProduct.cs" />
     <Compile Include="FileFullPath.cs" />
     <Compile Include="FlubuEnvironment.cs" />
     <Compile Include="FullPath.cs" />
     <Compile Include="ILogger.cs" />
-    <Compile Include="IFlubuRunner.cs" />
     <Compile Include="IPathBuilder.cs" />
     <Compile Include="ITaskSession.cs" />
     <Compile Include="LocalPath.cs" />
@@ -147,11 +137,7 @@
     <Compile Include="OperatingSystem.cs" />
     <None Include="PathBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="ConsoleExecutionEnvironment.cs" />
-    <None Include="FlubuRunner.cs" />
     <Compile Include="Targeting\Target.cs" />
-    <None Include="Builds\BuildRunnerBase.cs" />
-    <None Include="TaskContextBase.cs" />
     <Compile Include="ITaskContext.cs" />
     <Compile Include="ITask.cs" />
     <Compile Include="Targeting\TargetTree.cs" />
@@ -186,7 +172,6 @@
     <Compile Include="Tasks\Registry\GetRegistryValueTask.cs" />
     <Compile Include="Tasks\Registry\SetRegistryKeyPermissionsTask.cs" />
     <Compile Include="Tasks\SqlServer\EnsureSqlServerIsRunningTask.cs" />
-    <None Include="Tasks\CustomRunnerTask.cs" />
     <Compile Include="Tasks\SqlServer\ExecuteSqlScriptTask.cs" />
     <Compile Include="Tasks\Text\ConfigureAppSettingsTask.cs" />
     <Compile Include="Tasks\Text\EvaluateXmlTask.cs" />
@@ -201,7 +186,6 @@
     <Compile Include="Tasks\UserAccounts\CreateUserAccountTask.cs" />
     <Compile Include="Tasks\UserAccounts\DeleteUserAccountTask.cs" />
     <Compile Include="Tasks\UserAccounts\ImpersonateUserTask.cs" />
-    <None Include="Tasks\UserInterface\AskUserTask.cs" />
     <Compile Include="Tasks\UserInterface\NotifyUserTask.cs" />
     <Compile Include="Tasks\WindowsServices\CheckIfServiceExistsTask.cs" />
     <Compile Include="Tasks\WindowsServices\ControlWindowsServiceMode.cs" />
