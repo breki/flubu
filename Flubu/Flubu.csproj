@@ -149,6 +149,10 @@
     <Compile Include="Builds\BuildProps.cs" />
     <Compile Include="Builds\BuildTargets.cs" />
     <Compile Include="Builds\DefaultBuildScriptRunner.cs" />
+    <Compile Include="Builds\Tasks\DnxTasks\MSBuildTask.cs" />
+    <Compile Include="Builds\Tasks\DnxTasks\DnuTask.cs" />
+    <Compile Include="Builds\Tasks\DnxTasks\DnxTask.cs" />
+    <Compile Include="Builds\Tasks\DnxTasks\UpdateDnxVersionTask.cs" />
     <Compile Include="BuildTargetAttribute.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Services\CommonTasksFactory.cs" />

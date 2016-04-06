@@ -106,8 +106,8 @@ namespace Flubu.Tasks.Processes
             StringBuilder argumentLineLogBuilder = new StringBuilder();
             foreach (Arg programArg in programArgs)
             {
-                argumentLineBuilder.AppendFormat(formatString, programArg.ToRawString());
-                argumentLineLogBuilder.AppendFormat(formatString, programArg.ToSecureString());
+                argumentLineBuilder.AppendFormat(CultureInfo.InvariantCulture, formatString, programArg.ToRawString());
+                argumentLineLogBuilder.AppendFormat(CultureInfo.InvariantCulture, formatString, programArg.ToSecureString());
             }
 
             context.WriteInfo(
