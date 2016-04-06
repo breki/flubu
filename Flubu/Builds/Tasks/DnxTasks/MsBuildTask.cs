@@ -100,6 +100,14 @@ namespace Flubu.Builds.Tasks.DnxTasks
             return this;
         }
 
+        public string ExecutablePath { get; private set; }
+
+        public MSBuildTask MSBuildPath(string fullFilePath)
+        {
+            ExecutablePath = fullFilePath;
+            return this;
+        }
+
         protected MSBuildTask()
         {
             Parameters = new Collection<string>();
@@ -115,7 +123,7 @@ namespace Flubu.Builds.Tasks.DnxTasks
 
         protected override void DoExecute (ITaskContext context)
         {
-            string msbuildPath = FindMSBuildPath(context);
+            string msbuildPath = FindExecutableBuildPath(context);
 
             IRunProgramTask task = CommonTasksFactory.CreateRunProgramTask(msbuildPath);
             task.EncloseParametersInQuotes(false);
@@ -134,9 +142,15 @@ namespace Flubu.Builds.Tasks.DnxTasks
             task.Execute (context);
         }
 
-        private string FindMSBuildPath(ITaskContext context)
+        private string FindExecutableBuildPath(ITaskContext context)
         {
-            string msbuildPath;
+            if (!string.IsNullOrEmpty(ExecutablePath))
+                return ExecutablePath;
+            
+            string msbuildPath = context.Properties.Get<string>(BuildProps.MSBuildPath);
+
+            if (string.IsNullOrEmpty(msbuildPath))
+                return msbuildPath;
 
             IDictionary<Version, string> msbuilds = FlubuEnvironmentService.ListAvailableMSBuildToolsVersions();
             if (msbuilds.Count == 0)
