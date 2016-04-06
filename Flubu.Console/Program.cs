@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using CommandLine;
 using CSScriptLibrary;
+using Flubu.Builds;
 
 namespace Flubu.Console
 {
@@ -34,7 +35,7 @@ namespace Flubu.Console
                 Parser p = new Parser();
                 p.ParseArguments(args, new object());
 
-                return script.Execute(arguments);
+                return script.Run(arguments);
             }
             catch (Exception e)
             {
