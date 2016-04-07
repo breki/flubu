@@ -106,12 +106,12 @@ namespace Flubu.Tasks.Processes
             StringBuilder argumentLineLogBuilder = new StringBuilder();
             foreach (Arg programArg in programArgs)
             {
-                argumentLineBuilder.AppendFormat(formatString, programArg.ToRawString());
-                argumentLineLogBuilder.AppendFormat(formatString, programArg.ToSecureString());
+                argumentLineBuilder.AppendFormat(CultureInfo.InvariantCulture, formatString, programArg.ToRawString());
+                argumentLineLogBuilder.AppendFormat(CultureInfo.InvariantCulture, formatString, programArg.ToSecureString());
             }
 
             context.WriteInfo(
-                "Running program '{0}': (work. dir='{1}', args = '{2}', timeout = {3})", programExePath, workingDirectory, argumentLineLogBuilder, executionTimeout.HasValue ? executionTimeout.ToString() : "infinite");
+                "Running program '{0}': (work. dir='{1}', args = '{2}', timeout = {3})", programExePath, workingDirectory, argumentLineLogBuilder, executionTimeout);
 
             lastExitCode = processRunner.Run(programExePath, argumentLineBuilder.ToString(), workingDirectory, executionTimeout, ProcessOutputDataReceived, ProcessErrorDataReceived);
 
@@ -138,7 +138,7 @@ namespace Flubu.Tasks.Processes
         private readonly List<Arg> programArgs = new List<Arg>();
         private string workingDirectory = ".";
         private bool encloseInQuotes;
-        private TimeSpan? executionTimeout;
+        private TimeSpan executionTimeout = TimeSpan.Zero;
         private IProcessRunner processRunner = new ProcessRunner();
 
         private class Arg

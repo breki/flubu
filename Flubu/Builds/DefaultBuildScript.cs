@@ -4,16 +4,20 @@ using Flubu.Targeting;
 
 namespace Flubu.Builds
 {
-    public class DefaultBuildScriptRunner
+    public abstract class DefaultBuildScript : IBuildScript
     {
-        public DefaultBuildScriptRunner (
+        protected DefaultBuildScript()
+        {
+        }
+
+        protected DefaultBuildScript(
             Action<TargetTree> targetBuildingAction,
             Action<TaskSession> buildPropertiesConfiguringAction)
         {
             if (targetBuildingAction == null)
-                throw new ArgumentNullException ("targetBuildingAction");
+                throw new ArgumentNullException("targetBuildingAction");
             if (buildPropertiesConfiguringAction == null)
-                throw new ArgumentNullException ("buildPropertiesConfiguringAction");
+                throw new ArgumentNullException("buildPropertiesConfiguringAction");
 
             this.targetBuildingAction = targetBuildingAction;
             this.buildPropertiesConfiguringAction = buildPropertiesConfiguringAction;
@@ -25,19 +29,31 @@ namespace Flubu.Builds
             set { interactiveSessionDetectionFunc = value; }
         }
 
-        public int Run (string[] args)
+        public int Run(ICollection<string> args)
         {
             if (args == null)
-                throw new ArgumentNullException ("args");
+                throw new ArgumentNullException("args");
 
-            TargetTree targetTree = new TargetTree ();
-            BuildTargets.FillBuildTargets (targetTree);
-            targetBuildingAction (targetTree);
+            TargetTree targetTree = new TargetTree();
+            BuildTargets.FillBuildTargets(targetTree);
 
-            return RunBuild (args, targetTree);
+            if (targetBuildingAction != null)
+                targetBuildingAction(targetTree);
+
+            ConfigureTargets(targetTree, args);
+
+            return RunBuild(args, targetTree);
         }
 
-        private int RunBuild (string[] args, TargetTree targetTree)
+        protected virtual void ConfigureBuildProperties(TaskSession session)
+        {
+        }
+
+        protected virtual void ConfigureTargets(TargetTree targetTree, ICollection<string> args)
+        {
+        }
+
+        private int RunBuild (ICollection<string> args, TargetTree targetTree)
         {
             if (targetTree == null)
                 throw new ArgumentNullException ("targetTree");
@@ -51,11 +67,14 @@ namespace Flubu.Builds
 
                 session.AddLogger (new MulticoloredConsoleLogger (Console.Out));
 
-                buildPropertiesConfiguringAction (session);
+                if (buildPropertiesConfiguringAction != null)
+                    buildPropertiesConfiguringAction(session);
+
+                ConfigureBuildProperties(session);
 
                 try
                 {
-                    string targetToRun = ParseCmdLineArgs (args, session);
+                    string targetToRun = ParseCmdLineArgs (args, session, targetTree);
 
                     if (targetToRun == null)
                     {
@@ -96,7 +115,7 @@ namespace Flubu.Builds
                    && Environment.GetEnvironmentVariable ("BUILD_NUMBER") == null;
         }
 
-        private static string ParseCmdLineArgs (IEnumerable<string> args, ITaskContext context)
+        private static string ParseCmdLineArgs (IEnumerable<string> args, ITaskContext context, TargetTree targetTree)
         {
             string targetToBuild = null;
 
@@ -104,7 +123,7 @@ namespace Flubu.Builds
             {
                 if (string.Compare (arg, "-speechdisabled", StringComparison.OrdinalIgnoreCase) == 0)
                     context.Properties.Set (BuildProps.SpeechDisabled, true);
-                else
+                else if (string.IsNullOrEmpty(targetToBuild) && targetTree.HasTarget(arg))
                     targetToBuild = arg;
             }
 

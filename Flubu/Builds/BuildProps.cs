@@ -17,6 +17,7 @@ namespace Flubu.Builds
         public const string InformationalVersion = "InformationalVersion";
         public const string LibDir = "LibDir";
         public const string NUnitConsolePath = "NUnitConsolePath";
+        public const string MSBuildPath = "MSBuildPath";
 
         /// <summary>
         /// Version of the MSBuild tools to use for compilation.

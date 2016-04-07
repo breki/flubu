@@ -5,6 +5,7 @@ using Flubu.Builds;
 using Flubu.Builds.Tasks.NuGetTasks;
 using Flubu.Builds.Tasks.TestingTasks;
 using Flubu.Targeting;
+using Flubu.Tasks.Processes;
 
 //css_ref Flubu.dll;
 //css_ref Flubu.Contrib.dll;
@@ -39,6 +40,35 @@ namespace BuildScripts
             targetTree.AddTarget("nuget")
                 .SetDescription("Produces NuGet packages for reusable components and publishes them to the NuGet server")
                 .Do(c => TargetNuGet(c, "Flubu")).DependsOn("fetch.build.version");
+
+            targetTree.AddTarget("il.merge")
+                .DependsOn("load.solution")
+                .Do(TargetIlMerge);
+        }
+
+        private static void TargetIlMerge(ITaskContext context)
+        {
+            string projectTargetDir = Path.Combine("Flubu.Console", "bin", context.Properties[BuildProps.BuildConfiguration]);
+
+            IRunProgramTask progTask = new RunProgramTask(@"lib\IlMerge\IlMerge.exe")
+                .SetWorkingDir(projectTargetDir);
+
+            progTask
+                .EncloseParametersInQuotes(false)
+                .ExecutionTimeout(TimeSpan.FromSeconds(30))
+                .AddArgument("/t:exe")
+                .AddArgument("/xmldocs")
+                .AddArgument("/v4")
+                .AddArgument("/out:flubu1.exe")
+                .AddArgument("flubu.console.exe")
+                .AddArgument("CommandLine.dll")
+                .AddArgument("CSScriptLibrary.dll")
+                .AddArgument("Flubu.dll")
+                .AddArgument("Flubu.Contrib.dll")
+                .AddArgument("ICSharpCode.SharpZipLib.dll")
+                .AddArgument("Microsoft.Web.Administration.dll")
+                .AddArgument("Mono.CSharp.dll")
+                .Execute(context);
         }
 
         private static void ConfigureBuildProperties(TaskSession session)
