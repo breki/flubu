@@ -16,7 +16,8 @@ namespace Flubu.Builds.Tasks.DnxTasks
 
         public override string Description
         {
-            get { return String.Format(CultureInfo.InvariantCulture, "Updating version on file {0}", FileName); }
+            // ReSharper disable once ConvertPropertyToExpressionBody
+            get { return string.Format(CultureInfo.InvariantCulture, "Updating version on file {0}", FileName); }
         }
 
         public static UpdateDnxVersionTask Create(string fileName)

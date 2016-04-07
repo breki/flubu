@@ -72,7 +72,7 @@ namespace Flubu.Builds.Tasks.DnxTasks
         {
             MSBuildTask task = new MSBuildTask(solution)
                 .AddParam("/p:Configuration={0}", configuration)
-                .AddParam("/p:Platform=Any CPU")
+                .AddParam("/p:Platform=\"Any CPU\"")
                 .AddParam("/consoleloggerparameters:NoSummary");
 
             if (useSolutionAsWorkingFolder)
@@ -84,10 +84,15 @@ namespace Flubu.Builds.Tasks.DnxTasks
             return task;
         }
 
-        public static MSBuildTask Create(params string[] parameters)
+        public static MSBuildTask CreateRaw(params string[] parameters)
         {
             return new MSBuildTask()
                 .WithParams(parameters);
+        }
+
+        public static MSBuildTask Create(string solutionFile)
+        {
+            return new MSBuildTask(solutionFile);
         }
 
         public Version ToolsVersion { get; private set; }

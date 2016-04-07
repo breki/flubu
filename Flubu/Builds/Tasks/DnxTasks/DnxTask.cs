@@ -13,6 +13,7 @@ namespace Flubu.Builds.Tasks.DnxTasks
         {
             ClrVersionName = DnuTask.LatestClrVersion;
             CommonTasksFactory = new CommonTasksFactory();
+            Parameters = new Collection<string>();
         }
 
         public override string Description
@@ -72,12 +73,11 @@ namespace Flubu.Builds.Tasks.DnxTasks
             string root = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             string dnx = Path.Combine(root, string.Format(CultureInfo.InvariantCulture, @".dnx\runtimes\{0}\bin", ClrVersionName));
 
-            IRunProgramTask t = CommonTasksFactory.CreateRunProgramTask(Path.Combine(dnx, "dnx.exe"));
+            IRunProgramTask t = CommonTasksFactory.CreateRunProgramTask(Path.Combine(dnx, "dnx.exe"))
+                .EncloseParametersInQuotes(false);
 
             if (!string.IsNullOrEmpty(WorkFolder))
                 t.SetWorkingDir(WorkFolder);
-
-            t.EncloseParametersInQuotes(false);
 
             foreach (string s in Parameters)
             {
