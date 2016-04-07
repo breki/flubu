@@ -39,6 +39,22 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             return this;
         }
 
+        public string ExecutablePath { get; private set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Nu")]
+        public NuGetCmdLineTask NuGetPath(string fullFilePath)
+        {
+            ExecutablePath = fullFilePath;
+            return this;
+        }
+
+        public static NuGetCmdLineTask Create(string command, params string[] parameters)
+        {
+            var t = new NuGetCmdLineTask(command);
+            t.args.AddRange(parameters);
+            return t;
+        }
+
         protected override void DoExecute(ITaskContext context)
         {
             string nugetCmdLinePath = FindNuGetCmdLinePath();
@@ -70,8 +86,11 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             exitCode = runProgramTask.LastExitCode;
         }
 
-        private static string FindNuGetCmdLinePath()
+        private string FindNuGetCmdLinePath()
         {
+            if (!string.IsNullOrEmpty(ExecutablePath))
+                return ExecutablePath;
+
             if (!Directory.Exists (PackagesDirName))
                 return null;
 

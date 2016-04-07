@@ -84,6 +84,12 @@ namespace Flubu.Builds.Tasks.DnxTasks
             return task;
         }
 
+        public static MSBuildTask Create(params string[] parameters)
+        {
+            return new MSBuildTask()
+                .WithParams(parameters);
+        }
+
         public Version ToolsVersion { get; private set; }
 
         public MSBuildTask WithToolsVersion(Version version)
