@@ -74,7 +74,7 @@ namespace Flubu.Builds
 
                 try
                 {
-                    string targetToRun = ParseCmdLineArgs (args, session);
+                    string targetToRun = ParseCmdLineArgs (args, session, targetTree);
 
                     if (targetToRun == null)
                     {
@@ -115,7 +115,7 @@ namespace Flubu.Builds
                    && Environment.GetEnvironmentVariable ("BUILD_NUMBER") == null;
         }
 
-        private static string ParseCmdLineArgs (IEnumerable<string> args, ITaskContext context)
+        private static string ParseCmdLineArgs (IEnumerable<string> args, ITaskContext context, TargetTree targetTree)
         {
             string targetToBuild = null;
 
@@ -123,7 +123,7 @@ namespace Flubu.Builds
             {
                 if (string.Compare (arg, "-speechdisabled", StringComparison.OrdinalIgnoreCase) == 0)
                     context.Properties.Set (BuildProps.SpeechDisabled, true);
-                else
+                else if (string.IsNullOrEmpty(targetToBuild) && targetTree.HasTarget(arg))
                     targetToBuild = arg;
             }
 
