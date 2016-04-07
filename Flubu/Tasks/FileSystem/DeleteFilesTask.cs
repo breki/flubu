@@ -44,7 +44,7 @@ namespace Flubu.Tasks.FileSystem
             if (recursive)
                 searchOption = SearchOption.AllDirectories;
 
-            foreach (string file in Directory.GetFiles (directoryPath, filePattern, searchOption))
+            foreach (string file in Directory.EnumerateFiles (directoryPath, filePattern, searchOption))
             {
                 File.Delete (file);
                 context.WriteInfo("Deleted file '{0}'", file);

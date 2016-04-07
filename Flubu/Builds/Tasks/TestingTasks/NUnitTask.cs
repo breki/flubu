@@ -161,6 +161,12 @@ namespace Flubu.Builds.Tasks.TestingTasks
             return this;
         }
 
+        public NUnitTask NunitConsolePath(string fullFilePath)
+        {
+            nunitConsoleFileName = fullFilePath;
+            return this;
+        }
+
         /// <summary>
         /// Abstract method defining the actual work for a task.
         /// </summary>
