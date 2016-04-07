@@ -62,6 +62,11 @@ namespace Flubu.Builds.Tasks.DnxTasks
 
         public ICommonTasksFactory CommonTasksFactory { get; private set; }
 
+        public static DnxTask Create()
+        {
+            return new DnxTask();
+        }
+
         protected override void DoExecute(ITaskContext context)
         {
             string root = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);

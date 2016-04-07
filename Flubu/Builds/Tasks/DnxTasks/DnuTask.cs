@@ -65,6 +65,11 @@ namespace Flubu.Builds.Tasks.DnxTasks
             return this;
         }
 
+        public static DnuTask Create()
+        {
+            return new DnuTask();
+        }
+
         public ICommonTasksFactory CommonTasksFactory { get; private set; }
         protected override void DoExecute(ITaskContext context)
         {
