@@ -139,6 +139,9 @@ namespace Flubu.Builds.Tasks.DnxTasks
             IRunProgramTask task = CommonTasksFactory.CreateRunProgramTask(msbuildPath);
             task.EncloseParametersInQuotes(false);
 
+            if (!string.IsNullOrEmpty(WorkFolder))
+                task.SetWorkingDir(WorkFolder);
+
             if (!string.IsNullOrEmpty(SolutionFile))
                 task.AddArgument(SolutionFile);
 

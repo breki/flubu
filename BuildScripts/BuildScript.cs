@@ -5,6 +5,7 @@ using Flubu.Builds;
 using Flubu.Builds.Tasks.NuGetTasks;
 using Flubu.Builds.Tasks.TestingTasks;
 using Flubu.Targeting;
+using Flubu.Tasks.FileSystem;
 using Flubu.Tasks.Processes;
 
 //css_ref Flubu.dll;
@@ -48,6 +49,8 @@ namespace BuildScripts
 
         private static void TargetIlMerge(ITaskContext context)
         {
+            CreateDirectoryTask.Execute(context, "./output", false);
+
             string projectTargetDir = Path.Combine("Flubu.Console", "bin", context.Properties[BuildProps.BuildConfiguration]);
 
             IRunProgramTask progTask = new RunProgramTask(@"lib\IlMerge\IlMerge.exe")
@@ -59,7 +62,7 @@ namespace BuildScripts
                 .AddArgument("/t:exe")
                 .AddArgument("/xmldocs")
                 .AddArgument("/v4")
-                .AddArgument("/out:flubu1.exe")
+                .AddArgument("/out:..\\..\\..\\output\\flubu.exe")
                 .AddArgument("flubu.console.exe")
                 .AddArgument("CommandLine.dll")
                 .AddArgument("CSScriptLibrary.dll")
