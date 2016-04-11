@@ -12,7 +12,7 @@ namespace Flubu.Builds.Tasks.DnxTasks
             FileName = fileName;
         }
 
-        public string FileName { get; }
+        public string FileName { get; set; }
 
         public override string Description
         {
