@@ -229,6 +229,7 @@
     <Compile Include="Tasks\Msmq\CreateMessageQueueMode.cs" />
     <Compile Include="Tasks\Msmq\CreateMessageQueueTask.cs" />
     <Compile Include="Tasks\Msmq\DeleteMessageQueueTask.cs" />
+    <Compile Include="Tasks\Processes\IExternalProcessTask.cs" />
     <Compile Include="Tasks\Processes\IRunProgramTask.cs" />
     <Compile Include="Tasks\Processes\KillProcessTask.cs" />
     <Compile Include="Tasks\Processes\RunProgramTask.cs" />

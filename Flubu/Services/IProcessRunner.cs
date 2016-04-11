@@ -13,7 +13,7 @@ namespace Flubu.Services
             string arguments,
             [CanBeNull]
             string workingDirectory,
-            TimeSpan executionTimeout,
+            TimeSpan? executionTimeout,
             [CanBeNull]
             DataReceivedEventHandler outputDataReceived,
             [CanBeNull]

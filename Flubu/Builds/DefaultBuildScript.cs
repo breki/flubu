@@ -6,23 +6,6 @@ namespace Flubu.Builds
 {
     public abstract class DefaultBuildScript : IBuildScript
     {
-        protected DefaultBuildScript()
-        {
-        }
-
-        protected DefaultBuildScript(
-            Action<TargetTree> targetBuildingAction,
-            Action<TaskSession> buildPropertiesConfiguringAction)
-        {
-            if (targetBuildingAction == null)
-                throw new ArgumentNullException("targetBuildingAction");
-            if (buildPropertiesConfiguringAction == null)
-                throw new ArgumentNullException("buildPropertiesConfiguringAction");
-
-            this.targetBuildingAction = targetBuildingAction;
-            this.buildPropertiesConfiguringAction = buildPropertiesConfiguringAction;
-        }
-
         public Func<bool> InteractiveSessionDetectionFunc
         {
             get { return interactiveSessionDetectionFunc; }
@@ -37,21 +20,14 @@ namespace Flubu.Builds
             TargetTree targetTree = new TargetTree();
             BuildTargets.FillBuildTargets(targetTree);
 
-            if (targetBuildingAction != null)
-                targetBuildingAction(targetTree);
-
             ConfigureTargets(targetTree, args);
 
             return RunBuild(args, targetTree);
         }
 
-        protected virtual void ConfigureBuildProperties(TaskSession session)
-        {
-        }
+        protected abstract void ConfigureBuildProperties(TaskSession session);
 
-        protected virtual void ConfigureTargets(TargetTree targetTree, ICollection<string> args)
-        {
-        }
+        protected abstract void ConfigureTargets(TargetTree targetTree, ICollection<string> args);
 
         private int RunBuild (ICollection<string> args, TargetTree targetTree)
         {
@@ -66,9 +42,6 @@ namespace Flubu.Builds
                 session.Start (BuildTargets.OnBuildFinished);
 
                 session.AddLogger (new MulticoloredConsoleLogger (Console.Out));
-
-                if (buildPropertiesConfiguringAction != null)
-                    buildPropertiesConfiguringAction(session);
 
                 ConfigureBuildProperties(session);
 
@@ -130,8 +103,6 @@ namespace Flubu.Builds
             return targetToBuild;
         }
 
-        private readonly Action<TargetTree> targetBuildingAction;
-        private readonly Action<TaskSession> buildPropertiesConfiguringAction;
         private Func<bool> interactiveSessionDetectionFunc = DefaultSessionInteractiveSessionDetectionFunc;
     }
 }
