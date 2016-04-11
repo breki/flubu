@@ -111,7 +111,7 @@ namespace Flubu.Tasks.Processes
             }
 
             context.WriteInfo(
-                "Running program '{0}': (work. dir='{1}', args = '{2}', timeout = {3})", programExePath, workingDirectory, argumentLineLogBuilder, executionTimeout);
+                "Running program '{0}': (work. dir='{1}', args = '{2}', timeout = {3})", programExePath, workingDirectory, argumentLineLogBuilder, executionTimeout.HasValue ? executionTimeout.ToString() : "infinite");
 
             lastExitCode = processRunner.Run(programExePath, argumentLineBuilder.ToString(), workingDirectory, executionTimeout, ProcessOutputDataReceived, ProcessErrorDataReceived);
 
@@ -138,7 +138,7 @@ namespace Flubu.Tasks.Processes
         private readonly List<Arg> programArgs = new List<Arg>();
         private string workingDirectory = ".";
         private bool encloseInQuotes;
-        private TimeSpan executionTimeout = TimeSpan.Zero;
+        private TimeSpan? executionTimeout;
         private IProcessRunner processRunner = new ProcessRunner();
 
         private class Arg

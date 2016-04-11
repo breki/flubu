@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using Flubu.Tasks.Processes;
 
 namespace Flubu.Builds.Tasks.DnxTasks
 {

@@ -9,7 +9,7 @@ using Flubu.Tasks.Processes;
 
 namespace Flubu.Builds.Tasks.DnxTasks
 {
-    public class MSBuildTask : TaskBase
+    public class MSBuildTask : TaskBase, IExternalProcessTask<MSBuildTask>
     {
         public override string Description
         {
@@ -44,11 +44,19 @@ namespace Flubu.Builds.Tasks.DnxTasks
             return this;
         }
 
+        public TimeSpan? Timeout { get; private set; }
+
         public string SolutionFile { get; private set; }
 
         public MSBuildTask ForSolution(string fileName)
         {
             SolutionFile = fileName;
+            return this;
+        }
+
+        public MSBuildTask ExecutionTimeout(TimeSpan timeout)
+        {
+            Timeout = timeout;
             return this;
         }
 
@@ -144,6 +152,9 @@ namespace Flubu.Builds.Tasks.DnxTasks
 
             if (!string.IsNullOrEmpty(SolutionFile))
                 task.AddArgument(SolutionFile);
+
+            if (Timeout != null)
+                task.ExecutionTimeout(Timeout.Value);
 
             foreach (var p in Parameters)
             {

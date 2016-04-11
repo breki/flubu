@@ -7,7 +7,7 @@ using Flubu.Tasks.Processes;
 
 namespace Flubu.Builds.Tasks.DnxTasks
 {
-    public class DnxTask : TaskBase
+    public class DnxTask : TaskBase, IExternalProcessTask<DnxTask>
     {
         public DnxTask()
         {
@@ -55,6 +55,14 @@ namespace Flubu.Builds.Tasks.DnxTasks
             return this;
         }
 
+        public TimeSpan? Timeout { get; private set; }
+
+        public DnxTask ExecutionTimeout(TimeSpan timeout)
+        {
+            Timeout = timeout;
+            return this;
+        }
+
         public DnxTask TasksFactory(ICommonTasksFactory factory)
         {
             CommonTasksFactory = factory;
@@ -75,6 +83,9 @@ namespace Flubu.Builds.Tasks.DnxTasks
 
             IRunProgramTask t = CommonTasksFactory.CreateRunProgramTask(Path.Combine(dnx, "dnx.exe"))
                 .EncloseParametersInQuotes(false);
+
+            if (Timeout != null)
+                t.ExecutionTimeout(Timeout.Value);
 
             if (!string.IsNullOrEmpty(WorkFolder))
                 t.SetWorkingDir(WorkFolder);

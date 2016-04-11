@@ -10,7 +10,7 @@ namespace Flubu.Services
             string programExePath,
             string arguments,
             string workingDirectory,
-            TimeSpan executionTimeout,
+            TimeSpan? executionTimeout,
             DataReceivedEventHandler outputDataReceived,
             DataReceivedEventHandler errorDataReceived)
         {
@@ -39,10 +39,10 @@ namespace Flubu.Services
                 process.BeginOutputReadLine ();
                 process.BeginErrorReadLine ();
 
-                if (executionTimeout == TimeSpan.Zero)
+                if (executionTimeout == null)
                     process.WaitForExit ();
                 else
-                    process.WaitForExit ((int)executionTimeout.TotalMilliseconds);
+                    process.WaitForExit ((int)executionTimeout.Value.TotalMilliseconds);
 
                 if (errorDataReceived != null)
                     process.ErrorDataReceived -= errorDataReceived;
