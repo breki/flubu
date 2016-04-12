@@ -42,7 +42,6 @@ BuildScripts/log4net.xml
 private/**
 *.DotSettings.user
 *.ncrunchsolution.user
-packages
 Flubu.Console/bin
 Flubu.Console/obj
 Flubu.Console/Flubu.Console.csproj.user
