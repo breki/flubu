@@ -1,3 +1,14 @@
+3.0.0.0
+- merged Zoro Zorec's changes
+- added Git to supported list of VCS
+- added support for other project types .xproj
+- added Flubu.Console project for supporting flubu as an exe. It is work in progress
+- added ILMerge to the build process
+- added tasks for DNX builds
+- merged BuildScript into DefaultBuildScript
+- a lot of other changes
+- code contracts are no longer emitted into XML doc files because of ccdocgen.exe StackOverflowException bug
+
 2.6.4.0
 - cleaned up the solution, removed obsolete C# that were not marked for compilation
 - some minor FxCop fixes
