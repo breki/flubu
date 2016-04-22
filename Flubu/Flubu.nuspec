@@ -30,5 +30,6 @@
     <file src="..\Flubu.Contrib\bin\Release\NVelocity.dll" target="lib" />
     <file src="..\Flubu.Contrib\bin\Release\CodeContracts\Flubu.Contrib.Contracts.dll" target="lib" />
     <file src="..\Flubu.Contrib\bin\Release\CodeContracts\Flubu.Contrib.Contracts.pdb" target="lib" />
+	<file scr="..\output\flubu.exe" target="content\temp"
   </files>
 </package>
