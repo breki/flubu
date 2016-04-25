@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Web.Administration;
 
@@ -36,7 +37,7 @@ namespace Flubu.Tasks.Iis.Iis7
         protected static bool WebsiteExists(ServerManager serverManager, string siteName)
         {
             SiteCollection sitecollection = serverManager.Sites;
-            return sitecollection.Any(site => site.Name == siteName);
+            return sitecollection.Any(site => site.Name.Equals(siteName, StringComparison.InvariantCultureIgnoreCase));
         }
     }
 }
