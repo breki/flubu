@@ -1,3 +1,9 @@
+3.0.1.0
+- updated nuget package with build script template and flubu.exe
+- code contracts are not referenced anymore in project when installing flubu with nuget.
+- minor fix on Ii7CreateWebSite task.
+- removed some obsolete stuff from flubu.
+
 3.0.0.0
 - merged Zoro Zorec's changes
 - added Git to supported list of VCS

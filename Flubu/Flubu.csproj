@@ -140,6 +140,7 @@
     </Compile>
     <Compile Include="Annotations\Annotations.cs" />
     <Compile Include="Beeper.cs" />
+    <Compile Include="BuildScript.cs" />
     <Compile Include="Builds\BuildLogger.cs" />
     <Compile Include="Builds\BuildProps.cs" />
     <Compile Include="Builds\BuildTargets.cs" />

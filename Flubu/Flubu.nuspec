@@ -16,6 +16,14 @@
     </description>
     <tags>build builder VisualStudio</tags>
   </metadata>
+  <references>
+  <reference file="Flubu.dll" />
+  <reference file="Flubu.Contrib.dll" />
+  <reference file="Flubu.Contrib.dll" />
+  <reference file="ICSharpCode.SharpZipLib.dll" />
+  <reference file="log4net.dll" />
+  <reference file="NVelocity.dll" />
+</references>
   <files>
     <file src="..\Flubu\bin\Release\Flubu.dll" target="lib" />
     <file src="..\Flubu\bin\Release\Flubu.pdb" target="lib" />
@@ -30,6 +38,7 @@
     <file src="..\Flubu.Contrib\bin\Release\NVelocity.dll" target="lib" />
     <file src="..\Flubu.Contrib\bin\Release\CodeContracts\Flubu.Contrib.Contracts.dll" target="lib" />
     <file src="..\Flubu.Contrib\bin\Release\CodeContracts\Flubu.Contrib.Contracts.pdb" target="lib" />
-	<file scr="..\output\flubu.exe" target="content\temp"
+	  <file src="..\output\flubu.exe" target="content" />
+    <file src="..\Flubu\BuildScript.cs" target="content" />
   </files>
 </package>
