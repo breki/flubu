@@ -6,7 +6,6 @@ using System.IO;
 using System.Speech.Synthesis;
 using Flubu.Builds.Tasks.AnalysisTasks;
 using Flubu.Builds.Tasks.SolutionTasks;
-using Flubu.Builds.Tasks.TestingTasks;
 using Flubu.Builds.Tasks.VersioningTasks;
 using Flubu.Builds.VSSolutionBrowsing;
 using Flubu.Targeting;
@@ -15,6 +14,9 @@ using Flubu.Tasks.Processes;
 
 namespace Flubu.Builds
 {
+    /// <summary>
+    /// Built in build targets.
+    /// </summary>
     public static class BuildTargets
     {
         public static void FillBuildTargets(TargetTree targetTree)

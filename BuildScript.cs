@@ -32,11 +32,11 @@ namespace BuildScripts
             targetTree.AddTarget("rebuild")
                 .SetDescription("Rebuilds the project, runs tests and packages the build products.")
                 .SetAsDefault()
-                .DependsOn("compile", "unit.tests", "il.merge");
+                .DependsOn("compile", "unit.tests");
             targetTree.AddTarget("rebuild.server")
                 .SetDescription(
                     "Rebuilds the project, runs tests, packages the build products and publishes it on the NuGet server.")
-                .DependsOn("rebuild", "nuget");
+                .DependsOn("rebuild", "il.merge", "nuget");
 
             targetTree.GetTarget("fetch.build.version")
                 .Do(TargetFetchBuildVersion);

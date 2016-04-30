@@ -2,6 +2,9 @@
 
 namespace Flubu.Builds
 {
+    /// <summary>
+    /// Various build properties stored in session that are needed for building.
+    /// </summary>
     public static class BuildProps
     {
         public const string AutoAssemblyVersion = "AutoAssemblyVersion";
@@ -34,7 +37,9 @@ namespace Flubu.Builds
         public const string ProductVersionFieldCount = "ProductVersionFieldCount";
 
         /// <summary>
-        /// File name of where project version is read from. Property is optional. If not set ProductId is used for part of project file name.
+        /// File name of where project version is read from. Property is optional.
+        /// If not set ProductId is used for part of project file name.
+        /// It can also contain relative path to the file name.
         /// </summary>
         public const string ProjectVersionFileName = "ProjectVersionFileName";
 
@@ -43,6 +48,10 @@ namespace Flubu.Builds
         /// </summary>
         public const string SpeechDisabled = "SpeechDisabled";
         public const string Solution = "Solution";
+
+        /// <summary>
+        /// The solution file name. It can also contain relative path to the file name.
+        /// </summary>
         public const string SolutionFileName = "SolutionFileName";
         public const string UseSolutionDirAsMSBuildWorkingDir = "UseSolutionDirAsMSBuildWorkingDir";
         public const string SvnRevisionVariableName = "SvnRevisionName";

@@ -1,1 +1,0 @@
-lib\cs-script\cscs.exe /sconfig BuildScripts\BuildScript.cs %*
