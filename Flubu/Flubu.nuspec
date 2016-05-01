@@ -12,7 +12,7 @@
     <description>
       A C# library for building projects and executing deployment scripts using C# code.
 
-      An example of how Flubu is used to build another open source project (Detergent): http://code.google.com/p/detergent/source/browse/trunk/BuildScripts/BuildScript.cs
+      An detailed example of how Flubu is used to build example project: https://bitbucket.org/mzorec/flubuexample/src
     </description>
     <tags>build builder VisualStudio</tags>
   </metadata>
