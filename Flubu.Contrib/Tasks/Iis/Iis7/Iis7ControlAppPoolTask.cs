@@ -42,49 +42,58 @@ namespace Flubu.Tasks.Iis.Iis7
             using (ServerManager serverManager = new ServerManager())
             {
                 ApplicationPoolCollection applicationPoolCollection = serverManager.ApplicationPools;
-
+                const string Message = "Application pool '{0}' has been {1}ed." ;
                 foreach (ApplicationPool applicationPool in applicationPoolCollection)
                 {
                     if (applicationPool.Name == ApplicationPoolName)
                     {
+                        string logMessage;
                         switch (action)
                         {
                             case ControlApplicationPoolAction.Start:
+                            {
                                 RunWithRetries(x => applicationPool.Start(), 3);
+                                logMessage = string.Format(Message, applicationPoolName, action);
                                 break;
+                            }
+
                             case ControlApplicationPoolAction.Stop:
+                            {
                                 RunWithRetries(
                                     x => applicationPool.Stop(),
                                     3,
                                     -2147023834 /*app pool already stopped*/);
+                                logMessage = string.Format(Message, applicationPoolName, "stopp");
                                 break;
+                            }
+
                             case ControlApplicationPoolAction.Recycle:
+                            {
                                 RunWithRetries(x => applicationPool.Recycle(), 3);
+                                logMessage = string.Format(Message, applicationPoolName, action);
                                 break;
+                            }
+
                             default:
                                 throw new NotSupportedException();
                         }
 
                         serverManager.CommitChanges();
 
-                        context.WriteInfo(
-                            "Application pool '{0}' has been {1}ed.",
-                            ApplicationPoolName, 
-                            action);
-
+                        context.WriteInfo(logMessage);
                         return;
                     }
                 }
 
-                string message = String.Format(
+                string appPoolDoesNotExistMessage = String.Format(
                     System.Globalization.CultureInfo.InvariantCulture,
                     "Application pool '{0}' does not exist.",
                     applicationPoolName);
 
                 if (failIfNotExist)
-                    throw new TaskExecutionException(message);
+                    throw new TaskExecutionException(appPoolDoesNotExistMessage);
                 
-                context.WriteInfo(message);
+                context.WriteInfo(Message);
             }
         }
 

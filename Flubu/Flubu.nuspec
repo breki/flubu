@@ -38,7 +38,7 @@
     <file src="..\Flubu.Contrib\bin\Release\NVelocity.dll" target="lib" />
     <file src="..\Flubu.Contrib\bin\Release\CodeContracts\Flubu.Contrib.Contracts.dll" target="lib" />
     <file src="..\Flubu.Contrib\bin\Release\CodeContracts\Flubu.Contrib.Contracts.pdb" target="lib" />
-	<file src="..\output\flubu.exe" target="content" />
+	<file src="..\output\build.exe" target="content" />
     <file src="..\Flubu\BuildScript.cs" target="content" />
     <file src="readme.txt" target="" />
   </files>

@@ -65,7 +65,7 @@ namespace BuildScripts
                 .AddArgument("/t:exe")
                 .AddArgument("/xmldocs")
                 .AddArgument("/v4")
-                .AddArgument("/out:..\\..\\..\\output\\flubu.exe")
+                .AddArgument("/out:..\\..\\..\\output\\build.exe")
                 .AddArgument("flubu.console.exe")
                 .AddArgument("CommandLine.dll")
                 .AddArgument("CSScriptLibrary.dll")
