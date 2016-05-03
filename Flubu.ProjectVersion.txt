@@ -1,5 +1,5 @@
 3.1.0.0
-- updated nuget package with build script template, flubu.exe and a readme file
+- updated nuget package with build script template, build.exe and a readme file
 - code contracts are not referenced anymore in project when installing flubu with nuget
 - fixed reference to microsoft.web.administration.dll in console application. Which caused iis tasks to take action in iis express
 - minor fix on Ii7CreateWebSite task
