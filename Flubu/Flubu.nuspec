@@ -15,15 +15,15 @@
       A detailed example of how Flubu is used to build example project: https://bitbucket.org/mzorec/flubuexample/src
     </description>
     <tags>build builder VisualStudio</tags>
+	<references>
+		<reference file="Flubu.dll" />
+		<reference file="Flubu.Contrib.dll" />
+		<reference file="Flubu.Contrib.dll" />
+		<reference file="ICSharpCode.SharpZipLib.dll" />
+		<reference file="log4net.dll" />
+		<reference file="NVelocity.dll" />
+	</references>
   </metadata>
-  <references>
-  <reference file="Flubu.dll" />
-  <reference file="Flubu.Contrib.dll" />
-  <reference file="Flubu.Contrib.dll" />
-  <reference file="ICSharpCode.SharpZipLib.dll" />
-  <reference file="log4net.dll" />
-  <reference file="NVelocity.dll" />
-</references>
   <files>
     <file src="..\Flubu\bin\Release\Flubu.dll" target="lib" />
     <file src="..\Flubu\bin\Release\Flubu.pdb" target="lib" />
@@ -39,7 +39,7 @@
     <file src="..\Flubu.Contrib\bin\Release\CodeContracts\Flubu.Contrib.Contracts.dll" target="lib" />
     <file src="..\Flubu.Contrib\bin\Release\CodeContracts\Flubu.Contrib.Contracts.pdb" target="lib" />
 	<file src="..\output\Build.exe" target="content" />
-    <file src="..\Flubu\BuildScript.cs" target="content" />
-    <file src="readme.txt" target="" />
+    <file src="..\Flubu\BuildScript.cs" target="content" />  
+	<file src="..\Flubu\readme.txt" target="" />
   </files>
 </package>

@@ -5,7 +5,6 @@ VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{9C372932-F46D-4930-8DCE-BC4D4B348D95}"
 	ProjectSection(SolutionItems) = preProject
-		Build.bat = Build.bat
 		CodeAnalysisRules.ruleset = CodeAnalysisRules.ruleset
 		CustomDictionary.xml = CustomDictionary.xml
 		EditStyleCopRules.bat = EditStyleCopRules.bat
