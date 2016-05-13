@@ -14,15 +14,23 @@ namespace Flubu.Builds
 
         public int Run(ICollection<string> args)
         {
-            if (args == null)
-                throw new ArgumentNullException("args");
+            try
+            {
+                if (args == null)
+                    throw new ArgumentNullException("args");
 
-            TargetTree targetTree = new TargetTree();
-            BuildTargets.FillBuildTargets(targetTree);
+                TargetTree targetTree = new TargetTree();
+                BuildTargets.FillBuildTargets(targetTree);
 
-            ConfigureTargets(targetTree, args);
+                ConfigureTargets(targetTree, args);
 
-            return RunBuild(args, targetTree);
+                return RunBuild(args, targetTree);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return 1;
+            }
         }
 
         protected abstract void ConfigureBuildProperties(TaskSession session);
@@ -34,50 +42,42 @@ namespace Flubu.Builds
             if (targetTree == null)
                 throw new ArgumentNullException ("targetTree");
 
-            using (TaskSession session = new TaskSession (new SimpleTaskContextProperties (), args, targetTree))
+            using (TaskSession session = new TaskSession(new SimpleTaskContextProperties(), args, targetTree))
             {
-                session.IsInteractive = InteractiveSessionDetectionFunc ();
+                session.IsInteractive = InteractiveSessionDetectionFunc();
 
-                BuildTargets.FillDefaultProperties (session);
-                session.Start (BuildTargets.OnBuildFinished);
+                BuildTargets.FillDefaultProperties(session);
+                session.Start(BuildTargets.OnBuildFinished);
 
-                session.AddLogger (new MulticoloredConsoleLogger (Console.Out));
+                session.AddLogger(new MulticoloredConsoleLogger(Console.Out));
 
                 ConfigureBuildProperties(session);
 
-                try
+                string targetToRun = ParseCmdLineArgs(args, session, targetTree);
+
+                if (targetToRun == null)
                 {
-                    string targetToRun = ParseCmdLineArgs (args, session, targetTree);
+                    ITarget defaultTarget = targetTree.DefaultTarget;
+                    if (defaultTarget == null)
+                        throw new InvalidOperationException("The default build target is not defined");
 
-                    if (targetToRun == null)
+                    targetTree.RunTarget(session, defaultTarget.TargetName);
+                }
+                else
+                {
+                    if (false == targetTree.HasTarget(targetToRun))
                     {
-                        ITarget defaultTarget = targetTree.DefaultTarget;
-                        if (defaultTarget == null)
-                            throw new InvalidOperationException ("The default build target is not defined");
-
-                        targetTree.RunTarget (session, defaultTarget.TargetName);
-                    }
-                    else
-                    {
-                        if (false == targetTree.HasTarget (targetToRun))
-                        {
-                            session.WriteError ("ERROR: The target '{0}' does not exist", targetToRun);
-                            targetTree.RunTarget (session, "help");
-                            return 2;
-                        }
-
-                        targetTree.RunTarget (session, targetToRun);
+                        session.WriteError("ERROR: The target '{0}' does not exist", targetToRun);
+                        targetTree.RunTarget(session, "help");
+                        return 2;
                     }
 
-                    session.Complete ();
+                    targetTree.RunTarget(session, targetToRun);
+                }
 
-                    return 0;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine (ex);
-                    return 1;
-                }
+                session.Complete();
+
+                return 0;
             }
         }
 

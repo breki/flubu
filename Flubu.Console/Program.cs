@@ -11,24 +11,43 @@ namespace Flubu.Console
 {
     public class Program
     {
+        private static List<string> defaultScriptLocations = new List<string>
+        {
+            "buildscript.cs",
+            "deployscript.cs",
+            "buildscript\\buildscript.cs",
+        };
+
         public static int Main(string[] args)
         {
-            List<string> arguments = new List<string>(args);
-
-            string fileName = GetFileName(arguments);
-            CSScript.AssemblyResolvingEnabled = true;
-
-            Assembly assembly = CSScript.Load(fileName);
-
-            Type myType = typeof (IBuildScript);
-            List<Type> classes = assembly.GetTypes().Where(i => myType.IsAssignableFrom(i)).ToList();
-            if (classes.Count <= 0)
-            {
-                System.Console.WriteLine("Could not find any IBuildScript implementation!");
-                return -1;
-            }
             try
             {
+                List<string> arguments = new List<string>(args);
+
+                string fileName = GetFileName(arguments);
+
+                if (fileName == null)
+                {
+                    System.Console.WriteLine(
+                        ".cs script file not specified. Specify it as argument or use some of the default paths for script file:");
+                    foreach (var defaultScriptLocation in defaultScriptLocations)
+                    {
+                        System.Console.WriteLine(defaultScriptLocation);
+                    }
+
+                    return -1;
+                }
+
+                CSScript.AssemblyResolvingEnabled = true;
+                Assembly assembly = CSScript.Load(fileName);
+
+                Type myType = typeof (IBuildScript);
+                List<Type> classes = assembly.GetTypes().Where(i => myType.IsAssignableFrom(i)).ToList();
+                if (classes.Count <= 0)
+                {
+                    System.Console.WriteLine("Could not find any IBuildScript implementation!");
+                    return -1;
+                }
                 object scriptInstance = assembly.CreateInstance(classes[0].FullName);
                 IBuildScript script = scriptInstance.AlignToInterface<IBuildScript>();
 
@@ -50,11 +69,13 @@ namespace Flubu.Console
 
             if (string.IsNullOrEmpty(fileArg))
             {
-                if(File.Exists("buildscript.cs"))
-                    return "buildscript.cs";
-
-                if (File.Exists("deployscript.cs"))
-                    return "deployscript.cs";
+                foreach (var defaultScriptLocation in defaultScriptLocations)
+                {
+                    if (File.Exists(defaultScriptLocation))
+                    {
+                        return defaultScriptLocation;
+                    }
+                }
 
                 return Directory.EnumerateFiles(Directory.GetCurrentDirectory(), "*.cs").FirstOrDefault();
             }
