@@ -1,3 +1,9 @@
+3.1.1.0
+- Console app: Improved exception handling.
+- Console app: Help is now displayed if non existing target is passed in argument.
+- Console app: Added some more default paths for buildscript files.
+- Nuget: flubu.exe is now replaced with newer version.
+
 3.1.0.0
 - updated nuget package with build script template, build.exe and a readme file
 - code contracts are not referenced anymore in project when installing flubu with nuget

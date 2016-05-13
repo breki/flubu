@@ -67,7 +67,7 @@ namespace Flubu.Builds
                 {
                     if (!targetFoundInTargetTree)
                     {
-                        session.WriteError("ERROR: The target '{0}' does not exist", targetToRun);
+                        session.WriteError("ERROR: The specified target does not exist");
                         targetTree.RunTarget(session, "help");
                         return 2;
                     }
