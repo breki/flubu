@@ -38,8 +38,9 @@
     <file src="..\Flubu.Contrib\bin\Release\NVelocity.dll" target="lib" />
     <file src="..\Flubu.Contrib\bin\Release\CodeContracts\Flubu.Contrib.Contracts.dll" target="lib" />
     <file src="..\Flubu.Contrib\bin\Release\CodeContracts\Flubu.Contrib.Contracts.pdb" target="lib" />
-	<file src="..\output\Build.exe" target="content" />
+	<file src="..\output\Build.exe" target="content\temp" />
     <file src="..\Flubu\BuildScript.cs" target="content" />  
+	<file src="..\Flubu\tools\Install.ps1" target="tools\Install.ps1" />
 	<file src="..\Flubu\readme.txt" target="" />
   </files>
 </package>

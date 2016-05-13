@@ -16,6 +16,7 @@ namespace Flubu.Console
             "buildscript.cs",
             "deployscript.cs",
             "buildscript\\buildscript.cs",
+            "buildscripts\\buildscript.cs"
         };
 
         public static int Main(string[] args)
