@@ -52,8 +52,8 @@ namespace Flubu.Builds
                 session.AddLogger(new MulticoloredConsoleLogger(Console.Out));
 
                 ConfigureBuildProperties(session);
-
-                string targetToRun = ParseCmdLineArgs(args, session, targetTree);
+                bool targetFoundInTargetTree;
+                string targetToRun = ParseCmdLineArgs(args, session, targetTree, out targetFoundInTargetTree);
 
                 if (targetToRun == null)
                 {
@@ -65,7 +65,7 @@ namespace Flubu.Builds
                 }
                 else
                 {
-                    if (false == targetTree.HasTarget(targetToRun))
+                    if (!targetFoundInTargetTree)
                     {
                         session.WriteError("ERROR: The target '{0}' does not exist", targetToRun);
                         targetTree.RunTarget(session, "help");
@@ -88,7 +88,7 @@ namespace Flubu.Builds
                    && Environment.GetEnvironmentVariable ("BUILD_NUMBER") == null;
         }
 
-        private static string ParseCmdLineArgs (IEnumerable<string> args, ITaskContext context, TargetTree targetTree)
+        private static string ParseCmdLineArgs (IEnumerable<string> args, ITaskContext context, TargetTree targetTree, out bool targetFoundInTargetTree)
         {
             string targetToBuild = null;
 
@@ -100,6 +100,13 @@ namespace Flubu.Builds
                     targetToBuild = arg;
             }
 
+            if (targetToBuild == null)
+            {
+                targetFoundInTargetTree = false;
+                return "help";
+            }
+
+            targetFoundInTargetTree = true;
             return targetToBuild;
         }
 
