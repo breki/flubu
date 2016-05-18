@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Flubu.Targeting;
 
 namespace Flubu.Builds
@@ -53,7 +54,7 @@ namespace Flubu.Builds
 
                 ConfigureBuildProperties(session);
                 bool targetFoundInTargetTree;
-                string targetToRun = ParseCmdLineArgs(args, session, targetTree, out targetFoundInTargetTree);
+                string targetToRun = ParseCmdLineArgs(args.ToList(), session, targetTree, out targetFoundInTargetTree);
 
                 if (targetToRun == null)
                 {
@@ -68,7 +69,7 @@ namespace Flubu.Builds
                     if (!targetFoundInTargetTree)
                     {
                         session.WriteError("ERROR: The specified target does not exist");
-                        targetTree.RunTarget(session, "help");
+                        targetTree.RunTarget(session, targetToRun);
                         return 2;
                     }
 
@@ -88,9 +89,14 @@ namespace Flubu.Builds
                    && Environment.GetEnvironmentVariable ("BUILD_NUMBER") == null;
         }
 
-        private static string ParseCmdLineArgs (IEnumerable<string> args, ITaskContext context, TargetTree targetTree, out bool targetFoundInTargetTree)
+        private static string ParseCmdLineArgs (IList<string> args, ITaskContext context, TargetTree targetTree, out bool targetFoundInTargetTree)
         {
             string targetToBuild = null;
+            if (args.Count == 0)
+            {
+                targetFoundInTargetTree = false;
+                return null;
+            }
 
             foreach (string arg in args)
             {
