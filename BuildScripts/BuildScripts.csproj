@@ -58,9 +58,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\BuildScript.cs">
-      <Link>BuildScript.cs</Link>
-    </Compile>
+    <Compile Include="BuildScript.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
