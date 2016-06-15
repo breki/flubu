@@ -63,7 +63,7 @@ namespace BuildScripts
                 .EncloseParametersInQuotes(false)
                 .ExecutionTimeout(TimeSpan.FromSeconds(30))
                 .AddArgument("/t:exe")
-                .AddArgument("/xmldocs")
+                .AddArgument("/ndebug")
                 .AddArgument("/v4")
                 .AddArgument("/out:..\\..\\..\\output\\Build.exe")
                 .AddArgument("flubu.console.exe")
