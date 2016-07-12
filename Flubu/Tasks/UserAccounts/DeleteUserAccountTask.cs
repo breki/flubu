@@ -11,7 +11,7 @@ namespace Flubu.Tasks.UserAccounts
             get
             {
                 return String.Format(
-                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.CultureInfo.InvariantCulture, 
                     "Delete user account '{0}'", 
                     userName);
             }
@@ -45,7 +45,7 @@ namespace Flubu.Tasks.UserAccounts
                     {
                         // if the user does not exist
                         context.WriteInfo(
-                            "User '{0}' does not exist, nothing to do.",
+                            "User '{0}' does not exist, nothing to do.", 
                             userName);
                         return;
                     }
@@ -55,6 +55,6 @@ namespace Flubu.Tasks.UserAccounts
             }
         }
 
-        private string userName;
+        private readonly string userName;
     }
 }

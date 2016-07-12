@@ -11,8 +11,8 @@ namespace Flubu
             if (!properties.ContainsKey(propertyName))
             {
                 string message = string.Format(
-                    CultureInfo.InvariantCulture,
-                    "Task context property '{0}' is missing.",
+                    CultureInfo.InvariantCulture, 
+                    "Task context property '{0}' is missing.", 
                     propertyName);
                 throw new KeyNotFoundException(message);
             }
@@ -53,6 +53,6 @@ namespace Flubu
             properties.Clear();
         }
 
-        private Dictionary<string, object> properties = new Dictionary<string, object>();
+        private readonly Dictionary<string, object> properties = new Dictionary<string, object>();
     }
 }

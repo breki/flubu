@@ -140,10 +140,10 @@ namespace Flubu.Builds
             TimeSpan buildDuration = session.BuildStopwatch.Elapsed;
             session.WriteInfo("Build finish time: {0:g}", DateTime.Now);
             session.WriteInfo(
-                "Build duration: {0:D2}:{1:D2}:{2:D2} ({3:d} seconds)",
-                buildDuration.Hours,
-                buildDuration.Minutes,
-                buildDuration.Seconds,
+                "Build duration: {0:D2}:{1:D2}:{2:D2} ({3:d} seconds)", 
+                buildDuration.Hours, 
+                buildDuration.Minutes, 
+                buildDuration.Seconds, 
                 (int)buildDuration.TotalSeconds);
 
             bool speechDisabled = session.Properties.Get(BuildProps.SpeechDisabled, false);
@@ -183,8 +183,8 @@ namespace Flubu.Builds
                 if (target.TaskStopwatch.ElapsedTicks > 0)
                 {
                     session.WriteInfo(
-                        "Target {0} took {1} s",
-                        target.TargetName,
+                        "Target {0} took {1} s", 
+                        target.TargetName, 
                         (int)target.TaskStopwatch.Elapsed.TotalSeconds);
                 }
             }
@@ -214,9 +214,9 @@ namespace Flubu.Builds
                             DeleteDirectoryTask.Execute(context, projectFullOutputPath.ToString(), false);
 
                             string projectObjPath = String.Format(
-                                CultureInfo.InvariantCulture,
-                                @"{0}\obj\{1}",
-                                projectInfo.ProjectName,
+                                CultureInfo.InvariantCulture, 
+                                @"{0}\obj\{1}", 
+                                projectInfo.ProjectName, 
                                 buildConfiguration);
                             projectObjPath = Path.Combine(productRootDir, projectObjPath);
                             DeleteDirectoryTask.Execute(context, projectObjPath, false);
@@ -232,7 +232,7 @@ namespace Flubu.Builds
             bool useSolutionDirAsMsBuildWorkingDir = context.Properties.Get(BuildProps.UseSolutionDirAsMSBuildWorkingDir, false);
 
             CompileSolutionTask task = new CompileSolutionTask(
-                solution.SolutionFileName.ToString(),
+                solution.SolutionFileName.ToString(), 
                 buildConfiguration);
 
             if (toolsVersion != null)
@@ -243,7 +243,7 @@ namespace Flubu.Builds
                 {
                     context.Fail (
                         "Property '{0}' value '{1}' is invalid, it has to be a proper version number", 
-                        BuildProps.MSBuildToolsVersion,
+                        BuildProps.MSBuildToolsVersion, 
                         toolsVersion);
                     return;
                 }
@@ -268,9 +268,9 @@ namespace Flubu.Builds
                 .CombineWith(context.Properties[BuildProps.BuildLogsDir]);
 
             RunFxCopTask task = new RunFxCopTask(
-                fxcopDir.AddFileName("FxCopCmd.exe").ToString(),
-                fxcopDir.AddFileName("FxCop.exe").ToString(),
-                rootDir.AddFileName("{0}.FxCop", context.Properties[BuildProps.ProductId]).ToString(),
+                fxcopDir.AddFileName("FxCopCmd.exe").ToString(), 
+                fxcopDir.AddFileName("FxCop.exe").ToString(), 
+                rootDir.AddFileName("{0}.FxCop", context.Properties[BuildProps.ProductId]).ToString(), 
                 buildLogsPath.AddFileName("{0}.FxCopReport.xml", context.Properties[BuildProps.ProductId]).ToString());
             task.Execute(context);
         }
@@ -331,7 +331,7 @@ namespace Flubu.Builds
         }
 
         public static void TargetRunTestsNUnit(
-            ITaskContext context,
+            ITaskContext context, 
             string projectName)
         {
             VSSolution solution = context.Properties.Get<VSSolution>(BuildProps.Solution);

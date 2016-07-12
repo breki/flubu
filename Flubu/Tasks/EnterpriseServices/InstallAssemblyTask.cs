@@ -12,7 +12,7 @@ namespace Flubu.Tasks.EnterpriseServices
             get
             {
                 return String.Format(
-                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.CultureInfo.InvariantCulture, 
                     "Install COM+ assembly '{0}'", 
                     assemblyFileName);
             }
@@ -38,10 +38,10 @@ namespace Flubu.Tasks.EnterpriseServices
             regHelper.InstallAssembly (
                 assemblyFileName, 
                 ref application, 
-                ref tlbFileName,
+                ref tlbFileName, 
                 InstallationFlags.FindOrCreateTargetApplication|InstallationFlags.ReportWarningsToConsole);
         }
 
-        private string assemblyFileName;
+        private readonly string assemblyFileName;
     }
 }

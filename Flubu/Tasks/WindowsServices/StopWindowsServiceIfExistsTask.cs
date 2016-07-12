@@ -18,7 +18,7 @@ namespace Flubu.Tasks.WindowsServices
             get
             {
                 return String.Format (
-                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.CultureInfo.InvariantCulture, 
                     "Stop Windows service '{0}' if it exists.", 
                     serviceName);
             }
@@ -35,7 +35,7 @@ namespace Flubu.Tasks.WindowsServices
         }
 
         public static void Execute (
-            ITaskContext environment,
+            ITaskContext environment, 
             string serviceName)
         {
             StopWindowsServiceIfExistsTask task = new StopWindowsServiceIfExistsTask (serviceName);
@@ -49,18 +49,18 @@ namespace Flubu.Tasks.WindowsServices
         protected override void DoExecute (ITaskContext context)
         {
             string configSettingName = String.Format (
-                System.Globalization.CultureInfo.InvariantCulture,
+                System.Globalization.CultureInfo.InvariantCulture, 
                 "ServicesExist/{0}", 
                 serviceName);
             CheckIfServiceExistsTask.Execute (context, serviceName, configSettingName);
             if (context.Properties.Get<bool>(configSettingName))
                 ControlWindowsServiceTask.Execute (
                     context, 
-                    serviceName,
+                    serviceName, 
                     ControlWindowsServiceMode.Stop, 
                     TimeSpan.FromSeconds (30));
         }
 
-        private string serviceName;
+        private readonly string serviceName;
     }
 }

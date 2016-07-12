@@ -8,16 +8,16 @@ namespace Flubu.Tasks.WindowsServices
         /// <summary>
         /// If the Windows service already exists, the task fails.
         /// </summary>
-        FailIfAlreadyInstalled,
+        FailIfAlreadyInstalled, 
 
         /// <summary>
         /// If the Windows service already exists, it is reinstalled.
         /// </summary>
-        ReinstallIfExists,
+        ReinstallIfExists, 
 
         /// <summary>
         /// If the Windows service already exists, the task does nothing.
         /// </summary>
-        DoNothingIfExists,
+        DoNothingIfExists, 
     }
 }

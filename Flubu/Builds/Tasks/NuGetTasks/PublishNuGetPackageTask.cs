@@ -24,8 +24,8 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             get
             {
                 return string.Format (
-                    CultureInfo.InvariantCulture,
-                    "Push NuGet package {0} to NuGet server",
+                    CultureInfo.InvariantCulture, 
+                    "Push NuGet package {0} to NuGet server", 
                     packageId);
             }
         }
@@ -73,7 +73,7 @@ namespace Flubu.Builds.Tasks.NuGetTasks
 
             context.WriteInfo ("Preparing the {0} file", destNuspecFile);
             ReplaceTokensTask task = new ReplaceTokensTask (
-                nuspecFileName,
+                nuspecFileName, 
                 destNuspecFile.ToString ());
             task.AddTokenValue ("version", context.Properties.Get<Version> (BuildProps.BuildVersion).ToString ());
             task.Execute (context);
@@ -93,9 +93,9 @@ namespace Flubu.Builds.Tasks.NuGetTasks
                 .Execute (context);
 
             string nupkgFileName = string.Format (
-                CultureInfo.InvariantCulture,
-                "{0}.{1}.nupkg",
-                packageId,
+                CultureInfo.InvariantCulture, 
+                "{0}.{1}.nupkg", 
+                packageId, 
                 context.Properties.Get<Version> (BuildProps.BuildVersion));
             context.WriteInfo ("NuGet package file {0} created", nupkgFileName);
 

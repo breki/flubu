@@ -8,7 +8,7 @@ namespace Flubu.Tasks.Text
     public class ReplaceTokensTask : TaskBase
     {
         public ReplaceTokensTask (
-            string sourceFileName,
+            string sourceFileName, 
             string destinationFileName)
         {
             this.sourceFileName = sourceFileName;
@@ -24,9 +24,9 @@ namespace Flubu.Tasks.Text
             get
             {
                 return String.Format (
-                    System.Globalization.CultureInfo.InvariantCulture,
-                    "Replace tokens in file '{0}' to file '{1}'",
-                    sourceFileName,
+                    System.Globalization.CultureInfo.InvariantCulture, 
+                    "Replace tokens in file '{0}' to file '{1}'", 
+                    sourceFileName, 
                     destinationFileName);
             }
         }

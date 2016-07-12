@@ -121,11 +121,11 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyrightAttribute(""{2}"")]
 [assembly: AssemblyTrademarkAttribute(""{3}"")]
 [assembly: AssemblyFileVersionAttribute(""{4}"")]
-[assembly: ComVisible(false)]",
-                        companyName,
-                        productName,
-                        companyCopyright,
-                        companyTrademark,
+[assembly: ComVisible(false)]", 
+                        companyName, 
+                        productName, 
+                        companyCopyright, 
+                        companyTrademark, 
                         buildVersion);
 
                     string buildVersionShort = buildVersion.ToString (productVersionFieldCount);

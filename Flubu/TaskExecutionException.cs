@@ -29,7 +29,7 @@ namespace Flubu
         }
 
         protected TaskExecutionException (
-            System.Runtime.Serialization.SerializationInfo serializationInfo,
+            System.Runtime.Serialization.SerializationInfo serializationInfo, 
             System.Runtime.Serialization.StreamingContext context)
             : base (serializationInfo, context)
         {

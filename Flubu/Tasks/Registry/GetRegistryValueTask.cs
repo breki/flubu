@@ -10,7 +10,7 @@ namespace Flubu.Tasks.Registry
             get
             {
                 return string.Format (
-                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.CultureInfo.InvariantCulture, 
                     "Get registry value '{0}@{1}' to configuration setting '{2}'", 
                     registryKeyPath, 
                     registryValueName, 
@@ -19,9 +19,9 @@ namespace Flubu.Tasks.Registry
         }
 
         public GetRegistryValueTask (
-            RegistryKey rootKey,
-            string registryKeyPath,
-            string registryValueName,
+            RegistryKey rootKey, 
+            string registryKeyPath, 
+            string registryValueName, 
             string configurationSettingName)
         {
             this.rootKey = rootKey;
@@ -31,16 +31,16 @@ namespace Flubu.Tasks.Registry
         }
 
         public static void Execute (
-            ITaskContext context,
-            RegistryKey rootKey,
-            string registryKeyPath,
-            string registryValueName,
+            ITaskContext context, 
+            RegistryKey rootKey, 
+            string registryKeyPath, 
+            string registryValueName, 
             string configurationSettingName)
         {
             GetRegistryValueTask task = new GetRegistryValueTask (
                 rootKey, 
                 registryKeyPath, 
-                registryValueName,
+                registryValueName, 
                 configurationSettingName);
             task.Execute (context);
         }
@@ -52,7 +52,7 @@ namespace Flubu.Tasks.Registry
                 if (key == null)
                     throw new TaskExecutionException (
                         string.Format (
-                            System.Globalization.CultureInfo.InvariantCulture,
+                            System.Globalization.CultureInfo.InvariantCulture, 
                             "Registry key '{0}' does not exist.", 
                             registryKeyPath));
 

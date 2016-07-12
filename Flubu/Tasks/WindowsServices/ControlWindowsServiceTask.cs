@@ -10,10 +10,10 @@ namespace Flubu.Tasks.WindowsServices
             get
             {
                 return string.Format(
-                    System.Globalization.CultureInfo.InvariantCulture,
-                    "{1} Windows service '{2}:{0}'.",
-                    serviceName,
-                    mode,
+                    System.Globalization.CultureInfo.InvariantCulture, 
+                    "{1} Windows service '{2}:{0}'.", 
+                    serviceName, 
+                    mode, 
                     MachineName);
             }
         }
@@ -32,7 +32,7 @@ namespace Flubu.Tasks.WindowsServices
         }
 
         public static void Execute (
-            ITaskContext environment,
+            ITaskContext environment, 
             string serviceName, 
             ControlWindowsServiceMode mode, 
             TimeSpan timeout)
@@ -41,21 +41,21 @@ namespace Flubu.Tasks.WindowsServices
         }
 
         public static void Execute(
-            ITaskContext environment,
-            string serviceName,
-            ControlWindowsServiceMode mode,
-            TimeSpan timeout,
+            ITaskContext environment, 
+            string serviceName, 
+            ControlWindowsServiceMode mode, 
+            TimeSpan timeout, 
             bool failIfNotExist)
         {
            Execute(environment, ".", serviceName, mode, timeout, failIfNotExist);
         }
 
         public static void Execute(
-            ITaskContext environment,
-            string machineName,
-            string serviceName,
-            ControlWindowsServiceMode mode,
-            TimeSpan timeout,
+            ITaskContext environment, 
+            string machineName, 
+            string serviceName, 
+            ControlWindowsServiceMode mode, 
+            TimeSpan timeout, 
             bool failIfNotExist)
         {
             ControlWindowsServiceTask task = new ControlWindowsServiceTask(machineName, serviceName, mode, timeout)
@@ -68,8 +68,8 @@ namespace Flubu.Tasks.WindowsServices
         protected override void DoExecute (ITaskContext context)
         {
             string configSettingName = String.Format(
-                System.Globalization.CultureInfo.InvariantCulture,
-                "ServicesExist/{0}",
+                System.Globalization.CultureInfo.InvariantCulture, 
+                "ServicesExist/{0}", 
                 serviceName);
             CheckIfServiceExistsTask.Execute(context, MachineName, serviceName, configSettingName);
             if (!context.Properties.Get<bool>(configSettingName))
@@ -116,7 +116,7 @@ namespace Flubu.Tasks.WindowsServices
                     if (timeSoFar >= timeout.TotalMilliseconds)
                         throw new TaskExecutionException(
                             String.Format(
-                                System.Globalization.CultureInfo.InvariantCulture,
+                                System.Globalization.CultureInfo.InvariantCulture, 
                                 "Timeout waiting for '{0}' service to reach status {1}.", 
                                 serviceName, 
                                 status));

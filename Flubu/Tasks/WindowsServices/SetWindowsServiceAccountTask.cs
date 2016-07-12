@@ -10,7 +10,7 @@ namespace Flubu.Tasks.WindowsServices
             get
             {
                 return String.Format (
-                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.CultureInfo.InvariantCulture, 
                     "Set Windows service '{0}' account to '{1}'.", 
                     serviceName, 
                     userName);
@@ -25,7 +25,7 @@ namespace Flubu.Tasks.WindowsServices
         }
 
         public static void Execute (
-            ITaskContext environment,
+            ITaskContext environment, 
             string serviceName, 
             string userName, 
             string password)
@@ -37,7 +37,7 @@ namespace Flubu.Tasks.WindowsServices
         protected override void DoExecute (ITaskContext context)
         {
             string objPath = string.Format (
-                System.Globalization.CultureInfo.InvariantCulture,
+                System.Globalization.CultureInfo.InvariantCulture, 
                 "Win32_Service.Name='{0}'", 
                 serviceName);
             using (ManagementObject service = new ManagementObject (new ManagementPath (objPath)))
@@ -49,8 +49,8 @@ namespace Flubu.Tasks.WindowsServices
             }
         }
 
-        private string serviceName;
-        private string userName;
-        private string password;
+        private readonly string serviceName;
+        private readonly string userName;
+        private readonly string password;
     }
 }

@@ -12,7 +12,7 @@ namespace Flubu.Tasks.Registry
             get
             {
                 return String.Format(
-                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.CultureInfo.InvariantCulture, 
                     "Set registry value '{0}@{1}' = '{2}'", 
                     registryKeyPath, 
                     registryValueName, 
@@ -21,9 +21,9 @@ namespace Flubu.Tasks.Registry
         }
 
         public EditRegistryValueTask (
-            RegistryKey rootKey,
-            string registryKeyPath,
-            string registryValueName,
+            RegistryKey rootKey, 
+            string registryKeyPath, 
+            string registryValueName, 
             object registryValueValue)
         {
             this.rootKey = rootKey;
@@ -33,16 +33,16 @@ namespace Flubu.Tasks.Registry
         }
 
         public static void Execute (
-            ITaskContext context,
-            RegistryKey rootKey,
-            string registryKeyPath,
-            string registryValueName,
+            ITaskContext context, 
+            RegistryKey rootKey, 
+            string registryKeyPath, 
+            string registryValueName, 
             object registryValueValue)
         {
             EditRegistryValueTask task = new EditRegistryValueTask (
                 rootKey, 
                 registryKeyPath, 
-                registryValueName,
+                registryValueName, 
                 registryValueValue);
             task.Execute (context);
         }
@@ -54,7 +54,7 @@ namespace Flubu.Tasks.Registry
                 if (key == null)
                     throw new TaskExecutionException (
                         String.Format (
-                            System.Globalization.CultureInfo.InvariantCulture,
+                            System.Globalization.CultureInfo.InvariantCulture, 
                             "Registry key '{0}' does not exist.", 
                             registryKeyPath));
 
@@ -62,9 +62,9 @@ namespace Flubu.Tasks.Registry
             }
         }
 
-        private RegistryKey rootKey;
-        private string registryKeyPath;
-        private string registryValueName;
-        private object registryValueValue;
+        private readonly RegistryKey rootKey;
+        private readonly string registryKeyPath;
+        private readonly string registryValueName;
+        private readonly object registryValueValue;
     }
 }

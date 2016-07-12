@@ -31,9 +31,9 @@ namespace Flubu.Builds.VSSolutionBrowsing
 
         [SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "guid")]
         protected VSProjectInfo(
-            VSSolution ownerSolution,
-            Guid projectGuid,
-            string projectName,
+            VSSolution ownerSolution, 
+            Guid projectGuid, 
+            string projectName, 
             Guid projectTypeGuid)
         {
             this.ownerSolution = ownerSolution;

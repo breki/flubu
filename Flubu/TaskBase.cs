@@ -58,8 +58,8 @@ namespace Flubu
                 if (LogDuration)
                 {
                     context.WriteInfo(
-                        "{0} finished (took {1} seconds)",
-                        DescriptionForLog,
+                        "{0} finished (took {1} seconds)", 
+                        DescriptionForLog, 
                         (int)taskStopwatch.Elapsed.TotalSeconds);
                 }
             }

@@ -25,10 +25,10 @@ namespace Flubu
             get
             {
                 return fullPath.EndsWith(
-                    Path.DirectorySeparatorChar.ToString(),
+                    Path.DirectorySeparatorChar.ToString(), 
                     StringComparison.OrdinalIgnoreCase)
                     || fullPath.EndsWith(
-                    Path.AltDirectorySeparatorChar.ToString(),
+                    Path.AltDirectorySeparatorChar.ToString(), 
                     StringComparison.OrdinalIgnoreCase);
             }
         }
@@ -63,8 +63,8 @@ namespace Flubu
         public FileFullPath AddFileName (string fileNameFormat, params object[] args)
         {
             string fileName = string.Format(
-                CultureInfo.InvariantCulture,
-                fileNameFormat,
+                CultureInfo.InvariantCulture, 
+                fileNameFormat, 
                 args);
             return new FileFullPath(CombineWith(new LocalPath(fileName)).ToString());
         }
@@ -136,6 +136,6 @@ namespace Flubu
             return new FileFullPath(fullPath);
         }
 
-        private string fullPath;
+        private readonly string fullPath;
     }
 }

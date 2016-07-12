@@ -14,7 +14,7 @@ namespace Flubu.Tasks.FileSystem
             get
             {
                 return String.Format (
-                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.CultureInfo.InvariantCulture, 
                     "Delete files from directory {0} matching pattern '{1}'", 
                     directoryPath, 
                     filePattern);
@@ -29,9 +29,9 @@ namespace Flubu.Tasks.FileSystem
         }
 
         public static void Execute(
-            ITaskContext context,
-            string directoryPath,
-            string filePattern,
+            ITaskContext context, 
+            string directoryPath, 
+            string filePattern, 
             bool recursive)
         {
             DeleteFilesTask task = new DeleteFilesTask (directoryPath, filePattern, recursive);
@@ -51,8 +51,8 @@ namespace Flubu.Tasks.FileSystem
             }
         }
 
-        private string directoryPath;
-        private string filePattern;
-        private bool recursive;
+        private readonly string directoryPath;
+        private readonly string filePattern;
+        private readonly bool recursive;
     }
 }

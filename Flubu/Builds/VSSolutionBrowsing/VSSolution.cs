@@ -62,8 +62,8 @@ namespace Flubu.Builds.VSSolutionBrowsing
                     return projectData;
 
             throw new ArgumentException(string.Format(
-                CultureInfo.InvariantCulture,
-                "Project {0} not found.",
+                CultureInfo.InvariantCulture, 
+                "Project {0} not found.", 
                 projectGuid));
         }
 
@@ -133,9 +133,9 @@ namespace Flubu.Builds.VSSolutionBrowsing
                             // if nothing matches, we have a problem
                             parser.ThrowParserException (
                                 String.Format (
-                                    CultureInfo.InvariantCulture,
-                                    "Could not parse solution file (line {0}): '{1}'.",
-                                    parser.LineCount,
+                                    CultureInfo.InvariantCulture, 
+                                    "Could not parse solution file (line {0}): '{1}'.", 
+                                    parser.LineCount, 
                                     line));
                         }
 
@@ -148,18 +148,18 @@ namespace Flubu.Builds.VSSolutionBrowsing
                         if (projectTypeGuid == VSProjectType.SolutionFolderProjectType.ProjectTypeGuid)
                         {
                             project = new VSSolutionFilesInfo(
-                                solution,
-                                projectGuid,
-                                projectName,
+                                solution, 
+                                projectGuid, 
+                                projectName, 
                                 projectTypeGuid);
                         }
                         else
                         {
                             project = new VSProjectWithFileInfo(
-                                solution,
-                                projectGuid,
-                                projectName,
-                                new LocalPath(projectFileName),
+                                solution, 
+                                projectGuid, 
+                                projectName, 
+                                new LocalPath(projectFileName), 
                                 projectTypeGuid);
                         }
 

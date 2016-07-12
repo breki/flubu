@@ -21,8 +21,8 @@ namespace Flubu.Builds.Tasks.TestingTasks
         /// <param name="nunitConsoleFileName">Path to the NUnit-console.exe</param>
         /// <param name="workingDirectory">Working directory to use.</param>
         public NUnitTask (
-            string testAssemblyFileName,
-            string nunitConsoleFileName,
+            string testAssemblyFileName, 
+            string nunitConsoleFileName, 
             string workingDirectory)
         {
             this.nunitConsoleFileName = nunitConsoleFileName;
@@ -89,8 +89,8 @@ namespace Flubu.Builds.Tasks.TestingTasks
             get
             {
                 return string.Format (
-                    CultureInfo.InvariantCulture,
-                    "Execute NUnit unit tests. Assembly:{0}",
+                    CultureInfo.InvariantCulture, 
+                    "Execute NUnit unit tests. Assembly:{0}", 
                     testAssemblyFileName);
             }
         }

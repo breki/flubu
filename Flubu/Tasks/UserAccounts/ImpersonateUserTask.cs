@@ -31,6 +31,7 @@ namespace Flubu.Tasks.UserAccounts
         public void Execute(ITaskContext context)
         {
             IntPtr token = IntPtr.Zero;
+
             // request default security provider a logon token with LOGON32_LOGON_NEW_CREDENTIALS,
             // token returned is impersonation token, no need to duplicate
             if (LogonUser(userName, domain, password, 9, 0, ref token) != 0)
@@ -38,6 +39,7 @@ namespace Flubu.Tasks.UserAccounts
                 using (WindowsIdentity tempWindowsIdentity = new WindowsIdentity(token))
                 {
                     impersonationContext = tempWindowsIdentity.Impersonate();
+
                     // close impersonation token, no longer needed
                     CloseHandle(token);
                     if (impersonationContext != null)
@@ -45,12 +47,7 @@ namespace Flubu.Tasks.UserAccounts
                 }
             }
 
-            throw new InvalidOperationException(
-                string.Format(
-                    CultureInfo.InvariantCulture,
-                    @"Failed to impersonate user '{0}\{1}'",
-                    domain,
-                    userName));
+            throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, @"Failed to impersonate user '{0}\{1}'", domain, userName));
         }
 
         /// <summary>
@@ -90,8 +87,8 @@ namespace Flubu.Tasks.UserAccounts
         [DllImport("advapi32.dll")]
         private static extern int LogonUser(
             string lpszUsername, 
-            string lpszDomain,
-            string lpszPassword,
+            string lpszDomain, 
+            string lpszPassword, 
             int dwLogonType, 
             int dwLogonProvider, 
             ref IntPtr phToken);

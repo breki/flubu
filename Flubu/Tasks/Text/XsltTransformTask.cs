@@ -20,7 +20,7 @@ namespace Flubu.Tasks.Text
             get
             {
                 return string.Format (
-                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.CultureInfo.InvariantCulture, 
                     "XSLT transform file '{0}' using XSLT file '{1}'", 
                     inputFile, 
                     xsltFile);
@@ -79,7 +79,7 @@ namespace Flubu.Tasks.Text
         /// <param name="outputFile">The output file path.</param>
         /// <param name="xsltFile">The XSLT file path.</param>
         public static void Execute (
-            ITaskContext environment,
+            ITaskContext environment, 
             string inputFile, 
             string outputFile, 
             string xsltFile)

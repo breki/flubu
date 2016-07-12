@@ -81,7 +81,7 @@ namespace Flubu.Targeting
             if (false == targets.ContainsKey(targetName))
             {
                 string message = string.Format(
-                    CultureInfo.InvariantCulture,
+                    CultureInfo.InvariantCulture, 
                     "The target '{0}' does not exist", 
                     targetName);
     
@@ -115,8 +115,8 @@ namespace Flubu.Targeting
             foreach (ITarget target in sortedTargets.Values)
                 if (false == target.IsHidden)
                     context.WriteInfo(
-                        "  {0} : {1}",
-                        target.TargetName,
+                        "  {0} : {1}", 
+                        target.TargetName, 
                         target.Description);
         }
 

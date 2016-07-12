@@ -66,8 +66,8 @@ namespace Flubu.Builds.Tasks.AnalysisTasks
             if (!File.Exists (dupFinderExeFileName))
             {
                 context.WriteMessage (
-                    TaskMessageLevel.Warn,
-                    "R# dupfinder is not present in the expected location ('{0}'), cannot run source code duplicates analysis",
+                    TaskMessageLevel.Warn, 
+                    "R# dupfinder is not present in the expected location ('{0}'), cannot run source code duplicates analysis", 
                     dupFinderExeFileName);
                 return null;
             }
@@ -102,8 +102,8 @@ namespace Flubu.Builds.Tasks.AnalysisTasks
             string dupFinderHtmlReportFileName = Path.Combine (buildsDir, "dupfinder-report.html");
 
             XsltTransformTask reportToHtmlTask = new XsltTransformTask (
-                dupFinderXmlReportFileName,
-                dupFinderHtmlReportFileName,
+                dupFinderXmlReportFileName, 
+                dupFinderHtmlReportFileName, 
                 DupFinderXsltReportFileName);
             reportToHtmlTask.Execute (context);
 
@@ -132,9 +132,9 @@ namespace Flubu.Builds.Tasks.AnalysisTasks
             if (duplicatesCount.HasValue && duplicatesCount > 0)
             {
                 context.WriteMessage (
-                    TaskMessageLevel.Warn,
-                    "There are {0} code duplicates that are above the {1} cost threshold",
-                    duplicatesCount,
+                    TaskMessageLevel.Warn, 
+                    "There are {0} code duplicates that are above the {1} cost threshold", 
+                    duplicatesCount, 
                     maxAllowedDuplicateCost);
                 shouldFailBuild = true;
             }
@@ -147,9 +147,9 @@ namespace Flubu.Builds.Tasks.AnalysisTasks
                 if (fragmentsCostRatio >= maxAllowedFragmentsCostRatio)
                 {
                     context.WriteMessage (
-                        TaskMessageLevel.Warn,
-                        "The fragments cost ratio ({0:P}) is above the max. allowed threshold ({1:P})",
-                        fragmentsCostRatio,
+                        TaskMessageLevel.Warn, 
+                        "The fragments cost ratio ({0:P}) is above the max. allowed threshold ({1:P})", 
+                        fragmentsCostRatio, 
                         maxAllowedFragmentsCostRatio);
                     shouldFailBuild = true;
                 }

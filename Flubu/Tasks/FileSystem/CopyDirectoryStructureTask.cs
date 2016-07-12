@@ -67,7 +67,7 @@ namespace Flubu.Tasks.FileSystem
             get
             {
                 return String.Format(
-                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.CultureInfo.InvariantCulture, 
                     "Copy directory structure from '{0}' to '{1}", 
                     sourcePath, 
                     destinationPath);
@@ -82,7 +82,7 @@ namespace Flubu.Tasks.FileSystem
         /// <param name="destinationPath">The destination path.</param>
         /// <param name="overwriteExisting">if set to <c>true</c> the task will overwrite existing destination files.</param>
         public static void Execute(
-            ITaskContext context,
+            ITaskContext context, 
             string sourcePath, 
             string destinationPath, 
             bool overwriteExisting)
@@ -112,10 +112,10 @@ namespace Flubu.Tasks.FileSystem
 
         [SuppressMessage("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily")]
         private void CopyStructureRecursive(
-            ITaskContext context,
+            ITaskContext context, 
             string sourcePathRecursive, 
-            string destinationPathRecursive,
-            Regex inclusionRegex,
+            string destinationPathRecursive, 
+            Regex inclusionRegex, 
             Regex exclusionRegex)
         {
             if (exclusionRegex != null && exclusionRegex.IsMatch (sourcePathRecursive))
@@ -141,7 +141,7 @@ namespace Flubu.Tasks.FileSystem
                     fileInfo.CopyTo (filePath, overwriteExisting);
                     context.WriteInfo(
                         "Copied file '{0}' to '{1}'", 
-                        fileSystemInfo.FullName,
+                        fileSystemInfo.FullName, 
                         filePath);
                     copiedFilesList.Add(filePath);
                 }
@@ -154,18 +154,18 @@ namespace Flubu.Tasks.FileSystem
                     CopyStructureRecursive (
                         context, 
                         dirInfo.FullName, 
-                        subdirectoryPath,
-                        inclusionRegex,
+                        subdirectoryPath, 
+                        inclusionRegex, 
                         exclusionRegex);
                 }
             }
         }
 
-        private string destinationPath;
+        private readonly string destinationPath;
         private string exclusionPattern;
         private string inclusionPattern;
-        private bool overwriteExisting;
-        private string sourcePath;
+        private readonly bool overwriteExisting;
+        private readonly string sourcePath;
         private List<string> copiedFilesList;
     }
 }

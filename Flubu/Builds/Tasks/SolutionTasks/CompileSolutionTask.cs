@@ -106,7 +106,7 @@ namespace Flubu.Builds.Tasks.SolutionTasks
             {
                 KeyValuePair<Version, string> highestVersion = msbuilds.Last();
                 context.WriteInfo (
-                    "Since MSBuild tools version was not explicity specified, using the highest MSBuild tools version found ({0})",
+                    "Since MSBuild tools version was not explicity specified, using the highest MSBuild tools version found ({0})", 
                     highestVersion.Key);
                 msbuildPath = highestVersion.Value;
             }

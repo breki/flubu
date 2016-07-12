@@ -12,7 +12,7 @@ namespace Flubu.Tasks.EnterpriseServices
             get
             {
                 return String.Format(
-                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.CultureInfo.InvariantCulture, 
                     "Uninstall COM+ assembly {0}", 
                     assemblyName);
             }
@@ -29,6 +29,6 @@ namespace Flubu.Tasks.EnterpriseServices
             regHelper.UninstallAssembly (assemblyName, null);
         }
 
-        private string assemblyName;
+        private readonly string assemblyName;
     }
 }

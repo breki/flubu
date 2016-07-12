@@ -5,16 +5,16 @@ namespace Flubu.Tasks.UserAccounts
         /// <summary>
         /// If the user account already exists, the task should fail.
         /// </summary>
-        FailIfAlreadyExists,
+        FailIfAlreadyExists, 
 
         /// <summary>
         /// If the user account already exists, it should be updated.
         /// </summary>
-        UpdateIfExists,
+        UpdateIfExists, 
 
         /// <summary>
         /// If the user account already exists, the task should do nothing.
         /// </summary>
-        DoNothingIfExists,
+        DoNothingIfExists, 
     }
 }

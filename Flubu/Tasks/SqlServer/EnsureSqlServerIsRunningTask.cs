@@ -10,7 +10,7 @@ namespace Flubu.Tasks.SqlServer
             get
             {
                 return String.Format(
-                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.CultureInfo.InvariantCulture, 
                     "Ensure SQL Server instance '{0}' is running", 
                     machineName);
             }

@@ -97,8 +97,8 @@ namespace Flubu
         }
 
         private void WriteLine (
-            ConsoleColor foregroundColor,
-            int depth,
+            ConsoleColor foregroundColor, 
+            int depth, 
             string message)
         {
             if (IsConsoleOutput)
@@ -128,9 +128,9 @@ namespace Flubu
 
         private bool disposed;
         private readonly TextWriter writer;
-        private ConsoleColor defaultForegroundColor;
-        private ConsoleColor defaultBackgroundColor;
-        private Stopwatch stopwatch = new Stopwatch();
+        private readonly ConsoleColor defaultForegroundColor;
+        private readonly ConsoleColor defaultBackgroundColor;
+        private readonly Stopwatch stopwatch = new Stopwatch();
         private TimeSpan lastTimeMark;
     }
 }
