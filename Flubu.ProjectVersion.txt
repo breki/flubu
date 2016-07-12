@@ -1,3 +1,8 @@
+3.2.0.0
+- DownloadNugetPackageInUserRepositoryTask and FindNuGetPackageInUserRepositoryTask tasks now use
+	<user profile>/.flubu/NuGet directory for cached NuGet packages since this is a shorter path and should
+	help with problems with paths being too long for certain packages (looking at you, JetBrains!)
+
 3.1.1.0
 - Console app: Improved exception handling.
 - Console app: Help is now displayed if non existing target is passed in argument.

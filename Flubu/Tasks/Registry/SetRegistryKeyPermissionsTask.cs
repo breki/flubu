@@ -12,7 +12,7 @@ namespace Flubu.Tasks.Registry
             get
             {
                 return String.Format (
-                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.CultureInfo.InvariantCulture, 
                     "Set registry key '{0}' permissions for user '{1}'.", 
                     registryKeyPath, 
                     identity);
@@ -20,10 +20,10 @@ namespace Flubu.Tasks.Registry
         }
         
         public SetRegistryKeyPermissionsTask (
-            RegistryKey rootKey,
-            string registryKeyPath,
-            string identity,
-            RegistryRights registryRights,
+            RegistryKey rootKey, 
+            string registryKeyPath, 
+            string identity, 
+            RegistryRights registryRights, 
             AccessControlType accessControlType)
         {
             this.rootKey = rootKey;
@@ -34,17 +34,17 @@ namespace Flubu.Tasks.Registry
         }
 
         public static void Execute (
-            ITaskContext context,
-            RegistryKey rootKey,
-            string registryKeyPath,
-            string identity,
-            RegistryRights registryRights,
+            ITaskContext context, 
+            RegistryKey rootKey, 
+            string registryKeyPath, 
+            string identity, 
+            RegistryRights registryRights, 
             AccessControlType accessControlType)
         {
             SetRegistryKeyPermissionsTask task = new SetRegistryKeyPermissionsTask (
                 rootKey, 
                 registryKeyPath, 
-                identity,
+                identity, 
                 registryRights, 
                 accessControlType);
             task.Execute (context);
@@ -58,7 +58,7 @@ namespace Flubu.Tasks.Registry
                 if (key == null)
                     throw new TaskExecutionException (
                         String.Format (
-                            System.Globalization.CultureInfo.InvariantCulture,
+                            System.Globalization.CultureInfo.InvariantCulture, 
                             "Registry key '{0}' does not exist.", 
                             registryKeyPath));
 
@@ -68,9 +68,9 @@ namespace Flubu.Tasks.Registry
 
                 RegistryAccessRule accessRule = new RegistryAccessRule (
                     identity, 
-                    registryRights,
-                    InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit,
-                    PropagationFlags.InheritOnly,
+                    registryRights, 
+                    InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit, 
+                    PropagationFlags.InheritOnly, 
                     accessControlType);
 
                 security.SetAccessRule (accessRule);
@@ -79,10 +79,10 @@ namespace Flubu.Tasks.Registry
             }
         }
 
-        private RegistryKey rootKey;
-        private string registryKeyPath;
-        private string identity;
-        private RegistryRights registryRights;
-        private AccessControlType accessControlType;
+        private readonly RegistryKey rootKey;
+        private readonly string registryKeyPath;
+        private readonly string identity;
+        private readonly RegistryRights registryRights;
+        private readonly AccessControlType accessControlType;
     }
 }

@@ -10,7 +10,7 @@ namespace Flubu.Tasks.WindowsServices
             get
             {
                 return String.Format(
-                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.CultureInfo.InvariantCulture, 
                     "Uninstall Windows service '{0}'", 
                     executablePath);
             }
@@ -35,6 +35,6 @@ namespace Flubu.Tasks.WindowsServices
             }
         }
 
-        private string executablePath;
+        private readonly string executablePath;
     }
 }

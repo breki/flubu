@@ -36,16 +36,16 @@ namespace Flubu.Tasks.Msmq
         }
 
         public static void Execute(
-            ITaskContext context,
-            string messageQueuePath,
-            bool isTransactional,
-            CreateMessageQueueMode mode,
-            string userName,
+            ITaskContext context, 
+            string messageQueuePath, 
+            bool isTransactional, 
+            CreateMessageQueueMode mode, 
+            string userName, 
             MessageQueueAccessRights accessRights)
         {
             CreateMessageQueueTask task = new CreateMessageQueueTask(messageQueuePath, isTransactional, mode)
                 {
-                    UserName = userName,
+                    UserName = userName, 
                     AccessRights = accessRights
                 };
             task.Execute(context);
@@ -61,7 +61,7 @@ namespace Flubu.Tasks.Msmq
         /// <param name="mode">The task mode.</param>
         public CreateMessageQueueTask (
             string messageQueuePath, 
-            bool isTransactional,
+            bool isTransactional, 
             CreateMessageQueueMode mode)
         {
             this.messageQueuePath = messageQueuePath;
@@ -87,7 +87,7 @@ namespace Flubu.Tasks.Msmq
                 if (mode == CreateMessageQueueMode.FailIfAlreadyExists)
                     throw new TaskExecutionException (
                         String.Format (
-                            System.Globalization.CultureInfo.InvariantCulture,
+                            System.Globalization.CultureInfo.InvariantCulture, 
                             "Message queue '{0}' already exists.", 
                             messageQueuePath));
 

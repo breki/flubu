@@ -190,7 +190,7 @@ namespace Flubu.Builds.Tasks.DnxTasks
                         throw new TaskExecutionException("Requested MSBuild tools version {0} not found and there are no higher versions".Fmt(ToolsVersion));
 
                     context.WriteInfo (
-                        "Requested MSBuild tools version {0} not found, using a higher version {1}",
+                        "Requested MSBuild tools version {0} not found, using a higher version {1}", 
                         ToolsVersion, 
                         higherVersion.Key);
                     msbuildPath = higherVersion.Value;
@@ -200,7 +200,7 @@ namespace Flubu.Builds.Tasks.DnxTasks
             {
                 KeyValuePair<Version, string> highestVersion = msbuilds.Last();
                 context.WriteInfo (
-                    "Since MSBuild tools version was not explicity specified, using the highest MSBuild tools version found ({0})",
+                    "Since MSBuild tools version was not explicity specified, using the highest MSBuild tools version found ({0})", 
                     highestVersion.Key);
                 msbuildPath = highestVersion.Value;
             }

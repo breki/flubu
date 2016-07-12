@@ -41,8 +41,8 @@ namespace Flubu.Tasks.FileSystem
                 }
 
                 return String.Format (
-                    System.Globalization.CultureInfo.InvariantCulture,
-                    "Add access rule '{2} - {3}' to path '{0}' for identities: '{1}'",
+                    System.Globalization.CultureInfo.InvariantCulture, 
+                    "Add access rule '{2} - {3}' to path '{0}' for identities: '{1}'", 
                     path, 
                     identitiesEnumerated, 
                     fileSystemRights, 
@@ -79,7 +79,7 @@ namespace Flubu.Tasks.FileSystem
         /// <param name="accessControlType">Type of the access control.</param>
         public SetAccessRuleTask (
             string path, 
-            FileSystemRights fileSystemRights,
+            FileSystemRights fileSystemRights, 
             AccessControlType accessControlType)
         {
             this.path = path;
@@ -105,10 +105,10 @@ namespace Flubu.Tasks.FileSystem
         /// <param name="fileSystemRights">File system rights.</param>
         /// <param name="accessControlType">Type of the access control.</param>
         public static void Execute(
-            ITaskContext context,
+            ITaskContext context, 
             string path, 
             string identity, 
-            FileSystemRights fileSystemRights,
+            FileSystemRights fileSystemRights, 
             AccessControlType accessControlType)
         {
             SetAccessRuleTask task = new SetAccessRuleTask (path, identity, fileSystemRights, accessControlType);
@@ -148,14 +148,14 @@ namespace Flubu.Tasks.FileSystem
                 if (isDir)
                     accessRule = new FileSystemAccessRule (
                         identity, 
-                        fileSystemRights,
-                        InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit,
-                        PropagationFlags.None,
+                        fileSystemRights, 
+                        InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit, 
+                        PropagationFlags.None, 
                         accessControlType);
                 else
                     accessRule = new FileSystemAccessRule (
                         identity, 
-                        fileSystemRights,
+                        fileSystemRights, 
                         accessControlType);
 
                 security.SetAccessRule (accessRule);
@@ -168,8 +168,8 @@ namespace Flubu.Tasks.FileSystem
         }
 
         private string path;
-        private List<string> identities = new List<string>();
-        private FileSystemRights fileSystemRights;
-        private AccessControlType accessControlType;
+        private readonly List<string> identities = new List<string>();
+        private readonly FileSystemRights fileSystemRights;
+        private readonly AccessControlType accessControlType;
     }
 }

@@ -35,7 +35,7 @@ namespace Flubu.Tasks.Msmq
             if (false == MessageQueue.Exists(messageQueuePath))
                 throw new TaskExecutionException(
                     String.Format(
-                        System.Globalization.CultureInfo.InvariantCulture,
+                        System.Globalization.CultureInfo.InvariantCulture, 
                         "Message queue does not '{0}' exist.", 
                         messageQueuePath));
 
@@ -45,6 +45,6 @@ namespace Flubu.Tasks.Msmq
             }
         }
 
-        private string messageQueuePath;
+        private readonly string messageQueuePath;
     }
 }

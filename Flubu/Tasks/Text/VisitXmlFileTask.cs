@@ -32,9 +32,9 @@ namespace Flubu.Tasks.Text
             get
             {
                 return string.Format (
-                    CultureInfo.InvariantCulture,
-                    "Visit XML file '{0}' using {1} visitors",
-                    xmlFileName,
+                    CultureInfo.InvariantCulture, 
+                    "Visit XML file '{0}' using {1} visitors", 
+                    xmlFileName, 
                     visitors.Count);
             }
         }

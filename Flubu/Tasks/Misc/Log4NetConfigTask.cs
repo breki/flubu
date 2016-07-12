@@ -16,7 +16,7 @@ namespace Flubu.Tasks.Misc
             get 
             {
                 return String.Format (
-                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.CultureInfo.InvariantCulture, 
                     "Update log4net configuration files");
             }
         }
@@ -64,14 +64,14 @@ namespace Flubu.Tasks.Misc
                 UpdateXmlFileTask task = new UpdateXmlFileTask (file.FileName);
 
                 string appenderXpath = String.Format (
-                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.CultureInfo.InvariantCulture, 
                     "{0}/appender", 
                     file.ConfigXpath);
 
                 if (appendToFile.HasValue)
                 {
                     string appendToFileParamXpath = String.Format (
-                        System.Globalization.CultureInfo.InvariantCulture,
+                        System.Globalization.CultureInfo.InvariantCulture, 
                         "{0}/param[@name='AppendToFile']/@value", 
                         appenderXpath);
 
@@ -79,14 +79,14 @@ namespace Flubu.Tasks.Misc
                 }
 
                 string rootXpath = String.Format (
-                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.CultureInfo.InvariantCulture, 
                     "{0}/root", 
                     file.ConfigXpath);
 
                 if (rootPriority != null)
                 {
                     string priorityXpath = String.Format (
-                        System.Globalization.CultureInfo.InvariantCulture,
+                        System.Globalization.CultureInfo.InvariantCulture, 
                         "{0}/priority/@value", 
                         rootXpath);
 

@@ -18,7 +18,7 @@ namespace Flubu.Tasks.Misc
             this.configXpath = configXPath;
         }
 
-        private string fileName;
-        private string configXpath;
+        private readonly string fileName;
+        private readonly string configXpath;
     }
 }

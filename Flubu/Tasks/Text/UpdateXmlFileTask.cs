@@ -19,7 +19,7 @@ namespace Flubu.Tasks.Text
             get
             {
                 return string.Format (
-                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.CultureInfo.InvariantCulture, 
                     "Update XML file '{0}'", 
                     fileName);
             }
@@ -115,8 +115,8 @@ namespace Flubu.Tasks.Text
                     else
                         throw new ArgumentException (
                             String.Format (
-                                System.Globalization.CultureInfo.InvariantCulture,
-                                "Node '{0}' is of incorrect type '{1}', it should be an element or attribute.",
+                                System.Globalization.CultureInfo.InvariantCulture, 
+                                "Node '{0}' is of incorrect type '{1}', it should be an element or attribute.", 
                                 fullNodePath, 
                                 node.NodeType));
                 }
@@ -146,8 +146,8 @@ namespace Flubu.Tasks.Text
             else
                 throw new ArgumentException (
                     String.Format (
-                        System.Globalization.CultureInfo.InvariantCulture,
-                        "Node '{0}' is of incorrect type '{1}', it should be an element or attribute.",
+                        System.Globalization.CultureInfo.InvariantCulture, 
+                        "Node '{0}' is of incorrect type '{1}', it should be an element or attribute.", 
                         fullNodePath, 
                         node.NodeType));
         }
@@ -161,15 +161,15 @@ namespace Flubu.Tasks.Text
                 if (rootNode == null)
                     throw new ArgumentException (
                         String.Format (
-                            System.Globalization.CultureInfo.InvariantCulture,
+                            System.Globalization.CultureInfo.InvariantCulture, 
                             "Path '{0}' does not exist.", 
                             addition.RootXPath));
 
                 if (rootNode.NodeType != XmlNodeType.Element)
                     throw new ArgumentException (
                         String.Format (
-                            System.Globalization.CultureInfo.InvariantCulture,
-                            "Node '{0}' is of incorrect type '{1}', it should be an element.",
+                            System.Globalization.CultureInfo.InvariantCulture, 
+                            "Node '{0}' is of incorrect type '{1}', it should be an element.", 
                             addition.RootXPath, 
                             rootNode.NodeType));
 
@@ -232,10 +232,10 @@ namespace Flubu.Tasks.Text
             return fullNodePath.ToString ();
         }
 
-        private string fileName;
-        private Dictionary<string, string> xpathUpdates = new Dictionary<string, string> ();
-        private List<string> xpathDeletes = new List<string> ();
-        private List<UpdateXmlFileTaskAddition> xpathAdditions = new List<UpdateXmlFileTaskAddition> ();
+        private readonly string fileName;
+        private readonly Dictionary<string, string> xpathUpdates = new Dictionary<string, string> ();
+        private readonly List<string> xpathDeletes = new List<string> ();
+        private readonly List<UpdateXmlFileTaskAddition> xpathAdditions = new List<UpdateXmlFileTaskAddition> ();
 
         internal class UpdateXmlFileTaskAddition
         {
@@ -279,10 +279,10 @@ namespace Flubu.Tasks.Text
                 this.attributes = new Dictionary<string, string> (attributes);
             }
 
-            private string rootXPath;
-            private string childNodeName;
-            private string value;
-            private Dictionary<string, string> attributes;
+            private readonly string rootXPath;
+            private readonly string childNodeName;
+            private readonly string value;
+            private readonly Dictionary<string, string> attributes;
         }
     }
 }

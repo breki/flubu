@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Microsoft.Web.Administration;
@@ -53,7 +54,7 @@ namespace Flubu.Tasks.Iis.Iis7
                             case ControlApplicationPoolAction.Start:
                             {
                                 RunWithRetries(x => applicationPool.Start(), 3);
-                                logMessage = string.Format(Message, applicationPoolName, action);
+                                logMessage = string.Format(CultureInfo.InvariantCulture, Message, applicationPoolName, action);
                                 break;
                             }
 
@@ -63,14 +64,14 @@ namespace Flubu.Tasks.Iis.Iis7
                                     x => applicationPool.Stop(),
                                     3,
                                     -2147023834 /*app pool already stopped*/);
-                                logMessage = string.Format(Message, applicationPoolName, "stopp");
+                                logMessage = string.Format(CultureInfo.InvariantCulture, Message, applicationPoolName, "stopp");
                                 break;
                             }
 
                             case ControlApplicationPoolAction.Recycle:
                             {
                                 RunWithRetries(x => applicationPool.Recycle(), 3);
-                                logMessage = string.Format(Message, applicationPoolName, action);
+                                logMessage = string.Format(CultureInfo.InvariantCulture, Message, applicationPoolName, action);
                                 break;
                             }
 

@@ -11,7 +11,7 @@ namespace Flubu.Tasks.Misc
             get 
             { 
                 return String.Format (
-                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.CultureInfo.InvariantCulture, 
                     "Sleep for {0} seconds.", 
                     sleepPeriod.TotalSeconds); 
             }

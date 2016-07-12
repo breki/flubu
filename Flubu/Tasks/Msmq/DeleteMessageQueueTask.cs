@@ -40,13 +40,13 @@ namespace Flubu.Tasks.Msmq
                 {
                     throw new TaskExecutionException(
                         String.Format(
-                            CultureInfo.InvariantCulture,
-                            "Message queue does not '{0}' exist.",
+                            CultureInfo.InvariantCulture, 
+                            "Message queue does not '{0}' exist.", 
                             MessageQueuePath));
                 }
 
                 context.WriteInfo(
-                    "Message queue does not '{0}' exist, doing nothing.",
+                    "Message queue does not '{0}' exist, doing nothing.", 
                     MessageQueuePath);
                 return;
             }

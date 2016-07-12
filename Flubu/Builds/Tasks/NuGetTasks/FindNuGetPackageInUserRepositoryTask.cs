@@ -17,8 +17,8 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             get
             {
                 return string.Format (
-                    CultureInfo.InvariantCulture,
-                    "Find NuGet package {0} in user repository",
+                    CultureInfo.InvariantCulture, 
+                    "Find NuGet package {0} in user repository", 
                     packageId);
             }
         }
@@ -47,7 +47,7 @@ namespace Flubu.Builds.Tasks.NuGetTasks
                 return;
 
             foreach (string directory in Directory.EnumerateDirectories (
-                DownloadNugetPackageInUserRepositoryTask.UserProfileNuGetPackagesDir,
+                DownloadNugetPackageInUserRepositoryTask.UserProfileNuGetPackagesDir, 
                 string.Format (CultureInfo.InvariantCulture, "{0}.*", packageId)))
             {
                 string localDirName = Path.GetFileName (directory);
@@ -61,21 +61,21 @@ namespace Flubu.Builds.Tasks.NuGetTasks
                 {
                     packageVersion = version;
                     packageDirectory = Path.Combine (
-                        DownloadNugetPackageInUserRepositoryTask.UserProfileNuGetPackagesDir,
+                        DownloadNugetPackageInUserRepositoryTask.UserProfileNuGetPackagesDir, 
                         localDirName);
                 }
             }
 
             if (packageVersion != null)
                 context.WriteDebug (
-                    "Found NuGet package {0} version {1} in user repository ('{2}')",
-                    packageId,
-                    packageVersion,
+                    "Found NuGet package {0} version {1} in user repository ('{2}')", 
+                    packageId, 
+                    packageVersion, 
                     packageDirectory);
             else
                 context.WriteDebug (
-                    "No NuGet package {0} in user repository (should be at '{1}')",
-                    packageId,
+                    "No NuGet package {0} in user repository (should be at '{1}')", 
+                    packageId, 
                     packageDirectory);
         }
 

@@ -7,22 +7,22 @@ namespace Flubu.Services
     public class ProcessRunner : IProcessRunner
     {
         public int Run(
-            string programExePath,
-            string arguments,
-            string workingDirectory,
-            TimeSpan? executionTimeout,
-            DataReceivedEventHandler outputDataReceived,
+            string programExePath, 
+            string arguments, 
+            string workingDirectory, 
+            TimeSpan? executionTimeout, 
+            DataReceivedEventHandler outputDataReceived, 
             DataReceivedEventHandler errorDataReceived)
         {
             using (Process process = new Process ())
             {
                 ProcessStartInfo processStartInfo = new ProcessStartInfo (programExePath, arguments)
                 {
-                    CreateNoWindow = true,
-                    ErrorDialog = false,
-                    RedirectStandardError = true,
-                    RedirectStandardOutput = true,
-                    UseShellExecute = false,
+                    CreateNoWindow = true, 
+                    ErrorDialog = false, 
+                    RedirectStandardError = true, 
+                    RedirectStandardOutput = true, 
+                    UseShellExecute = false, 
                     WorkingDirectory = workingDirectory ?? Path.GetDirectoryName(programExePath) ?? string.Empty
                 };
 

@@ -61,8 +61,8 @@ namespace Flubu.Builds.Tasks.TestingTasks
             get
             {
                 return string.Format (
-                    CultureInfo.InvariantCulture,
-                    "Execute NUnit unit tests on assemblies: {0}",
+                    CultureInfo.InvariantCulture, 
+                    "Execute NUnit unit tests on assemblies: {0}", 
                     testAssemblyFileNames.Concat (x => x, ", "));
             }
         }
@@ -194,7 +194,7 @@ namespace Flubu.Builds.Tasks.TestingTasks
             if (!File.Exists (dotCoverExeFileName))
             {
                 context.Fail (
-                    "R# dotCover is not present in the expected location ('{0}'), cannot run test coverage analysis",
+                    "R# dotCover is not present in the expected location ('{0}'), cannot run test coverage analysis", 
                     dotCoverExeFileName);
                 return false;
             }
@@ -216,24 +216,19 @@ namespace Flubu.Builds.Tasks.TestingTasks
         }
 
         private void RunCoverTask (
-            ITaskContext context,
-            IPathBuilder assemblyFullFileName,
-            string dotCoverExeFileName,
+            ITaskContext context, 
+            IPathBuilder assemblyFullFileName, 
+            string dotCoverExeFileName, 
             string snapshotFileName)
         {
             string projectDir = Path.GetDirectoryName (assemblyFullFileName.ToString ());
             string projectBinFileName = Path.GetFileName (assemblyFullFileName.FileName);
 
             context.WriteInfo ("Running unit tests (with code coverage)...");
-            IRunProgramTask runDotCovertask = new RunProgramTask (dotCoverExeFileName).AddArgument ("cover")
-                .AddArgument ("/TargetExecutable={0}", nunitRunnerFileName)
-                .AddArgument ("/TargetArguments={0} {1}", projectBinFileName, nunitCmdLineOptions)
-                .AddArgument ("/TargetWorkingDir={0}", projectDir)
-                .AddArgument ("/Filters={0}", dotCoverFilters)
-                .AddArgument ("/AttributeFilters={0}", dotCoverAttributeFilters)
-                .AddArgument ("/Output={0}", snapshotFileName)
+            IRunProgramTask runDotCovertask = new RunProgramTask(dotCoverExeFileName).AddArgument("cover").AddArgument("/TargetExecutable={0}", nunitRunnerFileName).AddArgument("/TargetArguments={0} {1}", projectBinFileName, nunitCmdLineOptions).AddArgument("/TargetWorkingDir={0}", projectDir).AddArgument("/Filters={0}", dotCoverFilters).AddArgument("/AttributeFilters={0}", dotCoverAttributeFilters).AddArgument("/Output={0}", snapshotFileName)
+
                 //.AddArgument("/LogFile={0}", Path.Combine(buildDir, "dotCover-log.xml"))
-                .AddArgument ("/ReturnTargetExitCode");
+                .AddArgument("/ReturnTargetExitCode");
             runDotCovertask.Execute (context);
         }
 
@@ -244,10 +239,8 @@ namespace Flubu.Builds.Tasks.TestingTasks
             string buildDir = context.Properties[BuildProps.BuildDir];
             string mergedSnapshotFileName = Path.Combine (buildDir, "{0}.dcvr".Fmt (context.Properties[BuildProps.ProductId]));
 
-            IRunProgramTask runDotCovertask =
-                new RunProgramTask (dotCoverExeFileName).AddArgument ("merge")
-                    .AddArgument ("/Source={0}", snapshots.Concat (x => x, ";"))
-                    .AddArgument ("/Output={0}", mergedSnapshotFileName)
+            IRunProgramTask runDotCovertask = new RunProgramTask(dotCoverExeFileName).AddArgument("merge").AddArgument("/Source={0}", snapshots.Concat(x => x, ";")).AddArgument("/Output={0}", mergedSnapshotFileName)
+
                 //.AddArgument("/LogFile={0}", Path.Combine(buildDir, "dotCover-log.xml"))
                 ;
             runDotCovertask.Execute (context);
@@ -256,9 +249,9 @@ namespace Flubu.Builds.Tasks.TestingTasks
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
         private static string GenerateCoverageReport (
-            ITaskContext context,
-            string dotCoverExeFileName,
-            string snapshotFileName,
+            ITaskContext context, 
+            string dotCoverExeFileName, 
+            string snapshotFileName, 
             string reportType)
         {
             context.WriteInfo ("Generating code coverage {0} report...", reportType);
@@ -266,11 +259,8 @@ namespace Flubu.Builds.Tasks.TestingTasks
             string buildDir = context.Properties[BuildProps.BuildDir];
 
             string coverageReportFileName = Path.Combine (buildDir, "dotCover-results.{0}".Fmt (reportType.ToLowerInvariant ()));
-            IRunProgramTask runDotCovertask =
-                new RunProgramTask (dotCoverExeFileName).AddArgument ("report")
-                    .AddArgument ("/Source={0}", snapshotFileName)
-                    .AddArgument ("/Output={0}", coverageReportFileName)
-                    .AddArgument ("/ReportType={0}", reportType)
+            IRunProgramTask runDotCovertask = new RunProgramTask(dotCoverExeFileName).AddArgument("report").AddArgument("/Source={0}", snapshotFileName).AddArgument("/Output={0}", coverageReportFileName).AddArgument("/ReportType={0}", reportType)
+
                 //.AddArgument("/LogFile={0}", Path.Combine(buildDir, "dotCover-log.xml"))
                 ;
             runDotCovertask.Execute (context);
@@ -278,7 +268,7 @@ namespace Flubu.Builds.Tasks.TestingTasks
         }
 
         private static FileFullPath ExtractFullAssemblyFileName (
-            string testAssemblyFileName,
+            string testAssemblyFileName, 
             out string assemblyId)
         {
             FileFullPath assemblyFullFileName = new FileFullPath (testAssemblyFileName);
@@ -294,17 +284,17 @@ namespace Flubu.Builds.Tasks.TestingTasks
 
             string totalCoverageExpression = "sum(/Root/Assembly[1]/@CoveragePercent)";
             string classesWithPoorCoverageExpression = string.Format (
-                CultureInfo.InvariantCulture,
-                "count(/Root/Assembly/Namespace/Type[@CoveragePercent<{0}])",
+                CultureInfo.InvariantCulture, 
+                "count(/Root/Assembly/Namespace/Type[@CoveragePercent<{0}])", 
                 minRequiredCoverage);
 
             EvaluateXmlTask countViolationsTask =
                 new EvaluateXmlTask (coverageXmlReportFileName)
                     .AddExpression (
-                        PropertyClassesWithPoorCoverageCount,
+                        PropertyClassesWithPoorCoverageCount, 
                         classesWithPoorCoverageExpression)
                     .AddExpression (
-                        PropertyTotalCoverage,
+                        PropertyTotalCoverage, 
                         totalCoverageExpression);
             countViolationsTask.Execute (context);
 
@@ -328,14 +318,14 @@ namespace Flubu.Builds.Tasks.TestingTasks
         private void FailBuildAndPrintOutCoverageReport (ITaskContext context, int? duplicatesCount)
         {
             context.WriteMessage (
-                TaskMessageLevel.Warn,
-                "There are {0} classes that have the test coverage below the minimum {1}% threshold",
-                duplicatesCount,
+                TaskMessageLevel.Warn, 
+                "There are {0} classes that have the test coverage below the minimum {1}% threshold", 
+                duplicatesCount, 
                 minRequiredCoverage);
 
             string classesWithPoorCoverageExpression = string.Format (
-                CultureInfo.InvariantCulture,
-                "/Root/Assembly/Namespace/Type[@CoveragePercent<{0}]",
+                CultureInfo.InvariantCulture, 
+                "/Root/Assembly/Namespace/Type[@CoveragePercent<{0}]", 
                 minRequiredCoverage);
 
             VisitXmlFileTask findViolationsTask = new VisitXmlFileTask (coverageXmlReportFileName);
@@ -343,7 +333,7 @@ namespace Flubu.Builds.Tasks.TestingTasks
             List<Tuple<string, int>> poorCoverageClasses = new List<Tuple<string, int>> ();
 
             findViolationsTask.AddVisitor (
-                classesWithPoorCoverageExpression,
+                classesWithPoorCoverageExpression, 
                 node =>
                 {
                     if (node.Attributes == null || node.ParentNode == null || node.ParentNode.Attributes == null)

@@ -17,7 +17,7 @@ namespace Flubu.Tasks.Misc
             get
             {
                 return String.Format(
-                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.CultureInfo.InvariantCulture, 
                     "Send mail to '{0}' with subject '{1}'", 
                     to, 
                     subject);

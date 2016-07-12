@@ -10,7 +10,7 @@ namespace Flubu.Tasks.WindowsServices
             get
             {
                 return String.Format (
-                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.CultureInfo.InvariantCulture, 
                     "Check if Windows service '{0}' exists.", 
                     serviceName);
             }
@@ -31,7 +31,7 @@ namespace Flubu.Tasks.WindowsServices
         }
 
         public static void Execute (
-            ITaskContext environment,
+            ITaskContext environment, 
             string serviceName, 
             string configurationSetting)
         {
@@ -40,9 +40,9 @@ namespace Flubu.Tasks.WindowsServices
         }
 
         public static void Execute(
-    ITaskContext environment,
-    string machineName,
-    string serviceName,
+    ITaskContext environment, 
+    string machineName, 
+    string serviceName, 
     string configurationSetting)
         {
             CheckIfServiceExistsTask task = new CheckIfServiceExistsTask(machineName, serviceName, configurationSetting);
@@ -67,13 +67,13 @@ namespace Flubu.Tasks.WindowsServices
                 context.Properties.Set(configurationSetting, false);
                 context.WriteInfo(
                     "Windows service '{0}' does not exist.{1}", 
-                    serviceName,
+                    serviceName, 
                     e.Message);
             }
         }
 
-        private string serviceName;
-        private string configurationSetting;
-        private string machineName;
+        private readonly string serviceName;
+        private readonly string configurationSetting;
+        private readonly string machineName;
     }
 }

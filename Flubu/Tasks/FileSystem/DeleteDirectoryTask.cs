@@ -20,15 +20,15 @@ namespace Flubu.Tasks.FileSystem
             get
             {
                 return String.Format (
-                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.CultureInfo.InvariantCulture, 
                     "Delete directory '{0}'", 
                     directoryPath);
             }
         }
 
         public static void Execute(
-            ITaskContext context,
-            string directoryPath,
+            ITaskContext context, 
+            string directoryPath, 
             bool failIfNotExists)
         {
             DeleteDirectoryTask task = new DeleteDirectoryTask (directoryPath, failIfNotExists);
@@ -46,7 +46,7 @@ namespace Flubu.Tasks.FileSystem
             Directory.Delete (directoryPath, true);
         }
 
-        private string directoryPath;
+        private readonly string directoryPath;
         private readonly bool failIfNotExists;
     }
 }

@@ -101,15 +101,16 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             Version highestVersion = null;
 
             foreach (string directory in Directory.EnumerateDirectories (
-                PackagesDirName,
+                PackagesDirName, 
                 string.Format(CultureInfo.InvariantCulture, "{0}.*", NuGetCmdLinePackageName)))
             {
                 string dirLocalName = Path.GetFileName(directory);
+
                 // ReSharper disable once PossibleNullReferenceException
-                string versionStr = dirLocalName.Substring (packageNameLen + 1);
+                string versionStr = dirLocalName.Substring(packageNameLen + 1);
 
                 Version version;
-                if (!Version.TryParse (versionStr, out version))
+                if (!Version.TryParse(versionStr, out version))
                     continue;
 
                 if (highestVersion == null || version > highestVersion)
@@ -135,8 +136,8 @@ namespace Flubu.Builds.Tasks.NuGetTasks
         [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Nu")]
         public enum NuGetVerbosity
         {
-            Normal,
-            Quiet,
+            Normal, 
+            Quiet, 
             Detailed
         }
     }

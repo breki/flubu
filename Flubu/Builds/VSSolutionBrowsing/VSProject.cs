@@ -81,8 +81,8 @@ namespace Flubu.Builds.VSSolutionBrowsing
 
                 XmlReaderSettings xmlReaderSettings = new XmlReaderSettings
                                             {
-                                                IgnoreComments = true,
-                                                IgnoreProcessingInstructions = true,
+                                                IgnoreComments = true, 
+                                                IgnoreProcessingInstructions = true, 
                                                 IgnoreWhitespace = true
                                             };
 

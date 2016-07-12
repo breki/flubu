@@ -23,7 +23,7 @@ namespace Flubu.Tasks.SqlServer
         }
 
         public static void ExecuteSqlScriptFile(
-            ITaskContext context,
+            ITaskContext context, 
             string connectionString, 
             string scriptFilePath)
         {
@@ -32,7 +32,7 @@ namespace Flubu.Tasks.SqlServer
         }
 
         public static void ExecuteSqlCommand(
-            ITaskContext context,
+            ITaskContext context, 
             string connectionString, 
             string commandText)
         {
@@ -86,12 +86,12 @@ namespace Flubu.Tasks.SqlServer
             {
                 StartInfo =
                 {
-                    WorkingDirectory = Environment.CurrentDirectory,
-                    FileName = "cmd",
-                    CreateNoWindow = false,
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardInput = true,
+                    WorkingDirectory = Environment.CurrentDirectory, 
+                    FileName = "cmd", 
+                    CreateNoWindow = false, 
+                    UseShellExecute = false, 
+                    RedirectStandardOutput = true, 
+                    RedirectStandardInput = true, 
                     RedirectStandardError = true
                 }
             })

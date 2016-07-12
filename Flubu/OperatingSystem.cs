@@ -5,16 +5,16 @@ namespace Flubu
         /// <summary>
         /// Indicates the Windows XP operating system.
         /// </summary>
-        WindowsXP,
+        WindowsXP, 
 
         /// <summary>
         /// Indicates the Windows Server 2000 operating system.
         /// </summary>
-        WindowsServer2000,
+        WindowsServer2000, 
 
         /// <summary>
         /// Indicates the Windows Server 2003 operating system.
         /// </summary>
-        WindowsServer2003,
+        WindowsServer2003, 
     }
 }

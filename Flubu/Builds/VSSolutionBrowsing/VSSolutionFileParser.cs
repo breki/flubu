@@ -40,9 +40,9 @@ namespace Flubu.Builds.VSSolutionBrowsing
         {
             throw new ArgumentException(
                 String.Format(
-                    CultureInfo.InvariantCulture,
-                    "{0} (line {1})",
-                    reason,
+                    CultureInfo.InvariantCulture, 
+                    "{0} (line {1})", 
+                    reason, 
                     lineCount));
         }
 

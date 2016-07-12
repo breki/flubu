@@ -25,9 +25,9 @@ namespace Flubu.Tasks.Text
             get
             {
                 return String.Format (
-                    CultureInfo.InvariantCulture,
-                    "Evaluate {0} XPath expressions on file '{1}'.",
-                    expressions.Count,
+                    CultureInfo.InvariantCulture, 
+                    "Evaluate {0} XPath expressions on file '{1}'.", 
+                    expressions.Count, 
                     xmlFileName);
             }
         }

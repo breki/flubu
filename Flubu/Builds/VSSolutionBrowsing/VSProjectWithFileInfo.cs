@@ -83,16 +83,16 @@ namespace Flubu.Builds.VSSolutionBrowsing
 
             // find the project configuration
             string condition = string.Format(
-                CultureInfo.InvariantCulture,
+                CultureInfo.InvariantCulture, 
                 "'$(Configuration)|$(Platform)' == '{0}|AnyCPU'", 
                 buildConfiguration);
             VSProjectConfiguration projectConfiguration = Project.FindConfiguration(condition);
             if (projectConfiguration == null)
             {
                 string message = string.Format(
-                    CultureInfo.InvariantCulture,
-                    "Could not find '{0}' configuration for the project '{1}'.",
-                    condition,
+                    CultureInfo.InvariantCulture, 
+                    "Could not find '{0}' configuration for the project '{1}'.", 
+                    condition, 
                     ProjectName);
 
                 throw new ArgumentException(message);
@@ -101,9 +101,9 @@ namespace Flubu.Builds.VSSolutionBrowsing
             if (false == projectConfiguration.Properties.ContainsKey("OutputPath"))
             {
                 string message = string.Format(
-                    CultureInfo.InvariantCulture,
-                    "Missing OutputPath for the '{0}' configuration of the project '{1}'.",
-                    buildConfiguration,
+                    CultureInfo.InvariantCulture, 
+                    "Missing OutputPath for the '{0}' configuration of the project '{1}'.", 
+                    buildConfiguration, 
                     ProjectName);
 
                 throw new ArgumentException(message);

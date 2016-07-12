@@ -28,7 +28,7 @@ namespace Flubu.Tasks.WindowsServices
             get
             {
                 return String.Format(
-                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.CultureInfo.InvariantCulture, 
                     "Install Windows service '{0}'", 
                     executablePath);
             }
@@ -57,7 +57,7 @@ namespace Flubu.Tasks.WindowsServices
         /// <param name="mode">The task mode.</param>
         public static void Execute (
             ITaskContext environment, 
-            string executablePath,
+            string executablePath, 
             string serviceName, 
             InstallWindowsServiceMode mode)
         {
@@ -72,7 +72,7 @@ namespace Flubu.Tasks.WindowsServices
         protected override void DoExecute (ITaskContext context)
         {
             string configSettingName = String.Format (
-                System.Globalization.CultureInfo.InvariantCulture,
+                System.Globalization.CultureInfo.InvariantCulture, 
                 "ServicesExist/{0}", 
                 serviceName);
 
@@ -89,7 +89,7 @@ namespace Flubu.Tasks.WindowsServices
                     case InstallWindowsServiceMode.FailIfAlreadyInstalled:
                         throw new TaskExecutionException (
                             String.Format (
-                                System.Globalization.CultureInfo.InvariantCulture,
+                                System.Globalization.CultureInfo.InvariantCulture, 
                                 "The Windows service '{0}' already exists.", 
                                 serviceName));
 
@@ -129,9 +129,9 @@ namespace Flubu.Tasks.WindowsServices
             }
         }
 
-        private string executablePath;
-        private InstallWindowsServiceMode mode;
-        private string serviceName;
+        private readonly string executablePath;
+        private readonly InstallWindowsServiceMode mode;
+        private readonly string serviceName;
         private TimeSpan serviceUninstallationWaitTime = TimeSpan.FromSeconds(5);
     }
 }

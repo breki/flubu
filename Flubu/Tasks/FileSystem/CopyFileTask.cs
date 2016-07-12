@@ -14,7 +14,7 @@ namespace Flubu.Tasks.FileSystem
             get
             {
                 return String.Format (
-                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.CultureInfo.InvariantCulture, 
                     "Copy file '{0}' to '{1}'", 
                     sourceFileName, 
                     destinationFileName);
@@ -23,7 +23,7 @@ namespace Flubu.Tasks.FileSystem
 
         public CopyFileTask (
             string sourceFileName, 
-            string destinationFileName,
+            string destinationFileName, 
             bool overwrite)
         {
             this.sourceFileName = sourceFileName;
@@ -32,9 +32,9 @@ namespace Flubu.Tasks.FileSystem
         }
 
         public static void Execute(
-            ITaskContext context,
-            string sourceFileName,
-            string destinationFileName,
+            ITaskContext context, 
+            string sourceFileName, 
+            string destinationFileName, 
             bool overwrite)
         {
             CopyFileTask task = new CopyFileTask (sourceFileName, destinationFileName, overwrite);
@@ -50,8 +50,8 @@ namespace Flubu.Tasks.FileSystem
             File.Copy (sourceFileName, destinationFileName, overwrite);
         }
 
-        private string sourceFileName;
-        private string destinationFileName;
-        private bool overwrite;
+        private readonly string sourceFileName;
+        private readonly string destinationFileName;
+        private readonly bool overwrite;
     }
 }

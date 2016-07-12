@@ -17,8 +17,8 @@ namespace Flubu.Tasks.Text
             get
             {
                 return String.Format (
-                    CultureInfo.InvariantCulture,
-                    "Configure application setting in the file '{0}'",
+                    CultureInfo.InvariantCulture, 
+                    "Configure application setting in the file '{0}'", 
                     configFileName);
             }
         }
@@ -114,8 +114,8 @@ namespace Flubu.Tasks.Text
         }
 
         private readonly string configFileName;
-        private List<SetKeyTask> setKeyTasks = new List<SetKeyTask>();
-        private List<RemoveKeyTask> removeKeyTasks = new List<RemoveKeyTask>();
+        private readonly List<SetKeyTask> setKeyTasks = new List<SetKeyTask>();
+        private readonly List<RemoveKeyTask> removeKeyTasks = new List<RemoveKeyTask>();
 
         private class SetKeyTask
         {
@@ -135,8 +135,8 @@ namespace Flubu.Tasks.Text
                 get { return value; }
             }
 
-            private string key;
-            private string value;
+            private readonly string key;
+            private readonly string value;
         }
 
         private class RemoveKeyTask

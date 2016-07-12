@@ -2,9 +2,9 @@
 {
     public enum TaskMessageLevel
     {
-        Debug,
-        Info,
-        Warn,
-        Error,
+        Debug, 
+        Info, 
+        Warn, 
+        Error, 
     }
 }

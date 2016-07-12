@@ -24,10 +24,10 @@ namespace Flubu.Tasks.Text
             get
             {
                 return String.Format(
-                    CultureInfo.InvariantCulture,
-                    "Read xpath '{0}' from file '{1}' and store it into '{2}' setting.",
-                    xpath,
-                    xmlFileName,
+                    CultureInfo.InvariantCulture, 
+                    "Read xpath '{0}' from file '{1}' and store it into '{2}' setting.", 
+                    xpath, 
+                    xmlFileName, 
                     configurationSettingName);
             }
         }
@@ -44,8 +44,8 @@ namespace Flubu.Tasks.Text
         }
 
         public PeekXmlTask(
-            string xmlFileName,
-            string xpath,
+            string xmlFileName, 
+            string xpath, 
             string configurationSettingName)
         {
             this.xmlFileName = xmlFileName;
@@ -66,9 +66,9 @@ namespace Flubu.Tasks.Text
         /// If provided <paramref name="xpath"/> matches multiple nodes, their values are stored as <see cref="string"/>[] in configuration setting <paramref name="configurationSettingName"/>.
         /// </remarks>
         public static void Execute(
-            ITaskContext environment,
-            string xmlFileName,
-            string xpath,
+            ITaskContext environment, 
+            string xmlFileName, 
+            string xpath, 
             string configurationSettingName)
         {
             if (environment == null)
@@ -110,7 +110,7 @@ namespace Flubu.Tasks.Text
             else
             {
                 context.Properties.Set(
-                    configurationSettingName,
+                    configurationSettingName, 
                     (from XmlNode node in nodes select node.InnerText).ToArray());
             }
         }

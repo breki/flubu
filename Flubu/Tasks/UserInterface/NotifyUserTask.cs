@@ -23,6 +23,6 @@ namespace Flubu.Tasks.UserInterface
             context.WriteMessage(TaskMessageLevel.Info, message);
         }
 
-        private string message;
+        private readonly string message;
     }
 }

@@ -36,13 +36,13 @@ namespace Flubu.Tasks.Configuration
             {
                 if (configurationString != null)
                     return String.Format (
-                        System.Globalization.CultureInfo.InvariantCulture,
-                        "Read configuration string: '{0}'",
+                        System.Globalization.CultureInfo.InvariantCulture, 
+                        "Read configuration string: '{0}'", 
                         configurationString);
                 if (configurationFileName != null)
                     return String.Format (
-                        System.Globalization.CultureInfo.InvariantCulture,
-                        "Read configuration file: '{0}'",
+                        System.Globalization.CultureInfo.InvariantCulture, 
+                        "Read configuration file: '{0}'", 
                         configurationFileName);
 
                 return "Read configuration";

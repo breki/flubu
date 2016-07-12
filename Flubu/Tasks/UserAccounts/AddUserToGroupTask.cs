@@ -12,7 +12,7 @@ namespace Flubu.Tasks.UserAccounts
             get
             {
                 return String.Format(
-                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.CultureInfo.InvariantCulture, 
                     "Add user account '{0}' to group '{1}'", 
                     userName, 
                     group);
@@ -47,7 +47,7 @@ namespace Flubu.Tasks.UserAccounts
                                 {
                                     // user is already member of the group, nothing to do
                                     context.WriteInfo(
-                                        "User '{0}' is already member of the group '{1}', nothing to do.",
+                                        "User '{0}' is already member of the group '{1}', nothing to do.", 
                                         userName, 
                                         group);
                                     return;

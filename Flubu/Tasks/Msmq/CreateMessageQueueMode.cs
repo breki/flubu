@@ -5,16 +5,16 @@ namespace Flubu.Tasks.Msmq
         /// <summary>
         /// If the message queue already exists, the task should fail.
         /// </summary>
-        FailIfAlreadyExists,
+        FailIfAlreadyExists, 
 
         /// <summary>
         /// If the message queue already exists, the message queue should be recreated.
         /// </summary>
-        RecreateIfExists,
+        RecreateIfExists, 
 
         /// <summary>
         /// If the message queue already exists, the task should do nothing.
         /// </summary>
-        DoNothingIfExists,
+        DoNothingIfExists, 
     }
 }

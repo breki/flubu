@@ -5,11 +5,11 @@ namespace Flubu.Tasks.WindowsServices
         /// <summary>
         /// Start the Windows service.
         /// </summary>
-        Start,
+        Start, 
 
         /// <summary>
         /// Stop the Windows service.
         /// </summary>
-        Stop,
+        Stop, 
     }
 }

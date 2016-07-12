@@ -12,8 +12,8 @@ namespace Flubu.Tasks.WindowsServices
             get
             {
                 return String.Format(
-                    CultureInfo.InvariantCulture,
-                    "Uninstall Windows service '{0}'",
+                    CultureInfo.InvariantCulture, 
+                    "Uninstall Windows service '{0}'", 
                     ServiceName);
             }
         }
@@ -25,8 +25,8 @@ namespace Flubu.Tasks.WindowsServices
         }
 
         public static void Execute(
-            ITaskContext environment,
-            string serviceName,
+            ITaskContext environment, 
+            string serviceName, 
             bool failIfNotExist)
         {
             new RemoveWindowsServiceTask(serviceName, failIfNotExist)
@@ -35,9 +35,10 @@ namespace Flubu.Tasks.WindowsServices
 
         protected override void DoExecute(ITaskContext context)
         {
-// ReSharper disable InconsistentNaming
+            // ReSharper disable InconsistentNaming
             const int GenericWrite = 0x40000000;
-// ReSharper restore InconsistentNaming
+
+            // ReSharper restore InconsistentNaming
             IntPtr scHndl = IntPtr.Zero;
             IntPtr svcHndl = IntPtr.Zero;
             try
@@ -48,9 +49,10 @@ namespace Flubu.Tasks.WindowsServices
                     throw new TaskExecutionException("Service manager could not be opened!");
                 }
 
-// ReSharper disable InconsistentNaming
+                // ReSharper disable InconsistentNaming
                 const int Delete = 0x10000;
-// ReSharper restore InconsistentNaming
+
+                // ReSharper restore InconsistentNaming
                 svcHndl = OpenService(scHndl, ServiceName, Delete);
                 if (svcHndl == IntPtr.Zero)
                 {
@@ -80,8 +82,10 @@ namespace Flubu.Tasks.WindowsServices
 
         [DllImport("advapi32.dll", CharSet = CharSet.Unicode)]
         [SuppressMessage("Microsoft.Design", "CA1060:MovePInvokesToNativeMethodsClass")]
+
         // ReSharper disable InconsistentNaming
         private static extern IntPtr OpenSCManager(string lpMachineName, string lpScdb, int scParameter);
+
         // ReSharper restore InconsistentNaming
 
         [DllImport("advapi32.dll", CharSet = CharSet.Unicode)]

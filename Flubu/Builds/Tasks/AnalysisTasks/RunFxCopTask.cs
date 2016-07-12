@@ -6,9 +6,9 @@ namespace Flubu.Builds.Tasks.AnalysisTasks
     public class RunFxCopTask : TaskBase
     {
         public RunFxCopTask(
-            string fxCopCmdExeFileName,
-            string fxCopGuiExeFileName,
-            string fxCopProjectFileName,
+            string fxCopCmdExeFileName, 
+            string fxCopGuiExeFileName, 
+            string fxCopProjectFileName, 
             string fxCopReportFileName)
         {
             this.fxCopCmdExeFileName = fxCopCmdExeFileName;

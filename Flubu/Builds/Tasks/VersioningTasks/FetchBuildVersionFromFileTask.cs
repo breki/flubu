@@ -7,7 +7,7 @@ namespace Flubu.Builds.Tasks.VersioningTasks
     public class FetchBuildVersionFromFileTask : TaskBase, IFetchBuildVersionTask
     {
         public FetchBuildVersionFromFileTask(
-            string productRootDir,
+            string productRootDir, 
             string productId)
         {
             this.productRootDir = productRootDir;
@@ -42,7 +42,7 @@ namespace Flubu.Builds.Tasks.VersioningTasks
             if (false == File.Exists(projectVersionFileName))
             {
                 string message = string.Format(
-                    CultureInfo.InvariantCulture,
+                    CultureInfo.InvariantCulture, 
                     "Project version file ('{0}') is missing.", 
                     projectVersionFileName);
                 throw new InvalidOperationException(message);

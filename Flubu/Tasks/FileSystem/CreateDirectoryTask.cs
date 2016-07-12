@@ -16,7 +16,7 @@ namespace Flubu.Tasks.FileSystem
             get
             {
                 return String.Format (
-                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.CultureInfo.InvariantCulture, 
                     "Create directory '{0}'", 
                     directoryPath);
             }

@@ -8,7 +8,7 @@ namespace Flubu.Builds
         public void Log(string format, params object[] args)
         {
             string message = string.Format(
-                CultureInfo.InvariantCulture,
+                CultureInfo.InvariantCulture, 
                 format, 
                 args);
 

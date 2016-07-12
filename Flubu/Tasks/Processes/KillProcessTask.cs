@@ -17,7 +17,7 @@ namespace Flubu.Tasks.Processes
             get
             {
                 return String.Format (
-                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.CultureInfo.InvariantCulture, 
                     "Kill process '{0}'", 
                     processName);
             }
@@ -48,6 +48,6 @@ namespace Flubu.Tasks.Processes
             }
         }
 
-        private string processName;
+        private readonly string processName;
     }
 }
