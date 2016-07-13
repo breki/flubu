@@ -76,12 +76,17 @@
   <ItemGroup>
     <Compile Include="BasicTests.cs" />
     <Compile Include="BuildsTests\VSSolutionTests.cs" />
+    <Compile Include="ConsoleTests\BuildScriptLocatorTests.cs" />
+    <Compile Include="ConsoleTests\ScriptLoaderTests.cs" />
     <Compile Include="FileVersionTests.cs" />
     <Compile Include="FlubuEnvironmentTests.cs" />
     <Compile Include="PackagingTests\CopyProcessorTests.cs" />
     <Compile Include="PackagingTests\MockCopier.cs" />
     <Compile Include="PackagingTests\MockDirectoryFilesLister.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Samples\BuildScript.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Compile Include="TaskSessionTests.cs" />
     <Compile Include="TasksTests\CompileSolutionTaskTests.cs" />
     <Compile Include="TasksTests\ConfigureAppSettingsTaskTests.cs" />
@@ -91,6 +96,10 @@
     <Compile Include="TestHelper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Flubu.Console\Flubu.Console.csproj">
+      <Project>{cae11d4a-0b77-4639-a2ac-2db8ee59b1e6}</Project>
+      <Name>Flubu.Console</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Flubu.Contrib\Flubu.Contrib.csproj">
       <Project>{8D82233C-682A-4FA7-8581-DD31F0FB564D}</Project>
       <Name>Flubu.Contrib</Name>
@@ -134,6 +143,7 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

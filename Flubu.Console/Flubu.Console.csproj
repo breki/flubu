@@ -66,8 +66,16 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="BuildScriptLocator.cs" />
+    <Compile Include="BuildScriptLocatorException.cs" />
+    <Compile Include="ConsoleLogger.cs" />
+    <Compile Include="FileExistsService.cs" />
+    <Compile Include="IConsoleLogger.cs" />
+    <Compile Include="IFileExistsService.cs" />
+    <Compile Include="IScriptLoader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScriptLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
