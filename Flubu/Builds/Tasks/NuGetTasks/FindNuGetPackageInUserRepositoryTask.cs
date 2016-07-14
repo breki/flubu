@@ -43,8 +43,13 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             packageVersion = null;
             packageDirectory = null;
 
-            if (!Directory.Exists (DownloadNugetPackageInUserRepositoryTask.UserProfileNuGetPackagesDir))
+            if (!Directory.Exists(DownloadNugetPackageInUserRepositoryTask.UserProfileNuGetPackagesDir))
+            {
+                context.WriteDebug(
+                    "Flubu NuGet user repository directory '{0}' does not exist.", 
+                    DownloadNugetPackageInUserRepositoryTask.UserProfileNuGetPackagesDir);
                 return;
+            }
 
             foreach (string directory in Directory.EnumerateDirectories (
                 DownloadNugetPackageInUserRepositoryTask.UserProfileNuGetPackagesDir, 

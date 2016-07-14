@@ -1,12 +1,10 @@
 ﻿- problem with NuGet packages in user repository - the paths are too long
 	- possible solutions: 
 		1. use different path for user repository
-			- 
 			- optional if the user repository path is already too long?
 			- fallback mechanism with different directory candidates:
 				- user directory
 				- c:\nuget
-				- 
 		2. rename packages?
 
 - fix speech for Win 10 - it is too slow
@@ -17,7 +15,3 @@
 	 - add readme in nuget package on how to correct the build script after updating nuget
 
 - add help target which displays target dependencies
-- add CCNet listener logger
-- add NAnt-like logger (or something similar)
-- log severity levels?
-- Flubu banner - virtual

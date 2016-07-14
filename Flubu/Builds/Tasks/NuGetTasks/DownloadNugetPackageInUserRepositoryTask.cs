@@ -93,7 +93,12 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             findPackageTask.Execute (context);
             packageDirectory = findPackageTask.PackageDirectory;
 
-            context.WriteInfo ("Package downloaded to '{0}'", packageDirectory);
+            if (packageDirectory == null)
+                context.Fail(
+                    "Something is wrong, after downloading it the NuGet package '{0}' still could not be found.", 
+                    packageId);
+            else
+                context.WriteInfo ("Package downloaded to '{0}'", packageDirectory);
         }
 
         private readonly string packageId;
