@@ -85,6 +85,7 @@
     <Compile Include="TaskSessionTests.cs" />
     <Compile Include="TasksTests\CompileSolutionTaskTests.cs" />
     <Compile Include="TasksTests\ConfigureAppSettingsTaskTests.cs" />
+    <Compile Include="TasksTests\FindNuGetPackageInUserRepositoryTaskTests.cs" />
     <Compile Include="TasksTests\Iis7Tests.cs" />
     <Compile Include="TasksTests\UnzipTests.cs" />
     <Compile Include="TasksTests\XmlTests.cs" />
