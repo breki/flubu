@@ -50,10 +50,22 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             get { return packageDirectory; }
         }
 
+        public const string FlubuCachePathOverrideEnvVariableName = "FLUBU_CACHE";
+        private const string NuGetDirectoryName = "NuGet";
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Nu")]
-        public static string UserProfileNuGetPackagesDir
+        public static string NuGetPackagesCacheDir
         {
-            get { return Path.Combine (Environment.GetFolderPath (Environment.SpecialFolder.UserProfile), @".flubu\NuGet"); }
+            get
+            {
+                string overrideValue = Environment.GetEnvironmentVariable(FlubuCachePathOverrideEnvVariableName);
+                if (overrideValue == null)
+                    return Path.Combine (
+                        Environment.GetFolderPath (Environment.SpecialFolder.UserProfile), 
+                        Path.Combine(".flubu", NuGetDirectoryName));
+
+                return Path.Combine(overrideValue, NuGetDirectoryName);
+            }
         }
 
         protected override void DoExecute (ITaskContext context)
@@ -78,7 +90,7 @@ namespace Flubu.Builds.Tasks.NuGetTasks
                 .AddArgument (packageId)
                 .AddArgument ("-Source").AddArgument (packageSource)
                 .AddArgument ("-NonInteractive")
-                .AddArgument ("-OutputDirectory").AddArgument (UserProfileNuGetPackagesDir);
+                .AddArgument ("-OutputDirectory").AddArgument (NuGetPackagesCacheDir);
 
             if (packageVersion != null)
                 task.AddArgument ("-Version").AddArgument (packageVersion.ToString ());
@@ -93,7 +105,12 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             findPackageTask.Execute (context);
             packageDirectory = findPackageTask.PackageDirectory;
 
-            context.WriteInfo ("Package downloaded to '{0}'", packageDirectory);
+            if (packageDirectory == null)
+                context.Fail(
+                    "Something is wrong, after downloading it the NuGet package '{0}' still could not be found.", 
+                    packageId);
+            else
+                context.WriteInfo ("Package downloaded to '{0}'", packageDirectory);
         }
 
         private readonly string packageId;
