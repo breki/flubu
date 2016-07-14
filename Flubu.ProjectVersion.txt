@@ -1,3 +1,8 @@
+3.3.0.0
+- Refactored Console code to be testable and added tests for it.
+- Console will no longer execute the first .cs file in the current directory since this was a very
+bad idea.
+
 3.2.0.0
 - DownloadNugetPackageInUserRepositoryTask and FindNuGetPackageInUserRepositoryTask tasks now use
 	<user profile>/.flubu/NuGet directory for cached NuGet packages since this is a shorter path and should
