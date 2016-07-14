@@ -1,3 +1,8 @@
+3.4.0.0
+- DownloadNugetPackageInUserRepositoryTask now supports overriding the default
+	Flubu cache directory location using FLUBU_CACHE environment variable. This is to enable building on
+	Jenkins using the Local System user account (user profile does not seem to work for that one).
+
 3.3.0.0
 - Refactored Console code to be testable and added tests for it.
 - Console will no longer execute the first .cs file in the current directory since this was a very
