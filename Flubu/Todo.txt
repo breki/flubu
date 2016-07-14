@@ -1,5 +1,6 @@
 ﻿- problem with NuGet packages in user repository - the paths are too long
 	- possible solutions: 
+		- the repo path overriden by environment variable?
 		1. use different path for user repository
 			- optional if the user repository path is already too long?
 			- fallback mechanism with different directory candidates:
