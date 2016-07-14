@@ -43,16 +43,16 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             packageVersion = null;
             packageDirectory = null;
 
-            if (!Directory.Exists(DownloadNugetPackageInUserRepositoryTask.UserProfileNuGetPackagesDir))
+            if (!Directory.Exists(DownloadNugetPackageInUserRepositoryTask.NuGetPackagesCacheDir))
             {
                 context.WriteDebug(
                     "Flubu NuGet user repository directory '{0}' does not exist.", 
-                    DownloadNugetPackageInUserRepositoryTask.UserProfileNuGetPackagesDir);
+                    DownloadNugetPackageInUserRepositoryTask.NuGetPackagesCacheDir);
                 return;
             }
 
             foreach (string directory in Directory.EnumerateDirectories (
-                DownloadNugetPackageInUserRepositoryTask.UserProfileNuGetPackagesDir, 
+                DownloadNugetPackageInUserRepositoryTask.NuGetPackagesCacheDir, 
                 string.Format (CultureInfo.InvariantCulture, "{0}.*", packageId)))
             {
                 string localDirName = Path.GetFileName (directory);
@@ -66,7 +66,7 @@ namespace Flubu.Builds.Tasks.NuGetTasks
                 {
                     packageVersion = version;
                     packageDirectory = Path.Combine (
-                        DownloadNugetPackageInUserRepositoryTask.UserProfileNuGetPackagesDir, 
+                        DownloadNugetPackageInUserRepositoryTask.NuGetPackagesCacheDir, 
                         localDirName);
                 }
             }
