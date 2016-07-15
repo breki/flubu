@@ -1,3 +1,7 @@
+3.4.1.0
+- PublishNuGetPackageTask now comes with the default value for NuGetServerUrl since the new NuGet
+console requires -Source parameter as a mandatory one.
+
 3.4.0.0
 - DownloadNugetPackageInUserRepositoryTask now supports overriding the default
 	Flubu cache directory location using FLUBU_CACHE environment variable. This is to enable building on

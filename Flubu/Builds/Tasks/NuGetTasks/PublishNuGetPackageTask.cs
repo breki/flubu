@@ -45,8 +45,18 @@ namespace Flubu.Builds.Tasks.NuGetTasks
         [SuppressMessage ("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Nu"), SuppressMessage ("Microsoft.Design", "CA1056:UriPropertiesShouldNotBeStrings")]
         public string NuGetServerUrl
         {
-            get { return nuGetServerUrl; }
-            set { nuGetServerUrl = value; }
+            get
+            {
+                return nuGetServerUrl;
+            }
+
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new InvalidOperationException("NuGetServerUrl cannot be null or empty string.");
+
+                nuGetServerUrl = value;
+            }
         }
 
         public bool AllowPushOnInteractiveBuild
@@ -122,8 +132,7 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             nugetTask = new NuGetCmdLineTask ("push", nugetWorkingDir);
             nugetTask.Verbosity = NuGetCmdLineTask.NuGetVerbosity.Detailed;
             nugetTask.ApiKey = apiKey;
-            if (nuGetServerUrl != null)
-                nugetTask.AddArgument ("Source").AddArgument (nuGetServerUrl);
+            nugetTask.AddArgument ("Source").AddArgument (nuGetServerUrl);
 
             nugetTask
                 .AddArgument (nupkgFileName)
