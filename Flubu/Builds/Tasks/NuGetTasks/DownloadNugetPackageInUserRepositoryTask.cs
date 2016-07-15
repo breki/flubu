@@ -98,7 +98,8 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             if (configFile != null)
                 task.AddArgument ("-ConfigFile").AddArgument (configFile);
 
-            task.Verbosity = verbosity;
+            if (verbosity.HasValue)
+                task.AddVerbosityArgument(verbosity.Value);
 
             task.Execute (context);
 

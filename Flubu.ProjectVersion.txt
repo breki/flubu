@@ -1,3 +1,7 @@
+3.5.0.0
+- BREAKING CHANGE: redesigned NuGetCmdLineTask to be compatible with changes in NuGet.CommandLine detected
+in v3.4.3. 
+
 3.4.1.0
 - PublishNuGetPackageTask now comes with the default value for NuGetServerUrl since the new NuGet
 console requires -Source parameter as a mandatory one.

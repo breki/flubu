@@ -98,9 +98,10 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             context.WriteInfo ("Creating a NuGet package file");
             string nugetWorkingDir = destNuspecFile.Directory.ToString ();
             NuGetCmdLineTask nugetTask = new NuGetCmdLineTask ("pack", nugetWorkingDir);
-            nugetTask.Verbosity = NuGetCmdLineTask.NuGetVerbosity.Detailed;
             nugetTask
                 .AddArgument (destNuspecFile.FileName);
+
+            nugetTask.AddVerbosityArgument(NuGetCmdLineTask.NuGetVerbosity.Detailed);
 
             if (basePath != null)
                 nugetTask.AddArgument ("-BasePath").AddArgument (basePath);
@@ -124,18 +125,22 @@ namespace Flubu.Builds.Tasks.NuGetTasks
 
             string apiKey = apiKeyFunc (context);
             if (apiKey == null)
+            {
+                context.WriteInfo("API key function returned null, skipping pushing of the NuGet package.");
                 return;
+            }
 
             // publish the package file
             context.WriteInfo ("Pushing the NuGet package to the repository");
 
             nugetTask = new NuGetCmdLineTask ("push", nugetWorkingDir);
-            nugetTask.Verbosity = NuGetCmdLineTask.NuGetVerbosity.Detailed;
-            nugetTask.ApiKey = apiKey;
-            nugetTask.AddArgument ("Source").AddArgument (nuGetServerUrl);
+            nugetTask
+                .AddArgument(nupkgFileName)
+                .AddArgument(apiKey)
+                .AddArgument("-Source").AddArgument(nuGetServerUrl)
+                .AddVerbosityArgument(NuGetCmdLineTask.NuGetVerbosity.Detailed);
 
             nugetTask
-                .AddArgument (nupkgFileName)
                 .Execute (context);
         }
 
