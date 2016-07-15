@@ -36,6 +36,12 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             set { basePath = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the server URL.
+        /// </summary>
+        /// <remarks>Starting with NuGet 3.4.2, this is a mandatory parameter unless 
+        /// <c>DefaultPushSource</c> config value is set in the NuGet config file.
+        /// The default <see cref="NuGetServerUrl"/> value is <c>https://www.nuget.org/api/v2/package</c>.</remarks>
         [SuppressMessage ("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Nu"), SuppressMessage ("Microsoft.Design", "CA1056:UriPropertiesShouldNotBeStrings")]
         public string NuGetServerUrl
         {
@@ -152,7 +158,7 @@ namespace Flubu.Builds.Tasks.NuGetTasks
         private readonly string nuspecFileName;
         private bool allowPushOnInteractiveBuild;
         [SuppressMessage ("StyleCop.CSharp.NamingRules", "SA1305:FieldNamesMustNotUseHungarianNotation", Justification = "Reviewed. Suppression is OK here.")]
-        private string nuGetServerUrl;
+        private string nuGetServerUrl = "https://www.nuget.org/api/v2/package";
         private Func<ITaskContext, string> apiKeyFunc;
         private string basePath;
     }
