@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using Flubu.Tasks.Processes;
 
 namespace Flubu.Builds.Tasks.NuGetTasks
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Nu")]
+    [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Nu")]
     public class NuGetCmdLineTask : TaskBase
     {
+        [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Nu")]
+        public const string DefaultNuGetApiKeyEnvVariable = "NuGetOrgApiKey";
+        public const string DefaultApiKeyFileName = "private/nuget.org-api-key.txt";
+
         public NuGetCmdLineTask(string command, string workingDirectory = null)
         {
             this.command = command;
@@ -20,64 +25,56 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             get { return string.Format(CultureInfo.InvariantCulture, "Execute NuGet command line tool (command='{0}')", command); }
         }
 
-        public NuGetVerbosity? Verbosity
-        {
-            get { return verbosity; }
-            set { verbosity = value; }
-        }
-
-        public string ApiKey { get; set; }
+        [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Nu")]
+        public string NuGetCmdLineExePath { get; set; }
 
         public int ExitCode
         {
             get { return exitCode; }
         }
 
-        public NuGetCmdLineTask AddArgument (string arg)
+        public NuGetCmdLineTask AddArgument(string arg)
         {
             args.Add(arg);
             return this;
         }
 
-        public string ExecutablePath { get; private set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Nu")]
-        public NuGetCmdLineTask NuGetPath(string fullFilePath)
+        public NuGetCmdLineTask AddVerbosityArgument(NuGetVerbosity value)
         {
-            ExecutablePath = fullFilePath;
+            args.Add("-Verbosity");
+            args.Add(value.ToString());
             return this;
-        }
-
-        public static NuGetCmdLineTask Create(string command, params string[] parameters)
-        {
-            var t = new NuGetCmdLineTask(command);
-            t.args.AddRange(parameters);
-            return t;
         }
 
         protected override void DoExecute(ITaskContext context)
         {
-            string nugetCmdLinePath = FindNuGetCmdLinePath();
-
-            if (nugetCmdLinePath == null)
+            if (NuGetCmdLineExePath == null)
             {
-                context.Fail (
-                    "Could not find NuGet.CommandLine package in the {0} directory. You have to download it yourself.", 
-                    PackagesDirName);
-                return;
+                Version nuGetCmdLineVersion = FindNuGetCmdLineExePath();
+
+                if (NuGetCmdLineExePath == null)
+                {
+                    context.Fail(
+                        "Could not find NuGet.CommandLine package in the {0} directory. You have to download it yourself.",
+                        PackagesDirName);
+                    return;
+                }
+
+                if (nuGetCmdLineVersion < new Version("3.4.3"))
+                {
+                    context.Fail(
+                        "This version of Flubu NuGet task work with NuGet 3.4.3 or later, but you have an older version {0}. Please download the newer version yourself.",
+                        nuGetCmdLineVersion);
+                    return;
+                }
             }
 
-            RunProgramTask runProgramTask = new RunProgramTask(nugetCmdLinePath);
+            RunProgramTask runProgramTask = new RunProgramTask(NuGetCmdLineExePath);
             if (workingDirectory != null)
                 runProgramTask.SetWorkingDir(workingDirectory);
 
             runProgramTask.EncloseParametersInQuotes(false);
             runProgramTask.AddArgument(command);
-
-            if (verbosity.HasValue)
-                runProgramTask.AddArgument("-Verbosity").AddArgument(verbosity.ToString());
-            if (ApiKey != null)
-                runProgramTask.AddArgument("-ApiKey").AddSecureArgument(ApiKey);
 
             foreach (string arg in args)
                 runProgramTask.AddArgument(arg);
@@ -86,12 +83,9 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             exitCode = runProgramTask.LastExitCode;
         }
 
-        private string FindNuGetCmdLinePath()
+        private Version FindNuGetCmdLineExePath()
         {
-            if (!string.IsNullOrEmpty(ExecutablePath))
-                return ExecutablePath;
-
-            if (!Directory.Exists (PackagesDirName))
+            if (!Directory.Exists(PackagesDirName))
                 return null;
 
             const string NuGetCmdLinePackageName = "NuGet.CommandLine";
@@ -100,8 +94,8 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             string highestVersionDir = null;
             Version highestVersion = null;
 
-            foreach (string directory in Directory.EnumerateDirectories (
-                PackagesDirName, 
+            foreach (string directory in Directory.EnumerateDirectories(
+                PackagesDirName,
                 string.Format(CultureInfo.InvariantCulture, "{0}.*", NuGetCmdLinePackageName)))
             {
                 string dirLocalName = Path.GetFileName(directory);
@@ -121,7 +115,10 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             }
 
             if (highestVersionDir != null)
-                return Path.Combine(highestVersionDir, "tools/NuGet.exe");
+            {
+                NuGetCmdLineExePath = Path.Combine(highestVersionDir, "tools/NuGet.exe");
+                return highestVersion;
+            }
 
             return null;
         }
@@ -130,14 +127,13 @@ namespace Flubu.Builds.Tasks.NuGetTasks
         private readonly string workingDirectory;
         private const string PackagesDirName = "packages";
         private readonly List<string> args = new List<string>();
-        private NuGetVerbosity? verbosity;
         private int exitCode;
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage ("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Nu")]
+        [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Nu")]
         public enum NuGetVerbosity
         {
-            Normal, 
-            Quiet, 
+            Normal,
+            Quiet,
             Detailed
         }
     }
