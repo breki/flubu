@@ -8,6 +8,7 @@ namespace Flubu.Tests
     public class FlubuEnvironmentTests
     {
         [Test]
+        // ReSharper disable once InconsistentNaming
         public void ListMSBuilds()
         {
             IDictionary<Version, string> msbuilds = FlubuEnvironment.ListAvailableMSBuildToolsVersions();
@@ -17,6 +18,16 @@ namespace Flubu.Tests
             AssertAtLeastOneKnownVersionWasFound(msbuilds);
             AssertVersionsAreSorted(msbuilds);           
             AssertAllToolsPathsAreNonNullAndNonEmpty(msbuilds);
+        }
+
+        [Test, Explicit]
+        public void FindMSBuild15()
+        {
+            IDictionary<Version, string> msbuilds = FlubuEnvironment.ListAvailableMSBuildToolsVersions();
+            CollectionAssert.Contains(msbuilds.Keys, new Version("15.0"));
+            Assert.AreEqual(
+                "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\MSBuild\\15.0\\Bin",
+                msbuilds[new Version("15.0")]);
         }
 
         private static void AssertAtLeastOneKnownVersionWasFound(IDictionary<Version, string> msbuilds)
@@ -39,6 +50,7 @@ namespace Flubu.Tests
             }
         }
 
+        // ReSharper disable once UnusedParameter.Local
         private static void AssertAllToolsPathsAreNonNullAndNonEmpty(IDictionary<Version, string> msbuilds)
         {
             // assert that are all tools versions paths are not null

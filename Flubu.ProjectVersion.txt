@@ -1,3 +1,9 @@
+3.6.0.0
+- moved to VS2017 and the new development machine, which caused some things to stop working
+	- added support for finding and using MSBuild 15.0 in builds
+	- switched to using MSBuild 15.0 in the build script
+	- replaced obsolete ILMerge with ILRepack
+
 3.5.0.0
 - BREAKING CHANGE: redesigned NuGetCmdLineTask to be compatible with changes in NuGet.CommandLine detected
 in v3.4.3. 

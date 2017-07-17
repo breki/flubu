@@ -89,18 +89,18 @@ namespace Flubu.Builds.Tasks.SolutionTasks
 
             if (toolsVersion != null)
             {
-                if (!msbuilds.TryGetValue(toolsVersion, out msbuildPath))
-                {
-                    KeyValuePair<Version, string> higherVersion = msbuilds.FirstOrDefault(x => x.Key > toolsVersion);
-                    if (higherVersion.Equals(default(KeyValuePair<Version, string>)))
-                        throw new TaskExecutionException("Requested MSBuild tools version {0} not found and there are no higher versions".Fmt(toolsVersion));
+                if (msbuilds.TryGetValue(toolsVersion, out msbuildPath))
+                    return Path.Combine(msbuildPath, "MSBuild.exe");
 
-                    context.WriteInfo (
-                        "Requested MSBuild tools version {0} not found, using a higher version {1}", 
-                        toolsVersion, 
-                        higherVersion.Key);
-                    msbuildPath = higherVersion.Value;
-                }
+                KeyValuePair<Version, string> higherVersion = msbuilds.FirstOrDefault(x => x.Key > this.toolsVersion);
+                if (higherVersion.Equals(default(KeyValuePair<Version, string>)))
+                    throw new TaskExecutionException("Requested MSBuild tools version {0} not found and there are no higher versions".Fmt(this.toolsVersion));
+
+                context.WriteInfo (
+                    "Requested MSBuild tools version {0} not found, using a higher version {1}", 
+                    this.toolsVersion, 
+                    higherVersion.Key);
+                msbuildPath = higherVersion.Value;
             }
             else
             {
