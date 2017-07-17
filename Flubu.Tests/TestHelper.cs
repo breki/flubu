@@ -8,7 +8,7 @@ namespace Flubu.Tests
         {
             const string RootPath =
 #if NCRUNCH
-                @"D:\hg\Flubu\"
+                @"e:\hg\Flubu\"
 #else
                 @"..\..\..\"
 #endif

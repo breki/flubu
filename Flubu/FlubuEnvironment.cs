@@ -41,30 +41,56 @@ namespace Flubu
         /// <returns>A sorted dictionary whose keys are tools versions (2.0, 3.5, 4.0, 12.0 etc.) and values are paths to the
         /// tools directories (and NOT the <c>MSBuild.exe</c> itself!). The entries are sorted ascendingly by version numbers.</returns>
         [NotNull]
+        // ReSharper disable once InconsistentNaming
         public static IDictionary<Version, string> ListAvailableMSBuildToolsVersions ()
         {
             SortedDictionary<Version, string> toolsVersions = new SortedDictionary<Version, string> ();
-            using (RegistryKey toolsVersionsKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\MSBuild\ToolsVersions", false))
+            FillVersionsFromMSBuildToolsVersionsRegPath(toolsVersions);
+            FillVersion15FromVisualStudio2017RegPath(toolsVersions);
+
+            return toolsVersions;
+        }
+
+        // ReSharper disable once InconsistentNaming
+        private static void FillVersionsFromMSBuildToolsVersionsRegPath(
+            SortedDictionary<Version, string> toolsVersions)
+        {
+            using (RegistryKey toolsVersionsKey =
+                Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\MSBuild\ToolsVersions", false))
             {
                 if (toolsVersionsKey == null)
-                    return toolsVersions;
+                    return;
 
                 foreach (string toolsVersion in toolsVersionsKey.GetSubKeyNames())
                 {
                     using (RegistryKey toolsVersionKey = toolsVersionsKey.OpenSubKey(toolsVersion, false))
                     {
-                        if (toolsVersionKey == null)
-                            continue;
+                        if (toolsVersionKey == null) continue;
 
                         object msBuildToolsPathObj = toolsVersionKey.GetValue("MSBuildToolsPath");
                         string msBuildToolsPath = msBuildToolsPathObj as string;
-                        if (msBuildToolsPath != null)
-                            toolsVersions.Add(new Version(toolsVersion), msBuildToolsPath);
+                        if (msBuildToolsPath != null) toolsVersions.Add(new Version(toolsVersion), msBuildToolsPath);
                     }
                 }
             }
+        }
 
-            return toolsVersions;
+        private static void FillVersion15FromVisualStudio2017RegPath(SortedDictionary<Version, string> toolsVersions)
+        {
+            using (RegistryKey vs2017Key =
+                Registry.LocalMachine.OpenSubKey(@"SOFTWARE\WOW6432Node\Microsoft\VisualStudio\SxS\VS7", false))
+            {
+                if (vs2017Key == null)
+                    return;
+
+                object key150Value = vs2017Key.GetValue("15.0");
+                string vs2017RootPath = key150Value as string;
+                if (vs2017RootPath == null)
+                    return;
+
+                string msBuildToolsPath = Path.Combine(vs2017RootPath, @"MSBuild\15.0\Bin");
+                toolsVersions.Add(new Version("15.0"), msBuildToolsPath);
+            }
         }
     }
 }

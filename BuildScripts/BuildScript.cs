@@ -15,7 +15,7 @@ namespace BuildScripts
     {
         protected override void ConfigureBuildProperties(TaskSession session)
         {
-            session.Properties.Set(BuildProps.MSBuildToolsVersion, "4.0");
+            session.Properties.Set(BuildProps.MSBuildToolsVersion, "15.0");
             session.Properties.Set(BuildProps.NUnitConsolePath, @"packages\NUnit.Runners.2.6.2\tools\nunit-console.exe");
             session.Properties.Set(BuildProps.ProductId, "Flubu");
             session.Properties.Set(BuildProps.ProductName, "Flubu");
@@ -53,17 +53,21 @@ namespace BuildScripts
         {
             CreateDirectoryTask.Execute(context, "./output", false);
 
-            string projectTargetDir = Path.Combine("Flubu.Console", "bin", context.Properties[BuildProps.BuildConfiguration]);
+            string projectTargetDir = Path.Combine(
+                "Flubu.Console", "bin", context.Properties[BuildProps.BuildConfiguration]);
 
-            IRunProgramTask progTask = new RunProgramTask(@"lib\IlMerge\IlMerge.exe")
+            IRunProgramTask progTask = new RunProgramTask(@"packages\ILRepack.2.0.13\tools\ILRepack.exe")
                 .SetWorkingDir(projectTargetDir);
 
             progTask
                 .EncloseParametersInQuotes(false)
                 .ExecutionTimeout(TimeSpan.FromSeconds(30))
-                .AddArgument("/t:exe")
+                .AddArgument("/target:exe")
                 .AddArgument("/xmldocs")
-                .AddArgument("/v4")
+                //.AddArgument("/v4.6")
+                //.AddArgument(@"/targetplatform:v4.6,""C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6""")
+                //.AddArgument(@"/targetplatform:v4,""C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0""")
+                //.AddArgument(@"/lib:""C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0""")
                 .AddArgument("/out:..\\..\\..\\output\\Build.exe")
                 .AddArgument("flubu.console.exe")
                 .AddArgument("CommandLine.dll")
