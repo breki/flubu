@@ -34,7 +34,7 @@ namespace Flubu.Packaging
         }
 
         private readonly string id;
-        private List<PackagedFileInfo> files = new List<PackagedFileInfo>();
+        private readonly List<PackagedFileInfo> files = new List<PackagedFileInfo>();
         private IFileFilter filter;
     }
 }

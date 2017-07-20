@@ -543,21 +543,29 @@ namespace Flubu.Tasks.Virtual.HyperV
                 {
                     throw new ArgumentException("No IDE controller!");
                 }
+
                 // Create the Synthetic disk drive on the IDE controller
 
                 const int DiskLocation = 0;
 
                 using (ManagementObject driveDefault = Utility.GetResourceDataDefault(
-                    scope, ResourceType.Disk, ResourceSubType.DiskSynthetic, null))
+                    scope,
+                    ResourceType.Disk,
+                    ResourceSubType.DiskSynthetic,
+                    null))
                 {
                     driveDefault["Parent"] = controller.Path;
                     driveDefault["Address"] = DiskLocation;
                     driveDefault["Limit"] = 1; // Not sure what this does???
-                    ManagementObject newDiskDrive = AddVirtualSystemResource(scope, virtualMachine, driveDefault);
+                    ManagementObject newDiskDrive =
+                        AddVirtualSystemResource(scope, virtualMachine, driveDefault);
 
                     // Now create a new virtual hard disk, associate it with the new synthetic disk drive and attach the virtual hard drive to the virtual machine
                     ManagementObject vhdDefault = Utility.GetResourceDataDefault(
-                        scope, ResourceType.StorageExtent, ResourceSubType.VHD, null);
+                        scope,
+                        ResourceType.StorageExtent,
+                        ResourceSubType.VHD,
+                        null);
 
                     vhdDefault["Parent"] = newDiskDrive;
                     var connection = new string[1];

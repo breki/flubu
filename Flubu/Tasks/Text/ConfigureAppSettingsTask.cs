@@ -54,7 +54,9 @@ namespace Flubu.Tasks.Text
                 context.WriteInfo ("App setting key '{0}' will be removed.", task.Key);
                 
                 string xpath = string.Format (CultureInfo.InvariantCulture, "/configuration/appSettings/add[@key='{0}']", task.Key);
+                // ReSharper disable once PossibleNullReferenceException
                 foreach (XmlNode node in xmldoc.SelectNodes (xpath))
+                    // ReSharper disable once PossibleNullReferenceException
                     node.ParentNode.RemoveChild(node);
             }
         }
@@ -66,9 +68,11 @@ namespace Flubu.Tasks.Text
                 string xpath = string.Format (CultureInfo.InvariantCulture, "/configuration/appSettings/add[@key='{0}']", task.Key);
                 bool wasFound = false;
 
+                // ReSharper disable once PossibleNullReferenceException
                 foreach (XmlNode node in xmldoc.SelectNodes(xpath))
                 {
                     wasFound = true;
+                    // ReSharper disable once PossibleNullReferenceException
                     node.Attributes["value"].Value = task.Value;
 
                     context.WriteInfo ("App setting key '{0}' will be updated.", task.Key);
@@ -95,6 +99,7 @@ namespace Flubu.Tasks.Text
             if (appSettingsEl == null)
             {
                 appSettingsEl = CreateElement(xmldoc, "appSettings");
+                // ReSharper disable once PossibleNullReferenceException
                 xmldoc.SelectSingleNode("/configuration").AppendChild(appSettingsEl);
             }
 
@@ -108,8 +113,10 @@ namespace Flubu.Tasks.Text
 
         private static void AddAttribute(XmlNode element, string attributeName, string attributeValue)
         {
+            // ReSharper disable once PossibleNullReferenceException
             XmlAttribute att = element.OwnerDocument.CreateAttribute(attributeName);
             att.Value = attributeValue;
+            // ReSharper disable once PossibleNullReferenceException
             element.Attributes.Append(att);
         }
 

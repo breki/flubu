@@ -1,3 +1,8 @@
+3.7.0.0
+- PublishNuGetPackageTask now uses a shorter version string (M.m.r) when looking for generated
+	.nupkg files if the revision number is 0, to align with the new NuGet command line behavior.
+- fixed some R# and StyleCop issues
+
 3.6.1.0
 - removed Code Contracts from the NuGet package since the contracts are not being built
 by VS2017

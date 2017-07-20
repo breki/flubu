@@ -171,6 +171,7 @@ namespace Flubu.Tasks.FileSystem
         {
             string filePath = Path.Combine(destinationDirectory, zipEntry.Name);
             FileInfo i = new FileInfo(filePath);
+            // ReSharper disable once PossibleNullReferenceException
             i.Directory.Create();
             using (FileStream file = File.Create(filePath))
             {
@@ -183,7 +184,7 @@ namespace Flubu.Tasks.FileSystem
                     {
                         file.Write(buffer, 0, n);
                     }
-                } 
+                }
                 while (n == buffer.Length);
             }
 

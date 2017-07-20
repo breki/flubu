@@ -8,15 +8,17 @@ namespace Flubu.Tests
     public class FlubuEnvironmentTests
     {
         [Test]
+
         // ReSharper disable once InconsistentNaming
         public void ListMSBuilds()
         {
-            IDictionary<Version, string> msbuilds = FlubuEnvironment.ListAvailableMSBuildToolsVersions();
+            IDictionary<Version, string> msbuilds =
+                FlubuEnvironment.ListAvailableMSBuildToolsVersions();
             Assert.NotNull(msbuilds);
             CollectionAssert.IsNotEmpty(msbuilds);
 
             AssertAtLeastOneKnownVersionWasFound(msbuilds);
-            AssertVersionsAreSorted(msbuilds);           
+            AssertVersionsAreSorted(msbuilds);
             AssertAllToolsPathsAreNonNullAndNonEmpty(msbuilds);
         }
 

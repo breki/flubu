@@ -25,8 +25,8 @@
             get { return options; }
         }
 
-        private string sourceId;
-        private LocalPath destinationPath;
-        private CopyProcessorTransformationOptions options = CopyProcessorTransformationOptions.None;
+        private readonly string sourceId;
+        private readonly LocalPath destinationPath;
+        private readonly CopyProcessorTransformationOptions options = CopyProcessorTransformationOptions.None;
     }
 }

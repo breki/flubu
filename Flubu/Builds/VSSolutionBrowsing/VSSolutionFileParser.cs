@@ -31,7 +31,7 @@ namespace Flubu.Builds.VSSolutionBrowsing
                 //if (log.IsDebugEnabled)
                 //    log.DebugFormat ("Read line ({0}): {1}", parserContext.LineCount, line);
             }
-            while (line.Trim ().Length == 0 || line.StartsWith ("#", StringComparison.OrdinalIgnoreCase));
+            while (line != null && (line.Trim ().Length == 0 || line.StartsWith ("#", StringComparison.OrdinalIgnoreCase)));
 
             return line;
         }

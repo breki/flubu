@@ -86,6 +86,7 @@ namespace Flubu.Tasks.Configuration
             XmlNode configurationRootNode = xmlDoc.SelectSingleNode ("Configuration");
 
             XmlNodeList nodes = xmlDoc.SelectNodes ("Configuration//*");
+            // ReSharper disable once PossibleNullReferenceException
             foreach (XmlNode node in nodes)
             {
                 if (node.InnerText == node.InnerXml)

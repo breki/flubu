@@ -53,6 +53,10 @@ namespace Flubu.Builds.Tasks.VersioningTasks
                 using (StreamReader reader = new StreamReader(stream))
                 {
                     string versionAsString = reader.ReadLine();
+
+                    if (versionAsString == null)
+                        throw new InvalidOperationException("Something is wrong, the version line in the file is null.");
+
                     buildVersion = new Version(versionAsString);
                 }
             }
