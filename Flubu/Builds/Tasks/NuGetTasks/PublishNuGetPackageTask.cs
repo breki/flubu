@@ -10,7 +10,9 @@ namespace Flubu.Builds.Tasks.NuGetTasks
     public class PublishNuGetPackageTask : TaskBase
     {
         [SuppressMessage ("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Nu")]
+        // ReSharper disable once MemberCanBePrivate.Global
         public const string DefaultNuGetApiKeyEnvVariable = "NuGetOrgApiKey";
+        // ReSharper disable once MemberCanBePrivate.Global
         public const string DefaultApiKeyFileName = "private/nuget.org-api-key.txt";
 
         public PublishNuGetPackageTask (string packageId, string nuspecFileName)
@@ -98,14 +100,9 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             if (BasePath != null)
                 nugetTask.AddArgument ("-BasePath").AddArgument (BasePath);
 
-            nugetTask
-                .Execute (context);
+            nugetTask.Execute (context);
 
-            string nupkgFileName = string.Format (
-                CultureInfo.InvariantCulture, 
-                "{0}.{1}.nupkg", 
-                packageId, 
-                context.Properties.Get<Version> (BuildProps.BuildVersion));
+            string nupkgFileName = ConstructNupkgFileName(context);
             context.WriteInfo ("NuGet package file {0} created", nupkgFileName);
 
             // do not push new packages from a local build
@@ -136,11 +133,39 @@ namespace Flubu.Builds.Tasks.NuGetTasks
                 .Execute (context);
         }
 
-        private static string FetchNuGetApiKeyFromLocalFile (ITaskContext context, string fileName = DefaultApiKeyFileName)
+        private string ConstructNupkgFileName(ITaskContext context)
+        {
+            Version productVersion = context.Properties.Get<Version> (BuildProps.BuildVersion);
+
+            string productVersionStringUsedForNupkg =
+                ConstructProductVersionStringUsedForNupkg(productVersion);
+
+            return string.Format (
+                CultureInfo.InvariantCulture, 
+                "{0}.{1}.nupkg", 
+                packageId,
+                productVersionStringUsedForNupkg);
+        }
+
+        private static string ConstructProductVersionStringUsedForNupkg(Version productVersion)
+        {
+            int versionComponentsUsed = 4;
+
+            if (productVersion.Revision == 0)
+                versionComponentsUsed = 3;
+
+            return productVersion.ToString(versionComponentsUsed);
+        }
+
+        private static string FetchNuGetApiKeyFromLocalFile(
+            ITaskContext context,
+            string fileName = DefaultApiKeyFileName)
         {
             if (!File.Exists (fileName))
             {
-                context.Fail ("NuGet API key file ('{0}') does not exist, cannot publish the package.", fileName);
+                context.Fail(
+                    "NuGet API key file ('{0}') does not exist, cannot publish the package.",
+                    fileName);
                 return null;
             }
 
