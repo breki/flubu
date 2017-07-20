@@ -163,6 +163,7 @@ namespace Flubu.Tasks.Virtual.HyperV
                 using (ManagementBaseObject outParams = switchService.InvokeMethod("ConnectSwitchPort", inParams, null))
                 {
                     Console.WriteLine(
+                        // ReSharper disable once PossibleNullReferenceException
                         (UInt32)outParams["ReturnValue"] == ReturnCode.Completed
                             ? "{0} was connected successfully"
                             : "Failed to connect {0} switch port.", 

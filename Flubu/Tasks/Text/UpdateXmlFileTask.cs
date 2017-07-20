@@ -99,6 +99,7 @@ namespace Flubu.Tasks.Text
         {
             foreach (string xpath in xpathDeletes)
             {
+                // ReSharper disable once PossibleNullReferenceException
                 foreach (XmlNode node in xmldoc.SelectNodes (xpath))
                 {
                     string fullNodePath = ConstructXmlNodeFullName (node);
@@ -106,10 +107,12 @@ namespace Flubu.Tasks.Text
                     context.WriteInfo("Node '{0}' will be removed.", fullNodePath);
 
                     if (node.NodeType == XmlNodeType.Element)
+                        // ReSharper disable once PossibleNullReferenceException
                         node.ParentNode.RemoveChild (node);
                     else if (node.NodeType == XmlNodeType.Attribute)
                     {
                         XmlAttribute attribute = (XmlAttribute)node;
+                        // ReSharper disable once PossibleNullReferenceException
                         attribute.OwnerElement.RemoveAttributeNode (attribute);
                     }
                     else
@@ -126,6 +129,7 @@ namespace Flubu.Tasks.Text
         private void PerformUpdates(XmlDocument xmldoc, ITaskContext context)
         {
             foreach (string xpath in xpathUpdates.Keys)
+                // ReSharper disable once PossibleNullReferenceException
                 foreach (XmlNode node in xmldoc.SelectNodes (xpath))
                     UpdateNode(xpath, node, context);
         }
@@ -178,6 +182,7 @@ namespace Flubu.Tasks.Text
                 {
                     childNode = xmldoc.CreateAttribute (addition.ChildNodeName.Substring (1));
                     childNode.Value = addition.Value;
+                    // ReSharper disable once PossibleNullReferenceException
                     rootNode.Attributes.Append ((XmlAttribute)childNode);
                 }
                 else

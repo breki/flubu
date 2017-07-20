@@ -18,6 +18,6 @@ namespace Flubu.Tests.PackagingTests
                 yield return Path.Combine(directoryName, file);
         }
 
-        private List<string> filesToList = new List<string>();
+        private readonly List<string> filesToList = new List<string>();
     }
 }

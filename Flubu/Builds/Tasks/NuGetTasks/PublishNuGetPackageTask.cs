@@ -10,7 +10,9 @@ namespace Flubu.Builds.Tasks.NuGetTasks
     public class PublishNuGetPackageTask : TaskBase
     {
         [SuppressMessage ("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Nu")]
+        // ReSharper disable once MemberCanBePrivate.Global
         public const string DefaultNuGetApiKeyEnvVariable = "NuGetOrgApiKey";
+        // ReSharper disable once MemberCanBePrivate.Global
         public const string DefaultApiKeyFileName = "private/nuget.org-api-key.txt";
 
         public PublishNuGetPackageTask (string packageId, string nuspecFileName)
@@ -23,18 +25,14 @@ namespace Flubu.Builds.Tasks.NuGetTasks
         {
             get
             {
-                return string.Format (
-                    CultureInfo.InvariantCulture, 
-                    "Push NuGet package {0} to NuGet server", 
+                return string.Format(
+                    CultureInfo.InvariantCulture,
+                    "Push NuGet package {0} to NuGet server",
                     packageId);
             }
         }
 
-        public string BasePath
-        {
-            get { return basePath; }
-            set { basePath = value; }
-        }
+        public string BasePath { get; set; }
 
         /// <summary>
         /// Gets or sets the server URL.
@@ -59,11 +57,7 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             }
         }
 
-        public bool AllowPushOnInteractiveBuild
-        {
-            get { return allowPushOnInteractiveBuild; }
-            set { allowPushOnInteractiveBuild = value; }
-        }
+        public bool AllowPushOnInteractiveBuild { get; set; }
 
         public void ForApiKeyUse (string apiKey)
         {
@@ -103,21 +97,16 @@ namespace Flubu.Builds.Tasks.NuGetTasks
 
             nugetTask.AddVerbosityArgument(NuGetCmdLineTask.NuGetVerbosity.Detailed);
 
-            if (basePath != null)
-                nugetTask.AddArgument ("-BasePath").AddArgument (basePath);
+            if (BasePath != null)
+                nugetTask.AddArgument ("-BasePath").AddArgument (BasePath);
 
-            nugetTask
-                .Execute (context);
+            nugetTask.Execute (context);
 
-            string nupkgFileName = string.Format (
-                CultureInfo.InvariantCulture, 
-                "{0}.{1}.nupkg", 
-                packageId, 
-                context.Properties.Get<Version> (BuildProps.BuildVersion));
+            string nupkgFileName = ConstructNupkgFileName(context);
             context.WriteInfo ("NuGet package file {0} created", nupkgFileName);
 
             // do not push new packages from a local build
-            if (context.IsInteractive && !allowPushOnInteractiveBuild)
+            if (context.IsInteractive && !AllowPushOnInteractiveBuild)
                 return;
 
             if (apiKeyFunc == null)
@@ -144,11 +133,39 @@ namespace Flubu.Builds.Tasks.NuGetTasks
                 .Execute (context);
         }
 
-        private static string FetchNuGetApiKeyFromLocalFile (ITaskContext context, string fileName = DefaultApiKeyFileName)
+        private string ConstructNupkgFileName(ITaskContext context)
+        {
+            Version productVersion = context.Properties.Get<Version> (BuildProps.BuildVersion);
+
+            string productVersionStringUsedForNupkg =
+                ConstructProductVersionStringUsedForNupkg(productVersion);
+
+            return string.Format (
+                CultureInfo.InvariantCulture, 
+                "{0}.{1}.nupkg", 
+                packageId,
+                productVersionStringUsedForNupkg);
+        }
+
+        private static string ConstructProductVersionStringUsedForNupkg(Version productVersion)
+        {
+            int versionComponentsUsed = 4;
+
+            if (productVersion.Revision == 0)
+                versionComponentsUsed = 3;
+
+            return productVersion.ToString(versionComponentsUsed);
+        }
+
+        private static string FetchNuGetApiKeyFromLocalFile(
+            ITaskContext context,
+            string fileName = DefaultApiKeyFileName)
         {
             if (!File.Exists (fileName))
             {
-                context.Fail ("NuGet API key file ('{0}') does not exist, cannot publish the package.", fileName);
+                context.Fail(
+                    "NuGet API key file ('{0}') does not exist, cannot publish the package.",
+                    fileName);
                 return null;
             }
 
@@ -170,10 +187,8 @@ namespace Flubu.Builds.Tasks.NuGetTasks
 
         private readonly string packageId;
         private readonly string nuspecFileName;
-        private bool allowPushOnInteractiveBuild;
         [SuppressMessage ("StyleCop.CSharp.NamingRules", "SA1305:FieldNamesMustNotUseHungarianNotation", Justification = "Reviewed. Suppression is OK here.")]
         private string nuGetServerUrl = "https://www.nuget.org/api/v2/package";
         private Func<ITaskContext, string> apiKeyFunc;
-        private string basePath;
     }
 }

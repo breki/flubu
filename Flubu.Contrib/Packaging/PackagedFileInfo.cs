@@ -51,6 +51,7 @@ namespace Flubu.Packaging
 
         public override int GetHashCode()
         {
+            // ReSharper disable once BaseObjectGetHashCodeCallInGetHashCode
             return base.GetHashCode();
         }
 
@@ -66,7 +67,7 @@ namespace Flubu.Packaging
         //    }
         //}
 
-        private LocalPath localPath;
-        private FileFullPath fileFullPath;
+        private readonly LocalPath localPath;
+        private readonly FileFullPath fileFullPath;
     }
 }

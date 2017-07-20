@@ -50,18 +50,24 @@ namespace Flubu.Tasks.Virtual.HyperV
             ManagementScope scope, string importDirectory, string machineName, string machineLocation)
         {
             string targetVhdResourcePath = machineLocation + "\\" + machineName + ".vhd";
+
             //Directories specified should exist
-            ManagementObject virtualSystemService = Utility.GetServiceObject(scope, "Msvm_VirtualSystemManagementService");
+            ManagementObject virtualSystemService =
+                Utility.GetServiceObject(scope, "Msvm_VirtualSystemManagementService");
             ManagementBaseObject importSettingData;
-            ManagementBaseObject inParams = virtualSystemService.GetMethodParameters("GetVirtualSystemImportSettingData");
+            ManagementBaseObject inParams =
+                virtualSystemService.GetMethodParameters("GetVirtualSystemImportSettingData");
             inParams["ImportDirectory"] = importDirectory;
 
-            ManagementBaseObject outParams = virtualSystemService.InvokeMethod(
-                "GetVirtualSystemImportSettingData", inParams, null);
-            
-            if (outParams == null) 
+            ManagementBaseObject outParams =
+                virtualSystemService.InvokeMethod(
+                    "GetVirtualSystemImportSettingData",
+                    inParams,
+                    null);
+
+            if (outParams == null)
                 throw new ArgumentException("WMI call returned null!");
-            
+
             uint ret = (UInt32)outParams["ReturnValue"];
             if (ret == ReturnCode.Started)
             {
@@ -81,7 +87,10 @@ namespace Flubu.Tasks.Virtual.HyperV
             else
             {
                 throw new NotSupportedException(
-                    string.Format(CultureInfo.InvariantCulture, "Failed to get the Import Setting Data for the Import Directory :{0}", ret));
+                    string.Format(
+                        CultureInfo.InvariantCulture,
+                        "Failed to get the Import Setting Data for the Import Directory :{0}",
+                        ret));
             }
 
             inParams.Dispose();

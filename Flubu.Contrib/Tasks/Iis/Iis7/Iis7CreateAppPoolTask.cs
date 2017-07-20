@@ -34,7 +34,8 @@ namespace Flubu.Tasks.Iis.Iis7
         {
             using (ServerManager serverManager = new ServerManager())
             {
-                ApplicationPoolCollection applicationPoolCollection = serverManager.ApplicationPools;
+                ApplicationPoolCollection applicationPoolCollection =
+                    serverManager.ApplicationPools;
 
                 ApplicationPool appPoolToWorkOn = null;
                 bool updatedExisting = false;
@@ -71,7 +72,10 @@ namespace Flubu.Tasks.Iis.Iis7
                 appPoolToWorkOn.AutoStart = true;
                 appPoolToWorkOn.Enable32BitAppOnWin64 = true;
                 appPoolToWorkOn.ManagedPipelineMode =
-                    ClassicManagedPipelineMode ? ManagedPipelineMode.Classic : ManagedPipelineMode.Integrated;
+                    ClassicManagedPipelineMode
+                        ? ManagedPipelineMode.Classic
+                        : ManagedPipelineMode.Integrated;
+
                 //serverManager.ApplicationPools.Add(appPoolToWorkOn);
                 serverManager.CommitChanges();
 

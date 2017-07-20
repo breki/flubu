@@ -69,25 +69,29 @@ namespace Flubu.Tasks.Virtual.HyperV
              MessageId = "System.Console.WriteLine(System.String,System.Object)")]
         public static bool JobCompleted (ManagementBaseObject outParameters, ManagementScope scope)
         {
-            if (outParameters == null) throw new ArgumentNullException ("outParameters");
+            if (outParameters == null)
+                throw new ArgumentNullException("outParameters");
 
             //Retrieve msvc_StorageJob path. This is a full wmi path
             var jobPath = (string)outParameters["Job"];
-            var job = new ManagementObject (scope, new ManagementPath (jobPath), null);
+            var job = new ManagementObject(scope, new ManagementPath(jobPath), null);
+
             //Try to get storage job information
-            job.Get ();
+            job.Get();
             while ((UInt16)job["JobState"] == JobState.Starting
                    || (UInt16)job["JobState"] == JobState.Running)
             {
-                Thread.Sleep (1000);
-                job.Get ();
+                Thread.Sleep(1000);
+                job.Get();
             }
 
             //Figure out if job failed
             var jobState = (UInt16)job["JobState"];
             if (jobState != JobState.Completed)
             {
-                throw new VirtualServerException (job["ErrorCode"].ToString (), job["ErrorDescription"].ToString ());
+                throw new VirtualServerException(
+                    job["ErrorCode"].ToString(),
+                    job["ErrorDescription"].ToString());
             }
 
             return true;
@@ -184,24 +188,28 @@ namespace Flubu.Tasks.Virtual.HyperV
             ManagementObjectCollection poolResources;
             using (var searcher = new ManagementObjectSearcher (scope, new ObjectQuery (query)))
             {
-                poolResources = searcher.Get ();
+                poolResources = searcher.Get();
+
                 //Get pool resource allocation ability
                 if (poolResources.Count == 1)
                 {
                     foreach (ManagementObject poolResource in poolResources)
                     {
                         ManagementObjectCollection allocationCapabilities =
-                            poolResource.GetRelated ("Msvm_AllocationCapabilities");
+                            poolResource.GetRelated("Msvm_AllocationCapabilities");
                         foreach (ManagementObject allocationCapability in allocationCapabilities)
                         {
                             ManagementObjectCollection settingDatas =
-                                allocationCapability.GetRelationships ("Msvm_SettingsDefineCapabilities");
+                                allocationCapability.GetRelationships(
+                                    "Msvm_SettingsDefineCapabilities");
                             foreach (ManagementObject settingData in settingDatas)
                             {
-                                if (Convert.ToInt16 (settingData["ValueRole"], CultureInfo.InvariantCulture) ==
-                                    (UInt16)ValueRole.Default)
+                                if (Convert.ToInt16(
+                                        settingData["ValueRole"],
+                                        CultureInfo.InvariantCulture) == (UInt16)ValueRole.Default)
                                 {
-                                    rasd = new ManagementObject (settingData["PartComponent"].ToString ());
+                                    rasd = new ManagementObject(
+                                        settingData["PartComponent"].ToString());
                                     break;
                                 }
                             }
@@ -219,22 +227,27 @@ namespace Flubu.Tasks.Virtual.HyperV
             string resourceSubtype,
             string otherResourceType)
         {
-            if (virtualMachine == null) throw new ArgumentNullException ("virtualMachine");
+            if (virtualMachine == null)
+                throw new ArgumentNullException("virtualMachine");
+
             //virtualMachine->vmsettings->RASD for IDE controller
             ManagementObject rasd = null;
-            ManagementObjectCollection settingDatas = virtualMachine.GetRelated ("Msvm_VirtualSystemsettingData");
+            ManagementObjectCollection settingDatas =
+                virtualMachine.GetRelated("Msvm_VirtualSystemsettingData");
             foreach (ManagementObject settingData in settingDatas)
             {
                 //retrieve the rasd
-                ManagementObjectCollection rasDs = settingData.GetRelated ("Msvm_ResourceAllocationsettingData");
+                ManagementObjectCollection rasDs =
+                    settingData.GetRelated("Msvm_ResourceAllocationsettingData");
                 foreach (ManagementObject rasdInstance in rasDs)
                 {
-                    if (Convert.ToUInt16 (rasdInstance["ResourceType"], CultureInfo.InvariantCulture) == resourceType)
+                    if (Convert.ToUInt16(rasdInstance["ResourceType"], CultureInfo.InvariantCulture)
+                        == resourceType)
                     {
                         //found the matching type
                         if (resourceType == ResourceType.Other)
                         {
-                            if (rasdInstance["OtherResourceType"].ToString () == otherResourceType)
+                            if (rasdInstance["OtherResourceType"].ToString() == otherResourceType)
                             {
                                 rasd = rasdInstance;
                                 break;
@@ -242,7 +255,7 @@ namespace Flubu.Tasks.Virtual.HyperV
                         }
                         else
                         {
-                            if (rasdInstance["ResourceSubType"].ToString () == resourceSubtype)
+                            if (rasdInstance["ResourceSubType"].ToString() == resourceSubtype)
                             {
                                 rasd = rasdInstance;
                                 break;

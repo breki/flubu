@@ -6,33 +6,7 @@ using Microsoft.Web.Administration;
 namespace Flubu.Tasks.Iis.Iis7
 {
     public class Iis7CreateWebsiteTask : Iis7TaskBase, ICreateWebsiteTask
-    {
-        /// <summary>
-        /// Name of the website
-        /// </summary>
-        private string webSiteName;
-
-        /// <summary>
-        /// The binding protocol. Http or https.
-        /// </summary>
-        private string bindingProtocol;
-
-        /// <summary>
-        /// Port of the web application
-        /// </summary>
-        private int port;
-
-        /// <summary>
-        /// Physical path to application.
-        /// </summary>
-        private string physicalPath;
-
-        private string applicationPoolName = "DefaultAppPool";
-
-        private IList<MimeType> mimeTypes;
-
-        private CreateWebApplicationMode siteMode = CreateWebApplicationMode.DoNothingIfExists;
-       
+    {     
         public Iis7CreateWebsiteTask()
         {
             mimeTypes = new List<MimeType>();
@@ -198,5 +172,31 @@ namespace Flubu.Tasks.Iis.Iis7
                 return task;
             }
         }
+
+        /// <summary>
+        /// Name of the website
+        /// </summary>
+        private string webSiteName;
+
+        /// <summary>
+        /// The binding protocol. Http or https.
+        /// </summary>
+        private string bindingProtocol;
+
+        /// <summary>
+        /// Port of the web application
+        /// </summary>
+        private int port;
+
+        /// <summary>
+        /// Physical path to application.
+        /// </summary>
+        private string physicalPath;
+
+        private string applicationPoolName = "DefaultAppPool";
+
+        private readonly IList<MimeType> mimeTypes;
+
+        private CreateWebApplicationMode siteMode = CreateWebApplicationMode.DoNothingIfExists;
     }
 }

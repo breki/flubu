@@ -24,6 +24,6 @@ namespace Flubu.Packaging
             return true;
         }
 
-        private List<IFileFilter> filters = new List<IFileFilter>();
+        private readonly List<IFileFilter> filters = new List<IFileFilter>();
     }
 }

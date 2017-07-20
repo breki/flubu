@@ -25,7 +25,7 @@ namespace Flubu.Tests.TasksTests
             ITask peek = new PeekXmlTask(SampleXmlFile, "//revision", ConfigurationSetting);
             peek.Execute(c);
             Assert.AreEqual(
-                new[] {"2200", "https://svn.server/repos/example1/trunk/src2200", "2200",},
+                new[] {"2200", "https://svn.server/repos/example1/trunk/src2200", "2200", },
                 c.Properties.Get<string[]>(ConfigurationSetting));
         }
 
