@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using Flubu;
 using Flubu.Builds;
 using Flubu.Targeting;
 
+// ReSharper disable once CheckNamespace
 namespace BuildScripts
 {
     /// <summary>

@@ -13,9 +13,12 @@ namespace Flubu.Tasks.Virtual.HyperV
     {
         public HyperVTask(ManagementBaseObject outParameters, ManagementScope scope)
         {
-            if (outParameters == null) throw new ArgumentNullException("outParameters");
+            if (outParameters == null)
+                throw new ArgumentNullException("outParameters");
+
             var jobPath = (string)outParameters["Job"];
             task = new ManagementObject(scope, new ManagementPath(jobPath), null);
+
             //Try to get storage job information
             task.Get();
         }

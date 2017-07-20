@@ -27,7 +27,7 @@ namespace Flubu.Tests.PackagingTests
                 copiedFiles.Contains(new KeyValuePair<string, string>(sourceFileName, destinationFileName));
         }
 
-        private List<KeyValuePair<string, string>> copiedFiles
+        private readonly List<KeyValuePair<string, string>> copiedFiles
             = new List<KeyValuePair<string, string>>();
     }
 }

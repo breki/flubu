@@ -12,25 +12,11 @@ namespace Flubu.Tests.TasksTests
     [TestFixture]
     public class UnzipTests
     {
-        private string BaseDirectory
-        {
-            get { return new FileInfo(GetType().Assembly.Location).DirectoryName; }
-        }
-
-        private string SampleArchive
-        {
-            get { return new FileInfo(Path.Combine(BaseDirectory, @"..\..\SampleArchive.zip")).FullName; }
-        }
-
-        private string OutputDirectoryRoot
-        {
-            get { return Path.Combine(BaseDirectory, @"Extracted"); }
-        }
-
-        private string OutputDirectory
-        {
-            get { return Path.Combine(BaseDirectory, @"Extracted\content"); }
-        }
+        // ReSharper disable once AssignNullToNotNullAttribute
+        private string BaseDirectory => new FileInfo(GetType().Assembly.Location).DirectoryName;
+        private string SampleArchive => new FileInfo(Path.Combine(BaseDirectory, @"..\..\SampleArchive.zip")).FullName;
+        private string OutputDirectoryRoot => Path.Combine(BaseDirectory, @"Extracted");
+        private string OutputDirectory => Path.Combine(BaseDirectory, @"Extracted\content");
 
         /// <summary>
         /// Clean output directory.
@@ -103,6 +89,7 @@ namespace Flubu.Tests.TasksTests
             {
                 Assert.IsTrue(File.Exists(Path.Combine(dir, file)), "Exists:" + file);
             }
+
             foreach (string file in new[]
                                         {
                                             @"Flubu/Builds/HudsonHelper.cs",
@@ -149,30 +136,18 @@ namespace Flubu.Tests.TasksTests
                 mStream.Write(buffer, offset, count);
             }
 
-            public override bool CanRead
-            {
-                get { return mStream.CanRead; }
-            }
+            public override bool CanRead => mStream.CanRead;
 
-            public override bool CanSeek
-            {
-                get { return false; }
-            }
+            public override bool CanSeek => false;
 
-            public override bool CanWrite
-            {
-                get { return mStream.CanWrite; }
-            }
+            public override bool CanWrite => mStream.CanWrite;
 
-            public override long Length
-            {
-                get { return mStream.Length; }
-            }
+            public override long Length => mStream.Length;
 
             public override long Position
             {
-                get { return mStream.Position; }
-                set { throw new NotImplementedException("Just testing."); }
+                get => mStream.Position;
+                set => throw new NotImplementedException("Just testing.");
             }
         }
     }

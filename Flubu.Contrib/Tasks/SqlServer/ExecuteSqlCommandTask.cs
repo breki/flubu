@@ -2,11 +2,9 @@
 {
     using System.Data.SqlClient;
     using System.Globalization;
-
+    using Flubu;
     using Microsoft.SqlServer.Management.Common;
     using Microsoft.SqlServer.Management.Smo;
-
-    using Flubu;
 
     /// <summary>
     /// Execute SQL command.
@@ -14,6 +12,7 @@
     public class ExecuteSqlCommandTask : TaskBase
     {
         private string ConnectionString { get; set; }
+
         /// <summary>
         /// Initializes new instance of <see cref="ExecuteSqlCommandTask"/>
         /// </summary>

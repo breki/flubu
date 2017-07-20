@@ -56,6 +56,7 @@ namespace Flubu.Builds.Tasks.NuGetTasks
                 string.Format (CultureInfo.InvariantCulture, "{0}.*", packageId)))
             {
                 string localDirName = Path.GetFileName (directory);
+                // ReSharper disable once PossibleNullReferenceException
                 string versionStr = localDirName.Substring (packageId.Length + 1);
 
                 Version version;
