@@ -150,6 +150,7 @@ namespace Flubu.Tasks.FileSystem
                     DirectoryInfo dirInfo = fileSystemInfo as DirectoryInfo;
                     string subdirectoryPath = Path.Combine (
                         destinationPathRecursive, 
+                        // ReSharper disable once PossibleNullReferenceException
                         dirInfo.Name);
                     CopyStructureRecursive (
                         context, 

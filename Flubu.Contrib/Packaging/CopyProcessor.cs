@@ -180,7 +180,7 @@ namespace Flubu.Packaging
         private readonly ITaskContext taskContext;
         private readonly ICopier copier;
         private readonly FullPath destinationRootDir;
-        private Dictionary<string, CopyProcessorTransformation> transformations =
+        private readonly Dictionary<string, CopyProcessorTransformation> transformations =
             new Dictionary<string, CopyProcessorTransformation>();
         private readonly Dictionary<string, string> fileTransformations = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         private IFileFilter filter;

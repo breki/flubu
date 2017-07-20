@@ -152,7 +152,7 @@ namespace Flubu.Tasks.FileSystem
 
         private readonly string baseDir;
         private byte[] buffer;
-        private List<string> filesToZip = new List<string> ();
+        private readonly List<string> filesToZip = new List<string> ();
         private int? compressionLevel;
         private Func<string, string> zipFileFooterCallback;
         private Func<string, string> zipFileHeaderCallback;

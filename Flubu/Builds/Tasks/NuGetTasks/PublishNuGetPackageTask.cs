@@ -23,18 +23,14 @@ namespace Flubu.Builds.Tasks.NuGetTasks
         {
             get
             {
-                return string.Format (
-                    CultureInfo.InvariantCulture, 
-                    "Push NuGet package {0} to NuGet server", 
+                return string.Format(
+                    CultureInfo.InvariantCulture,
+                    "Push NuGet package {0} to NuGet server",
                     packageId);
             }
         }
 
-        public string BasePath
-        {
-            get { return basePath; }
-            set { basePath = value; }
-        }
+        public string BasePath { get; set; }
 
         /// <summary>
         /// Gets or sets the server URL.
@@ -59,11 +55,7 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             }
         }
 
-        public bool AllowPushOnInteractiveBuild
-        {
-            get { return allowPushOnInteractiveBuild; }
-            set { allowPushOnInteractiveBuild = value; }
-        }
+        public bool AllowPushOnInteractiveBuild { get; set; }
 
         public void ForApiKeyUse (string apiKey)
         {
@@ -103,8 +95,8 @@ namespace Flubu.Builds.Tasks.NuGetTasks
 
             nugetTask.AddVerbosityArgument(NuGetCmdLineTask.NuGetVerbosity.Detailed);
 
-            if (basePath != null)
-                nugetTask.AddArgument ("-BasePath").AddArgument (basePath);
+            if (BasePath != null)
+                nugetTask.AddArgument ("-BasePath").AddArgument (BasePath);
 
             nugetTask
                 .Execute (context);
@@ -117,7 +109,7 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             context.WriteInfo ("NuGet package file {0} created", nupkgFileName);
 
             // do not push new packages from a local build
-            if (context.IsInteractive && !allowPushOnInteractiveBuild)
+            if (context.IsInteractive && !AllowPushOnInteractiveBuild)
                 return;
 
             if (apiKeyFunc == null)
@@ -170,10 +162,8 @@ namespace Flubu.Builds.Tasks.NuGetTasks
 
         private readonly string packageId;
         private readonly string nuspecFileName;
-        private bool allowPushOnInteractiveBuild;
         [SuppressMessage ("StyleCop.CSharp.NamingRules", "SA1305:FieldNamesMustNotUseHungarianNotation", Justification = "Reviewed. Suppression is OK here.")]
         private string nuGetServerUrl = "https://www.nuget.org/api/v2/package";
         private Func<ITaskContext, string> apiKeyFunc;
-        private string basePath;
     }
 }

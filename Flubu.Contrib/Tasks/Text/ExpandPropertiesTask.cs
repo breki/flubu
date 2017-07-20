@@ -61,10 +61,10 @@ namespace Flubu.Tasks.Text
             }
         }
 
-        private Encoding expandedFileEncoding;
-        private string expandedFileName;
-        private Hashtable properties = new Hashtable();
-        private Encoding sourceFileEncoding;
-        private string sourceFileName;
+        private readonly Encoding expandedFileEncoding;
+        private readonly string expandedFileName;
+        private readonly Hashtable properties = new Hashtable();
+        private readonly Encoding sourceFileEncoding;
+        private readonly string sourceFileName;
     }
 }

@@ -132,7 +132,10 @@ namespace Flubu.Builds.VSSolutionBrowsing
                 string line = parser.NextLine();
 
                 if (line == null)
+                {
                     parser.ThrowParserException ("Unexpected end of solution file.");
+                    return;
+                }
 
                 Match endProjectMatch = VSSolution.RegexEndProject.Match(line);
 

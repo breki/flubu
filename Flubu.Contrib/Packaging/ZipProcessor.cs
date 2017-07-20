@@ -53,7 +53,7 @@ namespace Flubu.Packaging
             this.filter = filter;
         }
 
-        private List<string> sourcesToZip = new List<string>();
+        private readonly List<string> sourcesToZip = new List<string>();
         private readonly ITaskContext taskContext;
         private readonly IZipper zipper;
         private readonly FileFullPath zipFileName;

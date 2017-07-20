@@ -39,7 +39,7 @@ namespace Flubu.Tests.TasksTests
             IIisTasksFactory factory = master.LocalIisTasksFactory;
             IAddWebsiteBindingTask controlWebsiteTask = factory.AddWebsiteBindingTask;
             Assert.Throws<TaskExecutionException>(() => controlWebsiteTask
-                                                            .SiteName("")
+                                                            .SiteName(string.Empty)
                                                             .AddBinding("https")
                                                             .Execute(context));
         }
@@ -65,7 +65,7 @@ namespace Flubu.Tests.TasksTests
             IAddWebsiteBindingTask controlWebsiteTask = factory.AddWebsiteBindingTask;
             Assert.Throws<TaskExecutionException>(() => controlWebsiteTask
                                                             .SiteName("Default Web Site")
-                                                            .AddBinding("")
+                                                            .AddBinding(string.Empty)
                                                             .Execute(context));
         }
 
