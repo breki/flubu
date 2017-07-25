@@ -74,6 +74,16 @@ namespace Flubu.Builds.Tasks.NuGetTasks
             apiKeyFunc = c => FetchNuGetApiKeyFromLocalFile (c, fileName);
         }
 
+        public static string ConstructProductVersionStringUsedForNupkg(Version productVersion)
+        {
+            int versionComponentsUsed = 4;
+
+            if (productVersion.Revision == 0 || productVersion.Revision == -1)
+                versionComponentsUsed = 3;
+
+            return productVersion.ToString(versionComponentsUsed);
+        }
+
         protected override void DoExecute (ITaskContext context)
         {
             FullPath packagesDir = new FullPath (context.Properties.Get (BuildProps.ProductRootDir, "."));
@@ -145,16 +155,6 @@ namespace Flubu.Builds.Tasks.NuGetTasks
                 "{0}.{1}.nupkg", 
                 packageId,
                 productVersionStringUsedForNupkg);
-        }
-
-        private static string ConstructProductVersionStringUsedForNupkg(Version productVersion)
-        {
-            int versionComponentsUsed = 4;
-
-            if (productVersion.Revision == 0)
-                versionComponentsUsed = 3;
-
-            return productVersion.ToString(versionComponentsUsed);
         }
 
         private static string FetchNuGetApiKeyFromLocalFile(

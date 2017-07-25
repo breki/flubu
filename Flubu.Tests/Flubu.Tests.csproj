@@ -92,6 +92,7 @@
     <Compile Include="TasksTests\ConfigureAppSettingsTaskTests.cs" />
     <Compile Include="TasksTests\FindNuGetPackageInUserRepositoryTaskTests.cs" />
     <Compile Include="TasksTests\Iis7Tests.cs" />
+    <Compile Include="TasksTests\PublishNuGetPackageTaskTests.cs" />
     <Compile Include="TasksTests\UnzipTests.cs" />
     <Compile Include="TasksTests\XmlTests.cs" />
     <Compile Include="TestHelper.cs" />
