@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using Flubu.Services;
 using Flubu.Tasks.Processes;
 
@@ -11,10 +9,11 @@ namespace Flubu.Builds.Tasks.DnxTasks
 {
     public class MSBuildTask : TaskBase, IExternalProcessTask<MSBuildTask>
     {
-        public override string Description
-        {
-            get { return string.Format(CultureInfo.InvariantCulture, "MSBuild ({0})", string.Join(",", Parameters)); }
-        }
+        public override string Description =>
+            string.Format(
+                CultureInfo.InvariantCulture,
+                "MSBuild ({0})",
+                string.Join(",", Parameters));
 
         public Collection<string> Parameters { get; private set; }
 
@@ -68,15 +67,11 @@ namespace Flubu.Builds.Tasks.DnxTasks
 
         public ICommonTasksFactory CommonTasksFactory { get; private set; }
 
-        public MSBuildTask EnvironmentService(IFlubuEnvironmentService service)
-        {
-            FlubuEnvironmentService = service;
-            return this;
-        }
-
-        public IFlubuEnvironmentService FlubuEnvironmentService { get; private set; }
-        
-        public static MSBuildTask CreateCompile(string solution, string configuration, bool useSolutionAsWorkingFolder = true, string target = null)
+        public static MSBuildTask CreateCompile(
+            string solution,
+            string configuration,
+            bool useSolutionAsWorkingFolder = true,
+            string target = null)
         {
             MSBuildTask task = new MSBuildTask(solution)
                 .AddParam("/p:Configuration={0}", configuration)
@@ -103,14 +98,6 @@ namespace Flubu.Builds.Tasks.DnxTasks
             return new MSBuildTask(solutionFile);
         }
 
-        public Version ToolsVersion { get; private set; }
-
-        public MSBuildTask WithToolsVersion(Version version)
-        {
-            ToolsVersion = version;
-            return this;
-        }
-
         public int CpuCount { get; private set; }
 
         public MSBuildTask MaxCpu(int count)
@@ -131,7 +118,6 @@ namespace Flubu.Builds.Tasks.DnxTasks
         {
             Parameters = new Collection<string>();
             CommonTasksFactory = new CommonTasksFactory();
-            FlubuEnvironmentService = new FlubuEnvironmentService();
             CpuCount = 3;
         }
 
@@ -172,40 +158,7 @@ namespace Flubu.Builds.Tasks.DnxTasks
             if (!string.IsNullOrEmpty(ExecutablePath))
                 return ExecutablePath;
             
-            string msbuildPath = context.Properties.Get<string>(BuildProps.MSBuildPath);
-
-            if (string.IsNullOrEmpty(msbuildPath))
-                return msbuildPath;
-
-            IDictionary<Version, string> msbuilds = FlubuEnvironmentService.ListAvailableMSBuildToolsVersions();
-            if (msbuilds.Count == 0)
-                throw new TaskExecutionException ("No MSBuild tools found on the system");
-
-            if (ToolsVersion != null)
-            {
-                if (!msbuilds.TryGetValue(ToolsVersion, out msbuildPath))
-                {
-                    KeyValuePair<Version, string> higherVersion = msbuilds.FirstOrDefault(x => x.Key > ToolsVersion);
-                    if (higherVersion.Equals(default(KeyValuePair<Version, string>)))
-                        throw new TaskExecutionException("Requested MSBuild tools version {0} not found and there are no higher versions".Fmt(ToolsVersion));
-
-                    context.WriteInfo (
-                        "Requested MSBuild tools version {0} not found, using a higher version {1}", 
-                        ToolsVersion, 
-                        higherVersion.Key);
-                    msbuildPath = higherVersion.Value;
-                }
-            }
-            else
-            {
-                KeyValuePair<Version, string> highestVersion = msbuilds.Last();
-                context.WriteInfo (
-                    "Since MSBuild tools version was not explicity specified, using the highest MSBuild tools version found ({0})", 
-                    highestVersion.Key);
-                msbuildPath = highestVersion.Value;
-            }
-
-            return Path.Combine(msbuildPath, "MSBuild.exe");
+            return context.Properties.Get<string>(BuildProps.MSBuildPath);
         }
     }
 }

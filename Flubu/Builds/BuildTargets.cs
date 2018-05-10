@@ -227,29 +227,15 @@ namespace Flubu.Builds
         public static void TargetCompile(ITaskContext context)
         {
             VSSolution solution = context.Properties.Get<VSSolution>(BuildProps.Solution);
-            string buildConfiguration = context.Properties.Get<string>(BuildProps.BuildConfiguration);
-            string toolsVersion = context.Properties.Get<string>(BuildProps.MSBuildToolsVersion, null);
-            bool useSolutionDirAsMsBuildWorkingDir = context.Properties.Get(BuildProps.UseSolutionDirAsMSBuildWorkingDir, false);
+            string buildConfiguration =
+                context.Properties.Get<string>(BuildProps.BuildConfiguration);
+            bool useSolutionDirAsMsBuildWorkingDir = context.Properties.Get(
+                BuildProps.UseSolutionDirAsMSBuildWorkingDir,
+                false);
 
             CompileSolutionTask task = new CompileSolutionTask(
                 solution.SolutionFileName.ToString(), 
                 buildConfiguration);
-
-            if (toolsVersion != null)
-            {
-                Version toolsVersionObj;
-
-                if (!Version.TryParse(toolsVersion, out toolsVersionObj))
-                {
-                    context.Fail (
-                        "Property '{0}' value '{1}' is invalid, it has to be a proper version number", 
-                        BuildProps.MSBuildToolsVersion, 
-                        toolsVersion);
-                    return;
-                }
-                
-                task.ToolsVersion = toolsVersionObj;
-            }
 
             task.UseSolutionDirAsWorkingDir = useSolutionDirAsMsBuildWorkingDir;
             task.MaxCpuCount = context.Properties.Get(BuildProps.CompileMaxCpuCount, 3);

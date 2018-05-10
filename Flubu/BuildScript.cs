@@ -14,7 +14,9 @@ namespace BuildScripts
     {
         protected override void ConfigureBuildProperties(TaskSession session)
         {
-            session.Properties.Set(BuildProps.MSBuildToolsVersion, "4.0");
+            session.Properties.Set(
+                BuildProps.MSBuildPath,
+                @"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\bin\msbuild");
             session.Properties.Set(BuildProps.ProductId, "Todo");
             session.Properties.Set(BuildProps.ProductName, "Todo");
             session.Properties.Set(BuildProps.SolutionFileName, "..\\Todo.sln");

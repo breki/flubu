@@ -46,3 +46,6 @@ Flubu.Console/bin
 Flubu.Console/obj
 Flubu.Console/Flubu.Console.csproj.user
 output
+.vs/
+_NCrunch_Flubu/
+_ReSharper.Caches/
