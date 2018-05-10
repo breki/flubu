@@ -21,15 +21,6 @@ namespace Flubu.Builds
         public const string LibDir = "LibDir";
         public const string NUnitConsolePath = "NUnitConsolePath";
         public const string MSBuildPath = "MSBuildPath";
-
-        /// <summary>
-        /// Version of the MSBuild tools to use for compilation.
-        /// </summary>
-        /// <remarks>
-        /// If not defined, the latest available version will be used.
-        /// Use the version numbers as defined in Registry path HKLM\SOFTWARE\Microsoft\MSBuild\ToolsVersions (2.0, 3.5, 4.0, 12.0 etc.)
-        /// </remarks>
-        public const string MSBuildToolsVersion = "MSBuildToolsVersion";
         public const string PackagesDir = "PackagesDir";
         public const string ProductId = "ProductId";
         public const string ProductName = "ProductName";

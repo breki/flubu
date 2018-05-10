@@ -11,7 +11,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BuildScripts</RootNamespace>
     <AssemblyName>BuildScripts</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>
@@ -65,7 +65,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Flubu, Version=3.6.0.0, Culture=neutral, PublicKeyToken=871438ac8d34d66e, processorArchitecture=MSIL">
+      <Reference Include="Flubu, Version=3.6.0.0, Culture=neutral, PublicKeyToken=871438ac8d34d66e, processorArchitecture=MSIL">
       <HintPath>..\packages\Flubu.3.6.1\lib\Flubu.dll</HintPath>
     </Reference>
     <Reference Include="Flubu.Contrib, Version=3.6.0.0, Culture=neutral, PublicKeyToken=871438ac8d34d66e, processorArchitecture=MSIL">
@@ -85,6 +85,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Flubu.Contrib\Flubu.Contrib.csproj">
+      <Project>{8d82233c-682a-4fa7-8581-dd31f0fb564d}</Project>
+      <Name>Flubu.Contrib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Flubu\Flubu.csproj">
+      <Project>{5e8b73d7-b9dc-4dcf-93b6-4bfb5e845575}</Project>
+      <Name>Flubu</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

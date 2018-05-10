@@ -1,3 +1,9 @@
+3.8.0.0
+- BREAKING CHANGE: migrated to .NET 4.7
+- BREAKING CHANGE: removed BuildProps.MSBuildToolsVersion property and MSBuild 
+	auto-discovery because it was very flaky. You now need to specify the 
+	MSBuild path explicitly using BuildProps.MSBuildPath property
+
 3.7.1.0
 - bugfix: PublishNuGetPackageTask fails when the product version has only 3 fields
 

@@ -15,7 +15,7 @@ namespace BuildScripts
     {
         protected override void ConfigureBuildProperties(TaskSession session)
         {
-            session.Properties.Set(BuildProps.MSBuildToolsVersion, "15.0");
+            session.Properties.Set(BuildProps.MSBuildPath, @"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\bin\msbuild.exe");
             session.Properties.Set(BuildProps.NUnitConsolePath, @"packages\NUnit.Runners.2.6.2\tools\nunit-console.exe");
             session.Properties.Set(BuildProps.ProductId, "Flubu");
             session.Properties.Set(BuildProps.ProductName, "Flubu");
