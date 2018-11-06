@@ -9,32 +9,22 @@ namespace Flubu.Builds.VSSolutionBrowsing
     {
         public VSProjectItem(string itemType)
         {
-            this.itemType = itemType;
+            ItemType = itemType;
         }
 
-        public string Item
-        {
-            get { return item; }
-            set { item = value; }
-        }
+        public string Item { get; set; }
 
-        public string ItemType
-        {
-            get { return itemType; }
-        }
+        public string ItemType { get; }
 
-        public IDictionary<string, string> ItemProperties
-        {
-            get { return itemProperties; }
-        }
+        public IDictionary<string, string> ItemProperties => itemProperties;
 
-        private string item;
-        private readonly Dictionary<string, string> itemProperties = new Dictionary<string, string>();
-        private readonly string itemType;
         public const string Content = "Content";
         public const string CompileItem = "CompileItem";
         public const string NoneItem = "None";
         public const string ProjectReference = "ProjectReference";
         public const string Reference = "Reference";
+
+        private readonly Dictionary<string, string> itemProperties =
+            new Dictionary<string, string>();
     }
 }

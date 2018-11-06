@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Xml;
 
@@ -9,44 +8,33 @@ namespace Flubu.Builds.VSSolutionBrowsing
     /// <summary>
     /// Represents a VisualStudio project.
     /// </summary>
+    // ReSharper disable once InconsistentNaming
     public class VSProject
     {
         public VSProject(string projectFileName)
         {
-            this.projectFileName = projectFileName;
+            ProjectFileName = projectFileName;
         }
 
         /// <summary>
         /// Gets a read-only collection of project configurations.
         /// </summary>
         /// <value>A read-only collection of project configurations.</value>
-        public IList<VSProjectConfiguration> Configurations
-        {
-            get { return configurations; }
-        }
+        public IList<VSProjectConfiguration> Configurations => configurations;
 
         /// <summary>
         /// Gets a read-only collection of all .cs files in the solution.
         /// </summary>
         /// <value>A read-only collection of all the .cs files in the solution.</value>
-        public IList<VSProjectItem> Items
-        {
-            get { return items; }
-        }
+        public IList<VSProjectItem> Items => items;
 
-        public string ProjectFileName
-        {
-            get { return projectFileName; }
-        }
+        public string ProjectFileName { get; }
 
         /// <summary>
         /// Gets a read-only collection of project properties.
         /// </summary>
         /// <value>A read-only collection of project properties.</value>
-        public IDictionary<string, string> Properties
-        {
-            get { return properties; }
-        }
+        public IDictionary<string, string> Properties => properties;
 
         /// <summary>
         /// Finds the VisualStudio project configuration specified by a condition.
@@ -59,9 +47,10 @@ namespace Flubu.Builds.VSSolutionBrowsing
         {
             foreach (VSProjectConfiguration configuration in configurations)
             {
-                if (configuration == null || configuration.Condition == null)
+                if (configuration?.Condition == null)
                     continue;
-                if (configuration.Condition.IndexOf(condition, StringComparison.OrdinalIgnoreCase) >= 0)
+                if (configuration.Condition.IndexOf(
+                        condition, StringComparison.OrdinalIgnoreCase) >= 0)
                     return configuration;
             }
 
@@ -89,7 +78,7 @@ namespace Flubu.Builds.VSSolutionBrowsing
                 using (XmlReader xmlReader = XmlReader.Create(stream, xmlReaderSettings))
                 {
                     xmlReader.Read();
-                    while (false == xmlReader.EOF)
+                    while (!xmlReader.EOF)
                     {
                         switch (xmlReader.NodeType)
                         {
@@ -135,7 +124,7 @@ namespace Flubu.Builds.VSSolutionBrowsing
         {
             xmlReader.Read();
 
-            while (xmlReader.NodeType != XmlNodeType.EndElement && false == xmlReader.EOF)
+            while (xmlReader.NodeType != XmlNodeType.EndElement && !xmlReader.EOF)
             {
                 switch (xmlReader.Name)
                 {
@@ -199,7 +188,7 @@ namespace Flubu.Builds.VSSolutionBrowsing
         {
             xmlReader.Read();
 
-            while (xmlReader.NodeType != XmlNodeType.EndElement && false == xmlReader.EOF)
+            while (xmlReader.NodeType != XmlNodeType.EndElement && !xmlReader.EOF)
             {
                 switch (xmlReader.Name)
                 {
@@ -235,11 +224,15 @@ namespace Flubu.Builds.VSSolutionBrowsing
             }
         }
 
-        private static VSProjectItem ReadItem(XmlReader xmlReader, string itemType)
+        private VSProjectItem ReadItem(
+            XmlReader xmlReader, string itemType)
         {
-            VSProjectItem item = new VSProjectItem(itemType) { Item = xmlReader["Include"] };
+            VSProjectItem item = new VSProjectItem(itemType)
+            {
+                Item = xmlReader["Include"]
+            };
 
-            if (false == xmlReader.IsEmptyElement)
+            if (!xmlReader.IsEmptyElement)
             {
                 xmlReader.Read();
 
@@ -257,17 +250,28 @@ namespace Flubu.Builds.VSSolutionBrowsing
             return item;
         }
 
-        private static void ReadItemProperty(VSProjectItem item, XmlReader xmlReader)
+        private void ReadItemProperty(
+            VSProjectItem item, XmlReader xmlReader)
         {
             string propertyName = xmlReader.Name;
             string propertyValue = xmlReader.ReadElementContentAsString();
+
+            if (item.ItemProperties.ContainsKey(propertyValue))
+            {
+                string message =
+                    "VS project {0} item property '{1}' already exists.".Fmt(
+                        ProjectFileName, propertyValue);
+                throw new InvalidOperationException(message);
+            }
+
             item.ItemProperties.Add(propertyName, propertyValue);
         }
 
-        private readonly List<VSProjectConfiguration> configurations = new List<VSProjectConfiguration>();
+        private readonly List<VSProjectConfiguration> configurations =
+            new List<VSProjectConfiguration>();
         private readonly List<VSProjectItem> items = new List<VSProjectItem>();
-        private readonly string projectFileName;
-        private readonly Dictionary<string, string> properties = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> properties 
+            = new Dictionary<string, string>();
         private bool propertiesDictionary;
     }
 }

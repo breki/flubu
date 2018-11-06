@@ -12,7 +12,9 @@ namespace Flubu.Tests.ConsoleTests
         {
             ScriptLoader loader = new ScriptLoader();
             IBuildScript script = loader.FindAndCreateBuildScriptInstance(
-                Path.Combine(TestContext.CurrentContext.TestDirectory, @"Samples\BuildScript.cs"));
+                Path.Combine(
+                    TestContext.CurrentContext.TestDirectory, 
+                    @"Samples\BuildScript.cs"));
             Assert.IsNotNull(script);
         }
     }
