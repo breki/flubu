@@ -15,8 +15,12 @@ namespace BuildScripts
     {
         protected override void ConfigureBuildProperties(TaskSession session)
         {
-            session.Properties.Set(BuildProps.MSBuildPath, @"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\bin\msbuild.exe");
-            session.Properties.Set(BuildProps.NUnitConsolePath, @"packages\NUnit.Runners.2.6.2\tools\nunit-console.exe");
+            session.Properties.Set(
+                BuildProps.MSBuildPath,
+                @"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\bin\msbuild.exe");
+            session.Properties.Set(
+                BuildProps.NUnitConsolePath,
+                @"packages\NUnit.ConsoleRunner.3.9.0\tools\nunit3-console.exe");
             session.Properties.Set(BuildProps.ProductId, "Flubu");
             session.Properties.Set(BuildProps.ProductName, "Flubu");
             session.Properties.Set(BuildProps.SolutionFileName, "Flubu.sln");
@@ -83,11 +87,12 @@ namespace BuildScripts
         private static void TargetRunTests(ITaskContext context, string projectName)
         {
             NUnitWithDotCoverTask task = new NUnitWithDotCoverTask(
-                @"packages\NUnit.Console.3.0.1\tools\nunit3-console.exe",
+                context.Properties.Get<string>(BuildProps.NUnitConsolePath),
                 Path.Combine(projectName, "bin", context.Properties[BuildProps.BuildConfiguration], projectName) + ".dll");
-            task.DotCoverFilters = "-:module=*.Tests;-:class=*Contract;-:class=*Contract`*;-:class=JetBrains.Annotations.*";
+            task.DotCoverFilters =
+                "-:module=*.Tests;-:class=*Contract;-:class=*Contract`*;-:class=JetBrains.Annotations.*;-:module=NUnit*;-:module=Moq*";
             task.FailBuildOnViolations = false;
-            task.NUnitCmdLineOptions = "--labels=All --trace=Verbose --verbose";
+            task.NUnitCmdLineOptions = "--labels=All --trace=Verbose";
             task.Execute(context);
         }
 
