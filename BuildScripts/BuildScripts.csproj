@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\ILRepack.2.0.13\build\ILRepack.props" Condition="Exists('..\packages\ILRepack.2.0.13\build\ILRepack.props')" />
+  <Import Project="..\packages\ILRepack.2.0.16\build\ILRepack.props" Condition="Exists('..\packages\ILRepack.2.0.16\build\ILRepack.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -65,21 +65,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Flubu, Version=3.8.0.0, Culture=neutral, PublicKeyToken=871438ac8d34d66e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Flubu\Flubu.dll</HintPath>
-    </Reference>
-    <Reference Include="Flubu.Contrib, Version=3.8.0.0, Culture=neutral, PublicKeyToken=871438ac8d34d66e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Flubu\Flubu.Contrib.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\Flubu.Contrib\Flubu.Contrib.csproj">
+      <Project>{8d82233c-682a-4fa7-8581-dd31f0fb564d}</Project>
+      <Name>Flubu.Contrib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Flubu.Contrib\Flubu.Contrib.csproj">
       <Project>{8d82233c-682a-4fa7-8581-dd31f0fb564d}</Project>
       <Name>Flubu.Contrib</Name>
@@ -88,6 +81,13 @@
       <Project>{5e8b73d7-b9dc-4dcf-93b6-4bfb5e845575}</Project>
       <Name>Flubu</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Flubu\Flubu.csproj">
+      <Project>{5e8b73d7-b9dc-4dcf-93b6-4bfb5e845575}</Project>
+      <Name>Flubu</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -105,6 +105,6 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\ILRepack.2.0.13\build\ILRepack.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ILRepack.2.0.13\build\ILRepack.props'))" />
+    <Error Condition="!Exists('..\packages\ILRepack.2.0.16\build\ILRepack.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ILRepack.2.0.16\build\ILRepack.props'))" />
   </Target>
 </Project>

@@ -13,7 +13,7 @@ namespace Flubu.Console
         public IBuildScript FindAndCreateBuildScriptInstance(string fileName)
         {
             CSScript.AssemblyResolvingEnabled = true;
-            Assembly assembly = CSScript.Load(fileName);
+            Assembly assembly = CSScript.LoadFile(fileName);
 
             Type myType = typeof(IBuildScript);
             List<Type> classes =
