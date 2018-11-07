@@ -75,7 +75,7 @@ namespace BuildScripts
                 //.AddArgument(@"/lib:""C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0""")
                 .AddArgument("/out:..\\..\\..\\output\\Build.exe")
                 .AddArgument("flubu.console.exe")
-                .AddArgument("CommandLine.dll")
+                //.AddArgument("CommandLine.dll")
                 .AddArgument("CSScriptLibrary.dll")
                 .AddArgument("Flubu.dll")
                 .AddArgument("Flubu.Contrib.dll")
@@ -87,11 +87,18 @@ namespace BuildScripts
 
         private static void TargetRunTests(ITaskContext context, string projectName)
         {
+            string testAssemblyFileName = 
+                Path.Combine(
+                    projectName, 
+                    "bin", 
+                    context.Properties[BuildProps.BuildConfiguration], 
+                    projectName) + ".dll";
             NUnitWithDotCoverTask task = new NUnitWithDotCoverTask(
                 context.Properties.Get<string>(BuildProps.NUnitConsolePath),
-                Path.Combine(projectName, "bin", context.Properties[BuildProps.BuildConfiguration], projectName) + ".dll");
+                testAssemblyFileName);
+            task.ShouldGenerateHtmlReport = false;
             task.DotCoverFilters =
-                "-:module=*.Tests;-:class=*Contract;-:class=*Contract`*;-:class=JetBrains.Annotations.*;-:module=NUnit*;-:module=Moq*";
+                "-:module=*.Tests;-:class=*Contract;-:class=*Contract`*;-:class=JetBrains.Annotations.*;-:module=nunit.*;-:module=Moq*";
             task.FailBuildOnViolations = false;
             task.NUnitCmdLineOptions = "--labels=All --trace=Verbose";
             task.Execute(context);

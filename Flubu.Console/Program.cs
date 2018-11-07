@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using CommandLine;
 using Flubu.Builds;
 
 namespace Flubu.Console
@@ -23,19 +22,15 @@ namespace Flubu.Console
                 IBuildScript script =
                     buildScriptLocator.FindBuildScript(arguments);
 
-                Parser p = new Parser();
-                p.ParseArguments(args);
+                //Parser p = new Parser();
+                //p.ParseArguments(args);
 
                 return script.Run(arguments);
             }
-            catch (BuildScriptLocatorException ex)
-            {
-                System.Console.WriteLine("Error executing script {0}.", ex.Message);
-                return 1;
-            }
             catch (Exception ex)
             {
-                System.Console.WriteLine("Error executing script {0}.", ex.Message);
+                System.Console.WriteLine("Error executing script the script");
+                System.Console.WriteLine(ex.ToString());
                 return 1;
             }
         }

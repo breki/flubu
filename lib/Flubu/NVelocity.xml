@@ -33,11 +33,11 @@
             <summary>
             Called during Velocity merge if a reference is null
             </summary>
-            <param name="claz">Class that is causing the exception</param>
+            <param name="type">Class that is causing the exception</param>
             <param name="method">method called that causes the exception</param>
             <param name="e">Exception thrown by the method</param>
             <returns>Object to return as method result</returns>
-            <exception cref="T:System.Exception">exception to be wrapped and propogated to app</exception>
+            <exception cref="T:System.Exception">exception to be wrapped and propagated to app</exception>
         </member>
         <member name="M:NVelocity.App.Events.EventCartridge.AttachToContext(NVelocity.Context.IContext)">
             <summary>
@@ -56,15 +56,6 @@
             
              </version>
         </member>
-        <member name="T:NVelocity.App.Events.MethodExceptionEventHandler">
-            <summary>
-            Called when a method throws an exception.  This gives the
-            application a chance to deal with it and either
-            return something nice, or throw.
-            
-            Please return what you want rendered into the output stream.
-            </summary>
-        </member>
         <member name="T:NVelocity.App.Events.NullSetEventHandler">
             <summary>
             Lets an app approve / veto writing a log message when RHS of #set() is null.
@@ -72,236 +63,13 @@
         </member>
         <member name="P:NVelocity.App.Events.NullSetEventArgs.LHS">
             <summary>
-            reference literal of left-hand-side of set statement
+            Reference literal of left-hand-side of set statement
             </summary>
         </member>
         <member name="P:NVelocity.App.Events.NullSetEventArgs.RHS">
             <summary>
             reference literal of right-hand-side of set statement
             </summary>
-        </member>
-        <member name="T:NVelocity.App.Events.ReferenceInsertionEventHandler">
-            <summary>
-            Reference 'Stream insertion' event handler.  Called with object
-            that will be inserted into stream via value.toString().
-            Make sure you return an Object that will toString() without throwing an exception.
-            </summary>
-        </member>
-        <member name="T:NVelocity.App.Tools.VelocityFormatter">
-            <summary>
-            Formatting tool for inserting into the Velocity WebContext.  Can
-            format dates or lists of objects.
-            
-            <para>Here's an example of some uses:
-            <code><pre>
-            $formatter.formatShortDate($object.Date)
-            $formatter.formatLongDate($db.getRecord(232).getDate())
-            $formatter.formatArray($array)
-            $formatter.limitLen(30, $object.Description)
-            </pre></code>
-            </para>
-            </summary>
-            <author><a href="mailto:sean@somacity.com">Sean Legassick</a></author>
-            <author><a href="mailto:dlr@collab.net">Daniel Rall</a></author>
-            <version>$Id: VelocityFormatter.cs,v 1.5 2003/11/05 04:15:02 corts Exp $</version>
-        </member>
-        <member name="M:NVelocity.App.Tools.VelocityFormatter.#ctor(NVelocity.Context.IContext)">
-            <summary>
-            Constructor needs a backpointer to the context.
-            </summary>
-            <param name="context">A Context.</param>
-        </member>
-        <member name="M:NVelocity.App.Tools.VelocityFormatter.FormatShortDate(System.DateTime)">
-            <summary>
-            Formats a date in 'short' style.
-            </summary>
-            <param name="date">A Date.</param>
-            <returns>A String.</returns>
-        </member>
-        <member name="M:NVelocity.App.Tools.VelocityFormatter.FormatLongDate(System.DateTime)">
-            <summary>
-            Formats a date in 'long' style.
-            </summary>
-            <param name="date">A Date.</param>
-            <returns>A String.</returns>
-        </member>
-        <member name="M:NVelocity.App.Tools.VelocityFormatter.FormatShortDateTime(System.DateTime)">
-            <summary>
-            Formats a date/time in 'short' style.
-            </summary>
-            <param name="date">A Date.</param>
-            <returns>A String.</returns>
-        </member>
-        <member name="M:NVelocity.App.Tools.VelocityFormatter.FormatLongDateTime(System.DateTime)">
-            <summary>
-            Formats a date/time in 'long' style.
-            </summary>
-            <param name="date">A Date.</param>
-            <returns>A String.</returns>
-        </member>
-        <member name="M:NVelocity.App.Tools.VelocityFormatter.FormatArray(System.Object)">
-            <summary>
-            Formats an array into the form "A, B and C".
-            </summary>
-            <param name="array">An Object.</param>
-            <returns>A String.</returns>
-        </member>
-        <member name="M:NVelocity.App.Tools.VelocityFormatter.FormatArray(System.Object,System.String)">
-            <summary> 
-            Formats an array into the form
-            "A&lt;delim&gt;B&lt;delim&gt;C".
-            </summary>
-            <param name="array">An Object.</param>
-            <param name="delim">A String.</param>
-            <returns>A String.</returns>
-        </member>
-        <member name="M:NVelocity.App.Tools.VelocityFormatter.FormatArray(System.Object,System.String,System.String)">
-            <summary>
-            Formats an array into the form
-            "A&lt;delim&gt;B&lt;finaldelim&gt;C".
-            </summary>
-            <param name="array">An Object.</param>
-            <param name="delim">A String.</param>
-            <param name="finaldelim">A String.</param>
-            <returns>A String.</returns>
-        </member>
-        <member name="M:NVelocity.App.Tools.VelocityFormatter.FormatVector(System.Collections.IList)">
-            <summary>
-            Formats a list into the form "A, B and C".
-            </summary>
-            <param name="list">A list.</param>
-            <returns>A String.</returns>
-        </member>
-        <member name="M:NVelocity.App.Tools.VelocityFormatter.FormatVector(System.Collections.IList,System.String)">
-            <summary>
-            Formats a list into the form "A&lt;delim&gt;B&lt;delim&gt;C".
-            </summary>
-            <param name="list">A list.</param>
-            <param name="delim">A String.</param>
-            <returns>A String.</returns>
-        </member>
-        <member name="M:NVelocity.App.Tools.VelocityFormatter.FormatVector(System.Collections.IList,System.String,System.String)">
-            <summary>
-            Formats a list into the form
-            "Adelim&gt;B&lt;finaldelim&gt;C".
-            </summary>
-            <param name="list">A list.</param>
-            <param name="delim">A String.</param>
-            <param name="finaldelim">A String.</param>
-            <returns>A String.</returns>
-        </member>
-        <member name="M:NVelocity.App.Tools.VelocityFormatter.LimitLen(System.Int32,System.String)">
-            <summary>
-            Limits 'string' to 'maxlen' characters.  If the string gets
-            curtailed, "..." is appended to it.
-            </summary>
-            <param name="maxlen">An int with the maximum length.</param>
-            <param name="value">A String.</param>
-            <returns>A String.</returns>
-        </member>
-        <member name="M:NVelocity.App.Tools.VelocityFormatter.LimitLen(System.Int32,System.String,System.String)">
-            <summary>
-            Limits 'string' to 'maxlen' character.  If the string gets
-            curtailed, 'suffix' is appended to it.
-            </summary>
-            <param name="maxlen">An int with the maximum length.</param>
-            <param name="value">A String.</param>
-            <param name="suffix">A String.</param>
-            <returns>A String.</returns>
-        </member>
-        <member name="M:NVelocity.App.Tools.VelocityFormatter.MakeAlternator(System.String,System.String,System.String)">
-            <summary>
-            Makes an alternator object that alternates between two values.
-            
-            <para>Example usage in a Velocity template:
-            
-            <code>
-            &lt;table&gt;
-            $formatter.makeAlternator("rowcolor", "#c0c0c0", "#e0e0e0")
-            #foreach $item in $items
-            &lt;tr&gt;&lt;td bgcolor="$rowcolor"&gt;$item.Name&lt;/td&gt;&lt;/tr&gt;
-            $rowcolor.alternate()
-            #end
-            &lt;/table&gt;
-            </code>
-            </para>
-            </summary>
-            <param name="name">The name for the alternator int the context.</param>
-            <param name="alt1">The first alternate.</param>
-            <param name="alt2">The second alternate.</param>
-            <returns>The newly created instance.</returns>
-        </member>
-        <member name="M:NVelocity.App.Tools.VelocityFormatter.MakeAlternator(System.String,System.String,System.String,System.String)">
-            <summary>
-            Makes an alternator object that alternates between three values.
-            </summary>
-        </member>
-        <member name="M:NVelocity.App.Tools.VelocityFormatter.MakeAlternator(System.String,System.String,System.String,System.String,System.String)">
-            <summary>
-            Makes an alternator object that alternates between four values.
-            </summary>
-        </member>
-        <member name="M:NVelocity.App.Tools.VelocityFormatter.MakeAutoAlternator(System.String,System.String,System.String)">
-            <summary>
-            Makes an alternator object that alternates between two values
-            automatically.
-            </summary>
-        </member>
-        <member name="M:NVelocity.App.Tools.VelocityFormatter.IsNull(System.Object,System.Object)">
-            <summary>
-            Returns a default value if the object passed is null.
-            </summary>
-        </member>
-        <member name="T:NVelocity.App.Tools.VelocityFormatter.VelocityAlternator">
-            <summary>
-            Class that returns alternating values in a template.  It stores
-            a list of alternate Strings, whenever alternate() is called it
-            switches to the next in the list.  The current alternate is
-            retrieved through toString() - i.e. just by referencing the
-            object in a Velocity template.  For an example of usage see the
-            makeAlternator() method below.
-            </summary>
-        </member>
-        <member name="M:NVelocity.App.Tools.VelocityFormatter.VelocityAlternator.#ctor(System.String[])">
-            <summary>
-            Constructor takes an array of Strings.
-            </summary>
-            <param name="alternates">A String[].
-            </param>
-        </member>
-        <member name="M:NVelocity.App.Tools.VelocityFormatter.VelocityAlternator.Alternate">
-            <summary>
-            Alternates to the next in the list.
-            </summary>
-            <returns>The current alternate in the sequence.</returns>
-        </member>
-        <member name="M:NVelocity.App.Tools.VelocityFormatter.VelocityAlternator.ToString">
-            <summary>
-            Returns the current alternate.
-            </summary>
-            <returns>A String.</returns>
-        </member>
-        <member name="T:NVelocity.App.Tools.VelocityFormatter.VelocityAutoAlternator">
-            <summary>
-            As VelocityAlternator, but calls <code>alternate()</code>
-            automatically on rendering in a template.
-            </summary>
-        </member>
-        <member name="M:NVelocity.App.Tools.VelocityFormatter.VelocityAutoAlternator.#ctor(System.String[])">
-             <summary>
-             Constructor takes an array of Strings.
-             </summary>
-             <param name="alternates">A String[].
-            
-             </param>
-        </member>
-        <member name="M:NVelocity.App.Tools.VelocityFormatter.VelocityAutoAlternator.ToString">
-            <summary>
-            Returns the current alternate, and automatically alternates
-            to the next alternate in its sequence (trigged upon
-            rendering).
-            </summary>
-            <returns>The current alternate in the sequence.</returns>
         </member>
         <member name="T:NVelocity.App.FieldMethodizer">
              <summary>
@@ -388,6 +156,222 @@
             <summary>  Method that retrieves all public static fields
             in the class we are methodizing.
             </summary>
+        </member>
+        <member name="T:NVelocity.App.Tools.VelocityFormatter">
+            <summary>
+            Formatting tool for inserting into the Velocity WebContext.  Can
+            format dates or lists of objects.
+            
+            <para>Here's an example of some uses:
+            <code><pre>
+            $formatter.formatShortDate($object.Date)
+            $formatter.formatLongDate($db.getRecord(232).getDate())
+            $formatter.formatArray($array)
+            $formatter.limitLen(30, $object.Description)
+            </pre></code>
+            </para>
+            </summary>
+            <author><a href="mailto:sean@somacity.com">Sean Legassick</a></author>
+            <author><a href="mailto:dlr@collab.net">Daniel Rall</a></author>
+            <version>$Id: VelocityFormatter.cs,v 1.5 2003/11/05 04:15:02 corts Exp $</version>
+        </member>
+        <member name="M:NVelocity.App.Tools.VelocityFormatter.#ctor(NVelocity.Context.IContext)">
+            <summary>
+            Constructor needs a backPointer to the context.
+            </summary>
+            <param name="context">A Context.</param>
+        </member>
+        <member name="M:NVelocity.App.Tools.VelocityFormatter.FormatShortDate(System.DateTime)">
+            <summary>
+            Formats a date in 'short' style.
+            </summary>
+            <param name="date">A Date.</param>
+            <returns>A String.</returns>
+        </member>
+        <member name="M:NVelocity.App.Tools.VelocityFormatter.FormatLongDate(System.DateTime)">
+            <summary>
+            Formats a date in 'long' style.
+            </summary>
+            <param name="date">A Date.</param>
+            <returns>A String.</returns>
+        </member>
+        <member name="M:NVelocity.App.Tools.VelocityFormatter.FormatShortDateTime(System.DateTime)">
+            <summary>
+            Formats a date/time in 'short' style.
+            </summary>
+            <param name="date">A Date.</param>
+            <returns>A String.</returns>
+        </member>
+        <member name="M:NVelocity.App.Tools.VelocityFormatter.FormatLongDateTime(System.DateTime)">
+            <summary>
+            Formats a date/time in 'long' style.
+            </summary>
+            <param name="date">A Date.</param>
+            <returns>A String.</returns>
+        </member>
+        <member name="M:NVelocity.App.Tools.VelocityFormatter.FormatArray(System.Object)">
+            <summary>
+            Formats an array into the form "A, B and C".
+            </summary>
+            <param name="array">An Object.</param>
+            <returns>A String.</returns>
+        </member>
+        <member name="M:NVelocity.App.Tools.VelocityFormatter.FormatArray(System.Object,System.String)">
+            <summary> 
+            Formats an array into the form
+            "A&lt;delim&gt;B&lt;delim&gt;C".
+            </summary>
+            <param name="array">An Object.</param>
+            <param name="delim">A String.</param>
+            <returns>A String.</returns>
+        </member>
+        <member name="M:NVelocity.App.Tools.VelocityFormatter.FormatArray(System.Object,System.String,System.String)">
+            <summary>
+            Formats an array into the form
+            "A&lt;delim&gt;B&lt;finalDelimiter&gt;C".
+            </summary>
+            <param name="array">An Object.</param>
+            <param name="delim">A String.</param>
+            <param name="finalDelimiter">A String.</param>
+            <returns>A String.</returns>
+        </member>
+        <member name="M:NVelocity.App.Tools.VelocityFormatter.FormatVector(System.Collections.IList)">
+            <summary>
+            Formats a list into the form "A, B and C".
+            </summary>
+            <param name="list">A list.</param>
+            <returns>A String.</returns>
+        </member>
+        <member name="M:NVelocity.App.Tools.VelocityFormatter.FormatVector(System.Collections.IList,System.String)">
+            <summary>
+            Formats a list into the form "A&lt;delim&gt;B&lt;delim&gt;C".
+            </summary>
+            <param name="list">A list.</param>
+            <param name="delim">A String.</param>
+            <returns>A String.</returns>
+        </member>
+        <member name="M:NVelocity.App.Tools.VelocityFormatter.FormatVector(System.Collections.IList,System.String,System.String)">
+            <summary>
+            Formats a list into the form
+            "Adelim&gt;B&lt;finalDelimiter&gt;C".
+            </summary>
+            <param name="list">A list.</param>
+            <param name="delim">A String.</param>
+            <param name="finalDelimiter">A String.</param>
+            <returns>A String.</returns>
+        </member>
+        <member name="M:NVelocity.App.Tools.VelocityFormatter.LimitLen(System.Int32,System.String)">
+            <summary>
+            Limits 'string' to 'maximumLength' characters.  If the string gets
+            curtailed, "..." is appended to it.
+            </summary>
+            <param name="maximumLength">An int with the maximum length.</param>
+            <param name="value">A String.</param>
+            <returns>A String.</returns>
+        </member>
+        <member name="M:NVelocity.App.Tools.VelocityFormatter.LimitLen(System.Int32,System.String,System.String)">
+            <summary>
+            Limits 'string' to 'maximumLength' character.  If the string gets
+            curtailed, 'suffix' is appended to it.
+            </summary>
+            <param name="maximumLength">An int with the maximum length.</param>
+            <param name="value">A String.</param>
+            <param name="suffix">A String.</param>
+            <returns>A String.</returns>
+        </member>
+        <member name="M:NVelocity.App.Tools.VelocityFormatter.MakeAlternator(System.String,System.String,System.String)">
+            <summary>
+            Makes an alternator object that alternates between two values.
+            
+            <para>Example usage in a Velocity template:
+            
+            <code>
+            &lt;table&gt;
+            $formatter.makeAlternator("rowColor", "#c0c0c0", "#e0e0e0")
+            #foreach $item in $items
+            &lt;tr&gt;&lt;td bgcolor="$rowColor"&gt;$item.Name&lt;/td&gt;&lt;/tr&gt;
+            $rowColor.alternate()
+            #end
+            &lt;/table&gt;
+            </code>
+            </para>
+            </summary>
+            <param name="name">The name for the alternator int the context.</param>
+            <param name="alt1">The first alternate.</param>
+            <param name="alt2">The second alternate.</param>
+            <returns>The newly created instance.</returns>
+        </member>
+        <member name="M:NVelocity.App.Tools.VelocityFormatter.MakeAlternator(System.String,System.String,System.String,System.String)">
+            <summary>
+            Makes an alternator object that alternates between three values.
+            </summary>
+        </member>
+        <member name="M:NVelocity.App.Tools.VelocityFormatter.MakeAlternator(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Makes an alternator object that alternates between four values.
+            </summary>
+        </member>
+        <member name="M:NVelocity.App.Tools.VelocityFormatter.MakeAutoAlternator(System.String,System.String,System.String)">
+            <summary>
+            Makes an alternator object that alternates between two values
+            automatically.
+            </summary>
+        </member>
+        <member name="M:NVelocity.App.Tools.VelocityFormatter.IsNull(System.Object,System.Object)">
+            <summary>
+            Returns a default value if the object passed is null.
+            </summary>
+        </member>
+        <member name="T:NVelocity.App.Tools.VelocityFormatter.VelocityAlternator">
+            <summary>
+            Class that returns alternating values in a template.  It stores
+            a list of alternate Strings, whenever alternate() is called it
+            switches to the next in the list.  The current alternate is
+            retrieved through toString() - i.e. just by referencing the
+            object in a Velocity template.  For an example of usage see the
+            makeAlternator() method below.
+            </summary>
+        </member>
+        <member name="M:NVelocity.App.Tools.VelocityFormatter.VelocityAlternator.#ctor(System.String[])">
+            <summary>
+            Constructor takes an array of Strings.
+            </summary>
+            <param name="alternates">A String[].
+            </param>
+        </member>
+        <member name="M:NVelocity.App.Tools.VelocityFormatter.VelocityAlternator.Alternate">
+            <summary>
+            Alternates to the next in the list.
+            </summary>
+            <returns>The current alternate in the sequence.</returns>
+        </member>
+        <member name="M:NVelocity.App.Tools.VelocityFormatter.VelocityAlternator.ToString">
+            <summary>
+            Returns the current alternate.
+            </summary>
+            <returns>A String.</returns>
+        </member>
+        <member name="T:NVelocity.App.Tools.VelocityFormatter.VelocityAutoAlternator">
+            <summary>
+            As VelocityAlternator, but calls <code>alternate()</code>
+            automatically on rendering in a template.
+            </summary>
+        </member>
+        <member name="M:NVelocity.App.Tools.VelocityFormatter.VelocityAutoAlternator.#ctor(System.String[])">
+             <summary>
+             Constructor takes an array of Strings.
+             </summary>
+             <param name="alternates">A String[].
+            
+             </param>
+        </member>
+        <member name="M:NVelocity.App.Tools.VelocityFormatter.VelocityAutoAlternator.ToString">
+            <summary>
+            Returns the current alternate, and automatically alternates
+            to the next alternate in its sequence (triggered upon
+            rendering).
+            </summary>
+            <returns>The current alternate in the sequence.</returns>
         </member>
         <member name="T:NVelocity.App.Velocity">
             <summary>
@@ -479,7 +463,7 @@
             <param name="context">context to use in rendering input string</param>
             <param name="writer"> Writer in which to render the output</param>
             <param name="logTag"> string to be used as the template name for log messages in case of error</param>
-            <param name="instring">input string containing the VTL to be rendered</param>
+            <param name="inString">input string containing the VTL to be rendered</param>
             <returns>true if successful, false otherwise.  If false, see Velocity runtime log</returns>
         </member>
         <member name="M:NVelocity.App.Velocity.Evaluate(NVelocity.Context.IContext,System.IO.TextWriter,System.String,System.IO.Stream)">
@@ -508,7 +492,7 @@
         </member>
         <member name="M:NVelocity.App.Velocity.InvokeVelocimacro(System.String,System.String,System.String[],NVelocity.Context.IContext,System.IO.TextWriter)">
             <summary>
-            Invokes a currently registered Velocimacro with the parms provided
+            Invokes a currently registered Velocimacro with the parameters provided
             and places the rendered stream into the writer.
             
             Note : currently only accepts args to the VM if they are in the context.
@@ -576,7 +560,7 @@
         </member>
         <member name="M:NVelocity.App.Velocity.ResourceExists(System.String)">
             <summary>
-            <p>Determines whether a resource is accessable via the
+            <p>Determines whether a resource is accessible via the
             currently configured resource loaders. <see cref="T:NVelocity.Runtime.Resource.Resource"/>
             is the generic description of templates, static content, etc.</p>
             
@@ -616,15 +600,15 @@
         <member name="M:NVelocity.App.Velocity.SetApplicationAttribute(System.Object,System.Object)">
             <summary>
             <p>
-            Set the an ApplicationAttribue, which is an Object
-            set by the application which is accessable from
+            Set the an ApplicationAttribute, which is an Object
+            set by the application which is accessible from
             any component of the system that gets a RuntimeServices.
             This allows communication between the application
             environment and custom pluggable components of the
             Velocity engine, such as loaders and loggers.
             </p>
             <p>
-            Note that there is no enfocement or rules for the key
+            Note that there is no enforcement or rules for the key
             used - it is up to the application developer.  However, to
             help make the intermixing of components possible, using
             the target Class name (e.g.  com.foo.bar ) as the key
@@ -707,7 +691,7 @@
             initialize the Velocity runtime engine, using default properties
             plus the properties in the passed in java.util.Properties object
             </summary>
-            <param name="p"> Proprties object containing initialization properties</param>
+            <param name="p"> Properties object containing initialization properties</param>
         </member>
         <member name="M:NVelocity.App.VelocityEngine.SetProperty(System.String,System.Object)">
             <summary>
@@ -723,7 +707,7 @@
             <summary>
             Clear a Velocity Runtime property.
             </summary>
-            <param name="key">ley of property to clear</param>
+            <param name="key">key of property to clear</param>
         </member>
         <member name="M:NVelocity.App.VelocityEngine.GetProperty(System.String)">
             <summary>
@@ -743,7 +727,7 @@
             <param name="context">context to use in rendering input string</param>
             <param name="writer"> Writer in which to render the output</param>
             <param name="logTag"> string to be used as the template name for log messages in case of error</param>
-            <param name="instring">input string containing the VTL to be rendered</param>
+            <param name="inString">input string containing the VTL to be rendered</param>
             <returns>true if successful, false otherwise.  If false, see Velocity runtime log</returns>
         </member>
         <member name="M:NVelocity.App.VelocityEngine.Evaluate(NVelocity.Context.IContext,System.IO.TextWriter,System.String,System.IO.Stream)">
@@ -772,7 +756,7 @@
         </member>
         <member name="M:NVelocity.App.VelocityEngine.InvokeVelocimacro(System.String,System.String,System.String[],NVelocity.Context.IContext,System.IO.TextWriter)">
             <summary>
-            Invokes a currently registered Velocimacro with the parms provided
+            Invokes a currently registered Velocimacro with the parameters provided
             and places the rendered stream into the writer.
             Note : currently only accepts args to the VM if they are in the context.
             </summary>
@@ -843,7 +827,7 @@
         </member>
         <member name="M:NVelocity.App.VelocityEngine.TemplateExists(System.String)">
             <summary>
-            Determines if a template is accessable via the currently
+            Determines if a template is accessible via the currently
             configured resource loaders.
             <br/><br/>
             Note that the current implementation will <b>not</b>
@@ -851,10 +835,10 @@
             cannot be used to pre-load the resource cache, as the
             previous implementation did as a side-effect.
             <br/><br/>
-            The previous implementation exhibited extreme lazyness and
+            The previous implementation exhibited extreme laziness and
             sloth, and the author has been flogged.
             </summary>
-            <param name="templateName"> name of the temlpate to search for
+            <param name="templateName"> name of the template to search for
             </param>
             <returns>true if found, false otherwise
             </returns>
@@ -887,15 +871,15 @@
         <member name="M:NVelocity.App.VelocityEngine.SetApplicationAttribute(System.Object,System.Object)">
             <summary>
             <p>
-            Set the an ApplicationAttribue, which is an Object
-            set by the application which is accessable from
+            Set the an ApplicationAttribute, which is an Object
+            set by the application which is accessible from
             any component of the system that gets a RuntimeServices.
             This allows communication between the application
             environment and custom pluggable components of the
             Velocity engine, such as loaders and loggers.
             </p>
             <p>
-            Note that there is no enfocement or rules for the key
+            Note that there is no enforcement or rules for the key
             used - it is up to the application developer.  However, to
             help make the intermixing of components possible, using
             the target Class name (e.g.  com.foo.bar ) as the key
@@ -1015,7 +999,7 @@
         </member>
         <member name="F:Commons.Collections.ExtendedProperties.isInitialized">
             <summary>
-            Has this configuration been intialized.
+            Has this configuration been initialized.
             </summary>
         </member>
         <member name="F:Commons.Collections.ExtendedProperties.include">
@@ -1054,13 +1038,6 @@
             <param name="defaultFile">File to load defaults from.</param>
             <exception cref="T:System.IO.IOException"/>
         </member>
-        <member name="M:Commons.Collections.ExtendedProperties.Init(Commons.Collections.ExtendedProperties)">
-            <summary>
-            Private initializer method that sets up the generic
-            resources.
-            </summary>
-            <exception cref="T:System.IO.IOException">if there was an I/O problem.</exception>
-        </member>
         <member name="M:Commons.Collections.ExtendedProperties.IsInitialized">
             <summary>
             Indicate to client code whether property
@@ -1074,7 +1051,7 @@
             </summary>
             <param name="input">An InputStream.
             </param>
-            <param name="enc">An encoding.
+            <param name="encoding">An encoding.
             </param>
             <exception cref="T:System.IO.IOException"/>
         </member>
@@ -1111,7 +1088,7 @@
         </member>
         <member name="M:Commons.Collections.ExtendedProperties.AddPropertyDirect(System.String,System.Object)">
              <summary>   Adds a key/value pair to the map.  This routine does
-             no magic morphing.  It ensures the keylist is maintained
+             no magic morphing.  It ensures the keyList is maintained
              *
              </summary>
              <param name="key">key to use for mapping
@@ -1124,7 +1101,7 @@
              <summary>  Sets a string property w/o checking for commas - used
              internally when a property has been broken up into
              strings that could contain escaped commas to prevent
-             the inadvertant vectorization.
+             the inadvertent vectorization.
             
              Thanks to Leon Messerschmidt for this one.
             
@@ -1136,10 +1113,10 @@
             to clearProperty(key), addProperty(key,value).
             </summary>
             <param name="key"></param>
-            <param name="value_"></param>
+            <param name="value"></param>
         </member>
         <member name="M:Commons.Collections.ExtendedProperties.Save(System.IO.TextWriter,System.String)">
-            <summary> Save the properties to the given outputstream.
+            <summary> Save the properties to the given outputStream.
             </summary>
             <param name="output">An OutputStream.
             </param>
@@ -1292,6 +1269,13 @@
             
              </exception>
         </member>
+        <member name="M:Commons.Collections.ExtendedProperties.GetStringList(System.String)">
+            <summary>
+            Gets the string list.
+            </summary>
+            <param name="key">The key.</param>
+            <returns></returns>
+        </member>
         <member name="M:Commons.Collections.ExtendedProperties.GetVector(System.String,System.Collections.ArrayList)">
              <summary> Get a Vector of strings associated with the given configuration
              key.
@@ -1349,7 +1333,7 @@
              boolean status is ignored.
              *
              </summary>
-             <param name="value_">The value to test for boolean state.
+             <param name="value">The value to test for boolean state.
              </param>
              <returns><code>true</code> or <code>false</code> if the supplied
              text maps to a boolean value, or <code>null</code> otherwise.
@@ -1560,38 +1544,6 @@
             <param name="p">properties object to convert into a ExtendedProperties object.</param>
             <returns>ExtendedProperties configuration created from the properties object.</returns>
         </member>
-        <member name="T:Commons.Collections.KeyedList">
-             <summary>
-            Using The KeyedList
-            Using the KeyedList is just like using a Hashtable, except that when you enumerate through the list, the entries are in the same order as when they were added to the list.  Believe me, I needed this capability!
-            
-            using System;
-            using System.Collections;
-            
-            namespace KeyedListTest {
-                class ConsoleApp {
-            	[STAThread]
-            	static void Main(string[] args) {
-            	    KeyedList k=new KeyedList();
-            	    k.Add("One", 1);
-            	    k.Add("Two", 2);
-            	    k.Add("Three", 3);
-            	    k.Add("Four", 4);
-            	    k.Add("Five", 5);
-            	    k.Add("Six", 6);
-            	    k.Add("Seven", 7);
-            	    k.Add("Eight", 8);
-            	    k.Add("Nine", 9);
-            	    k.Add("Ten", 10);
-            
-            	    foreach(DictionaryEntry entry in k) {
-            		Console.WriteLine(entry.Key+": "+entry.Value.ToString());
-            	    }
-            	}
-                }
-            }
-             </summary>
-        </member>
         <member name="T:Commons.Collections.LRUMap">
             <summary>
             A keyed list with a fixed maximum size which removes
@@ -1655,12 +1607,6 @@
             Constructor.
             </summary>
             <param name="str">A String</param>
-        </member>
-        <member name="M:Commons.Collections.PropertiesTokenizer.HasMoreTokens">
-            <summary> Check whether the object has more tokens.
-            </summary>
-            <returns>True if the object has more tokens.
-            </returns>
         </member>
         <member name="M:Commons.Collections.PropertiesTokenizer.NextToken">
             <summary>
@@ -1875,6 +1821,20 @@
             <summary>  the chained Context if any
             </summary>
         </member>
+        <member name="M:NVelocity.Context.AbstractContext.#ctor">
+            <summary>  default CTOR
+            </summary>
+        </member>
+        <member name="M:NVelocity.Context.AbstractContext.#ctor(NVelocity.Context.IContext)">
+             <summary>  Chaining constructor accepts a Context argument.
+             It will relay get() operations into this Context
+             in the even the 'local' get() returns null.
+            
+             </summary>
+             <param name="inner">context to be chained
+            
+             </param>
+        </member>
         <member name="M:NVelocity.Context.AbstractContext.InternalGet(System.String)">
             
              <summary>  Implement to return a value from the context storage.
@@ -1901,7 +1861,7 @@
              </summary>
              <param name="key">key with which to associate the value
              </param>
-             <param name="value_">value to be associated with the key
+             <param name="value">value to be associated with the key
              </param>
              <returns>previously stored value if exists, or null
             
@@ -1936,7 +1896,7 @@
         </member>
         <member name="M:NVelocity.Context.AbstractContext.InternalRemove(System.Object)">
             
-             <summary>  I mplement to remove an item from your storage.
+             <summary>  Implement to remove an item from your storage.
              <br/><br/>
              Currently, this method is not used internally by
              the Velocity core.
@@ -1948,27 +1908,13 @@
             
              </returns>
         </member>
-        <member name="M:NVelocity.Context.AbstractContext.#ctor">
-            <summary>  default CTOR
-            </summary>
-        </member>
-        <member name="M:NVelocity.Context.AbstractContext.#ctor(NVelocity.Context.IContext)">
-             <summary>  Chaining constructor accepts a Context argument.
-             It will relay get() operations into this Context
-             in the even the 'local' get() returns null.
-            
-             </summary>
-             <param name="inner">context to be chained
-            
-             </param>
-        </member>
         <member name="M:NVelocity.Context.AbstractContext.Put(System.String,System.Object)">
              <summary> Adds a name/value pair to the context.
             
              </summary>
              <param name="key">  The name to key the provided value with.
              </param>
-             <param name="value_">The corresponding value.
+             <param name="value">The corresponding value.
              </param>
              <returns>Object that was replaced in the the Context if
              applicable or null if not.
@@ -2050,9 +1996,9 @@
         </member>
         <member name="M:NVelocity.Context.IInternalContextAdapter.Remove(System.Object)">
             <summary>
-            Need to define this method here otherwise since both IDicationary and IContext
+            Need to define this method here otherwise since both <see cref="T:System.Collections.IDictionary"/> and <see cref="T:NVelocity.Context.IContext"/> 
             contains a Remove(Object key) method we will need to cast the object to either interface
-            before calling this method, for backward compabillity we make the IContext.Remove the default
+            before calling this method, for backward compatibility we make the IContext.Remove the default
             </summary>
             <param name="key"></param>
             <returns></returns>
@@ -2079,7 +2025,7 @@
              *
              This class ensures that an InternalContextBase is available for internal
              use.  If an application constructs their own Context-implementing
-             object w/o subclassing AbstractContext, it may be that support for
+             object w/o sub-classing AbstractContext, it may be that support for
              InternalContext is not available.  Therefore, InternalContextAdapter will
              create an InternalContextBase if necessary for this support.  Note that
              if this is necessary, internal information such as node-cache data will be
@@ -2099,7 +2045,7 @@
              <summary>  the user data Context that we are wrapping
              </summary>
         </member>
-        <member name="F:NVelocity.Context.InternalContextAdapterImpl.icb">
+        <member name="F:NVelocity.Context.InternalContextAdapterImpl.internalHousekeepingContext">
             
              <summary>  the ICB we are wrapping.  We may need to make one
              if the user data context implementation doesn't
@@ -2109,7 +2055,7 @@
              rather than piecing things together
              </summary>
         </member>
-        <member name="F:NVelocity.Context.InternalContextAdapterImpl.iec">
+        <member name="F:NVelocity.Context.InternalContextAdapterImpl.internalEventContext">
             <summary>  The InternalEventContext that we are wrapping.  If
             the context passed to us doesn't support it, no
             biggie.  We don't make it for them - since its a
@@ -2153,11 +2099,11 @@
             
              </version>
         </member>
-        <member name="F:NVelocity.Context.VMContext.vmproxyhash">
+        <member name="F:NVelocity.Context.VMContext.vmProxyHash">
             <summary>container for our VMProxy Objects
             </summary>
         </member>
-        <member name="F:NVelocity.Context.VMContext.localcontext">
+        <member name="F:NVelocity.Context.VMContext.localContext">
             <summary>container for any local or constant VMProxy items
             </summary>
         </member>
@@ -2169,7 +2115,7 @@
             <summary>context that we are wrapping
             </summary>
         </member>
-        <member name="F:NVelocity.Context.VMContext.localcontextscope">
+        <member name="F:NVelocity.Context.VMContext.localContextScope">
             <summary>support for local context scope feature, where all references are local
             </summary>
         </member>
@@ -2197,7 +2143,7 @@
              </summary>
              <param name="key">name of item to set
              </param>
-             <param name="value_">object to set to key
+             <param name="value">object to set to key
              </param>
              <returns>old stored object
             
@@ -2270,6 +2216,33 @@
             useful information in the exception's message.  For complete
             information, consult the runtime log.
             </summary>
+        </member>
+        <member name="T:NVelocity.IDuck">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:NVelocity.IDuck.GetInvoke(System.String)">
+            <summary>
+            Defines the behavior when a property is read
+            </summary>
+            <param name="propName">Property name.</param>
+            <returns>value back to the template</returns>
+        </member>
+        <member name="M:NVelocity.IDuck.SetInvoke(System.String,System.Object)">
+            <summary>
+            Defines the behavior when a property is written
+            </summary>
+            <param name="propName">Property name.</param>
+            <param name="value">The value to assign.</param>
+        </member>
+        <member name="M:NVelocity.IDuck.Invoke(System.String,System.Object[])">
+            <summary>
+            Invokes the specified method.
+            </summary>
+            <param name="method">The method name.</param>
+            <param name="args">The method arguments.</param>
+            <returns>value back to the template</returns>
         </member>
         <member name="T:NVelocity.Runtime.Directive.Directive">
             <summary> Base class for all directives used in Velocity.</summary>
@@ -2386,7 +2359,7 @@
              1) The included source material can only come from somewhere in
              the TemplateRoot tree for security reasons. There is no way
              around this.  If you want to include content from elsewhere on
-             your disk, use a link from somwhere under Template Root to that
+             your disk, use a link from somewhere under Template Root to that
              content.
              
              2) By default, there is no output to the render stream in the event of
@@ -2511,7 +2484,7 @@
         </member>
         <member name="M:NVelocity.Runtime.Directive.Macro.processAndRegister(NVelocity.Runtime.IRuntimeServices,NVelocity.Runtime.Parser.Node.INode,System.String)">
              <summary>
-             Used by Parser.java to process VMs withing the parsing process
+             Used by Parser.java to process VMs within the parsing process
             
              processAndRegister() doesn't actually render the macro to the output
              Processes the macro body into the internal representation used by the
@@ -2521,7 +2494,7 @@
         </member>
         <member name="M:NVelocity.Runtime.Directive.Macro.getArgArray(NVelocity.Runtime.Parser.Node.INode)">
             <summary>  creates an array containing the literal
-            strings in the macro arguement
+            strings in the macro argument
             </summary>
         </member>
         <member name="M:NVelocity.Runtime.Directive.Macro.getASTAsStringArray(NVelocity.Runtime.Parser.Node.INode)">
@@ -2537,7 +2510,7 @@
             1) The parsed source material can only come from somewhere in
             the TemplateRoot tree for security reasons. There is no way
             around this.  If you want to include content from elsewhere on
-            your disk, use a link from somwhere under Template Root to that
+            your disk, use a link from somewhere under Template Root to that
             content.
             
             2) There is a limited parse depth.  It is set as a property
@@ -2602,7 +2575,7 @@
         <member name="M:NVelocity.Runtime.Directive.VelocimacroProxy.Init(NVelocity.Runtime.IRuntimeServices,NVelocity.Context.IInternalContextAdapter,NVelocity.Runtime.Parser.Node.INode)">
             <summary>
             The major meat of VelocimacroProxy, init() checks the # of arguments, 
-            patches the macro body, renders the macro into an AST, and then inits 
+            patches the macro body, renders the macro into an AST, and then initiates 
             the AST, so it is ready for quick rendering.  Note that this is only 
             AST dependant stuff. Not context.
             </summary>
@@ -2647,12 +2620,12 @@
         </member>
         <member name="P:NVelocity.Runtime.Directive.VelocimacroProxy.NumArgs">
             <summary>
-            Returns the number of ars needed for this VM
+            Returns the number of arguments needed for this VM
             </summary>
         </member>
-        <member name="P:NVelocity.Runtime.Directive.VelocimacroProxy.Macrobody">
+        <member name="P:NVelocity.Runtime.Directive.VelocimacroProxy.MacroBody">
             <summary>
-            Sets the orignal macro body.  This is simply the cat of the 
+            Sets the original macro body.  This is simply the cat of the 
             macroArray, but the Macro object creates this once during parsing, 
             and everyone shares it.
             
@@ -2667,7 +2640,7 @@
              which knows how to get and set values via it, rather than a simple get()
              or put() from a hashtable-like object.
              *
-             There is probably a lot of undocumented subtlty here, so step lightly.
+             There is probably a lot of undocumented subtlety here, so step lightly.
              *
              We rely on the observation that an instance of this object has a constant
              state throughout its lifetime as it's bound to the use-instance of a VM.
@@ -2724,7 +2697,7 @@
             <summary>reference for the object if we proxy for a static arg like an NumberLiteral
             </summary>
         </member>
-        <member name="F:NVelocity.Runtime.Directive.VMProxyArg.usercontext">
+        <member name="F:NVelocity.Runtime.Directive.VMProxyArg.userContext">
             <summary>not used in this impl : carries the appropriate user context
             </summary>
         </member>
@@ -2766,7 +2739,7 @@
              </param>
         </member>
         <member name="M:NVelocity.Runtime.Directive.VMProxyArg.isConstant">
-             <summary>  tells if arg we are poxying for is
+             <summary>  tells if arg we are proxying for is
              dynamic or constant.
              *
              </summary>
@@ -2789,7 +2762,7 @@
         <member name="M:NVelocity.Runtime.Directive.VMProxyArg.getObject(NVelocity.Context.IInternalContextAdapter)">
              <summary>  returns the value of the reference.  Generally, this is only
              called for dynamic proxies, as the static ones should have
-             been stored in the VMContext's localcontext store
+             been stored in the VMContext's localContext store
              *
              </summary>
              <param name="context">Context to use for getting current value
@@ -2800,7 +2773,7 @@
              </returns>
         </member>
         <member name="M:NVelocity.Runtime.Directive.VMProxyArg.setup">
-            <summary>  does the housekeeping upon creationg.  If a dynamic type
+            <summary>  does the housekeeping upon creating.  If a dynamic type
             it needs to make an AST for further get()/set() operations
             Anything else is constant.
             </summary>
@@ -2809,7 +2782,7 @@
             <summary>  not used in current impl
             *
             Constructor for alternate impl where VelProxy class would make new
-            VMProxyArg objects, and use this contructor to avoid reparsing the
+            VMProxyArg objects, and use this constructor to avoid re-parsing the
             reference args
             *
             that impl also had the VMProxyArg carry it's context
@@ -2824,6 +2797,303 @@
              <version> $Id: ReferenceException.cs,v 1.3 2003/10/27 13:54:10 corts Exp $
             
              </version>
+        </member>
+        <member name="T:NVelocity.Runtime.IRuntimeLogger">
+            <summary>
+            Interface for internal runtime logging services that are needed by the
+            </summary>
+            <author><a href="mailto:geirm@apache.org">Geir Magusson Jr.</a></author>
+            <version>$Id: RuntimeLogger.cs,v 1.1 2004/01/02 00:04:50 corts Exp $</version>
+        </member>
+        <member name="M:NVelocity.Runtime.IRuntimeLogger.Warn(System.Object)">
+            <summary>
+            Log a warning message.
+            </summary>
+            <param name="message">message to log</param>
+        </member>
+        <member name="M:NVelocity.Runtime.IRuntimeLogger.Info(System.Object)">
+            <summary>
+            Log an info message.
+            </summary>
+            <param name="message">message to log</param>
+        </member>
+        <member name="M:NVelocity.Runtime.IRuntimeLogger.Error(System.Object)">
+            <summary>
+            Log an error message.
+            </summary>
+            <param name="message">message to log</param>
+        </member>
+        <member name="M:NVelocity.Runtime.IRuntimeLogger.Debug(System.Object)">
+            <summary>
+            Log a debug message.
+            </summary>
+            <param name="message">message to log</param>
+        </member>
+        <member name="T:NVelocity.Runtime.IRuntimeServices">
+             <summary> Interface for internal runtime services that are needed by the
+             various components w/in Velocity.  This was taken from the old
+             Runtime singleton, and anything not necessary was removed.
+            
+             Currently implemented by RuntimeInstance.
+             </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.IRuntimeServices.SetProperty(System.String,System.Object)">
+            <summary>
+            Allows an external system to set a property in
+            the Velocity Runtime.
+            </summary>
+            <param name="key">property key</param>
+            <param name="value">property value</param>
+        </member>
+        <member name="M:NVelocity.Runtime.IRuntimeServices.AddProperty(System.String,System.Object)">
+            <summary> Add a property to the configuration. If it already
+            exists then the value stated here will be added
+            to the configuration entry. For example, if
+            *
+            resource.loader = file
+            *
+            is already present in the configuration and you
+            *
+            addProperty("resource.loader", "classpath")
+            *
+            Then you will end up with a Vector like the
+            following:
+            *
+            ["file", "classpath"]
+            *
+            </summary>
+            <param name="key">key</param>
+            <param name="value">value</param>
+        </member>
+        <member name="M:NVelocity.Runtime.IRuntimeServices.ClearProperty(System.String)">
+            <summary>
+            Clear the values pertaining to a particular property.
+            </summary>
+            <param name="key">key of property to clear</param>
+        </member>
+        <member name="M:NVelocity.Runtime.IRuntimeServices.GetProperty(System.String)">
+             <summary>  Allows an external caller to get a property.  The calling
+             routine is required to know the type, as this routine
+             will return an Object, as that is what properties can be.
+             *
+             </summary>
+             <param name="key">property to return
+            
+             </param>
+        </member>
+        <member name="M:NVelocity.Runtime.IRuntimeServices.Init(System.String)">
+            <summary>
+            Initialize the Velocity Runtime with the name of
+            ExtendedProperties object.
+            </summary>
+            <param name="configurationFile">Properties</param>
+        </member>
+        <member name="M:NVelocity.Runtime.IRuntimeServices.Parse(System.IO.TextReader,System.String)">
+            <summary>
+            Parse the input and return the root of
+            AST node structure.
+            </summary>
+            <remarks>
+            In the event that it runs out of parsers in the
+            pool, it will create and let them be GC'd
+            dynamically, logging that it has to do that.  This
+            is considered an exceptional condition.  It is
+            expected that the user will set the
+            PARSER_POOL_SIZE property appropriately for their
+            application.  We will revisit this.
+            </remarks>
+            <param name="reader">inputStream retrieved by a resource loader</param>
+            <param name="templateName">name of the template being parsed</param>
+        </member>
+        <member name="M:NVelocity.Runtime.IRuntimeServices.Parse(System.IO.TextReader,System.String,System.Boolean)">
+            <summary>
+            Parse the input and return the root of the AST node structure.
+            </summary>
+            <param name="reader">inputStream retrieved by a resource loader</param>
+            <param name="templateName">name of the template being parsed</param>
+            <param name="dumpNamespace">flag to dump the Velocimacro namespace for this template</param>
+        </member>
+        <member name="M:NVelocity.Runtime.IRuntimeServices.GetTemplate(System.String)">
+             <summary> Returns a <code>Template</code> from the resource manager.
+             This method assumes that the character encoding of the
+             template is set by the <code>input.encoding</code>
+             property.  The default is "ISO-8859-1"
+             *
+             </summary>
+             <param name="name">The file name of the desired template.
+             </param>
+             <returns>    The template.
+             @throws ResourceNotFoundException if template not found
+             from any available source.
+             @throws ParseErrorException if template cannot be parsed due
+             to syntax (or other) error.
+             @throws Exception if an error occurs in template initialization
+            
+             </returns>
+        </member>
+        <member name="M:NVelocity.Runtime.IRuntimeServices.GetTemplate(System.String,System.String)">
+             <summary> Returns a <code>Template</code> from the resource manager
+             *
+             </summary>
+             <param name="name">The  name of the desired template.
+             </param>
+             <param name="encoding">Character encoding of the template
+             </param>
+             <returns>    The template.
+             @throws ResourceNotFoundException if template not found
+             from any available source.
+             @throws ParseErrorException if template cannot be parsed due
+             to syntax (or other) error.
+             @throws Exception if an error occurs in template initialization
+            
+             </returns>
+        </member>
+        <member name="M:NVelocity.Runtime.IRuntimeServices.GetContent(System.String)">
+             <summary> Returns a static content resource from the
+             resource manager.  Uses the current value
+             if INPUT_ENCODING as the character encoding.
+             *
+             </summary>
+             <param name="name">Name of content resource to get
+             </param>
+             <returns>parsed ContentResource object ready for use
+             @throws ResourceNotFoundException if template not found
+             from any available source.
+            
+             </returns>
+        </member>
+        <member name="M:NVelocity.Runtime.IRuntimeServices.GetContent(System.String,System.String)">
+             <summary> Returns a static content resource from the
+             resource manager.
+             *
+             </summary>
+             <param name="name">Name of content resource to get
+             </param>
+             <param name="encoding">Character encoding to use
+             </param>
+             <returns>parsed ContentResource object ready for use
+             @throws ResourceNotFoundException if template not found
+             from any available source.
+            
+             </returns>
+        </member>
+        <member name="M:NVelocity.Runtime.IRuntimeServices.GetLoaderNameForResource(System.String)">
+             <summary>  Determines is a template exists, and returns name of the loader that
+             provides it.  This is a slightly less hokey way to support
+             the Velocity.templateExists() utility method, which was broken
+             when per-template encoding was introduced.  We can revisit this.
+             *
+             </summary>
+             <param name="resourceName">Name of template or content resource
+             </param>
+             <returns>class name of loader than can provide it
+            
+             </returns>
+        </member>
+        <member name="M:NVelocity.Runtime.IRuntimeServices.GetString(System.String,System.String)">
+            <summary>
+            String property accessor method with default to hide the
+            configuration implementation.
+            </summary>
+            <param name="key">key property key</param>
+            <param name="defaultValue">default value to return if key not
+            found in resource manager.
+            </param>
+            <returns>value of key or default</returns>
+        </member>
+        <member name="M:NVelocity.Runtime.IRuntimeServices.GetVelocimacro(System.String,System.String)">
+            <summary>
+            Returns the appropriate VelocimacroProxy object if vmName
+            is a valid current Velocimacro.
+            </summary>
+            <param name="vmName">Name of velocimacro requested</param>
+            <param name="templateName">Template Name</param>
+            <returns>VelocimacroProxy</returns>
+        </member>
+        <member name="M:NVelocity.Runtime.IRuntimeServices.AddVelocimacro(System.String,System.String,System.String[],System.String)">
+            <summary>
+            Adds a new Velocimacro. Usually called by Macro only while parsing.
+            </summary>
+            <param name="name">name  Name of velocimacro</param>
+            <param name="macro">macro  String form of macro body</param>
+            <param name="argArray">argArray  Array of strings, containing the
+            <c>#macro()</c> arguments.  the 0th is the name.</param>
+            <param name="sourceTemplate">Source Template</param>
+            <returns>
+            True if added, false if rejected for some
+            reason (either parameters or permission settings)
+            </returns>
+        </member>
+        <member name="M:NVelocity.Runtime.IRuntimeServices.IsVelocimacro(System.String,System.String)">
+            <summary>
+            Checks to see if a VM exists
+            </summary>
+            <param name="vmName">Name of velocimacro</param>
+            <param name="templateName">Template Name</param>
+            <returns>True if VM by that name exists, false if not</returns>
+        </member>
+        <member name="M:NVelocity.Runtime.IRuntimeServices.DumpVMNamespace(System.String)">
+            <summary>  tells the vmFactory to dump the specified namespace.  This is to support
+            clearing the VM list when in inline-VM-local-scope mode
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.IRuntimeServices.GetString(System.String)">
+            <summary>
+            String property accessor method to hide the configuration implementation.
+            </summary>
+            <param name="key">property key</param>
+            <returns>value</returns>
+        </member>
+        <member name="M:NVelocity.Runtime.IRuntimeServices.GetInt(System.String)">
+            <summary>
+            Int property accessor method to hide the configuration implementation.
+            </summary>
+            <param name="key">property key</param>
+            <returns>value</returns>
+        </member>
+        <member name="M:NVelocity.Runtime.IRuntimeServices.GetInt(System.String,System.Int32)">
+            <summary>
+            Int property accessor method to hide the configuration implementation.
+            </summary>
+            <param name="key">property key</param>
+            <param name="defaultValue">default value</param>
+            <returns>value</returns>
+        </member>
+        <member name="M:NVelocity.Runtime.IRuntimeServices.GetBoolean(System.String,System.Boolean)">
+            <summary>
+            Boolean property accessor method to hide the configuration implementation.
+            </summary>
+            <param name="key">property key</param>
+            <param name="def">default value</param>
+            <returns>value</returns>
+        </member>
+        <member name="M:NVelocity.Runtime.IRuntimeServices.GetApplicationAttribute(System.Object)">
+            <summary>
+            Return the specified application attribute
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NVelocity.Runtime.IRuntimeServices.SetApplicationAttribute(System.Object,System.Object)">
+            <summary>
+            Sets the specified application attribute.
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+        </member>
+        <member name="P:NVelocity.Runtime.IRuntimeServices.Configuration">
+             Return the velocity runtime configuration object.
+            
+             @return ExtendedProperties configuration object which houses
+                                   the velocity runtime properties.
+        </member>
+        <member name="P:NVelocity.Runtime.IRuntimeServices.Uberspect">
+            Returns the configured class introspection/reflection
+            implementation.
+        </member>
+        <member name="P:NVelocity.Runtime.IRuntimeServices.Introspector">
+            Returns the configured method introspection/reflection
+            implementation.
         </member>
         <member name="F:NVelocity.Runtime.Log.LogLevel.Debug">
             <summary>
@@ -2916,8 +3186,112 @@
             <param name="level">severity level</param>
             <param name="message">complete error message</param>
         </member>
+        <member name="T:NVelocity.Runtime.Parser.ICharStream">
+             <summary> 
+             This interface describes a character stream that maintains line and
+             column number positions of the characters.  It also has the capability
+             to backup the stream to some extent.  An implementation of this
+             interface is used in the TokenManager implementation generated by
+             JavaCCParser.
+            
+             All the methods except backup can be implemented in any fashion. backup
+             needs to be implemented correctly for the correct operation of the lexer.
+             Rest of the methods are all used to get information like line number,
+             column number and the String that constitutes a token and are not used
+             by the lexer. Hence their implementation won't affect the generated lexer's
+             operation.
+             </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Parser.ICharStream.ReadChar">
+            <summary> Returns the next character from the selected input.  The method
+            of selecting the input is the responsibility of the class
+            implementing this interface.  Can throw any java.io.IOException.
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Parser.ICharStream.Backup(System.Int32)">
+            <summary> Backs up the input stream by amount steps. Lexer calls this method if it
+            had already read some characters, but could not use them to match a
+            (longer) token. So, they will be used again as the prefix of the next
+            token and it is the implemetation's responsibility to do this right.
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Parser.ICharStream.BeginToken">
+            <summary> Returns the next character that marks the beginning of the next token.
+            All characters must remain in the buffer between two successive calls
+            to this method to implement backup correctly.
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Parser.ICharStream.GetImage">
+            <summary> Returns a string made up of characters from the marked token beginning
+            to the current buffer position. Implementations have the choice of returning
+            anything that they want to. For example, for efficiency, one might decide
+            to just return null, which is a valid implementation.
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Parser.ICharStream.GetSuffix(System.Int32)">
+             <summary> 
+             Returns an array of characters that make up the suffix of length 'len' for
+             the currently matched token. This is used to build up the matched string
+             for use in actions in the case of MORE. A simple and inefficient
+             implementation of this is as follows :
+            
+             {
+             String t = GetImage();
+             return t.substring(t.length() - len, t.length()).toCharArray();
+             }
+             </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Parser.ICharStream.Done">
+            <summary> The lexer calls this function to indicate that it is done with the stream
+            and hence implementations can free any resources held by this class.
+            Again, the body of this function can be just empty and it will not
+            affect the lexer's operation.
+            </summary>
+        </member>
+        <member name="P:NVelocity.Runtime.Parser.ICharStream.CurrentCharacter">
+            <summary>
+            The currenct character.
+            </summary>
+        </member>
+        <member name="P:NVelocity.Runtime.Parser.ICharStream.Column">
+            <summary>
+            Gets the column.
+            </summary>
+            <value>The column.</value>
+        </member>
+        <member name="P:NVelocity.Runtime.Parser.ICharStream.Line">
+            <summary>
+            Gets the line.
+            </summary>
+            <value>The line.</value>
+        </member>
+        <member name="P:NVelocity.Runtime.Parser.ICharStream.EndColumn">
+            <summary>
+            Gets the end column.
+            </summary>
+            <value>The end column.</value>
+        </member>
+        <member name="P:NVelocity.Runtime.Parser.ICharStream.EndLine">
+            <summary>
+            Gets the end line.
+            </summary>
+            <value>The end line.</value>
+        </member>
+        <member name="P:NVelocity.Runtime.Parser.ICharStream.BeginColumn">
+            <summary>
+            Gets the begin column.
+            </summary>
+            <value>The begin column.</value>
+        </member>
+        <member name="P:NVelocity.Runtime.Parser.ICharStream.BeginLine">
+            <summary>
+            Gets the begin line.
+            </summary>
+            <value>The begin line.</value>
+        </member>
         <member name="T:NVelocity.Runtime.Parser.Node.AbstractExecutor">
-            <summary> Abstract class that is used to execute an arbitrary
+            <summary>
+            Abstract class that is used to execute an arbitrary
             method that is in introspected. This is the superclass
             for the GetExecutor and PropertyExecutor.
             </summary>
@@ -2925,6 +3299,11 @@
         <member name="F:NVelocity.Runtime.Parser.Node.AbstractExecutor.method">
             <summary>
             Method to be executed.
+            </summary>
+        </member>
+        <member name="F:NVelocity.Runtime.Parser.Node.AbstractExecutor.value">
+            <summary>
+            Value (probably from enum).
             </summary>
         </member>
         <member name="M:NVelocity.Runtime.Parser.Node.AbstractExecutor.Execute(System.Object)">
@@ -3064,7 +3443,8 @@
             </summary>
         </member>
         <member name="T:NVelocity.Runtime.Parser.Node.ASTDivNode">
-            <summary> Handles integer division of nodes
+            <summary>
+            Handles integer division of nodes
             
             Please look at the Parser.jjt file which is
             what controls the generation of this class.
@@ -3228,7 +3608,7 @@
             
             Method support for identifiers :  $foo
             
-            mainly used by ASTRefrence
+            mainly used by ASTReference
             
             Introspection is now moved to 'just in time' or at render / execution
             time. There are many reasons why this has to be done, but the
@@ -3333,14 +3713,12 @@
             an empty string "" if the method returns void
             </summary>
         </member>
-        <member name="M:NVelocity.Runtime.Parser.Node.ASTMethod.doIntrospection(NVelocity.Context.IInternalContextAdapter,System.Type)">
+        <member name="M:NVelocity.Runtime.Parser.Node.ASTMethod.PerformIntrospection(NVelocity.Context.IInternalContextAdapter,System.Type,System.Object[])">
              <summary>
-             does the instrospection of the class for the method needed.
-             Note, as this calls value() on the args if any, this must
-             only be called at execute() / render() time.
+             does the introspection of the class for the method needed.
             
              NOTE: this will try to flip the case of the first character for
-             convience (compatability with Java version).  If there are no arguments,
+             convince (compatibility with Java version).  If there are no arguments,
              it will also try to find a property with the same name (also flipping first character).
              </summary>
         </member>
@@ -3617,6 +3995,16 @@
             Execute property against context.
             </summary>
         </member>
+        <member name="T:NVelocity.Runtime.Parser.Node.EnumValueExecutor">
+            <summary>
+            Returned the value of object property when executed.
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Parser.Node.EnumValueExecutor.Execute(System.Object)">
+            <summary>
+            Execute property against context.
+            </summary>
+        </member>
         <member name="T:NVelocity.Runtime.Parser.Node.GetExecutor">
             <summary>
             Executor that simply tries to execute a get(key)
@@ -3631,7 +4019,7 @@
             <see cref="M:System.Type.GetDefaultMembers"/>.
             </remarks>
         </member>
-        <member name="F:NVelocity.Runtime.Parser.Node.GetExecutor.args">
+        <member name="F:NVelocity.Runtime.Parser.Node.GetExecutor.arguments">
             <summary>
             Container to hold the 'key' part of get(key).
             </summary>
@@ -3700,104 +4088,6 @@
             if they are equal.
             </summary>
         </member>
-        <member name="T:NVelocity.Runtime.Parser.ICharStream">
-             <summary> 
-             This interface describes a character stream that maintains line and
-             column number positions of the characters.  It also has the capability
-             to backup the stream to some extent.  An implementation of this
-             interface is used in the TokenManager implementation generated by
-             JavaCCParser.
-            
-             All the methods except backup can be implemented in any fashion. backup
-             needs to be implemented correctly for the correct operation of the lexer.
-             Rest of the methods are all used to get information like line number,
-             column number and the String that constitutes a token and are not used
-             by the lexer. Hence their implementation won't affect the generated lexer's
-             operation.
-             </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Parser.ICharStream.ReadChar">
-            <summary> Returns the next character from the selected input.  The method
-            of selecting the input is the responsibility of the class
-            implementing this interface.  Can throw any java.io.IOException.
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Parser.ICharStream.Backup(System.Int32)">
-            <summary> Backs up the input stream by amount steps. Lexer calls this method if it
-            had already read some characters, but could not use them to match a
-            (longer) token. So, they will be used again as the prefix of the next
-            token and it is the implemetation's responsibility to do this right.
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Parser.ICharStream.BeginToken">
-            <summary> Returns the next character that marks the beginning of the next token.
-            All characters must remain in the buffer between two successive calls
-            to this method to implement backup correctly.
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Parser.ICharStream.GetImage">
-            <summary> Returns a string made up of characters from the marked token beginning
-            to the current buffer position. Implementations have the choice of returning
-            anything that they want to. For example, for efficiency, one might decide
-            to just return null, which is a valid implementation.
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Parser.ICharStream.GetSuffix(System.Int32)">
-             <summary> 
-             Returns an array of characters that make up the suffix of length 'len' for
-             the currently matched token. This is used to build up the matched string
-             for use in actions in the case of MORE. A simple and inefficient
-             implementation of this is as follows :
-            
-             {
-             String t = GetImage();
-             return t.substring(t.length() - len, t.length()).toCharArray();
-             }
-             </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Parser.ICharStream.Done">
-            <summary> The lexer calls this function to indicate that it is done with the stream
-            and hence implementations can free any resources held by this class.
-            Again, the body of this function can be just empty and it will not
-            affect the lexer's operation.
-            </summary>
-        </member>
-        <member name="P:NVelocity.Runtime.Parser.ICharStream.Column">
-            <summary>
-            Gets the column.
-            </summary>
-            <value>The column.</value>
-        </member>
-        <member name="P:NVelocity.Runtime.Parser.ICharStream.Line">
-            <summary>
-            Gets the line.
-            </summary>
-            <value>The line.</value>
-        </member>
-        <member name="P:NVelocity.Runtime.Parser.ICharStream.EndColumn">
-            <summary>
-            Gets the end column.
-            </summary>
-            <value>The end column.</value>
-        </member>
-        <member name="P:NVelocity.Runtime.Parser.ICharStream.EndLine">
-            <summary>
-            Gets the end line.
-            </summary>
-            <value>The end line.</value>
-        </member>
-        <member name="P:NVelocity.Runtime.Parser.ICharStream.BeginColumn">
-            <summary>
-            Gets the begin column.
-            </summary>
-            <value>The begin column.</value>
-        </member>
-        <member name="P:NVelocity.Runtime.Parser.ICharStream.BeginLine">
-            <summary>
-            Gets the begin line.
-            </summary>
-            <value>The begin line.</value>
-        </member>
         <member name="T:NVelocity.Runtime.Parser.ParseException">
             <summary> This exception is thrown when parse errors are encountered.
             You can explicitly create objects of this exception type by
@@ -3844,7 +4134,7 @@
         <member name="F:NVelocity.Runtime.Parser.ParseException.currentToken">
             <summary> This is the last token that has been consumed successfully.  If
             this object has been created due to a parse error, the token
-            followng this token will (therefore) be the first error token.
+            following this token will (therefore) be the first error token.
             </summary>
         </member>
         <member name="F:NVelocity.Runtime.Parser.ParseException.expectedTokenSequences">
@@ -3859,7 +4149,7 @@
             defined in the generated ...Constants interface.
             </summary>
         </member>
-        <member name="M:NVelocity.Runtime.Parser.ParseException.add_escapes(System.String)">
+        <member name="M:NVelocity.Runtime.Parser.ParseException.AddEscapes(System.String)">
             <summary> This method has the standard behavior when this object has been
             created using the standard constructors.  Otherwise, it uses
             "currentToken" and "expectedTokenSequences" to generate a parse
@@ -4015,6 +4305,61 @@
             purposes.
             </summary>
         </member>
+        <member name="M:NVelocity.Runtime.Parser.ParserState.NodeCreated">
+            <summary>
+            Determines whether the current node was actually closed and
+            pushed.  This should only be called in the final user action of a
+            node scope.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NVelocity.Runtime.Parser.ParserState.Reset">
+            <summary>
+            Call this to reinitialize the node stack.  It is called automatically by the parser's ReInit() method.
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Parser.ParserState.PushNode(NVelocity.Runtime.Parser.Node.INode)">
+            <summary>
+            Pushes a node on to the stack. 
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Parser.ParserState.PopNode">
+            <summary>
+            Returns the node on the top of the stack, and remove it from the	stack. 
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Parser.ParserState.PeekNode">
+            <summary>
+            Returns the node currently on the top of the stack.
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Parser.ParserState.NodeArity">
+            <summary>
+            Returns the number of children on the stack in the current node scope.
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Parser.ParserState.CloseNodeScope(NVelocity.Runtime.Parser.Node.INode,System.Int32)">
+            <summary>
+            A definite node is constructed from a specified number of
+            children.  That number of nodes are popped from the stack and
+            made the children of the definite node.  Then the definite node
+            is pushed on to the stack.
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Parser.ParserState.CloseNodeScope(NVelocity.Runtime.Parser.Node.INode,System.Boolean)">
+            <summary>
+            A conditional node is constructed if its condition is true.  All
+            the nodes that have been pushed since the node was opened are
+            made children of the the conditional node, which is then pushed
+            on to the stack.  If the condition is false the node is not
+            constructed and they are left on the stack.
+            </summary>
+        </member>
+        <member name="P:NVelocity.Runtime.Parser.ParserState.RootNode">
+            <summary>
+            Returns the root node of the AST.  It only makes sense to call this after a successful parse.  
+            </summary>
+        </member>
         <member name="M:NVelocity.Runtime.Parser.ParserTokenManager.StateStackPop">
               pushes the current state onto the 'state stack',
               and maintains the parens counts
@@ -4040,7 +4385,7 @@
         <member name="M:NVelocity.Runtime.Parser.ParserTreeConstants.#ctor">
             <summary>
             private constructor as class is meant to hold constants only.
-            Class was orginally an interface in Java, but as C# does not support Fields in an interface and
+            Class was originally an interface in Java, but as C# does not support Fields in an interface and
             the jjtNodeName field, I converted it to a class with no constructor.
             </summary>
         </member>
@@ -4122,7 +4467,7 @@
             can create and return subclass objects based on the value of ofKind.
             Simply add the cases to the switch for all those special cases.
             For example, if you have a subclass of Token called IDToken that
-            you want to create if ofKind is ID, simlpy add something like :
+            you want to create if ofKind is ID, simply add something like :
             
             <c>case MyParserConstants.ID : return new IDToken();</c>
             
@@ -4131,11 +4476,11 @@
             </summary>
         </member>
         <member name="F:NVelocity.Runtime.Parser.TokenMgrError.LEXICAL_ERROR">
-            <summary> Lexical error occured.
+            <summary> Lexical error occurred.
             </summary>
         </member>
         <member name="F:NVelocity.Runtime.Parser.TokenMgrError.STATIC_LEXER_ERROR">
-            <summary> An attempt wass made to create a second instance of a static token manager.
+            <summary> An attempt was made to create a second instance of a static token manager.
             </summary>
         </member>
         <member name="F:NVelocity.Runtime.Parser.TokenMgrError.INVALID_LEXICAL_STATE">
@@ -4152,20 +4497,20 @@
             </summary>
         </member>
         <member name="M:NVelocity.Runtime.Parser.TokenMgrError.AddEscapes(System.String)">
-            <summary> Replaces unprintable characters by their espaced (or unicode escaped)
+            <summary> Replaces unprintable characters by their escaped (or unicode escaped)
             equivalents in the given string
             </summary>
         </member>
-        <member name="M:NVelocity.Runtime.Parser.TokenMgrError.LexicalError(System.Boolean,System.Int32,System.Int32,System.Int32,System.String,System.Char)">
+        <member name="M:NVelocity.Runtime.Parser.TokenMgrError.LexicalError(System.Boolean,System.Int32,System.Int32,System.String,System.Char)">
             <summary> Returns a detailed message for the Error when it is thrown by the
             token manager to indicate a lexical error.
             Parameters :
-            EOFSeen     : indicates if EOF caused the lexicl error
-            curLexState : lexical state in which this error occured
-            errorLine   : line number when the error occured
-            errorColumn : column number when the error occured
-            errorAfter  : prefix that was seen before this error occured
-            curchar     : the offending character
+            EOFSeen     : indicates if EOF caused the lexical error
+            curLexState : lexical state in which this error occurred
+            errorLine   : line number when the error occurred
+            errorColumn : column number when the error occurred
+            errorAfter  : prefix that was seen before this error occurred
+            currentCharacter     : the offending character
             Note: You can customize the lexical error message by modifying this method.
             </summary>
         </member>
@@ -4196,156 +4541,6 @@
         <member name="M:NVelocity.Runtime.Parser.VelocityCharStream.AdjustBeginLineColumn(System.Int32,System.Int32)">
             <summary> Method to adjust line and column numbers for the start of a token.<br/>
             </summary>
-        </member>
-        <member name="T:NVelocity.Runtime.Resource.Loader.ResourceLoader">
-            <summary>
-            This is abstract class the all text resource loaders should extend.
-            </summary>
-            <author> <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a></author>
-            <author> <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a></author>
-            <version> $Id: ResourceLoader.cs,v 1.3 2003/10/27 13:54:11 corts Exp $</version>
-        </member>
-        <member name="F:NVelocity.Runtime.Resource.Loader.ResourceLoader.isCachingOn">
-            <summary>
-            Does this loader want templates produced with it
-            cached in the Runtime.
-            </summary>
-        </member>
-        <member name="F:NVelocity.Runtime.Resource.Loader.ResourceLoader.modificationCheckInterval">
-            <summary>
-            This property will be passed on to the templates
-            that are created with this loader.
-            </summary>
-        </member>
-        <member name="F:NVelocity.Runtime.Resource.Loader.ResourceLoader.className">
-            <summary>
-            Class name for this loader, for logging/debuggin
-            purposes.
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Resource.Loader.ResourceLoader.CommonInit(NVelocity.Runtime.IRuntimeServices,Commons.Collections.ExtendedProperties)">
-            <summary>
-            This initialization is used by all resource
-            loaders and must be called to set up common
-            properties shared by all resource loaders
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Resource.Loader.ResourceLoader.Init(Commons.Collections.ExtendedProperties)">
-            <summary>
-            Initialize the template loader with a
-            a resources class.
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Resource.Loader.ResourceLoader.GetResourceStream(System.String)">
-            <summary>
-            Get the InputStream that the Runtime will parse
-            to create a template.
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Resource.Loader.ResourceLoader.IsSourceModified(NVelocity.Runtime.Resource.Resource)">
-            <summary>
-            Given a template, check to see if the source of InputStream
-            has been modified.
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Resource.Loader.ResourceLoader.GetLastModified(NVelocity.Runtime.Resource.Resource)">
-            <summary>
-            Get the last modified time of the InputStream source
-            that was used to create the template. We need the template
-            here because we have to extract the name of the template
-            in order to locate the InputStream source.
-            </summary>
-        </member>
-        <member name="P:NVelocity.Runtime.Resource.Loader.ResourceLoader.ClassName">
-            <summary>
-            Return the class name of this resource Loader
-            </summary>
-        </member>
-        <member name="P:NVelocity.Runtime.Resource.Loader.ResourceLoader.CachingOn">
-            <summary>
-            Set the caching state. If true, then this loader
-            would like the Runtime to cache templates that
-            have been created with InputStreams provided
-            by this loader.
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Resource.Loader.AssemblyResourceLoader.Init(Commons.Collections.ExtendedProperties)">
-            <summary> 
-            Initialize the template loader with a
-            a resources class.
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Resource.Loader.AssemblyResourceLoader.GetResourceStream(System.String)">
-            
-             <summary> Get the InputStream that the Runtime will parse
-             to create a template.
-             </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Resource.Loader.AssemblyResourceLoader.IsSourceModified(NVelocity.Runtime.Resource.Resource)">
-            <summary> Given a template, check to see if the source of InputStream
-            has been modified.
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Resource.Loader.AssemblyResourceLoader.GetLastModified(NVelocity.Runtime.Resource.Resource)">
-            <summary> Get the last modified time of the InputStream source
-            that was used to create the template. We need the template
-            here because we have to extract the name of the template
-            in order to locate the InputStream source.
-            </summary>
-        </member>
-        <member name="T:NVelocity.Runtime.Resource.Loader.FileResourceLoader">
-            <summary>
-            A loader for templates stored on the file system.
-            </summary>
-        </member>
-        <member name="F:NVelocity.Runtime.Resource.Loader.FileResourceLoader.paths">
-            <summary>
-            The paths to search for templates.
-            </summary>
-        </member>
-        <member name="F:NVelocity.Runtime.Resource.Loader.FileResourceLoader.templatePaths">
-            <summary>
-            Used to map the path that a template was found on
-            so that we can properly check the modification
-            times of the files.
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Resource.Loader.FileResourceLoader.GetResourceStream(System.String)">
-            <summary>
-            Get an InputStream so that the Runtime can build a
-            template with it.
-            </summary>
-            <param name="templateName">name of template to get</param>
-            <returns>InputStream containing the template
-            @throws ResourceNotFoundException if template not found
-            in the file template path.
-            </returns>
-        </member>
-        <member name="M:NVelocity.Runtime.Resource.Loader.FileResourceLoader.FindTemplate(System.String,System.String)">
-            <summary>
-            Try to find a template given a normalized path.
-            </summary>
-            <param name="path">a normalized path</param>
-            <param name="template">filename of template to get</param>
-            <returns>InputStream input stream that will be parsed</returns>
-        </member>
-        <member name="M:NVelocity.Runtime.Resource.Loader.FileResourceLoader.IsSourceModified(NVelocity.Runtime.Resource.Resource)">
-            <summary>
-            How to keep track of all the modified times
-            across the paths.
-            </summary>
-        </member>
-        <member name="T:NVelocity.Runtime.Resource.Loader.ResourceLoaderFactory">
-            <summary>
-            Factory to grab a template loader.
-            </summary>
-            <author><a href="mailto:jvanzyl@apache.org">Jason van Zyl</a></author>
-        </member>
-        <member name="M:NVelocity.Runtime.Resource.Loader.ResourceLoaderFactory.getLoader(NVelocity.Runtime.IRuntimeServices,System.String)">
-            <summary>
-            Gets the loader specified in the configuration file.
-            </summary>
-            <returns>TemplateLoader</returns>
         </member>
         <member name="T:NVelocity.Runtime.Resource.ContentResource">
              <summary> 
@@ -4465,7 +4660,7 @@
         </member>
         <member name="P:NVelocity.Runtime.Resource.Resource.LastModified">
             <summary>
-            Return the lastModifed time of this
+            Return the lastModified time of this
             template.
             
             Set the last modified time for this
@@ -4500,6 +4695,178 @@
              @exception ResourceNotFoundException Resource could not be
              found.
              </summary>
+        </member>
+        <member name="T:NVelocity.Runtime.Resource.Loader.ResourceLoader">
+            <summary>
+            This is abstract class the all text resource loaders should extend.
+            </summary>
+            <author> <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a></author>
+            <author> <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a></author>
+            <version> $Id: ResourceLoader.cs,v 1.3 2003/10/27 13:54:11 corts Exp $</version>
+        </member>
+        <member name="F:NVelocity.Runtime.Resource.Loader.ResourceLoader.isCachingOn">
+            <summary>
+            Does this loader want templates produced with it
+            cached in the Runtime.
+            </summary>
+        </member>
+        <member name="F:NVelocity.Runtime.Resource.Loader.ResourceLoader.modificationCheckInterval">
+            <summary>
+            This property will be passed on to the templates
+            that are created with this loader.
+            </summary>
+        </member>
+        <member name="F:NVelocity.Runtime.Resource.Loader.ResourceLoader.className">
+            <summary>
+            Class name for this loader, for logging/debugging
+            purposes.
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Resource.Loader.ResourceLoader.CommonInit(NVelocity.Runtime.IRuntimeServices,Commons.Collections.ExtendedProperties)">
+            <summary>
+            This initialization is used by all resource
+            loaders and must be called to set up common
+            properties shared by all resource loaders
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Resource.Loader.ResourceLoader.Init(Commons.Collections.ExtendedProperties)">
+            <summary>
+            Initialize the template loader with a
+            a resources class.
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Resource.Loader.ResourceLoader.GetResourceStream(System.String)">
+            <summary>
+            Get the InputStream that the Runtime will parse
+            to create a template.
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Resource.Loader.ResourceLoader.IsSourceModified(NVelocity.Runtime.Resource.Resource)">
+            <summary>
+            Given a template, check to see if the source of InputStream
+            has been modified.
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Resource.Loader.ResourceLoader.GetLastModified(NVelocity.Runtime.Resource.Resource)">
+            <summary>
+            Get the last modified time of the InputStream source
+            that was used to create the template. We need the template
+            here because we have to extract the name of the template
+            in order to locate the InputStream source.
+            </summary>
+        </member>
+        <member name="P:NVelocity.Runtime.Resource.Loader.ResourceLoader.ClassName">
+            <summary>
+            Return the class name of this resource Loader
+            </summary>
+        </member>
+        <member name="P:NVelocity.Runtime.Resource.Loader.ResourceLoader.CachingOn">
+            <summary>
+            Set the caching state. If true, then this loader
+            would like the Runtime to cache templates that
+            have been created with InputStreams provided
+            by this loader.
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Resource.Loader.AssemblyRelativeResourceLoader.Init(Commons.Collections.ExtendedProperties)">
+            <summary> 
+            Initialize the template loader with a
+            a resources class.
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Resource.Loader.AssemblyRelativeResourceLoader.GetResourceStream(System.String)">
+            
+             <summary> Get the InputStream that the Runtime will parse
+             to create a template.
+             </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Resource.Loader.AssemblyRelativeResourceLoader.IsSourceModified(NVelocity.Runtime.Resource.Resource)">
+            <summary> Given a template, check to see if the source of InputStream
+            has been modified.
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Resource.Loader.AssemblyRelativeResourceLoader.GetLastModified(NVelocity.Runtime.Resource.Resource)">
+            <summary> Get the last modified time of the InputStream source
+            that was used to create the template. We need the template
+            here because we have to extract the name of the template
+            in order to locate the InputStream source.
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Resource.Loader.AssemblyResourceLoader.Init(Commons.Collections.ExtendedProperties)">
+            <summary> 
+            Initialize the template loader with a resources class.
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Resource.Loader.AssemblyResourceLoader.GetResourceStream(System.String)">
+            <summary> Get the InputStream that the Runtime will parse
+            to create a template.
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Resource.Loader.AssemblyResourceLoader.IsSourceModified(NVelocity.Runtime.Resource.Resource)">
+            <summary> Given a template, check to see if the source of InputStream
+            has been modified.
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Resource.Loader.AssemblyResourceLoader.GetLastModified(NVelocity.Runtime.Resource.Resource)">
+            <summary> Get the last modified time of the InputStream source
+            that was used to create the template. We need the template
+            here because we have to extract the name of the template
+            in order to locate the InputStream source.
+            </summary>
+        </member>
+        <member name="T:NVelocity.Runtime.Resource.Loader.FileResourceLoader">
+            <summary>
+            A loader for templates stored on the file system.
+            </summary>
+        </member>
+        <member name="F:NVelocity.Runtime.Resource.Loader.FileResourceLoader.paths">
+            <summary>
+            The paths to search for templates.
+            </summary>
+        </member>
+        <member name="F:NVelocity.Runtime.Resource.Loader.FileResourceLoader.templatePaths">
+            <summary>
+            Used to map the path that a template was found on
+            so that we can properly check the modification
+            times of the files.
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Resource.Loader.FileResourceLoader.GetResourceStream(System.String)">
+            <summary>
+            Get an InputStream so that the Runtime can build a
+            template with it.
+            </summary>
+            <param name="templateName">name of template to get</param>
+            <returns>InputStream containing the template
+            @throws ResourceNotFoundException if template not found
+            in the file template path.
+            </returns>
+        </member>
+        <member name="M:NVelocity.Runtime.Resource.Loader.FileResourceLoader.FindTemplate(System.String,System.String)">
+            <summary>
+            Try to find a template given a normalized path.
+            </summary>
+            <param name="path">a normalized path</param>
+            <param name="template">filename of template to get</param>
+            <returns>InputStream input stream that will be parsed</returns>
+        </member>
+        <member name="M:NVelocity.Runtime.Resource.Loader.FileResourceLoader.IsSourceModified(NVelocity.Runtime.Resource.Resource)">
+            <summary>
+            How to keep track of all the modified times
+            across the paths.
+            </summary>
+        </member>
+        <member name="T:NVelocity.Runtime.Resource.Loader.ResourceLoaderFactory">
+            <summary>
+            Factory to grab a template loader.
+            </summary>
+            <author><a href="mailto:jvanzyl@apache.org">Jason van Zyl</a></author>
+        </member>
+        <member name="M:NVelocity.Runtime.Resource.Loader.ResourceLoaderFactory.getLoader(NVelocity.Runtime.IRuntimeServices,System.String)">
+            <summary>
+            Gets the loader specified in the configuration file.
+            </summary>
+            <returns>TemplateLoader</returns>
         </member>
         <member name="T:NVelocity.Runtime.Resource.ResourceCache">
              <summary> Interface that defines the shape of a pluggable resource cache
@@ -4560,7 +4927,7 @@
              Default implementation of the resource cache for the default
              ResourceManager.  The cache uses a <i>least recently used</i> (LRU)
              algorithm, with a maximum size specified via the
-             <code>resource.manager.cache.size</code> property (idenfied by the
+             <code>resource.manager.cache.size</code> property (identified by the
              {@link
              org.apache.velocity.runtime.RuntimeConstants#RESOURCE_MANAGER_CACHE_SIZE}
              constant).  This property get be set to <code>0</code> or less for
@@ -4580,7 +4947,7 @@
             Cache storage, assumed to be thread-safe.
             </summary>
         </member>
-        <member name="F:NVelocity.Runtime.Resource.ResourceCacheImpl.rsvc">
+        <member name="F:NVelocity.Runtime.Resource.ResourceCacheImpl.runtimeServices">
             <summary>
             Runtime services, generally initialized by the
             <code>initialize()</code> method.
@@ -4698,8 +5065,8 @@
         <member name="M:NVelocity.Runtime.Resource.ResourceManagerImpl.AssembleResourceLoaderInitializers">
             <summary>
             This will produce a List of Hashtables, each
-            hashtable contains the intialization info for
-            a particular resource loader. This Hastable
+            hashtable contains the initialization info for
+            a particular resource loader. This Hashtable
             will be passed in when initializing the
             the template loader.
             </summary>
@@ -4796,501 +5163,6 @@
              <returns>class name of loader than can provide it
             
              </returns>
-        </member>
-        <member name="T:NVelocity.Runtime.Visitor.BaseVisitor">
-             <summary> This is the base class for all visitors.
-             For each AST node, this class will provide
-             a bare-bones method for traversal.
-             *
-             </summary>
-             <author> <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
-             </author>
-             <author> <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
-             </author>
-             <version> $Id: BaseVisitor.cs,v 1.3 2003/10/27 13:54:11 corts Exp $
-            
-             </version>
-        </member>
-        <member name="F:NVelocity.Runtime.Visitor.BaseVisitor.context">
-            <summary>
-            Context used during traversal
-            </summary>
-        </member>
-        <member name="F:NVelocity.Runtime.Visitor.BaseVisitor.writer">
-            <summary>
-            Writer used as the output sink
-            </summary>
-        </member>
-        <member name="T:NVelocity.Runtime.Visitor.NodeViewMode">
-             <summary> This class is simply a visitor implementation
-             that traverses the AST, produced by the Velocity
-             parsing process, and creates a visual structure
-             of the AST. This is primarily used for
-             debugging, but it useful for documentation
-             as well.
-             *
-             </summary>
-             <author> <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
-             </author>
-             <version> $Id: NodeViewMode.cs,v 1.3 2003/10/27 13:54:11 corts Exp $
-            
-             </version>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.IndentString">
-            <summary>Indent child nodes to help visually identify
-            the structure of the AST.
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.ShowNode(NVelocity.Runtime.Parser.Node.INode,System.Object)">
-            <summary> Display the type of nodes and optionally the
-            first token.
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.SimpleNode,System.Object)">
-            <summary>Display a SimpleNode
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTprocess,System.Object)">
-            <summary>Display an ASTprocess node
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTExpression,System.Object)">
-            <summary>Display an ASTExpression node
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTAssignment,System.Object)">
-            <summary>Display an ASTAssignment node ( = )
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTOrNode,System.Object)">
-            <summary>Display an ASTOrNode ( || )
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTAndNode,System.Object)">
-            <summary>Display an ASTAndNode ( &amp;&amp; )
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTEQNode,System.Object)">
-            <summary>Display an ASTEQNode ( == )
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTNENode,System.Object)">
-            <summary>Display an ASTNENode ( != )
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTLTNode,System.Object)">
-            <summary>Display an ASTLTNode ( &lt; )
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTGTNode,System.Object)">
-            <summary>Display an ASTGTNode ( &gt; )
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTLENode,System.Object)">
-            <summary>Display an ASTLENode ( &lt;= )
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTGENode,System.Object)">
-            <summary>Display an ASTGENode ( &gt;= )
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTAddNode,System.Object)">
-            <summary>Display an ASTAddNode ( + )
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTSubtractNode,System.Object)">
-            <summary>Display an ASTSubtractNode ( - )
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTMulNode,System.Object)">
-            <summary>Display an ASTMulNode ( * )
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTDivNode,System.Object)">
-            <summary>Display an ASTDivNode ( / )
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTModNode,System.Object)">
-            <summary>Display an ASTModNode ( % )
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTNotNode,System.Object)">
-            <summary>Display an ASTNotNode ( ! )
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTNumberLiteral,System.Object)">
-            <summary>Display an ASTNumberLiteral node
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTStringLiteral,System.Object)">
-            <summary>Display an ASTStringLiteral node
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTIdentifier,System.Object)">
-            <summary>Display an ASTIdentifier node
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTMethod,System.Object)">
-            <summary>Display an ASTMethod node
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTReference,System.Object)">
-            <summary>Display an ASTReference node
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTTrue,System.Object)">
-            <summary>Display an ASTTrue node
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTFalse,System.Object)">
-            <summary>Display an ASTFalse node
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTBlock,System.Object)">
-            <summary>Display an ASTBlock node
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTText,System.Object)">
-            <summary>Display an ASTText node
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTIfStatement,System.Object)">
-            <summary>Display an ASTIfStatement node
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTElseStatement,System.Object)">
-            <summary>Display an ASTElseStatement node
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTElseIfStatement,System.Object)">
-            <summary>Display an ASTElseIfStatement node
-            </summary>
-        </member>
-        <member name="T:NVelocity.Runtime.Visitor.VMReferenceMungeVisitor">
-            <summary>
-            This class is a visitor used by the VM proxy to change the
-            literal representation of a reference in a VM.  The reason is
-            to preserve the 'render literal if null' behavior w/o making
-            the VMProxy stuff more complicated than it is already.
-            </summary>
-            <author> <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a></author>
-            <version> $Id: VMReferenceMungeVisitor.cs,v 1.3 2003/10/27 13:54:11 corts Exp $</version>
-        </member>
-        <member name="F:NVelocity.Runtime.Visitor.VMReferenceMungeVisitor.argmap">
-            <summary>
-            Map containing VM arg to instance-use reference
-            Passed in with CTOR
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.VMReferenceMungeVisitor.#ctor(System.Collections.Hashtable)">
-            <summary>
-            CTOR - takes a map of args to reference
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.Visitor.VMReferenceMungeVisitor.Visit(NVelocity.Runtime.Parser.Node.ASTReference,System.Object)">
-            <summary>
-            Visitor method - if the literal is right, will
-            set the literal in the ASTReference node
-            </summary>
-            <param name="node">ASTReference to work on</param>
-            <param name="data">Object to pass down from caller</param>
-        </member>
-        <member name="T:NVelocity.Runtime.IRuntimeLogger">
-            <summary>
-            Interface for internal runtime logging services that are needed by the
-            </summary>
-            <author><a href="mailto:geirm@apache.org">Geir Magusson Jr.</a></author>
-            <version>$Id: RuntimeLogger.cs,v 1.1 2004/01/02 00:04:50 corts Exp $</version>
-        </member>
-        <member name="M:NVelocity.Runtime.IRuntimeLogger.Warn(System.Object)">
-            <summary>
-            Log a warning message.
-            </summary>
-            <param name="message">message to log</param>
-        </member>
-        <member name="M:NVelocity.Runtime.IRuntimeLogger.Info(System.Object)">
-            <summary>
-            Log an info message.
-            </summary>
-            <param name="message">message to log</param>
-        </member>
-        <member name="M:NVelocity.Runtime.IRuntimeLogger.Error(System.Object)">
-            <summary>
-            Log an error message.
-            </summary>
-            <param name="message">message to log</param>
-        </member>
-        <member name="M:NVelocity.Runtime.IRuntimeLogger.Debug(System.Object)">
-            <summary>
-            Log a debug message.
-            </summary>
-            <param name="message">message to log</param>
-        </member>
-        <member name="T:NVelocity.Runtime.IRuntimeServices">
-             <summary> Interface for internal runtime services that are needed by the
-             various components w/in Velocity.  This was taken from the old
-             Runtime singleton, and anything not necessary was removed.
-            
-             Currently implemented by RuntimeInstance.
-             </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.IRuntimeServices.SetProperty(System.String,System.Object)">
-            <summary>
-            Allows an external system to set a property in
-            the Velocity Runtime.
-            </summary>
-            <param name="key">property key</param>
-            <param name="value">property value</param>
-        </member>
-        <member name="M:NVelocity.Runtime.IRuntimeServices.AddProperty(System.String,System.Object)">
-            <summary> Add a property to the configuration. If it already
-            exists then the value stated here will be added
-            to the configuration entry. For example, if
-            *
-            resource.loader = file
-            *
-            is already present in the configuration and you
-            *
-            addProperty("resource.loader", "classpath")
-            *
-            Then you will end up with a Vector like the
-            following:
-            *
-            ["file", "classpath"]
-            *
-            </summary>
-            <param name="key">key</param>
-            <param name="value">value</param>
-        </member>
-        <member name="M:NVelocity.Runtime.IRuntimeServices.ClearProperty(System.String)">
-            <summary>
-            Clear the values pertaining to a particular property.
-            </summary>
-            <param name="key">key of property to clear</param>
-        </member>
-        <member name="M:NVelocity.Runtime.IRuntimeServices.GetProperty(System.String)">
-             <summary>  Allows an external caller to get a property.  The calling
-             routine is required to know the type, as this routine
-             will return an Object, as that is what properties can be.
-             *
-             </summary>
-             <param name="key">property to return
-            
-             </param>
-        </member>
-        <member name="M:NVelocity.Runtime.IRuntimeServices.Init(System.String)">
-            <summary>
-            Initialize the Velocity Runtime with the name of
-            ExtendedProperties object.
-            </summary>
-            <param name="configurationFile">Properties</param>
-        </member>
-        <member name="M:NVelocity.Runtime.IRuntimeServices.Parse(System.IO.TextReader,System.String)">
-            <summary>
-            Parse the input and return the root of
-            AST node structure.
-            </summary>
-            <remarks>
-            In the event that it runs out of parsers in the
-            pool, it will create and let them be GC'd
-            dynamically, logging that it has to do that.  This
-            is considered an exceptional condition.  It is
-            expected that the user will set the
-            PARSER_POOL_SIZE property appropriately for their
-            application.  We will revisit this.
-            </remarks>
-            <param name="reader">inputstream retrieved by a resource loader</param>
-            <param name="templateName">name of the template being parsed</param>
-        </member>
-        <member name="M:NVelocity.Runtime.IRuntimeServices.Parse(System.IO.TextReader,System.String,System.Boolean)">
-            <summary>
-            Parse the input and return the root of the AST node structure.
-            </summary>
-            <param name="reader">inputstream retrieved by a resource loader</param>
-            <param name="templateName">name of the template being parsed</param>
-            <param name="dumpNamespace">flag to dump the Velocimacro namespace for this template</param>
-        </member>
-        <member name="M:NVelocity.Runtime.IRuntimeServices.GetTemplate(System.String)">
-             <summary> Returns a <code>Template</code> from the resource manager.
-             This method assumes that the character encoding of the
-             template is set by the <code>input.encoding</code>
-             property.  The default is "ISO-8859-1"
-             *
-             </summary>
-             <param name="name">The file name of the desired template.
-             </param>
-             <returns>    The template.
-             @throws ResourceNotFoundException if template not found
-             from any available source.
-             @throws ParseErrorException if template cannot be parsed due
-             to syntax (or other) error.
-             @throws Exception if an error occurs in template initialization
-            
-             </returns>
-        </member>
-        <member name="M:NVelocity.Runtime.IRuntimeServices.GetTemplate(System.String,System.String)">
-             <summary> Returns a <code>Template</code> from the resource manager
-             *
-             </summary>
-             <param name="name">The  name of the desired template.
-             </param>
-             <param name="encoding">Character encoding of the template
-             </param>
-             <returns>    The template.
-             @throws ResourceNotFoundException if template not found
-             from any available source.
-             @throws ParseErrorException if template cannot be parsed due
-             to syntax (or other) error.
-             @throws Exception if an error occurs in template initialization
-            
-             </returns>
-        </member>
-        <member name="M:NVelocity.Runtime.IRuntimeServices.GetContent(System.String)">
-             <summary> Returns a static content resource from the
-             resource manager.  Uses the current value
-             if INPUT_ENCODING as the character encoding.
-             *
-             </summary>
-             <param name="name">Name of content resource to get
-             </param>
-             <returns>parsed ContentResource object ready for use
-             @throws ResourceNotFoundException if template not found
-             from any available source.
-            
-             </returns>
-        </member>
-        <member name="M:NVelocity.Runtime.IRuntimeServices.GetContent(System.String,System.String)">
-             <summary> Returns a static content resource from the
-             resource manager.
-             *
-             </summary>
-             <param name="name">Name of content resource to get
-             </param>
-             <param name="encoding">Character encoding to use
-             </param>
-             <returns>parsed ContentResource object ready for use
-             @throws ResourceNotFoundException if template not found
-             from any available source.
-            
-             </returns>
-        </member>
-        <member name="M:NVelocity.Runtime.IRuntimeServices.GetLoaderNameForResource(System.String)">
-             <summary>  Determines is a template exists, and returns name of the loader that
-             provides it.  This is a slightly less hokey way to support
-             the Velocity.templateExists() utility method, which was broken
-             when per-template encoding was introduced.  We can revisit this.
-             *
-             </summary>
-             <param name="resourceName">Name of template or content resource
-             </param>
-             <returns>class name of loader than can provide it
-            
-             </returns>
-        </member>
-        <member name="M:NVelocity.Runtime.IRuntimeServices.GetString(System.String,System.String)">
-            <summary>
-            String property accessor method with default to hide the
-            configuration implementation.
-            </summary>
-            <param name="key">key property key</param>
-            <param name="defaultValue">default value to return if key not
-            found in resource manager.
-            </param>
-            <returns>value of key or default</returns>
-        </member>
-        <member name="M:NVelocity.Runtime.IRuntimeServices.GetVelocimacro(System.String,System.String)">
-            <summary>
-            Returns the appropriate VelocimacroProxy object if vmName
-            is a valid current Velocimacro.
-            </summary>
-            <param name="vmName">Name of velocimacro requested</param>
-            <param name="templateName">Template Name</param>
-            <returns>VelocimacroProxy</returns>
-        </member>
-        <member name="M:NVelocity.Runtime.IRuntimeServices.AddVelocimacro(System.String,System.String,System.String[],System.String)">
-            <summary>
-            Adds a new Velocimacro. Usually called by Macro only while parsing.
-            </summary>
-            <param name="name">name  Name of velocimacro</param>
-            <param name="macro">macro  String form of macro body</param>
-            <param name="argArray">argArray  Array of strings, containing the
-            <c>#macro()</c> arguments.  the 0th is the name.</param>
-            <param name="sourceTemplate">Source Template</param>
-            <returns>
-            True if added, false if rejected for some
-            reason (either parameters or permission settings)
-            </returns>
-        </member>
-        <member name="M:NVelocity.Runtime.IRuntimeServices.IsVelocimacro(System.String,System.String)">
-            <summary>
-            Checks to see if a VM exists
-            </summary>
-            <param name="vmName">Name of velocimacro</param>
-            <param name="templateName">Template Name</param>
-            <returns>True if VM by that name exists, false if not</returns>
-        </member>
-        <member name="M:NVelocity.Runtime.IRuntimeServices.DumpVMNamespace(System.String)">
-            <summary>  tells the vmFactory to dump the specified namespace.  This is to support
-            clearing the VM list when in inline-VM-local-scope mode
-            </summary>
-        </member>
-        <member name="M:NVelocity.Runtime.IRuntimeServices.GetString(System.String)">
-            <summary>
-            String property accessor method to hide the configuration implementation.
-            </summary>
-            <param name="key">property key</param>
-            <returns>value</returns>
-        </member>
-        <member name="M:NVelocity.Runtime.IRuntimeServices.GetInt(System.String)">
-            <summary>
-            Int property accessor method to hide the configuration implementation.
-            </summary>
-            <param name="key">property key</param>
-            <returns>value</returns>
-        </member>
-        <member name="M:NVelocity.Runtime.IRuntimeServices.GetInt(System.String,System.Int32)">
-            <summary>
-            Int property accessor method to hide the configuration implementation.
-            </summary>
-            <param name="key">property key</param>
-            <param name="defaultValue">default value</param>
-            <returns>value</returns>
-        </member>
-        <member name="M:NVelocity.Runtime.IRuntimeServices.GetBoolean(System.String,System.Boolean)">
-            <summary>
-            Boolean property accessor method to hide the configuration implementation.
-            </summary>
-            <param name="key">property key</param>
-            <param name="def">default value</param>
-            <returns>value</returns>
-        </member>
-        <member name="M:NVelocity.Runtime.IRuntimeServices.GetApplicationAttribute(System.Object)">
-            <summary>
-            Return the specified application attribute
-            </summary>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="M:NVelocity.Runtime.IRuntimeServices.SetApplicationAttribute(System.Object,System.Object)">
-            <summary>
-            Sets the specified application attribute.
-            </summary>
-            <param name="key"></param>
-            <param name="value"></param>
-        </member>
-        <member name="P:NVelocity.Runtime.IRuntimeServices.Configuration">
-             Return the velocity runtime configuration object.
-            
-             @return ExtendedProperties configuration object which houses
-                                   the velocity runtime properties.
-        </member>
-        <member name="P:NVelocity.Runtime.IRuntimeServices.Uberspect">
-            Returns the configured class introspection/reflection
-            implemenation.
-        </member>
-        <member name="P:NVelocity.Runtime.IRuntimeServices.Introspector">
-            Returns the configured method introspection/reflection
-            implemenation.
         </member>
         <member name="T:NVelocity.Runtime.RuntimeConstants">
             <summary>
@@ -5422,7 +5294,7 @@
         </member>
         <member name="F:NVelocity.Runtime.RuntimeInstance.applicationAttributes">
             <summary>
-            Opaque reference to something specificed by the 
+            Opaque reference to something specified by the 
             application for use in application supplied/specified
             pluggable components.
             </summary>
@@ -6138,11 +6010,11 @@
             
              </version>
         </member>
-        <member name="F:NVelocity.Runtime.VelocimacroFactory.rsvc">
+        <member name="F:NVelocity.Runtime.VelocimacroFactory.runtimeServices">
             <summary>  runtime services for this instance
             </summary>
         </member>
-        <member name="F:NVelocity.Runtime.VelocimacroFactory.vmManager">
+        <member name="F:NVelocity.Runtime.VelocimacroFactory.velocimacroManager">
             <summary>  VMManager : deal with namespace management
             and actually keeps all the VM definitions
             </summary>
@@ -6156,7 +6028,7 @@
             <summary>  controls if new VMs can be added.  Set by
             VM_PERM_ALLOW_INLINE  Note the assumption that only
             through inline defs can this happen.
-            additions through autoloaded VMs is allowed
+            additions through auto-loaded VMs is allowed
             </summary>
         </member>
         <member name="F:NVelocity.Runtime.VelocimacroFactory.templateLocal">
@@ -6202,7 +6074,7 @@
              </summary>
              <param name="name">Name of VM to add
              </param>
-             <param name="sourceTemplate">Source template that contains the defintion of the VM
+             <param name="sourceTemplate">Source template that contains the definition of the VM
              </param>
              <returns>true if it is allowed to be added, false otherwise
             
@@ -6227,7 +6099,7 @@
             </summary>
         </member>
         <member name="M:NVelocity.Runtime.VelocimacroFactory.DumpVMNamespace(System.String)">
-            <summary>  tells the vmManager to dump the specified namespace
+            <summary>  tells the velocimacroManager to dump the specified namespace
             </summary>
         </member>
         <member name="T:NVelocity.Runtime.VelocimacroFactory.Twonk">
@@ -6251,7 +6123,7 @@
             <summary>  get the switch for automatic reloading of
             global library-based VMs
             </summary>
-            <summary> small continer class to hold the duple
+            <summary> small container class to hold the duple
             of a template and modification time.
             We keep the modification time so we can
             'override' it on a reload to prevent
@@ -6283,7 +6155,7 @@
             </summary>
         </member>
         <member name="F:NVelocity.Runtime.VelocimacroManager.libraryMap">
-            <summary>map of names of library tempates/namespaces</summary>
+            <summary>map of names of library templates/namespaces</summary>
         </member>
         <member name="M:NVelocity.Runtime.VelocimacroManager.#ctor(NVelocity.Runtime.IRuntimeServices)">
             <summary> Adds the global namespace to the hash.</summary>
@@ -6346,6 +6218,272 @@
             <summary>  wrapper class for holding VM information
             </summary>
         </member>
+        <member name="T:NVelocity.Runtime.Visitor.BaseVisitor">
+             <summary> This is the base class for all visitors.
+             For each AST node, this class will provide
+             a bare-bones method for traversal.
+             *
+             </summary>
+             <author> <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+             </author>
+             <author> <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a>
+             </author>
+             <version> $Id: BaseVisitor.cs,v 1.3 2003/10/27 13:54:11 corts Exp $
+            
+             </version>
+        </member>
+        <member name="F:NVelocity.Runtime.Visitor.BaseVisitor.context">
+            <summary>
+            Context used during traversal
+            </summary>
+        </member>
+        <member name="F:NVelocity.Runtime.Visitor.BaseVisitor.writer">
+            <summary>
+            Writer used as the output sink
+            </summary>
+        </member>
+        <member name="T:NVelocity.Runtime.Visitor.NodeViewMode">
+             <summary> This class is simply a visitor implementation
+             that traverses the AST, produced by the Velocity
+             parsing process, and creates a visual structure
+             of the AST. This is primarily used for
+             debugging, but it useful for documentation
+             as well.
+             *
+             </summary>
+             <author> <a href="mailto:jvanzyl@apache.org">Jason van Zyl</a>
+             </author>
+             <version> $Id: NodeViewMode.cs,v 1.3 2003/10/27 13:54:11 corts Exp $
+            
+             </version>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.IndentString">
+            <summary>Indent child nodes to help visually identify
+            the structure of the AST.
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.ShowNode(NVelocity.Runtime.Parser.Node.INode,System.Object)">
+            <summary> Display the type of nodes and optionally the
+            first token.
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.SimpleNode,System.Object)">
+            <summary>Display a SimpleNode
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTprocess,System.Object)">
+            <summary>Display an ASTprocess node
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTExpression,System.Object)">
+            <summary>Display an ASTExpression node
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTAssignment,System.Object)">
+            <summary>Display an ASTAssignment node ( = )
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTOrNode,System.Object)">
+            <summary>Display an ASTOrNode ( || )
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTAndNode,System.Object)">
+            <summary>Display an ASTAndNode ( &amp;&amp; )
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTEQNode,System.Object)">
+            <summary>Display an ASTEQNode ( == )
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTNENode,System.Object)">
+            <summary>Display an ASTNENode ( != )
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTLTNode,System.Object)">
+            <summary>Display an ASTLTNode ( &lt; )
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTGTNode,System.Object)">
+            <summary>Display an ASTGTNode ( &gt; )
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTLENode,System.Object)">
+            <summary>Display an ASTLENode ( &lt;= )
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTGENode,System.Object)">
+            <summary>Display an ASTGENode ( &gt;= )
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTAddNode,System.Object)">
+            <summary>Display an ASTAddNode ( + )
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTSubtractNode,System.Object)">
+            <summary>Display an ASTSubtractNode ( - )
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTMulNode,System.Object)">
+            <summary>Display an ASTMulNode ( * )
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTDivNode,System.Object)">
+            <summary>Display an ASTDivNode ( / )
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTModNode,System.Object)">
+            <summary>Display an ASTModNode ( % )
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTNotNode,System.Object)">
+            <summary>Display an ASTNotNode ( ! )
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTNumberLiteral,System.Object)">
+            <summary>Display an ASTNumberLiteral node
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTStringLiteral,System.Object)">
+            <summary>Display an ASTStringLiteral node
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTIdentifier,System.Object)">
+            <summary>Display an ASTIdentifier node
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTMethod,System.Object)">
+            <summary>Display an ASTMethod node
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTReference,System.Object)">
+            <summary>Display an ASTReference node
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTTrue,System.Object)">
+            <summary>Display an ASTTrue node
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTFalse,System.Object)">
+            <summary>Display an ASTFalse node
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTBlock,System.Object)">
+            <summary>Display an ASTBlock node
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTText,System.Object)">
+            <summary>Display an ASTText node
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTIfStatement,System.Object)">
+            <summary>Display an ASTIfStatement node
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTElseStatement,System.Object)">
+            <summary>Display an ASTElseStatement node
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.NodeViewMode.Visit(NVelocity.Runtime.Parser.Node.ASTElseIfStatement,System.Object)">
+            <summary>Display an ASTElseIfStatement node
+            </summary>
+        </member>
+        <member name="T:NVelocity.Runtime.Visitor.VMReferenceMungeVisitor">
+            <summary>
+            This class is a visitor used by the VM proxy to change the
+            literal representation of a reference in a VM.  The reason is
+            to preserve the 'render literal if null' behavior w/o making
+            the VMProxy stuff more complicated than it is already.
+            </summary>
+            <author> <a href="mailto:geirm@optonline.net">Geir Magnusson Jr.</a></author>
+            <version> $Id: VMReferenceMungeVisitor.cs,v 1.3 2003/10/27 13:54:11 corts Exp $</version>
+        </member>
+        <member name="F:NVelocity.Runtime.Visitor.VMReferenceMungeVisitor.argumentMap">
+            <summary>
+            Map containing VM arg to instance-use reference
+            Passed in with CTOR
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.VMReferenceMungeVisitor.#ctor(System.Collections.Hashtable)">
+            <summary>
+            CTOR - takes a map of args to reference
+            </summary>
+        </member>
+        <member name="M:NVelocity.Runtime.Visitor.VMReferenceMungeVisitor.Visit(NVelocity.Runtime.Parser.Node.ASTReference,System.Object)">
+            <summary>
+            Visitor method - if the literal is right, will
+            set the literal in the ASTReference node
+            </summary>
+            <param name="node">ASTReference to work on</param>
+            <param name="data">Object to pass down from caller</param>
+        </member>
+        <member name="M:NVelocity.SupportClass.CreateNewInstance(System.Type)">
+            <summary>
+            Creates an instance of a received Type
+            </summary>
+            <param name="classType">The Type of the new class instance to return</param>
+            <returns>An Object containing the new instance</returns>
+        </member>
+        <member name="T:NVelocity.Template">
+            <summary>
+            This class is used for controlling all template
+            operations. This class uses a parser created
+            by JavaCC to create an AST that is subsequently
+            traversed by a Visitor.
+            
+            <code>
+            Template template = Velocity.getTemplate("test.wm");
+            IContext context = new VelocityContext();
+            
+            context.Put("foo", "bar");
+            context.Put("customer", new Customer());
+            
+            template.Merge(context, writer);
+            </code>
+            </summary>
+        </member>
+        <member name="M:NVelocity.Template.Process">
+            <summary>
+            Gets the named resource as a stream, parses and inits.
+            </summary>
+            <returns>true if successful</returns>
+            <exception cref="T:NVelocity.Exception.ResourceNotFoundException">
+            if template not found from any available source.
+            </exception>
+            <exception cref="T:NVelocity.Exception.ParseErrorException">
+            if template cannot be parsed due to syntax (or other) error.
+            </exception>
+            <exception cref="T:System.Exception">
+            some other problem, should only be from initialization of the template AST.
+            </exception>
+        </member>
+        <member name="M:NVelocity.Template.InitDocument">
+            <summary> 
+            initializes the document.  init() is not longer
+            dependant upon context, but we need to let the
+            init() carry the template name down through for VM
+            namespace features
+            </summary>
+        </member>
+        <member name="M:NVelocity.Template.Merge(NVelocity.Context.IContext,System.IO.TextWriter)">
+            <summary>
+            The AST node structure is merged with the
+            context to produce the final output.
+            
+            Throws IOException if failure is due to a file related
+            issue, and Exception otherwise
+            </summary>
+            <param name="context">Context with data elements accessed by template</param>
+            <param name="writer">writer for rendered template</param>
+            <exception cref="T:NVelocity.Exception.ResourceNotFoundException">
+            if template not found from any available source.
+            </exception>
+            <exception cref="T:NVelocity.Exception.ParseErrorException">
+            if template cannot be parsed due to syntax (or other) error.
+            </exception>
+            <exception cref="T:System.Exception">
+            anything else.
+            </exception>
+        </member>
         <member name="T:NVelocity.Tool.DataInfo">
              <summary> ToolInfo implementation to handle "primitive" data types.
              It currently supports String, Number, and Boolean data.
@@ -6405,7 +6543,7 @@
              </param>
              <param name="type">the data type
              </param>
-             <param name="value_">the data
+             <param name="value">the data
             
              </param>
         </member>
@@ -6432,7 +6570,7 @@
             Creates and returns an object of the specified classname.
             The object must have a valid default constructor.
             </summary>
-            <param name="clazz">the fully qualified class name of the object</param>
+            <param name="className">the fully qualified class name of the object</param>
             <returns>an instance of the specified class or null if the class
             could not be instantiated.</returns>
         </member>
@@ -6583,14 +6721,15 @@
             </summary>
         </member>
         <member name="T:NVelocity.Util.Introspection.Introspector">
-             <summary> This basic function of this class is to return a Method
+             <summary>
+             This basic function of this class is to return a Method
              object for a particular class given the name of a method
              and the parameters to the method in the form of an Object[]
             
              The first time the Introspector sees a
              class it creates a class method map for the
              class in question. Basically the class method map
-             is a Hastable where Method objects are keyed by a
+             is a Hashtable where Method objects are keyed by a
              concatenation of the method name and the names of
              classes that make up the parameters.
             
@@ -6615,7 +6754,7 @@
              The first time the Introspector sees a
              class it creates a class method map for the
              class in question. Basically the class method map
-             is a Hastable where Method objects are keyed by a
+             is a Hashtable where Method objects are keyed by a
              concatenation of the method name and the names of
              classes that make up the parameters.
             
@@ -6675,7 +6814,7 @@
             </summary>
         </member>
         <member name="M:NVelocity.Util.Introspection.Introspector.#ctor(NVelocity.Runtime.IRuntimeLogger)">
-            <summary>  Recieves our RuntimeServices object
+            <summary>  Receives our RuntimeServices object
             </summary>
         </member>
         <member name="M:NVelocity.Util.Introspection.Introspector.GetMethod(System.Type,System.String,System.Object[])">
@@ -6738,8 +6877,8 @@
             </version>
         </member>
         <member name="M:NVelocity.Util.Introspection.IVelMethod.Invoke(System.Object,System.Object[])">
-            <summary>  invocation method - called when the method invocationshould be
-            preformed and a value returned
+            <summary>  invocation method - called when the method invocation should be
+            performed and a value returned
             </summary>
         </member>
         <member name="P:NVelocity.Util.Introspection.IVelMethod.Cacheable">
@@ -6773,7 +6912,7 @@
         <member name="M:NVelocity.Util.Introspection.IVelPropertyGet.Invoke(System.Object)">
             <summary>
             invocation method - called when the 'get action' should be
-            preformed and a value returned
+            performed and a value returned
             </summary>
         </member>
         <member name="P:NVelocity.Util.Introspection.IVelPropertyGet.Cacheable">
@@ -6935,13 +7074,6 @@
             subject to widening conversion to formal.
             </returns>
         </member>
-        <member name="T:NVelocity.Util.Introspection.Twonk">
-            <summary> 
-            little class to hold 'distance' information
-            for calling params, as well as determine
-            specificity
-            </summary>
-        </member>
         <member name="T:NVelocity.Util.Introspection.UberspectImpl">
             <summary>  Implementation of Uberspect to provide the default introspective
             functionality of Velocity
@@ -6973,7 +7105,7 @@
             uberspector
             </summary>
         </member>
-        <member name="F:NVelocity.Util.Introspection.UberspectImpl.rlog">
+        <member name="F:NVelocity.Util.Introspection.UberspectImpl.runtimeLogger">
             <summary>
             Our runtime logger.
             </summary>
@@ -6997,11 +7129,12 @@
         </member>
         <member name="M:NVelocity.Util.Introspection.UberspectImpl.GetPropertyGet(System.Object,System.String,NVelocity.Util.Introspection.Info)">
             <summary>
-            Property  getter
+            Property getter.
             </summary>
         </member>
         <member name="M:NVelocity.Util.Introspection.UberspectImpl.GetPropertySet(System.Object,System.String,System.Object,NVelocity.Util.Introspection.Info)">
-            <summary> Property setter
+            <summary>
+            Property setter.
             </summary>
         </member>
         <member name="P:NVelocity.Util.Introspection.UberspectImpl.RuntimeLogger">
@@ -7027,7 +7160,7 @@
             The pool will ignore overflow and return null if empty.
             </summary>
         </member>
-        <member name="F:NVelocity.Util.SimplePool`1.max">
+        <member name="F:NVelocity.Util.SimplePool`1.maximum">
             <summary>  max amount of objects to be managed
             set via CTOR
             </summary>
@@ -7047,12 +7180,7 @@
             Get an object from the pool, null if the pool is empty.
             </summary>
         </member>
-        <member name="M:NVelocity.Util.SimplePool`1.getPool">
-            <summary>
-            for testing purposes, so we can examine the pool
-            </summary>
-        </member>
-        <member name="P:NVelocity.Util.SimplePool`1.Max">
+        <member name="P:NVelocity.Util.SimplePool`1.Maximum">
             <summary>
             Return the size of the pool
             </summary>
@@ -7118,109 +7246,9 @@
             
              </returns>
         </member>
-        <member name="T:NVelocity.IDuck">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:NVelocity.IDuck.GetInvoke(System.String)">
-            <summary>
-            Defines the behavior when a property is read
-            </summary>
-            <param name="propName">Property name.</param>
-            <returns>value back to the template</returns>
-        </member>
-        <member name="M:NVelocity.IDuck.SetInvoke(System.String,System.Object)">
-            <summary>
-            Defines the behavior when a property is written
-            </summary>
-            <param name="propName">Property name.</param>
-            <param name="value">The value to assign.</param>
-        </member>
-        <member name="M:NVelocity.IDuck.Invoke(System.String,System.Object[])">
-            <summary>
-            Invokes the specified method.
-            </summary>
-            <param name="method">The method name.</param>
-            <param name="args">The method arguments.</param>
-            <returns>value back to the template</returns>
-        </member>
-        <member name="M:NVelocity.SupportClass.CreateNewInstance(System.Type)">
-            <summary>
-            Creates an instance of a received Type
-            </summary>
-            <param name="classType">The Type of the new class instance to return</param>
-            <returns>An Object containing the new instance</returns>
-        </member>
-        <member name="T:NVelocity.Template">
-            <summary>
-            This class is used for controlling all template
-            operations. This class uses a parser created
-            by JavaCC to create an AST that is subsequently
-            traversed by a Visitor.
-            
-            <code>
-            Template template = Velocity.getTemplate("test.wm");
-            IContext context = new VelocityContext();
-            
-            context.Put("foo", "bar");
-            context.Put("customer", new Customer());
-            
-            template.Merge(context, writer);
-            </code>
-            </summary>
-        </member>
-        <member name="M:NVelocity.Template.#ctor">
-            <summary>
-            Default constructor.
-            </summary>
-        </member>
-        <member name="M:NVelocity.Template.Process">
-            <summary>
-            Gets the named resource as a stream, parses and inits.
-            </summary>
-            <returns>true if successful</returns>
-            <exception cref="T:NVelocity.Exception.ResourceNotFoundException">
-            if template not found from any available source.
-            </exception>
-            <exception cref="T:NVelocity.Exception.ParseErrorException">
-            if template cannot be parsed due to syntax (or other) error.
-            </exception>
-            <exception cref="T:System.Exception">
-            some other problem, should only be from initialization of the template AST.
-            </exception>
-        </member>
-        <member name="M:NVelocity.Template.InitDocument">
-            <summary> 
-            initializes the document.  init() is not longer
-            dependant upon context, but we need to let the
-            init() carry the template name down throught for VM
-            namespace features
-            </summary>
-        </member>
-        <member name="M:NVelocity.Template.Merge(NVelocity.Context.IContext,System.IO.TextWriter)">
-            <summary>
-            The AST node structure is merged with the
-            context to produce the final output.
-            
-            Throws IOException if failure is due to a file related
-            issue, and Exception otherwise
-            </summary>
-            <param name="context">Conext with data elements accessed by template</param>
-            <param name="writer">writer for rendered template</param>
-            <exception cref="T:NVelocity.Exception.ResourceNotFoundException">
-            if template not found from any available source.
-            </exception>
-            <exception cref="T:NVelocity.Exception.ParseErrorException">
-            if template cannot be parsed due to syntax (or other) error.
-            </exception>
-            <exception cref="T:System.Exception">
-            anything else.
-            </exception>
-        </member>
         <member name="T:NVelocity.VelocityContext">
             <summary>
-            General purpose implemention of the application Context
+            General purpose implementation of the application Context
             interface for general application use.  This class should
             be used in place of the original Context class.
             This context implementation cannot be shared between threads
@@ -7307,12 +7335,6 @@
             </summary>
             <param name="key">name of value to remove</param>
             <returns>value removed</returns>
-        </member>
-        <member name="M:NVelocity.VelocityContext.Clone">
-            <summary>
-            Clones this context object.
-            </summary>
-            <returns>A deep copy of this <code>Context</code>.</returns>
         </member>
     </members>
 </doc>

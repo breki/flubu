@@ -50,3 +50,4 @@ output
 _NCrunch_Flubu/
 _ReSharper.Caches/
 packages
+lib/Flubu/ICSharpCode.SharpZipLib.xml
