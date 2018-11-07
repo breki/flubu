@@ -24,7 +24,7 @@ namespace Flubu.Console
                     buildScriptLocator.FindBuildScript(arguments);
 
                 Parser p = new Parser();
-                p.ParseArguments(args, new object());
+                p.ParseArguments(args);
 
                 return script.Run(arguments);
             }
