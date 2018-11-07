@@ -256,11 +256,18 @@ namespace Flubu.Builds.VSSolutionBrowsing
             string propertyName = xmlReader.Name;
             string propertyValue = xmlReader.ReadElementContentAsString();
 
-            if (item.ItemProperties.ContainsKey(propertyValue))
+            if (item.ItemProperties.ContainsKey(propertyName))
             {
+                string existingPropertyValue 
+                    = item.ItemProperties[propertyName];
+
+                // skip duplicate property entries
+                if (Equals(propertyValue, existingPropertyValue))
+                    return;
+
                 string message =
                     "VS project {0} item property '{1}' already exists.".Fmt(
-                        ProjectFileName, propertyValue);
+                        ProjectFileName, propertyName);
                 throw new InvalidOperationException(message);
             }
 

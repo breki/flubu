@@ -16,7 +16,7 @@ namespace BuildScripts
         {
             session.Properties.Set(
                 BuildProps.MSBuildPath,
-                @"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\bin\msbuild");
+                @"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\bin\msbuild.exe");
             session.Properties.Set(BuildProps.ProductId, "Todo");
             session.Properties.Set(BuildProps.ProductName, "Todo");
             session.Properties.Set(BuildProps.SolutionFileName, "..\\Todo.sln");

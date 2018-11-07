@@ -1,3 +1,7 @@
+3.9.1.0
+- when reading project files, duplicate item properties with same values are now
+	skipped
+
 3.9.0.0
 - fixing the mess with project references
 - upgraded 3rd party libraries
