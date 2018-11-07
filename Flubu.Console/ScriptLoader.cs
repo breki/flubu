@@ -28,6 +28,7 @@ namespace Flubu.Console
                 throw new BuildScriptLocatorException(message);
             }
 
+            // ReSharper disable once AssignNullToNotNullAttribute
             object scriptInstance = assembly.CreateInstance(classes[0].FullName);
             return scriptInstance.AlignToInterface<IBuildScript>();
         }

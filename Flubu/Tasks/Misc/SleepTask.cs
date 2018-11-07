@@ -33,6 +33,6 @@ namespace Flubu.Tasks.Misc
             System.Threading.Thread.Sleep (sleepPeriod);
         }
 
-        private TimeSpan sleepPeriod;
+        private readonly TimeSpan sleepPeriod;
     }
 }
