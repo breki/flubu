@@ -60,8 +60,9 @@ namespace BuildScripts
             string projectTargetDir = Path.Combine(
                 "Flubu.Console", "bin", context.Properties[BuildProps.BuildConfiguration]);
 
-            IRunProgramTask progTask = new RunProgramTask(@"packages\ILRepack.2.0.13\tools\ILRepack.exe")
-                .SetWorkingDir(projectTargetDir);
+            IRunProgramTask progTask =
+                new RunProgramTask(@"packages\ILRepack.2.0.16\tools\ILRepack.exe")
+                    .SetWorkingDir(projectTargetDir);
 
             progTask
                 .EncloseParametersInQuotes(false)
