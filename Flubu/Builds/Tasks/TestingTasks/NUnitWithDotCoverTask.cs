@@ -5,6 +5,7 @@ using System.IO;
 using Flubu.Builds.Tasks.NuGetTasks;
 using Flubu.Tasks.Processes;
 using Flubu.Tasks.Text;
+using JetBrains.Annotations;
 
 namespace Flubu.Builds.Tasks.TestingTasks
 {
@@ -47,10 +48,14 @@ namespace Flubu.Builds.Tasks.TestingTasks
         /// </summary>
         /// <param name="nunitRunnerFileName">The file path to NUnit's console runner.</param>
         /// <param name="testAssemblyFileNames">The list of of file paths to the assemblies containing unit tests.</param>
-        public NUnitWithDotCoverTask (string nunitRunnerFileName, IList<string> testAssemblyFileNames)
+        public NUnitWithDotCoverTask(
+            string nunitRunnerFileName,
+            IList<string> testAssemblyFileNames)
         {
             if (string.IsNullOrEmpty (nunitRunnerFileName))
-                throw new ArgumentException ("NUnit Runner file name should not be null or empty string", "nunitRunnerFileName");
+                throw new ArgumentException(
+                    "NUnit Runner file name should not be null or empty string",
+                    "nunitRunnerFileName");
 
             this.nunitRunnerFileName = nunitRunnerFileName;
             this.testAssemblyFileNames = testAssemblyFileNames;
@@ -77,11 +82,7 @@ namespace Flubu.Builds.Tasks.TestingTasks
         /// without failing the build.
         /// The default value is <c>true</c>.
         /// </remarks>
-        public bool FailBuildOnViolations
-        {
-            get { return failBuildOnViolations; }
-            set { failBuildOnViolations = value; }
-        }
+        public bool FailBuildOnViolations { get; set; } = true;
 
         /// <summary>
         /// Gets or sets the minimum required test coverage percentage. 
@@ -91,11 +92,7 @@ namespace Flubu.Builds.Tasks.TestingTasks
         /// <remarks>
         /// The default value is 75%.
         /// </remarks>
-        public int MinRequiredCoverage
-        {
-            get { return minRequiredCoverage; }
-            set { minRequiredCoverage = value; }
-        }
+        public int MinRequiredCoverage { get; set; } = 75;
 
         /// <summary>
         /// Gets or sets the command line options for NUnit console runner (as a single string).
@@ -103,11 +100,7 @@ namespace Flubu.Builds.Tasks.TestingTasks
         /// <remarks>
         /// The default options are <c>/labels /nodots</c>.
         /// </remarks>
-        public string NUnitCmdLineOptions
-        {
-            get { return nunitCmdLineOptions; }
-            set { nunitCmdLineOptions = value; }
-        }
+        public string NUnitCmdLineOptions { get; set; } = "/labels /nodots";
 
         /// <summary>
         /// Gets or sets the dotCover filters that will be passed to dotCover's <c>/Filters</c> command line parameter.
@@ -117,11 +110,8 @@ namespace Flubu.Builds.Tasks.TestingTasks
         /// For more information, visit <a href="https://www.jetbrains.com/dotcover/help/dotCover__Console_Runner_Commands.html">here</a>.
         /// </remarks>
         /// <seealso cref="DotCoverAttributeFilters"/>
-        public string DotCoverFilters
-        {
-            get { return dotCoverFilters; }
-            set { dotCoverFilters = value; }
-        }
+        public string DotCoverFilters { get; set; } 
+            = "-:module=*.Tests;-:class=*Contract;-:class=*Contract`*";
 
         /// <summary>
         /// Gets or sets the dotCover attribute filters that will be passed to dotCover's <c>/AttributeFilters</c> command line parameter.
@@ -132,29 +122,35 @@ namespace Flubu.Builds.Tasks.TestingTasks
         /// For more information, visit <a href="https://www.jetbrains.com/dotcover/help/dotCover__Console_Runner_Commands.html">here</a>.
         /// </remarks>
         /// <seealso cref="DotCoverFilters"/>
-        public string DotCoverAttributeFilters
-        {
-            get { return dotCoverAttributeFilters; }
-            set { dotCoverAttributeFilters = value; }
-        }
+        public string DotCoverAttributeFilters { get; set; } 
+            = "*.ExcludeFromCodeCoverageAttribute";
 
         /// <summary>
         /// Gets the path to the generated dotCover test coverage XML report.
         /// </summary>
         /// <seealso cref="CoverageHtmlReportFileName"/>
-        public string CoverageXmlReportFileName
-        {
-            get { return coverageXmlReportFileName; }
-        }
+        public string CoverageXmlReportFileName => coverageXmlReportFileName;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the HTML report should be
+        /// generated.
+        /// </summary>
+        /// <remarks>This switch is disabled by default since the latest
+        /// versions of dotCover take a very long time to generate the
+        /// report.
+        /// </remarks>
+        /// <value>
+        ///   <c>true</c> if the HTML report should be generated; otherwise,
+        /// <c>false</c>.
+        /// </value>
+        public bool ShouldGenerateHtmlReport { get; set; } = false;
 
         /// <summary>
         /// Gets the path to the generated dotCover test coverage HTML report.
         /// </summary>
         /// <seealso cref="CoverageXmlReportFileName"/>
-        public string CoverageHtmlReportFileName
-        {
-            get { return coverageHtmlReportFileName; }
-        }
+        [CanBeNull]
+        public string CoverageHtmlReportFileName => coverageHtmlReportFileName;
 
         protected override void DoExecute (ITaskContext context)
         {
@@ -165,31 +161,56 @@ namespace Flubu.Builds.Tasks.TestingTasks
             List<string> snapshots = new List<string> ();
             foreach (string testAssemblyFileName in testAssemblyFileNames)
             {
-                string snapshotFileName = RunTestsForAssembly (context, testAssemblyFileName, dotCoverExeFileName);
+                string snapshotFileName = RunTestsForAssembly(
+                    context,
+                    testAssemblyFileName,
+                    dotCoverExeFileName);
                 snapshots.Add (snapshotFileName);
             }
 
             string finalSnapshotFileName;
             if (snapshots.Count > 1)
-                finalSnapshotFileName = MergeCoverageSnapshots (context, dotCoverExeFileName, snapshots);
+                finalSnapshotFileName = MergeCoverageSnapshots(
+                    context,
+                    dotCoverExeFileName,
+                    snapshots);
             else
                 finalSnapshotFileName = snapshots[0];
 
-            coverageXmlReportFileName = GenerateCoverageReport (context, dotCoverExeFileName, finalSnapshotFileName, "XML");
-            coverageHtmlReportFileName = GenerateCoverageReport (context, dotCoverExeFileName, finalSnapshotFileName, "HTML");
+            coverageXmlReportFileName = GenerateCoverageReport(
+                context,
+                dotCoverExeFileName,
+                finalSnapshotFileName,
+                "XML");
+
+            if (ShouldGenerateHtmlReport)
+                coverageHtmlReportFileName = GenerateCoverageReport(
+                    context,
+                    dotCoverExeFileName,
+                    finalSnapshotFileName,
+                    "HTML");
+            else
+                context.WriteInfo(
+                    "Skipped generating coverage HTML report as it was not requested.");
 
             AnalyzeCoverageResults (context);
         }
 
-        private static bool EnsureDotCoverIsAvailable (ITaskContext context, out string dotCoverExeFileName)
+        private static bool EnsureDotCoverIsAvailable(
+            ITaskContext context,
+            out string dotCoverExeFileName)
         {
-            const string DotCoverCmdLineToolsPackageId = "JetBrains.dotCover.CommandLineTools";
+            const string DotCoverCmdLineToolsPackageId 
+                = "JetBrains.dotCover.CommandLineTools";
 
             DownloadNugetPackageInUserRepositoryTask downloadPackageTask =
-                new DownloadNugetPackageInUserRepositoryTask (DotCoverCmdLineToolsPackageId);
+                new DownloadNugetPackageInUserRepositoryTask(
+                    DotCoverCmdLineToolsPackageId);
             downloadPackageTask.Execute (context);
 
-            dotCoverExeFileName = Path.Combine (downloadPackageTask.PackageDirectory, "tools/dotCover.exe");
+            dotCoverExeFileName = Path.Combine(
+                downloadPackageTask.PackageDirectory,
+                "tools/dotCover.exe");
 
             if (!File.Exists (dotCoverExeFileName))
             {
@@ -202,10 +223,14 @@ namespace Flubu.Builds.Tasks.TestingTasks
             return true;
         }
 
-        private string RunTestsForAssembly (ITaskContext context, string testAssemblyFileName, string dotCoverExeFileName)
+        private string RunTestsForAssembly(
+            ITaskContext context,
+            string testAssemblyFileName,
+            string dotCoverExeFileName)
         {
             string assemblyId;
-            FileFullPath assemblyFullFileName = ExtractFullAssemblyFileName (testAssemblyFileName, out assemblyId);
+            FileFullPath assemblyFullFileName = ExtractFullAssemblyFileName (
+                testAssemblyFileName, out assemblyId);
 
             string buildDir = context.Properties[BuildProps.BuildDir];
             string snapshotFileName = Path.Combine (buildDir, "{0}-coverage.dcvr".Fmt (assemblyId));
@@ -225,7 +250,7 @@ namespace Flubu.Builds.Tasks.TestingTasks
             string projectBinFileName = Path.GetFileName (assemblyFullFileName.FileName);
 
             context.WriteInfo ("Running unit tests (with code coverage)...");
-            IRunProgramTask runDotCovertask = new RunProgramTask(dotCoverExeFileName).AddArgument("cover").AddArgument("/TargetExecutable={0}", nunitRunnerFileName).AddArgument("/TargetArguments={0} {1}", projectBinFileName, nunitCmdLineOptions).AddArgument("/TargetWorkingDir={0}", projectDir).AddArgument("/Filters={0}", dotCoverFilters).AddArgument("/AttributeFilters={0}", dotCoverAttributeFilters).AddArgument("/Output={0}", snapshotFileName)
+            IRunProgramTask runDotCovertask = new RunProgramTask(dotCoverExeFileName).AddArgument("cover").AddArgument("/TargetExecutable={0}", nunitRunnerFileName).AddArgument("/TargetArguments={0} {1}", projectBinFileName, NUnitCmdLineOptions).AddArgument("/TargetWorkingDir={0}", projectDir).AddArgument("/Filters={0}", DotCoverFilters).AddArgument("/AttributeFilters={0}", DotCoverAttributeFilters).AddArgument("/Output={0}", snapshotFileName)
 
                 //.AddArgument("/LogFile={0}", Path.Combine(buildDir, "dotCover-log.xml"))
                 .AddArgument("/ReturnTargetExitCode");
@@ -280,13 +305,15 @@ namespace Flubu.Builds.Tasks.TestingTasks
         private void AnalyzeCoverageResults (ITaskContext context)
         {
             const string PropertyTotalCoverage = "TotalTestCoverage";
-            const string PropertyClassesWithPoorCoverageCount = "PoorCoverageCount";
+            const string PropertyClassesWithPoorCoverageCount 
+                = "PoorCoverageCount";
 
-            string totalCoverageExpression = "sum(/Root/Assembly[1]/@CoveragePercent)";
+            string totalCoverageExpression 
+                = "sum(/Root/Assembly[1]/@CoveragePercent)";
             string classesWithPoorCoverageExpression = string.Format (
                 CultureInfo.InvariantCulture, 
                 "count(/Root/Assembly/Namespace/Type[@CoveragePercent<{0}])", 
-                minRequiredCoverage);
+                MinRequiredCoverage);
 
             EvaluateXmlTask countViolationsTask =
                 new EvaluateXmlTask (coverageXmlReportFileName)
@@ -298,10 +325,12 @@ namespace Flubu.Builds.Tasks.TestingTasks
                         totalCoverageExpression);
             countViolationsTask.Execute (context);
 
-            int? totalCoverage = GetCoverageProperyValue (context, PropertyTotalCoverage);
-            context.WriteInfo ("Total test coverage is {0}%", totalCoverage);
+            int? totalCoverage = GetCoverageProperyValue(
+                context, PropertyTotalCoverage);
+            context.WriteInfo("Total test coverage is {0}%", totalCoverage);
 
-            int? duplicatesCount = GetCoverageProperyValue (context, PropertyClassesWithPoorCoverageCount);
+            int? duplicatesCount = GetCoverageProperyValue (
+                context, PropertyClassesWithPoorCoverageCount);
             if (duplicatesCount.HasValue && duplicatesCount > 0)
                 FailBuildAndPrintOutCoverageReport (context, duplicatesCount);
         }
@@ -321,12 +350,12 @@ namespace Flubu.Builds.Tasks.TestingTasks
                 TaskMessageLevel.Warn, 
                 "There are {0} classes that have the test coverage below the minimum {1}% threshold", 
                 duplicatesCount, 
-                minRequiredCoverage);
+                MinRequiredCoverage);
 
             string classesWithPoorCoverageExpression = string.Format (
                 CultureInfo.InvariantCulture, 
                 "/Root/Assembly/Namespace/Type[@CoveragePercent<{0}]", 
-                minRequiredCoverage);
+                MinRequiredCoverage);
 
             VisitXmlFileTask findViolationsTask = new VisitXmlFileTask (coverageXmlReportFileName);
 
@@ -352,7 +381,7 @@ namespace Flubu.Builds.Tasks.TestingTasks
             foreach (Tuple<string, int> tuple in poorCoverageClasses)
                 context.WriteInfo ("{0} ({1}%)", tuple.Item1, tuple.Item2);
 
-            if (failBuildOnViolations)
+            if (FailBuildOnViolations)
                 context.Fail ("Failing the build because of poor test coverage");
         }
 
@@ -367,12 +396,7 @@ namespace Flubu.Builds.Tasks.TestingTasks
 
         private readonly string nunitRunnerFileName;
         private readonly IList<string> testAssemblyFileNames;
-        private int minRequiredCoverage = 75;
         private string coverageXmlReportFileName;
         private string coverageHtmlReportFileName;
-        private string dotCoverFilters = "-:module=*.Tests;-:class=*Contract;-:class=*Contract`*";
-        private string dotCoverAttributeFilters = "*.ExcludeFromCodeCoverageAttribute";
-        private string nunitCmdLineOptions = "/labels /nodots";
-        private bool failBuildOnViolations = true;
     }
 }

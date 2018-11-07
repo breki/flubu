@@ -822,6 +822,20 @@
             </summary>
             <seealso cref="P:Flubu.Builds.Tasks.TestingTasks.NUnitWithDotCoverTask.CoverageHtmlReportFileName"/>
         </member>
+        <member name="P:Flubu.Builds.Tasks.TestingTasks.NUnitWithDotCoverTask.ShouldGenerateHtmlReport">
+            <summary>
+            Gets or sets a value indicating whether the HTML report should be
+            generated.
+            </summary>
+            <remarks>This switch is disabled by default since the latest
+            versions of dotCover take a very long time to generate the
+            report.
+            </remarks>
+            <value>
+              <c>true</c> if the HTML report should be generated; otherwise,
+            <c>false</c>.
+            </value>
+        </member>
         <member name="P:Flubu.Builds.Tasks.TestingTasks.NUnitWithDotCoverTask.CoverageHtmlReportFileName">
             <summary>
             Gets the path to the generated dotCover test coverage HTML report.

@@ -1,6 +1,8 @@
 3.9.0.0
 - fixing the mess with project references
 - upgraded 3rd party libraries
+- NUnitWithDotCoverTask no longer generates the HTML report by default, 
+	ShouldGenerateHtmlReport property can be used to force it
 
 3.8.0.0
 - BREAKING CHANGE: migrated to .NET 4.7
