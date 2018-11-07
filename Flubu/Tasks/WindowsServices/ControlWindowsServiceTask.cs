@@ -130,6 +130,6 @@ namespace Flubu.Tasks.WindowsServices
 
         private readonly string serviceName;
         private readonly ControlWindowsServiceMode mode;
-        private TimeSpan timeout;
+        private readonly TimeSpan timeout;
     }
 }

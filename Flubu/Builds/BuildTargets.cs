@@ -92,7 +92,7 @@ namespace Flubu.Builds
             string productId = context.Properties.Get<string> (BuildProps.ProductId);
             string projectBuildNumberFileName = Path.Combine (productRootDir, productId + ".BuildNumber.txt");
 
-            if (false == File.Exists (projectBuildNumberFileName))
+            if (!File.Exists (projectBuildNumberFileName))
                 return 1;
 
             using (Stream stream = File.Open (projectBuildNumberFileName, FileMode.Open))
@@ -102,6 +102,7 @@ namespace Flubu.Builds
                     string buildNumberAsString = reader.ReadLine ();
                     try
                     {
+                        // ReSharper disable once AssignNullToNotNullAttribute
                         return int.Parse(buildNumberAsString, CultureInfo.InvariantCulture);
                     }
                     catch
